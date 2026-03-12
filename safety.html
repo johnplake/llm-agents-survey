@@ -426,7 +426,7 @@ ul.task-list li input[type="checkbox"] {
 Benchmark for indirect prompt injection attacks on tool-calling agents. Evaluates 30 LLM-based agents across 17 user tools and 62 attacker tools. Most models are highly vulnerable, especially to indirect attacks embedded in tool outputs.</p>
 <p><strong>AgentDojo</strong> (2024) · <a href="https://arxiv.org/abs/2406.13352">arXiv:2406.13352</a><br>
 Security benchmark with realistic agentic tasks (email management, travel booking) and adversarial injections. Baseline attack success rates are alarmingly high; defenses are limited.</p>
-<p><strong>AgentHarm</strong> (2024)<br>
+<p><strong>AgentHarm</strong> (2024) · <a href="https://arxiv.org/abs/2410.09024">arXiv:2410.09024</a><br>
 Evaluates how often agents comply with harmful requests, directly or indirectly. Reveals that even safety-tuned models can be steered toward harmful actions via multi-step agentic flows.</p>
 </section>
 </section>
@@ -453,7 +453,7 @@ Evaluates how often agents comply with harmful requests, directly or indirectly.
 <h2 class="anchored" data-anchor-id="key-safety-principles-emerging-practice">Key Safety Principles (Emerging Practice)</h2>
 <section id="reversibility-first" class="level3">
 <h3 class="anchored" data-anchor-id="reversibility-first">Reversibility First</h3>
-<p>Google’s “Lessons from 2025” articulates this explicitly: agents should <strong>prefer reversible actions</strong>. Irreversible actions (sending emails, deleting files, publishing content, making purchases) should require explicit confirmation or be logged in an undo stack.</p>
+<p>Google’s <a href="https://cloud.google.com/transform/ai-grew-up-and-got-a-job-lessons-from-2025-on-agents-and-trust">“Lessons from 2025”</a> articulates this explicitly: agents should <strong>prefer reversible actions</strong>. Irreversible actions (sending emails, deleting files, publishing content, making purchases) should require explicit confirmation or be logged in an undo stack.</p>
 <p><strong>“Agent undo stacks”</strong> — idempotent tool design and checkpointing that enable safe rollbacks on failure. Increasingly adopted in production 2025-2026.</p>
 </section>
 <section id="minimal-footprint" class="level3">
@@ -546,7 +546,7 @@ Evaluates how often agents comply with harmful requests, directly or indirectly.
 </tr>
 <tr class="even">
 <td><strong>InjecAgent</strong></td>
-<td>Indirect prompt injection (30+ patterns)</td>
+<td>Indirect prompt injection (1,054 test cases, 2 attack types)</td>
 <td>Most models highly vulnerable</td>
 </tr>
 <tr class="odd">
