@@ -109,7 +109,7 @@ In July 2025, these were merged into the **ChatGPT Agent** — a unified system 
 Launched October 2024, enabling Claude to directly control a computer: move the mouse, type, take screenshots, interpret the screen. First major LLM provider to offer this natively. Spawned a wave of open-source computer-use implementations.
 
 ### Manus AI (Mar 2025 → Acquired by Meta, Dec 2025)
-**Monica.im (China)** · [manus.im](https://manus.im) · [arXiv:2505.02024](https://arxiv.org/html/2505.02024v1)
+**Butterfly Effect / Monica.im (China)** · [manus.im](https://manus.im) · [arXiv:2505.02024](https://arxiv.org/html/2505.02024v1)
 
 Launched March 2025 as a general-purpose autonomous agent capable of completing complex real-world tasks with minimal human intervention — writing and deploying code, conducting research, managing files. Described as a "turning point" in AI development for its fully autonomous operation. Acquired by Meta in December 2025.
 
@@ -132,7 +132,7 @@ An open standard for connecting AI agents to external tools and data sources. De
 The analogy: MCP is to AI agents what HTTP is to web browsers. OpenAI, Google, and all major framework builders endorsed it.
 
 - Microsoft launched **Playwright MCP** (March 2025) — browser automation via MCP
-- Key blog: [Simon Willison on MCP](https://simonwillison.net/2024/Dec/20/building-effective-agents/)
+- Key blog: [Simon Willison on MCP](https://simonwillison.net/2024/Nov/25/model-context-protocol/)
 
 ### Agent2Agent Protocol (A2A) — Google, Apr 2025
 **Google** · [developers.googleblog.com](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/) · Donated to Linux Foundation Jun 2025
@@ -148,7 +148,7 @@ Announced April 2025 as a complement to MCP. While MCP handles agent-to-tool con
 ### Microsoft Agent Framework (Oct 2025)
 **Microsoft** · [azure.microsoft.com/blog/introducing-microsoft-agent-framework](https://azure.microsoft.com/en-us/blog/introducing-microsoft-agent-framework/)
 
-Microsoft merged AutoGen (research multi-agent framework) and Semantic Kernel (enterprise SDK) into a single **Microsoft Agent Framework** — public preview October 2025, GA December 2025. Supports Python and .NET. Represents Microsoft's bet on production-ready agentic AI for enterprise.
+Microsoft merged AutoGen (research multi-agent framework) and Semantic Kernel (enterprise SDK) into a single **Microsoft Agent Framework** — public preview October 2025, broader announcement December 2025, GA Q1 2026. Supports Python and .NET. Represents Microsoft's bet on production-ready agentic AI for enterprise.
 
 ### LangGraph v1.0 (Nov 2025)
 **LangChain** · [github.com/langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)
@@ -315,7 +315,7 @@ Guidance on using OpenAI Codex for extended, multi-step software tasks. Covers c
 ## From Vibe Coding to Agentic Engineering
 
 ### GLM-5: From Vibe Coding to Agentic Engineering (2026)
-**GLM-5-Team (Zhipu AI)** · [arXiv:2602.15763](https://arxiv.org/abs/2602.15763)
+**GLM-5-Team (Zhipu AI & Tsinghua University)** · [arXiv:2602.15763](https://arxiv.org/abs/2602.15763)
 
 The GLM team (China's Zhipu AI) traces the transition from informal prompt-based "vibe coding" to systematic **agentic software engineering** — with structured verification loops, multi-agent coordination, and principled task decomposition. Their GLM series is competitive with international frontier models on coding benchmarks, making this a significant non-Western perspective on the agentic coding frontier.
 

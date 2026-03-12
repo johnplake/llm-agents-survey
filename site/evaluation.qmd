@@ -41,7 +41,7 @@ The dominant coding agent benchmark. Agents resolve real GitHub issues from 12 p
 
 **Contamination concern:** By late 2025, SWE-bench Verified showed signs of saturation and training data leakage. Models scoring 70%+ on the public Verified set drop to ~15-25% on SWE-bench Pro (Scale AI's private-codebase variant, released 2025).
 
-### SWE-bench Pro (2026)
+### SWE-bench Pro (Sep 2025)
 **Scale AI** · Novel private-codebase variant
 
 Created specifically to address contamination. Issues come from private repositories never seen in training data. Performance drops dramatically across all models:
