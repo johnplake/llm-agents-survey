@@ -1,219 +1,238 @@
 ---
 title: "Multi-Agent Systems & Frameworks"
-subtitle: "Multiple LLMs collaborating: architectures, frameworks, and benchmarks"
+subtitle: "Multiple LLMs collaborating — and the tools to build them"
 ---
 
 ## Overview
 
-When a single LLM agent reaches its limits — context length, expertise breadth, task complexity — multi-agent systems offer a solution: multiple specialized agents that collaborate, critique, and coordinate. This area exploded in 2023 and matured into production-ready infrastructure by 2025.
+Multi-agent systems represent a fundamental shift in AI architecture: instead of one LLM doing everything, **specialized agents collaborate**, each contributing expertise. This area exploded in 2023-2024, moving from academic curiosity to production frameworks used by thousands of developers.
 
 **Key themes:**
-- **Role specialization:** Planner, Executor, Critic, Coder, Tester — each agent does what it's best at
-- **Communication protocols:** Natural language messages → structured schemas → MCP
-- **Framework consolidation:** From dozens of early frameworks to a handful of dominant players
-- **Emergent behaviors:** Both positive (division of labor) and negative (groupthink, error propagation)
+
+- **Role specialization:** Planner, executor, critic, coder, tester — each agent excels at one thing
+- **Communication & coordination:** How agents talk to each other, structure messages, and avoid confusion
+- **Emergent behavior:** What happens when agents interact — including both cooperation and failure modes
+- **Framework maturation:** From research prototypes (AutoGPT) to production systems (LangGraph, AutoGen)
 
 ---
 
 ## Foundational Multi-Agent Papers
 
-### Generative Agents: Interactive Simulacra of Human Behavior (2023)
-**Park et al. (Stanford)** · [arXiv:2304.03442](https://arxiv.org/abs/2304.03442) · *UIST 2023 Best Paper*
-
-The landmark demonstration: 25 LLM agents inhabiting a simulated town ("Smallville"), forming relationships, planning their days, and exhibiting emergent social behaviors. Each agent has a **memory stream** (natural language records of experiences), **reflection** (synthesizing higher-level insights), and **planning** (daily schedules, goal-directed behavior).
-
-- **Emergent behaviors:** Spontaneous party planning, rumor spreading, relationship formation
-- **Memory architecture:** Observation → memory stream → reflection → planning
-- **Key insight:** Rich social behaviors emerge from individual memory + reflection + planning
-- **Impact:** Established the template for memory-rich multi-agent systems
-
 ### CAMEL: Communicative Agents for "Mind" Exploration (2023)
-**Li et al. (KAUST)** · [arXiv:2303.17760](https://arxiv.org/abs/2303.17760) · *NeurIPS 2023*
+**Li et al.** · [arXiv:2303.17760](https://arxiv.org/abs/2303.17760) · *NeurIPS 2023*
 
-Proposes **role-playing** as the mechanism for multi-agent cooperation. Two agents (user and assistant) are given roles and an objective; they converse autonomously without human input. Introduces **inception prompting** to initialize and maintain role coherence.
+One of the first systematic studies of **autonomous multi-agent cooperation**. Introduces inception prompting to guide two agents (one playing a user, one an assistant) to collaboratively complete tasks without human intervention. Also a framework for generating conversational datasets.
 
-- **Key ideas:** Autonomous role-playing; inception prompting; generates high-quality conversation datasets
+- **Key ideas:** Role-playing enables autonomous cooperation; inception prompting specifies agent personas; emergent task completion without human oversight
 - **GitHub:** [camel-ai/camel](https://github.com/camel-ai/camel)
 
+### Generative Agents: Interactive Simulacra of Human Behavior (2023)
+**Park et al.** · [arXiv:2304.03442](https://arxiv.org/abs/2304.03442) · *UIST 2023 Best Paper*
+
+25 LLM-powered agents living in a simulated town ("Smallville"). Agents plan daily schedules, form relationships, remember experiences, and exhibit emergent social behaviors. Landmark demonstration of **agent societies**.
+
+- **Key ideas:** Hierarchical memory (observation → reflection → planning); agents spontaneously organize events (Valentine's Day party emerged from initial prompt about one agent); believable human-like behavior
+- **Influence:** Every subsequent work on agent memory architecture cites this paper
+
 ### MetaGPT: Meta Programming for a Generalizable Agent System (2023)
-**Hong et al.** · [arXiv:2308.00352](https://arxiv.org/abs/2308.00352) · *ICLR 2024*
+**Hong et al.** · [arXiv:2308.00352](https://arxiv.org/abs/2308.00352)
 
-Applies software engineering best practices to multi-agent coordination. Agents play roles from a software company (Product Manager, Architect, Engineer, QA). They work from **shared documents** (PRD, architecture, API spec), reducing miscommunication.
+Software development with LLM agents assigned roles mirroring a real software company: Product Manager, Architect, Engineer, QA. Agents share **structured documents** (PRD, architecture spec) rather than just conversations. Reduces hallucination and improves code quality.
 
-- **Key ideas:** Structured document-based coordination; SOP (standard operating procedures) for agents; shared workspace; role → deliverable mapping
-- **Results:** Outperforms prior SOTA on HumanEval and MBPP; lower cost per task
-- **GitHub:** [geekan/MetaGPT](https://github.com/geekan/MetaGPT) · 50k+ stars
+- **Key ideas:** Standard Operating Procedures (SOPs) constrain agent workflows; structured outputs (not just text); document-driven coordination; role-based execution pipeline
+- **GitHub:** [geekan/MetaGPT](https://github.com/geekan/MetaGPT) — 45k+ stars
 
 ### ChatDev: Communicative Agents for Software Development (2023)
-**Qian et al. (Tsinghua)** · [arXiv:2307.07924](https://arxiv.org/abs/2307.07924) · *ACL 2024*
+**Qian et al.** · [arXiv:2307.07924](https://arxiv.org/abs/2307.07924) · *ACL 2024*
 
-Simulates a full software development company with specialized agents (CEO, CTO, Programmer, Reviewer, Tester). Communication uses both natural language and code. Demonstrates that **structured agent communication** produces better software than single-agent generation.
+Complete software development lifecycle with specialized roles: CEO, CTO, Programmer, Reviewer, Tester. Agents use both natural language and programming language to communicate. Produces functional software from text descriptions in minutes.
 
-- **Key ideas:** Phase-gated development (design → coding → testing → documentation); role-based SOPs; communicative hallucination detection
+- **Key ideas:** SOP-constrained agent behavior; mixed natural/programming language communication; role specialization across SDLC phases
 - **GitHub:** [OpenBMB/ChatDev](https://github.com/OpenBMB/ChatDev)
 
 ### AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation (2023)
 **Wu et al. (Microsoft)** · [arXiv:2308.08155](https://arxiv.org/abs/2308.08155)
 
-**Most widely adopted multi-agent framework.** Introduces **conversable agents**: any two agents can converse, with rich customization of termination conditions, human-in-the-loop integration, and tool use. Defines a flexible conversation topology that supports many multi-agent patterns.
+Framework for building **conversable agents** that can interact with each other and humans. Agents are configurable (roles, tools, human-input modes). Enables complex workflows: code generation → execution → debugging → verification, all between agents.
 
-- **Key ideas:** Conversable agent abstraction; flexible conversation patterns; code execution integration; GroupChat for multi-party conversations
-- **GitHub:** [microsoft/autogen](https://github.com/microsoft/autogen) · 40k+ stars
+- **Key ideas:** Conversable agent abstraction; human-in-the-loop anywhere; flexible conversation patterns (sequential, group chat, nested); code execution sandbox
+- **GitHub:** [microsoft/autogen](https://github.com/microsoft/autogen) — 40k+ stars
 
 ### AgentVerse: Facilitating Multi-Agent Collaboration (2023)
-**Chen et al. (Tsinghua)** · [arXiv:2308.10848](https://arxiv.org/abs/2308.10848)
+**Chen et al.** · [arXiv:2308.10848](https://arxiv.org/abs/2308.10848)
 
-Platform for studying emergent behaviors in multi-agent systems. Systematically investigates both **positive** (division of labor, complementary expertise) and **negative** (groupthink, error amplification) emergent phenomena.
+Platform for orchestrating agents in diverse scenarios and studying emergent behaviors — both positive (division of labor, error correction) and negative (groupthink, cascade failures). First systematic study of multi-agent failure modes.
 
 - **GitHub:** [OpenBMB/AgentVerse](https://github.com/OpenBMB/AgentVerse)
 
 ### DyLAN: Dynamic LLM-Powered Agent Network (2023)
 **Liu et al.** · [arXiv:2310.02170](https://arxiv.org/abs/2310.02170)
 
-Dynamic multi-agent network where agent connectivity evolves based on task requirements. Introduces agent importance scoring and dynamic team formation.
+Dynamic agent selection for each reasoning step — only the agents most relevant to the current sub-task are activated. More efficient than static all-agent participation.
+
+- **Key ideas:** Dynamic agent recruitment; task-adaptive networks; reduces cost vs. full-team approaches
 
 ### Solo Performance Prompting (SPP) (2023)
 **Wang et al.** · [arXiv:2307.05300](https://arxiv.org/abs/2307.05300)
 
-Simulates multi-agent collaboration with a **single LLM**: the model plays multiple personas sequentially. Achieves similar benefits to actual multi-agent systems with lower cost.
+Single LLM plays **multiple expert personas** sequentially — extracting multi-agent benefits from one model. Improves factuality and reasoning without requiring multiple model instances.
 
-- **Key insight:** Multiple perspectives from a single model improve factuality and reasoning
+### AgentScope: A Flexible yet Robust Multi-Agent Platform (2024)
+**Alibaba** · [arXiv:2402.14034](https://arxiv.org/abs/2402.14034)
 
-### AgentScope (2024)
-**Alibaba** · [arXiv:2402.14034](https://arxiv.org/abs/2402.14034) · [GitHub](https://github.com/modelscope/agentscope)
-
-Production-grade multi-agent platform from Alibaba. Focuses on fault tolerance, distributed execution, and scalability. Designed for real-world deployment with hundreds of concurrent agents.
+Production-oriented multi-agent platform with fault tolerance, distributed execution, and operator/developer separation. Built for real-world scale.
 
 ---
 
 ## Open-Source Frameworks
 
+These are the tools practitioners actually build with:
+
 ### LangChain
-**[github.com/langchain-ai/langchain](https://github.com/langchain-ai/langchain)** · 100k+ stars
+**[github.com/langchain-ai/langchain](https://github.com/langchain-ai/langchain)** — 95k+ stars
 
-The dominant general-purpose agent framework. Provides abstractions for agents, tools, memory, chains, and retrieval. Agent module supports ReAct, structured chat, function-calling, and custom agents. Huge ecosystem of integrations.
+The most widely used LLM application framework. Provides chains, agents, tools, and memory as composable building blocks. The **Agents module** supports ReAct, structured output, and tool-calling agents.
 
-- **Architecture:** Chain-based composition; LCEL (LangChain Expression Language) for declarative pipelines; extensive tool library
-- **Best for:** Rapid prototyping; connecting to many data sources and APIs
+- **Philosophy:** Composability — mix and match chains, tools, memory
+- **Best for:** Rapid prototyping, broad ecosystem of integrations (100+ tools)
+- **Limitation:** Can be opaque; complex chains are hard to debug
 
 ### LangGraph
-**[github.com/langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)** · 15k+ stars
+**[github.com/langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)** — 12k+ stars
 
-Graph-based agent workflow framework built on LangChain. Agents are nodes; state flows along edges. Supports **cycles** (essential for iterative agent loops), conditional branching, and persistent state across steps.
+Graph-based framework for **stateful, multi-actor workflows**. Nodes are agents/functions; edges are transitions. Supports cycles (loops), branching, and human-in-the-loop checkpoints. Released LangGraph v1.0 (production-ready) November 2025.
 
-- **Architecture:** Stateful graph; explicit control flow; checkpointing; human-in-the-loop support
-- **Best for:** Complex multi-step agents; workflows needing explicit state management; production deployment
-- **v1.0 released:** November 2025
+- **Philosophy:** Explicit state machines — you control the flow
+- **Best for:** Complex multi-agent workflows, production deployments, long-running agents
+- **Key feature:** Persistent checkpoints enable fault recovery
 
-### AutoGen
-**[github.com/microsoft/autogen](https://github.com/microsoft/autogen)** · 40k+ stars
+### AutoGen (Microsoft)
+**[github.com/microsoft/autogen](https://github.com/microsoft/autogen)** — 40k+ stars
 
-Microsoft's multi-agent conversation framework. Define agents with roles and capabilities; they converse to solve tasks. Supports GroupChat (multiple agents), code execution, and human proxy agents.
+Conversable agent framework for multi-agent conversations. AutoGen v0.4 (2024) is a complete rewrite with async-first, event-driven architecture.
 
-- **Architecture:** Conversable agent base class; message-passing; human-in-the-loop via proxy agent
-- **Best for:** Multi-agent conversations; research; code-executing agents
+- **Philosophy:** Agents as participants in a conversation
+- **Best for:** Code generation + execution workflows, research, human-in-the-loop systems
+- **Notable:** AutoGen Studio provides a no-code GUI for building agent workflows
 
 ### CrewAI
-**[github.com/joaomdmoura/crewAI](https://github.com/joaomdmoura/crewAI)** · 25k+ stars
+**[github.com/joaomdmoura/crewAI](https://github.com/joaomdmoura/crewAI)** — 28k+ stars
 
-Role-based agent framework. Define a **crew** of agents, each with a role, goal, and backstory. Assign tasks; agents collaborate sequentially or in parallel.
+Role-based agent framework with a high-level "crew" abstraction. Define agents with roles, goals, and backstories; assign tasks; the crew coordinates to complete the objective.
 
-- **Architecture:** Agent → Task → Crew; clean role abstractions; process types (sequential, hierarchical)
-- **Best for:** Business-oriented multi-agent workflows; readable, maintainable crew definitions
+- **Philosophy:** Agents as a team with defined roles
+- **Best for:** Business process automation, structured workflows with clear role boundaries
+- **Simplicity:** Lower learning curve than LangGraph for basic use cases
 
-### DSPy
-**[github.com/stanfordnlp/dspy](https://github.com/stanfordnlp/dspy)** · 20k+ stars
+### DSPy (Stanford)
+**[github.com/stanfordnlp/dspy](https://github.com/stanfordnlp/dspy)** — 22k+ stars
 
-Programming model for LLMs. Instead of writing prompts, you write **modules** with signatures. DSPy optimizes prompts/few-shot examples automatically. Includes agent-capable modules (ReAct, Chain-of-Thought).
+Programming language models via **declarative modules and automatic optimization**. Instead of hand-crafting prompts, you define a program and DSPy optimizes the prompts automatically.
 
-- **Architecture:** Modules with typed signatures; compilers that optimize prompts; separation of logic from prompting
-- **Best for:** Systematic prompt optimization; research; building reliable LM pipelines
+- **Philosophy:** LLM programs, not prompts; optimize systematically
+- **Best for:** Applications where you want systematic prompt optimization, research
 
-### Semantic Kernel
-**[github.com/microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel)** · 22k+ stars
+### Semantic Kernel (Microsoft)
+**[github.com/microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel)** — 23k+ stars
 
-Microsoft's enterprise-grade agent SDK. Supports .NET, Python, Java. Strong focus on **plugin architecture** (tools as plugins) and integration with Azure AI services.
+Enterprise-focused SDK for AI-powered applications. Strong .NET/C# support alongside Python. Integrates with Azure AI, OpenAI, and Hugging Face.
 
-- **Best for:** Enterprise .NET/Azure environments; production-grade tool integration
+- **Philosophy:** Plugins and planners; enterprise integration
+- **Best for:** Enterprise deployments, .NET applications
 
-### Haystack
-**[github.com/deepset-ai/haystack](https://github.com/deepset-ai/haystack)** · 17k+ stars
+### Haystack (deepset)
+**[github.com/deepset-ai/haystack](https://github.com/deepset-ai/haystack)** — 18k+ stars
 
-Production-focused NLP framework with strong RAG + agent support. Component-based pipeline architecture. Excellent for document-heavy agent applications.
+Pipeline-based framework for NLP applications with strong RAG and document processing support. v2.0 (2024) redesigned as composable components.
 
 ### OpenAI Swarm (2024)
-**[github.com/openai/swarm](https://github.com/openai/swarm)** · experimental
+**[github.com/openai/swarm](https://github.com/openai/swarm)**
 
-OpenAI's lightweight multi-agent framework. Minimal abstraction: agents + handoffs. Designed for clarity and educational purposes.
+Experimental (educational) framework from OpenAI for multi-agent orchestration. Lightweight and minimal. Demonstrates **handoffs** — one agent transferring control to another based on context.
+
+- **Philosophy:** Minimalism; focus on handoffs and routines
+- **Status:** Experimental/educational, not production-intended
 
 ---
 
 ## Orchestration Patterns
 
-The literature reveals recurring multi-agent patterns:
+The literature has converged on several reusable patterns:
 
-| Pattern | Description | Example Frameworks |
-|---------|-------------|-------------------|
-| **Sequential pipeline** | Agents execute one after another | LangGraph, CrewAI sequential |
-| **Planner-Executor** | One agent plans, another executes | Plan-and-Execute in LangChain |
-| **Planner-Executor-Critic** | Third agent reviews | AutoGen with feedback |
-| **Hub-and-Spoke** | Central orchestrator, peripheral specialists | HuggingGPT, MetaGPT |
-| **Peer debate** | Agents argue toward consensus | Society of Mind, debate papers |
-| **Hierarchical tree** | Manager agents spawn sub-agents | AutoGen with nested chats |
-| **Dynamic team** | Team composition evolves with task | DyLAN, AgentScope |
+### Pattern 1: Planner → Executor
+A planner agent generates a structured plan; executor agents carry it out. Clean separation of concerns, easy to monitor.
 
----
+### Pattern 2: Planner → Executor → Critic
+Adds a critic/reviewer agent that evaluates outputs and sends feedback. Used in MetaGPT, ChatDev.
 
-## Communication Protocols
+### Pattern 3: Hub and Spoke
+One orchestrator agent routes tasks to specialist agents. The hub maintains context; spokes are stateless workers. Used in HuggingGPT, many LangGraph workflows.
 
-How agents communicate has evolved significantly:
+### Pattern 4: Peer Debate
+Multiple agents argue different positions and converge on a consensus. Improves factual accuracy. Used in debates for math, science questions.
 
-**2022–2023: Natural language**
-Agents communicate via free-form text messages. Flexible but unreliable — agents misunderstand each other.
-
-**2023–2024: Structured schemas**
-Agents use JSON or typed outputs. Tools like LangGraph add explicit state types.
-
-**2024: Model Context Protocol (MCP)**
-Anthropic released **MCP** (November 2024) — an open standard for how LLMs connect to tools, data sources, and other agents. Gaining rapid adoption as a universal agent communication standard.
-
-- [MCP Specification](https://modelcontextprotocol.io/)
-- Supported by: Claude, Cursor, dozens of IDE integrations
-- Provides: Standardized tool definition, resource access, context management
+### Pattern 5: Hierarchical Teams
+Teams of teams. Each sub-team has an internal coordinator; sub-teams report to a top-level orchestrator. Scales to complex, long-horizon tasks.
 
 ---
 
-## Evaluation Benchmarks
+## Model Context Protocol (MCP)
+
+**Anthropic** · Announced November 2024
+
+MCP is an open standard for how AI agents communicate with external tools and data sources. Rather than each agent/framework implementing custom tool integrations, MCP provides a **universal interface**: servers expose tools/resources; agents connect as clients.
+
+- **Analogy:** MCP is to agents what HTTP is to web browsers
+- **Impact:** By early 2025, hundreds of MCP servers existed (GitHub, Slack, databases, file systems)
+- **Adoption:** OpenAI, Google, and major framework builders endorsed MCP
+- **Docs:** [modelcontextprotocol.io](https://modelcontextprotocol.io)
+
+---
+
+## Evaluation & Benchmarks
 
 ### AgentBench (2023)
-**Liu et al. (THU)** · [arXiv:2308.03688](https://arxiv.org/abs/2308.03688)
+**Liu et al.** · [arXiv:2308.03688](https://arxiv.org/abs/2308.03688)
 
-First comprehensive multi-domain benchmark for agent evaluation. 8 environments: OS, database, knowledge graph, digital card game, lateral thinking puzzle, HouseHolding, web browsing, web shopping.
+8-task benchmark spanning operating systems, databases, web browsers, card games, and more. Revealed a large gap between GPT-4 and open-source models on agent tasks.
 
 ### WebArena (2023)
 **Zhou et al.** · [arXiv:2307.13854](https://arxiv.org/abs/2307.13854)
 
-Realistic web navigation benchmark with 4 web apps (Reddit, GitLab, e-commerce, maps). 812 tasks. As of 2023, best agents scored ~14%; by 2025, top systems exceed 50%.
+Realistic web environment with 4 functional websites (e-commerce, Reddit, GitLab, map). 812 long-horizon tasks. Baseline GPT-4 success: ~14%.
 
-### GAIA: General AI Assistants Benchmark (2023)
-**Mialon et al. (Meta AI)** · [arXiv:2311.12983](https://arxiv.org/abs/2311.12983)
+### GAIA: A Benchmark for General AI Assistants (2023)
+**Mialon et al.** · [arXiv:2311.12983](https://arxiv.org/abs/2311.12983) · *ICLR 2024*
 
-Tests "real-world" task completion requiring web search, file reading, coding. Humans score 92%; early GPT-4 agents scored 15%. Designed to require multi-step reasoning with tools.
+Tasks requiring multi-step reasoning, tool use, and common sense. Humans achieve 92%; GPT-4+plugins achieved ~30% at release. Tests true general-purpose assistant ability.
 
 ### OSWorld (2024)
 **Xie et al.** · [arXiv:2404.07972](https://arxiv.org/abs/2404.07972)
 
-Desktop GUI task benchmark (Ubuntu, Windows, macOS). 369 tasks across real applications. As of launch, best agents scored <10%; by early 2025, Claude achieves 72.5%.
+Desktop GUI tasks across Windows/macOS/Linux. 369 real computer tasks. Baseline models achieved <10% at release; by late 2024 Claude reached 22%+, and specialized models pushed toward 72%.
 
-### SWE-bench (2023)
-**Jimenez et al.** · [arXiv:2310.06770](https://arxiv.org/abs/2310.06770)
+### ST-WebAgentBench (2024)
+Safety and trustworthiness evaluation for web agents. Tests whether agents follow safety instructions and avoid harmful actions.
 
-GitHub issue resolution benchmark. 2,294 tasks requiring understanding codebases, editing files, passing tests. Early agents: 2-3%; SWE-agent: 12%; Claude-based systems: 40%+.
+---
 
-### WorkArena / WorkArena++ (2024)
-**Drouin et al.** · ServiceNow Research
+## Timeline
 
-Enterprise workflow automation benchmark. Tests agents on realistic business software tasks (ServiceNow). WorkArena++: 682 multi-step tasks requiring deep tool use.
+| Date | Milestone |
+|------|-----------|
+| Mar 2023 | CAMEL — first role-playing multi-agent paper |
+| Apr 2023 | Generative Agents — agent towns (Stanford) |
+| Jul 2023 | ChatDev — multi-agent software development |
+| Aug 2023 | MetaGPT — SOP-driven software agents |
+| Aug 2023 | AutoGen (Microsoft) — conversable agents framework |
+| Aug 2023 | AgentVerse — multi-agent dynamics study |
+| Oct 2023 | DyLAN — dynamic agent networks |
+| Jan 2024 | AgentScope (Alibaba) — production multi-agent platform |
+| Feb 2024 | CrewAI released |
+| Jun 2024 | LangGraph gains adoption for production workflows |
+| Oct 2024 | OpenAI Swarm (experimental) released |
+| Nov 2024 | MCP (Model Context Protocol) by Anthropic |
+| Nov 2025 | LangGraph v1.0 — production-ready release |
 
 ---
 
