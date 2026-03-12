@@ -553,7 +553,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="step-back-prompting-2023" class="level3">
 <h3 class="anchored" data-anchor-id="step-back-prompting-2023">Step-Back Prompting (2023)</h3>
 <p><strong>Zou et al.</strong> · <a href="https://arxiv.org/abs/2310.06117">arXiv:2310.06117</a> · <em>ICLR 2024</em></p>
-<p>Derives high-level abstractions and first principles before solving specific instances. 42.8% improvement on complex multi-hop QA. “Step back, think at the abstract level, then solve.”</p>
+<p>Derives high-level abstractions and first principles before solving specific instances. Improves PaLM-2L on MMLU Physics by 7%, Chemistry by 11%, TimeQA by 27%, and multi-hop reasoning (MuSiQue) by 7%. “Step back, think at the abstract level, then solve.”</p>
 </section>
 <section id="decomposed-prompting-2022" class="level3">
 <h3 class="anchored" data-anchor-id="decomposed-prompting-2022">Decomposed Prompting (2022)</h3>
@@ -570,7 +570,7 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Shinn et al.</strong> · <a href="https://arxiv.org/abs/2303.11366">arXiv:2303.11366</a> · <em>NeurIPS 2023</em></p>
 <p>Agents generate <strong>verbal reflections</strong> on their failures, stored in an episodic memory buffer. On the next attempt, the agent incorporates its own critique. No gradient updates — reinforcement via language alone.</p>
 <ul>
-<li><strong>Results:</strong> HumanEval coding: 67% → <strong>91%</strong> (GPT-4); WebArena significant improvements</li>
+<li><strong>Results:</strong> HumanEval coding: GPT-4 baseline 80% → <strong>91%</strong> with Reflexion; significant improvements on decision-making tasks</li>
 <li><strong>Key ideas:</strong> Verbal reinforcement; episodic memory of failures; trial-and-learn loop</li>
 <li><strong>GitHub:</strong> <a href="https://github.com/noahshinn/reflexion">noahshinn/reflexion</a></li>
 </ul>

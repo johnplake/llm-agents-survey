@@ -463,43 +463,56 @@ ul.task-list li input[type="checkbox"] {
 <section id="swe-bench-the-scoreboard" class="level3">
 <h3 class="anchored" data-anchor-id="swe-bench-the-scoreboard">SWE-bench: The Scoreboard</h3>
 <p>SWE-bench (Jimenez et al., 2023) measures the ability of agents to resolve real GitHub issues. Progress has been stunning:</p>
+<p><em>Note: SWE-bench Verified (500 tasks, human-validated) became the standard leaderboard from Aug 2024. Earlier entries used SWE-bench Full (2,294 tasks) or Lite (570 tasks).</em></p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 21%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Date</th>
 <th>System</th>
-<th>SWE-bench Verified</th>
+<th>Benchmark</th>
+<th>Score</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>May 2024</td>
-<td>SWE-agent (Princeton)</td>
-<td>~12%</td>
+<td>SWE-agent + GPT-4 Turbo (Princeton)</td>
+<td>Full</td>
+<td>12.47%</td>
 </tr>
 <tr class="even">
 <td>Mar 2024</td>
 <td>Devin (Cognition AI)</td>
-<td>~14%</td>
+<td>Lite</td>
+<td>13.86%</td>
 </tr>
 <tr class="odd">
 <td>Late 2024</td>
 <td>Claude 3.5 Sonnet + scaffolding</td>
+<td>Verified</td>
 <td>~49%</td>
 </tr>
 <tr class="even">
-<td>2025</td>
+<td>Oct 2025</td>
 <td>Claude Sonnet 4.5</td>
-<td>~50-60%</td>
+<td>Verified</td>
+<td>77.2% (82.0% with parallel compute)</td>
 </tr>
 <tr class="odd">
 <td>Nov 2025</td>
 <td>Gemini 3 Pro + Live-SWE-agent</td>
+<td>Verified</td>
 <td><strong>77.4%</strong></td>
 </tr>
 </tbody>
 </table>
-<p>A separate harder benchmark, <strong>SWE-bench Pro</strong> (Scale Labs, 2026), tests generalization on never-before-seen private codebases. Performance drops significantly: GPT-5 falls from 23% (public) to ~15% (private), revealing overfitting to public repos.</p>
+<p>A separate harder benchmark, <strong>SWE-bench Pro</strong> (Scale Labs), tests generalization on never-before-seen private codebases. GPT-5 and Claude Opus 4.1 both score only ~23% there vs.&nbsp;70%+ on Verified, revealing substantial overfitting to public repos.</p>
 <p><strong>Key takeaway:</strong> The progress is real but benchmarks are being saturated. Evaluation is moving to harder, less contaminated tasks.</p>
 </section>
 <section id="swe-agent-2024" class="level3">

@@ -459,7 +459,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="skydiscover-uc-berkeley-sky-lab-2025" class="level2">
 <h2 class="anchored" data-anchor-id="skydiscover-uc-berkeley-sky-lab-2025">SkyDiscover (UC Berkeley Sky Lab, 2025)</h2>
-<p><strong>NovaSky AI / UC Berkeley</strong> · <a href="https://sky.cs.berkeley.edu/project/skydiscover/">sky.cs.berkeley.edu/project/skydiscover</a></p>
+<p><strong>NovaSky AI / UC Berkeley</strong> · <a href="https://skydiscover-ai.github.io/">skydiscover-ai.github.io</a></p>
 <p>Research project on AI-driven scientific discovery from the Berkeley Sky Computing Lab. Part of the broader SkyRL ecosystem (see also: <a href="https://github.com/NovaSky-AI/SkyRL">SkyRL</a>).</p>
 <hr>
 </section>
@@ -481,7 +481,7 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>MiniMax AI</strong> · <a href="https://huggingface.co/blog/MiniMax-AI/forge-scalable-agent-rl-framework-and-algorithm">huggingface.co/blog/MiniMax-AI/forge-scalable-agent-rl-framework-and-algorithm</a></p>
 <p>Forge is MiniMax’s internal RL framework that enabled the training of their <strong>M2.5 model</strong> on over <strong>100,000 distinct real-world agent scaffolds and environments</strong>, processing millions of samples daily at context lengths up to 200k tokens.</p>
 <p><strong>The core challenge Forge solves:</strong> An “impossible triangle” in agentic RL: 1. <strong>System throughput</strong> — processing millions of agent trajectories per day 2. <strong>Training stability</strong> — consistent reward convergence across diverse environments 3. <strong>Agent flexibility</strong> — supporting arbitrary agent scaffolds and action spaces</p>
-<p><strong>CISPO algorithm:</strong> MiniMax’s custom policy optimization combining elements of GRPO with stability constraints, enabling consistent convergence across heterogeneous environments.</p>
+<p><strong>CISPO algorithm (Clipped Importance Sampling Policy Optimization):</strong> MiniMax’s custom RL algorithm (first proposed in the M1 paper). Rather than clipping token-level updates like PPO or GRPO, CISPO clips importance sampling weights directly — enabling more stable policy learning across heterogeneous environments including rare action paths in code and long reasoning chains.</p>
 <p>This represents one of the most serious published treatments of the systems engineering challenges in training real-world agents at scale with RL.</p>
 <hr>
 </section>

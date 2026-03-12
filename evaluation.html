@@ -381,7 +381,7 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#paperbench-2025" id="toc-paperbench-2025" class="nav-link" data-scroll-target="#paperbench-2025">PaperBench (2025)</a></li>
   <li><a href="#labbench-biology-2024" id="toc-labbench-biology-2024" class="nav-link" data-scroll-target="#labbench-biology-2024">LabBench (Biology, 2024)</a></li>
-  <li><a href="#bixbench-bioinformatics-2024" id="toc-bixbench-bioinformatics-2024" class="nav-link" data-scroll-target="#bixbench-bioinformatics-2024">BixBench (Bioinformatics, 2024)</a></li>
+  <li><a href="#bixbench-bioinformatics-2025" id="toc-bixbench-bioinformatics-2025" class="nav-link" data-scroll-target="#bixbench-bioinformatics-2025">BixBench (Bioinformatics, 2025)</a></li>
   </ul></li>
   <li><a href="#safety-adversarial-evaluation" id="toc-safety-adversarial-evaluation" class="nav-link" data-scroll-target="#safety-adversarial-evaluation">Safety &amp; Adversarial Evaluation</a>
   <ul class="collapse">
@@ -440,44 +440,56 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Jimenez et al.</strong> · <a href="https://arxiv.org/abs/2310.06770">arXiv:2310.06770</a> · <a href="https://www.swebench.com">swebench.com</a></p>
 <p>The dominant coding agent benchmark. Agents resolve real GitHub issues from 12 popular Python repositories (Django, scikit-learn, Flask, etc.). Tested against actual unit tests from the repos.</p>
 <p><strong>Variants:</strong> - <strong>SWE-bench Full</strong> — 2,294 issues; original benchmark - <strong>SWE-bench Verified</strong> — 500 manually verified high-quality issues; the standard leaderboard - <strong>SWE-bench Lite</strong> — 300 issues; faster/cheaper evaluation</p>
-<p><strong>Progress on SWE-bench Verified:</strong></p>
+<p><strong>Progress over time</strong> (early scores are on SWE-bench Full/Lite; SWE-bench Verified was released Aug 2024 and became the standard leaderboard):</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 21%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Date</th>
 <th>System</th>
+<th>Benchmark</th>
 <th>Score</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>May 2024</td>
-<td>SWE-agent (Princeton)</td>
-<td>~12%</td>
+<td>SWE-agent + GPT-4 Turbo (Princeton)</td>
+<td>Full (2,294 tasks)</td>
+<td>12.47%</td>
 </tr>
 <tr class="even">
 <td>Mar 2024</td>
 <td>Devin (Cognition AI)</td>
-<td>~14% (revised)</td>
+<td>Lite (570 tasks)</td>
+<td>13.86%</td>
 </tr>
 <tr class="odd">
 <td>Late 2024</td>
 <td>Claude 3.5 Sonnet + scaffolding</td>
+<td>Verified (500 tasks)</td>
 <td>~49%</td>
 </tr>
 <tr class="even">
-<td>2025</td>
+<td>Oct 2025</td>
 <td>Claude Sonnet 4.5</td>
-<td>~55%</td>
+<td>Verified</td>
+<td>77.2% (82.0% with parallel compute)</td>
 </tr>
 <tr class="odd">
 <td>Nov 2025</td>
 <td>Gemini 3 Pro + Live-SWE-agent</td>
+<td>Verified</td>
 <td><strong>77.4%</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Contamination concern:</strong> By late 2025, SWE-bench Verified was showing signs of saturation and potential training data leakage. Models that score 70%+ on the public benchmark drop to ~15-20% on private codebases.</p>
+<p><strong>Contamination concern:</strong> By late 2025, SWE-bench Verified showed signs of saturation and training data leakage. Models scoring 70%+ on the public Verified set drop to ~15-25% on SWE-bench Pro (Scale AI’s private-codebase variant, released 2025).</p>
 </section>
 <section id="swe-bench-pro-2026" class="level3">
 <h3 class="anchored" data-anchor-id="swe-bench-pro-2026">SWE-bench Pro (2026)</h3>
@@ -501,7 +513,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="webarena-2023" class="level3">
 <h3 class="anchored" data-anchor-id="webarena-2023">WebArena (2023)</h3>
 <p><strong>Zhou et al.</strong> · <a href="https://arxiv.org/abs/2307.13854">arXiv:2307.13854</a></p>
-<p>4 functional websites (e-commerce, Reddit clone, GitLab, map service), 812 long-horizon tasks. Baseline GPT-4: ~14%. Realistic web tasks that require multi-step navigation, form filling, and information retrieval.</p>
+<p>5 functional websites (e-commerce, Reddit, GitLab, CMS, map) plus Wikipedia as a reference resource. 812 long-horizon tasks. Baseline GPT-4: ~14% (exact: 14.41%). Realistic web tasks that require multi-step navigation, form filling, and information retrieval.</p>
 </section>
 <section id="mind2web-2023" class="level3">
 <h3 class="anchored" data-anchor-id="mind2web-2023">Mind2Web (2023)</h3>
@@ -512,25 +524,30 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="osworld-2024">OSWorld (2024)</h3>
 <p><strong>Xie et al.</strong> · <a href="https://arxiv.org/abs/2404.07972">arXiv:2404.07972</a></p>
 <p>Desktop GUI tasks across real applications on Windows, macOS, and Linux. 369 tasks requiring interaction with actual installed software (spreadsheets, code editors, file managers).</p>
+<p>Human expert baseline: <strong>72.36%</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Date</th>
-<th>Best Score</th>
+<th>Best Agent Score</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Apr 2024</td>
-<td>&lt;10% (baseline models)</td>
+<td>~12% (GPT-4V baseline)</td>
 </tr>
 <tr class="even">
 <td>Oct 2024</td>
-<td>~22% (Claude with Computer Use)</td>
+<td>~22% (Claude 3.5 Sonnet with Computer Use)</td>
 </tr>
 <tr class="odd">
-<td>Late 2024</td>
-<td>~72.5% (specialized GUI models)</td>
+<td>Early 2025</td>
+<td>~25% (OSCAR scaffold + GPT-4o)</td>
+</tr>
+<tr class="even">
+<td>2025</td>
+<td>76%+ (specialized GUI agents, surpassing human baseline)</td>
 </tr>
 </tbody>
 </table>
@@ -546,7 +563,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="gaia-2023" class="level3">
 <h3 class="anchored" data-anchor-id="gaia-2023">GAIA (2023)</h3>
 <p><strong>Mialon et al.&nbsp;(Meta AI)</strong> · <a href="https://arxiv.org/abs/2311.12983">arXiv:2311.12983</a> · <em>ICLR 2024</em></p>
-<p>General AI assistant tasks requiring multi-step reasoning, tool use, and common sense. Three difficulty levels. Human baseline: 92%; GPT-4 + plugins at release: ~30%. Designed to be “easy for humans, hard for AI.”</p>
+<p>General AI assistant tasks requiring multi-step reasoning, tool use, and common sense. Three difficulty levels. Human baseline: 92%; GPT-4 with plugins at release: ~15%. (<a href="https://arxiv.org/abs/2311.12983">arXiv:2311.12983</a>) Designed to be “easy for humans, hard for AI.”</p>
 </section>
 <section id="agentbench-2023" class="level3">
 <h3 class="anchored" data-anchor-id="agentbench-2023">AgentBench (2023)</h3>
@@ -584,8 +601,8 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="labbench-biology-2024">LabBench (Biology, 2024)</h3>
 <p><strong>FutureHouse</strong> · Measures capabilities for biology research tasks. FutureHouse’s agents outperform frontier models on retrieval precision and accuracy.</p>
 </section>
-<section id="bixbench-bioinformatics-2024" class="level3">
-<h3 class="anchored" data-anchor-id="bixbench-bioinformatics-2024">BixBench (Bioinformatics, 2024)</h3>
+<section id="bixbench-bioinformatics-2025" class="level3">
+<h3 class="anchored" data-anchor-id="bixbench-bioinformatics-2025">BixBench (Bioinformatics, 2025)</h3>
 <p><strong>FutureHouse</strong> · Bioinformatics-specific benchmark for scientific agents.</p>
 <hr>
 </section>
