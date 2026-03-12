@@ -255,4 +255,64 @@ Research thread exploring LLMs as simulators of environment dynamics for plannin
 
 ---
 
+## References
+
+### Chain-of-Thought & Reasoning Foundations
+- **Chain-of-Thought Prompting Elicits Reasoning in Large Language Models** (Wei et al., 2022) — [arXiv:2201.11903](https://arxiv.org/abs/2201.11903) — *NeurIPS 2022* — Root work showing step-by-step reasoning dramatically improves performance
+- **Large Language Models are Zero-Shot Reasoners** (Kojima et al., 2022) — [arXiv:2205.11916](https://arxiv.org/abs/2205.11916) — *NeurIPS 2022* — Zero-shot CoT: adding "Let's think step by step" elicits reasoning without examples
+- **Self-Consistency Improves Chain of Thought Reasoning in Language Models** (Wang et al., 2022) — [arXiv:2203.11171](https://arxiv.org/abs/2203.11171) — *ICLR 2023* — Majority voting over multiple reasoning paths improves robustness
+- **Least-to-Most Prompting Enables Complex Reasoning in Large Language Models** (Zhou et al., 2022) — [arXiv:2205.10625](https://arxiv.org/abs/2205.10625) — Decompose hard problems into easier sub-problems solved sequentially
+
+### Structured Reasoning & Tree Search
+- **Tree of Thoughts: Deliberate Problem Solving with Large Language Models** (Yao et al., 2023) — [arXiv:2305.10601](https://arxiv.org/abs/2305.10601) — *NeurIPS 2023* — Major advance: treats reasoning as tree search with backtracking — [GitHub: princeton-nlp/tree-of-thought-llm](https://github.com/princeton-nlp/tree-of-thought-llm)
+- **Graph of Thoughts: Solving Elaborate Problems with Large Language Models** (Besta et al., 2023) — [arXiv:2308.09687](https://arxiv.org/abs/2308.09687) — *AAAI 2024* — Extends tree search to arbitrary graph structures
+- **Algorithm of Thoughts: Augmenting Language Models with Explicit Planning** (Sel et al., 2023) — [arXiv:2308.10379](https://arxiv.org/abs/2308.10379) — Encodes classic algorithms (DFS, BFS) directly into reasoning traces
+
+### Agent Reasoning Loop
+- **ReAct: Synergizing Reasoning and Acting in Language Models** (Yao et al., 2023) — [arXiv:2210.03629](https://arxiv.org/abs/2210.03629) — *ICLR 2023* — Canonical agent reasoning loop: interleaves thinking, action, and observation
+
+### Planning Architectures
+- **LLM+P: Large Language Models as Programmers in Zero-Shot Program Synthesis** (Liu et al., 2023) — [arXiv:2304.11477](https://arxiv.org/abs/2304.11477) — *ICML 2024* — Translates NL to PDDL for classical planners
+- **Plan-and-Execute Agents** (Chase / LangChain, 2023) — [Blog post](https://blog.langchain.dev/plan-and-execute-agents/) — Separates planner from executor for cleaner architecture
+- **Describe, Explain, Plan and Select: Interactive Planning with Large Language Models for Open-World Agents** (Wang et al., 2023) — [arXiv:2302.01560](https://arxiv.org/abs/2302.01560) — Interactive planning with error recovery for Minecraft
+- **Inner Monologue: Embodied Reasoning through Language** (Huang et al., 2022) — [arXiv:2207.05608](https://arxiv.org/abs/2207.05608) — *CoRL 2022* — Natural language reasoning about failures for robot planning
+- **Reasoning via Planning** (Hao et al., 2023) — [arXiv:2305.14992](https://arxiv.org/abs/2305.14992) — LLM as world model + reasoning agent with MCTS
+- **ADaPT: As-Needed Decomposition and Planning with Language Models** (Trivedi et al., 2023) — [arXiv:2311.05772](https://arxiv.org/html/2311.05772v2) — *NAACL 2024* — Recursive decomposition with re-decomposition on failure
+- **Step-Back Prompting: Towards Principled In-Context Prompting and Decoding** (Zou et al., 2023) — [arXiv:2310.06117](https://arxiv.org/abs/2310.06117) — *ICLR 2024* — Derive high-level abstractions before solving instances
+- **Decomposed Prompting: A Modular Approach for Solving Complex Tasks** (Khot et al., 2022) — [arXiv:2210.02406](https://arxiv.org/abs/2210.02406) — *EMNLP 2022* — Breaks tasks into modular sub-prompts
+
+### Reflection & Self-Improvement
+- **Reflexion: Language Agents with Verbal Reinforcement Learning** (Shinn et al., 2023) — [arXiv:2303.11366](https://arxiv.org/abs/2303.11366) — *NeurIPS 2023* — Agents critique failures and improve via episodic memory — [GitHub: noahshinn/reflexion](https://github.com/noahshinn/reflexion)
+- **Self-Refine: Iterative Refinement with Self-Feedback** (Madaan et al., 2023) — [arXiv:2303.17651](https://arxiv.org/abs/2303.17651) — *NeurIPS 2023* — Single model generates, critiques, revises iteratively
+- **CRITIC: Large Language Models Can Self-Correct with Tool-Interactive Critiquing** (Gou et al., 2023) — [arXiv:2305.11738](https://arxiv.org/abs/2305.11738) — *ICLR 2024* — Grounds verification in tool use for correction
+- **Constitutional AI: Harmlessness from AI Feedback** (Bai et al., 2022) — [arXiv:2212.08073](https://arxiv.org/abs/2212.08073) — Uses principles to guide model critique and revision
+
+### Test-Time Compute & Search
+- **Scaling Language Models Test-Time Compute Optimally** (Snell et al., 2024) — [arXiv:2408.03314](https://arxiv.org/abs/2408.03314) — Targeted test-time scaling outperforms larger models
+- **Large Language Monkeys: Scaling to 256K Context Window with Token-Level Llama Emergencies** (Brown et al., 2024) — [arXiv:2407.21787](https://arxiv.org/abs/2407.21787) — Coverage via sampling and majority voting for test-time compute
+
+### RL-Trained Reasoning Models
+- **OpenAI o1 & o3** (OpenAI, 2024-2025) — [Technical report](https://openai.com/o1) — Models trained with RL to produce long internal reasoning chains; near-human Olympiad math performance
+- **DeepSeek-R1** (DeepSeek AI, 2025) — [arXiv:2501.12948](https://arxiv.org/abs/2501.12948) — Open-source reasoning model with GRPO training; discovers reasoning from scratch
+- **s1: Simple Test-Time Scaling of Small Models** (Muennighoff et al., 2025) — [arXiv:2501.19393](https://arxiv.org/abs/2501.19393) — Small models match o1 performance via curated hard problems
+
+### World Models for Planning
+- **Reasoning via Planning** (Hao et al., 2023) — [arXiv:2305.14992](https://arxiv.org/abs/2305.14992) — Explicit world models for tree search in planning
+
+### Benchmarks Referenced
+- **Training Verifiers to Solve Math Word Problems** (Cobbe et al., 2021) — *GSM8K benchmark*
+- **Measuring Mathematical Problem Solving With the MATH Dataset** (Hendrycks et al., 2021) — *MATH benchmark*
+- **Evaluating Large Language Models Trained on Code** (Chen et al., 2021) — *HumanEval benchmark*
+- **ALFWorld: Bringing NLP and Embodied AI Together** (Shridhar et al., 2021)
+- **WebShop: Towards Scalable Real-World Web Interaction with Grounding** (Yao et al., 2022)
+- **Improving Multi-hop Question Answering by Learning Intermediate Supervision Signals** (Trivedi et al., 2022) — *MuSiQue benchmark*
+- **Challenging BIG-Bench Tasks and Whether Chain-of-Thought Can Solve Them** (Suzgun et al., 2022)
+- **FrontierMath: A Benchmark for Evaluating Advanced Mathematical Reasoning** (Glazer et al., 2024)
+- **The Measure of Intelligence** (François Chollet, 2019) — *ARC-AGI benchmark*
+
+### Theoretical & Cognitive Foundations
+- **Agentic Large Language Models: A Survey** (Plaat et al., 2025) — [arXiv:2503.23037](https://arxiv.org/abs/2503.23037) — References Kahneman's *Thinking, Fast and Slow* dual-process theory connection to System 1 (fast) vs System 2 (slow) reasoning
+
+---
+
 *Continue to [Multi-Agent Systems →](multiagent.qmd)*

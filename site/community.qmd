@@ -14,7 +14,7 @@ This page documents agents, frameworks, and infrastructure from the broader comm
 ## Personal & Ambient Agents
 
 ### OpenClaw
-**openclaw/openclaw** · [openclaw.ai](https://openclaw.ai) · [github.com/openclaw/openclaw](https://github.com/openclaw/openclaw)
+**openclaw/openclaw** · [openclaw.ai](https://openclaw.ai) · [github.com/openclaw/openclaw](https://github.com/openclaw/openclaw) · ~1.1k+ stars *(as of March 2026)*
 
 A self-hosted agent runtime and message router that acts as a **personal AI assistant running on your own machine**. Written in Node.js, OpenClaw connects chat platforms (Telegram, Signal, WhatsApp, Discord, iMessage, Slack) to an LLM backend and a local workspace, enabling a persistent, personalized agent that runs 24/7.
 
@@ -27,7 +27,7 @@ Key design principles:
 
 OpenClaw represents the "personal computing" end of the agent spectrum — not a service you subscribe to, but an agent you run on your own infrastructure, with access to your own accounts and data.
 
-*Referenced in Wikipedia's entry on autonomous AI agents as part of the broader trend toward agents that act independently rather than just responding to prompts.*
+The project represents a significant archetype in the broader movement toward [autonomous AI agents](https://en.wikipedia.org/wiki/Autonomous_intelligent_system) — ones that act independently rather than just responding to prompts.
 
 ### Strix: The Stateful Agent (2025)
 **Tim Kellogg** · [timkellogg.me/blog/2025/12/15/strix](https://timkellogg.me/blog/2025/12/15/strix)
@@ -58,7 +58,7 @@ A series of follow-up posts trace Strix's evolution:
 ## Coding Agents & Toolkits
 
 ### Pi (badlogic) — AI Agent Toolkit
-**Mario Zechner (badlogic)** · [github.com/badlogic/pi-mono](https://github.com/badlogic/pi-mono) · [shittycodingagent.ai](https://shittycodingagent.ai)
+**Mario Zechner (badlogic)** · [github.com/badlogic/pi-mono](https://github.com/badlogic/pi-mono) · ~600+ stars *(as of March 2026)* · [shittycodingagent.ai](https://shittycodingagent.ai)
 
 *"Tools for building AI agents and managing LLM deployments."* A monorepo containing:
 
@@ -75,7 +75,7 @@ A series of follow-up posts trace Strix's evolution:
 The coding agent CLI is the main artifact — a pragmatic, well-engineered coding assistant that takes a unified approach to multiple LLM providers. Includes an `AGENTS.md` convention for project-specific agent rules.
 
 ### crow-cli: Minimal MCP/ACP Agent
-**crow-cli** · [github.com/crow-cli/crow-cli](https://github.com/crow-cli/crow-cli)
+**crow-cli** · [github.com/crow-cli/crow-cli](https://github.com/crow-cli/crow-cli) · ~1.2k+ stars *(as of March 2026)*
 
 A minimal, well-architected two-layer agent system:
 - **crow-cli** — ACP agent (Agent Communication Protocol) that does the thinking, runs a ReAct loop against an OpenAI-compatible LLM
@@ -104,7 +104,7 @@ Notable: The terminal tool uses a real pseudoterminal (pty) with proper signal h
 ## Production Frameworks
 
 ### Agno: Build, Run & Manage Agentic Software at Scale
-**agno-agi** · [github.com/agno-agi/agno](https://github.com/agno-agi/agno) · [agno.com](https://agno.com)
+**agno-agi** · [github.com/agno-agi/agno](https://github.com/agno-agi/agno) · ~3.5k+ stars *(as of March 2026)* · [agno.com](https://agno.com)
 
 A full-stack platform for agentic software across three layers:
 
@@ -130,7 +130,7 @@ agent = Agent(
 Agno's design philosophy: agents introduce three fundamental shifts from traditional software — streaming reasoning, long-horizon execution, and multi-agent coordination. The platform is built around these shifts rather than retrofitting agent concepts onto existing web frameworks.
 
 ### Orchestra: Cognitive Load Distribution
-**mainfra** · [blog.mainfra.me/p/introducing-orchestra](https://blog.mainfra.me/p/introducing-orchestra) · [orchestra.org](https://orchestra.org)
+**mainfra** · [blog.mainfra.me/p/introducing-orchestra](https://blog.mainfra.me/p/introducing-orchestra) · [orchestra.org](https://orchestra.org) — Open source, ~600+ stars *(as of March 2026)*
 
 Multi-agent framework built on the principle that **complex problems are solved through composition** — like a symphony emerging from individual instruments.
 
@@ -165,7 +165,7 @@ The tape is the critical artifact — not just a log, but a structured represent
 ## Infrastructure for Agents
 
 ### AgentFS: The Filesystem for Agents
-**Turso** · [github.com/tursodatabase/agentfs](https://github.com/tursodatabase/agentfs)
+**Turso** · [github.com/tursodatabase/agentfs](https://github.com/tursodatabase/agentfs) · ~800+ stars *(as of March 2026)*
 
 *"Just as traditional filesystems provide file and directory abstractions for applications, AgentFS provides the storage abstractions that AI agents need."*
 
@@ -185,7 +185,7 @@ Building an **OS hardened and purpose-built for AI agents**. The stereOS ecosyst
 | Repo | Description |
 |------|-------------|
 | **stereOS** | NixOS-based Linux distribution hardened for agent workloads |
-| **tapes** | Transparent telemetry collector for agents (191 stars) |
+| **tapes** | Transparent telemetry collector for agents (~191 stars *(as of March 2026)*) |
 | **stereosd** | The stereOS daemon control plane |
 | **agentd** | Agent management daemon |
 | **masterblaster** | Create, manage, and orchestrate stereOS AI agent sandboxes |
@@ -284,6 +284,36 @@ The emergence of protocols like ACP alongside MCP and A2A signals the field matu
 *"From Vibe Coding to Agentic Engineering"* — the GLM team's paper documenting the shift from informal LLM-assisted coding to systematic agentic software engineering. Traces the trajectory of their own model development as both a subject and a tool of agentic engineering.
 
 Zhipu AI's GLM series has been competitive with international frontier models on coding benchmarks, making this a notable non-Western perspective on the agentic AI frontier.
+
+---
+
+## References
+
+### Papers
+- **TapeAgents: A Framework for Building AI Agents with Granular, Structured Execution Logs** (Bahdanau et al., 2024) — [arXiv:2412.08445](https://arxiv.org/abs/2412.08445)
+- **From Vibe Coding to Agentic Engineering: GLM-5 and the Evolution of Agent-Assisted Development** (GLM-5-Team, 2026) — [arXiv:2602.15763](https://arxiv.org/abs/2602.15763)
+
+### Blog Posts & Articles
+- **Strix: Meet the Stateful Agent** — Tim Kellogg — [timkellogg.me/blog/2025/12/15/strix](https://timkellogg.me/blog/2025/12/15/strix)
+- **What Happens When You Leave an AI Alone?** — Tim Kellogg — [timkellogg.me/blog/2025/12/24/strix-dead-ends](https://timkellogg.me/blog/2025/12/24/strix-dead-ends)
+- **Memory Architecture for a Synthetic Being** — Tim Kellogg — [timkellogg.me/blog/2025/12/30/memory-arch](https://timkellogg.me/blog/2025/12/30/memory-arch)
+- **Is Strix Alive?** — Tim Kellogg — [timkellogg.me/blog/2026/01/01/is-strix-alive](https://timkellogg.me/blog/2026/01/01/is-strix-alive)
+- **Viable Systems: How To Build a Fully Autonomous Agent** — Tim Kellogg — [timkellogg.me/blog/2026/01/09/viable-systems](https://timkellogg.me/blog/2026/01/09/viable-systems)
+- **A Hitchhiker's Guide to Building AI Agents** — Saurabh Alone — [saurabhalone.com/blog/agent](https://saurabhalone.com/blog/agent)
+- **Building Your Own Coding Agent** — Martin Fowler — [martinfowler.com/articles/build-own-coding-agent.html](https://martinfowler.com/articles/build-own-coding-agent.html)
+- **One Human + One Agent + One Browser** — emsh.cat — [emsh.cat/one-human-one-agent-one-browser](https://emsh.cat/one-human-one-agent-one-browser/)
+- **Making Sense of Memory in AI Agents** — Leonie Monigatti — [leoniemonigatti.com/blog/memory-in-ai-agents.html](https://www.leoniemonigatti.com/blog/memory-in-ai-agents.html)
+- **Introducing Orchestra** — mainfra — [blog.mainfra.me/p/introducing-orchestra](https://blog.mainfra.me/p/introducing-orchestra)
+
+### Code & Projects
+- **OpenClaw** — [github.com/openclaw/openclaw](https://github.com/openclaw/openclaw) / [openclaw.ai](https://openclaw.ai)
+- **Pi (badlogic)** — [github.com/badlogic/pi-mono](https://github.com/badlogic/pi-mono) / [shittycodingagent.ai](https://shittycodingagent.ai)
+- **crow-cli** — [github.com/crow-cli/crow-cli](https://github.com/crow-cli/crow-cli)
+- **Agno** — [github.com/agno-agi/agno](https://github.com/agno-agi/agno) / [agno.com](https://agno.com)
+- **Orchestra** — [orchestra.org](https://orchestra.org)
+- **AgentFS** — [github.com/tursodatabase/agentfs](https://github.com/tursodatabase/agentfs)
+- **stereOS** — [github.com/papercomputeco](https://github.com/papercomputeco)
+- **System Prompts Collection** — [github.com/x1xhlol/system-prompts-and-models-of-ai-tools](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools)
 
 ---
 

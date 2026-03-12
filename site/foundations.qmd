@@ -166,4 +166,36 @@ Based on the survey literature, the field converged on this standard decompositi
 
 ---
 
+## References
+
+### Survey Papers
+- **A Survey on Large Language Model based Autonomous Agents** (Wang et al., 2023) — [arXiv:2308.11432](https://arxiv.org/abs/2308.11432) — *Frontiers of Computer Science, 2024* — Comprehensive 200+ paper survey with unified Brain-Perception-Memory-Action framework
+- **The Rise and Potential of Large Language Model Based Agents** (Xi et al., 2023) — [arXiv:2309.07864](https://arxiv.org/abs/2309.07864) — *Science China Information Sciences, 2025* — 86-page survey with philosophical grounding and multi-agent coordination
+- **Agent AI: Surveying the Horizons of Multimodal Interaction** (Durante et al., 2024) — [arXiv:2401.03568](https://arxiv.org/abs/2401.03568) — Bridges language-only and embodied agents across text, vision, and action
+- **Large Language Model Agent: A Survey on Methodology, Applications and Challenges** (Luo et al., 2025) — [arXiv:2503.21460](https://arxiv.org/abs/2503.21460) — Latest comprehensive survey with structured methodology taxonomy
+- **Agentic Large Language Models: A Survey** (Plaat, van Duijn, van Stein, Preuss, van der Putten, Batenburg, 2025) — [arXiv:2503.23037](https://arxiv.org/abs/2503.23037) — *Journal of Artificial Intelligence Research, Vol. 84, December 2025* — Distinctive Reason–Act–Interact taxonomy with virtuous cycle framing — [companion website](https://askeplaat.github.io/agentic-llm-survey-site/)
+- **Cognitive Architectures for Language Agents** (Sumers et al., 2023) — [arXiv:2309.02427](https://arxiv.org/abs/2309.02427) — *TMLR 2024* — Grounds agent design in cognitive science with four-part memory model
+
+### Core Foundational Papers
+- **ReAct: Synergizing Reasoning and Acting in Language Models** (Yao et al., 2022) — [arXiv:2210.03629](https://arxiv.org/abs/2210.03629) — *ICLR 2023* — Most cited agent paper; introduces interleaved reasoning-action loop
+- **Chain-of-Thought Prompting Elicits Reasoning in Large Language Models** (Wei et al., 2022) — [arXiv:2201.11903](https://arxiv.org/abs/2201.11903) — *NeurIPS 2022* — Foundational work showing step-by-step reasoning improves LLM performance
+- **Toolformer: Language Models Can Teach Themselves to Use Tools** (Schick et al., 2023) — [arXiv:2302.04761](https://arxiv.org/abs/2302.04761) — Self-supervised tool learning without large annotated datasets
+- **MRKL Systems: A modular, neuro-symbolic architecture that combines large language models, external knowledge sources and discrete reasoning** (Karpas et al., 2022) — [arXiv:2205.00445](https://arxiv.org/abs/2205.00445) — Early modular AI vision with LLM as orchestrator
+
+### Browser & Web-Based Agents
+- **WebGPT: Browser-Assisted Question Answering with Human Feedback** (Nakano et al., 2021) — [arXiv:2112.09332](https://arxiv.org/abs/2112.09332) — Pioneering web-browsing agents with RLHF training
+
+### Multi-Modal & Embodied Agents
+- **HuggingGPT: Solving AI Tasks with ChatGPT and its Friends in Hugging Face** (Shen et al., 2023) — [arXiv:2303.17580](https://arxiv.org/abs/2303.17580) — *NeurIPS 2023* — LLM orchestration of 100s of specialized ML models — [GitHub: microsoft/JARVIS](https://github.com/microsoft/JARVIS)
+- **Grounding Language to Affordances for Robotic Task Learning** (Ahn et al., 2022) — [arXiv:2204.01691](https://arxiv.org/abs/2204.01691) — *CoRL 2022* — Combines LLMs with robotic affordances for embodied planning
+
+### Open-Ended & Lifelong Learning
+- **Voyager: An Open-Ended Embodied Agent with Large Language Models** (Wang et al., 2023) — [arXiv:2305.16291](https://arxiv.org/abs/2305.16291) — Autonomous Minecraft agent with skill library and curriculum learning
+
+### Landmark Agents (Non-Academic)
+- **AutoGPT** (Toran Bruce Richards / Significant Gravitas, 2023) — [GitHub: Significant-Gravitas/AutoGPT](https://github.com/Significant-Gravitas/AutoGPT) — Fully autonomous agent demonstrating goal pursuit and web integration
+- **BabyAGI** (Yohei Nakajima, 2023) — [GitHub: yoheinakajima/babyagi](https://github.com/yoheinakajima/babyagi) — Minimalist task management agent with emergent behaviors
+
+---
+
 *For a full chronological view of the field, see the [Timeline →](timeline.qmd). Continue to [Reasoning & Planning →](reasoning.qmd)*

@@ -35,7 +35,7 @@ SWE-bench (Jimenez et al., 2023) measures the ability of agents to resolve real 
 | Oct 2025 | Claude Sonnet 4.5 | Verified | 77.2% (82.0% with parallel compute) |
 | Nov 2025 | Gemini 3 Pro + Live-SWE-agent | Verified | **77.4%** |
 
-A separate harder benchmark, **SWE-bench Pro** (Scale Labs), tests generalization on never-before-seen private codebases. GPT-5 and Claude Opus 4.1 both score only ~23% there vs. 70%+ on Verified, revealing substantial overfitting to public repos.
+A separate harder benchmark, **SWE-bench Pro** (Scale Labs), tests generalization on never-before-seen private codebases. GPT-5 and Claude Opus 4.1 both score only ~23% there *(approximate; source needed)* vs. 70%+ on Verified, revealing substantial overfitting to public repos.
 
 **Key takeaway:** The progress is real but benchmarks are being saturated. Evaluation is moving to harder, less contaminated tasks.
 
@@ -333,5 +333,70 @@ The open questions for 2026 and beyond:
 6. **Safety for real-world deployment** — reversibility, sandboxing, human oversight patterns
 
 ---
+
+---
+
+## References
+
+### Papers & Benchmarks
+
+- **SWE-bench: Resolving Real-World GitHub Issues** (Jimenez et al., 2023) — [arXiv:2310.06770](https://arxiv.org/abs/2310.06770)
+- **SWE-agent: Agent-Computer Interface Enables Automated Software Engineering** (Yang et al., 2024, Princeton NLP) — [arXiv:2405.15793](https://arxiv.org/abs/2405.15793)
+- **Agentic AI: A Comprehensive Survey of Architectures, Applications, and Future Directions** (Abou Ali & Dornaika, 2025) — [arXiv:2510.25445](https://arxiv.org/abs/2510.25445)
+- **Agentic AI Frameworks: Architectures, Protocols, and Design Challenges** (Derouiche et al., 2025) — [arXiv:2508.10146](https://arxiv.org/abs/2508.10146)
+- **Architectures for Building Agentic AI** (2025) — [arXiv:2512.09458](https://arxiv.org/abs/2512.09458)
+- **AI Agents vs. Agentic AI: A Conceptual Taxonomy** (2025) — [arXiv:2505.10468](https://arxiv.org/abs/2505.10468)
+- **Towards a Science of Scaling Agent Systems** (Kim et al., 2025) — [arXiv:2512.08296](https://arxiv.org/abs/2512.08296)
+- **The 2025 AI Agent Index** (2026) — [arXiv:2602.17753](https://arxiv.org/abs/2602.17753)
+- **AI Agent Systems: Architectures, Applications, and Evaluation** (2026) — [arXiv:2601.01743](https://arxiv.org/abs/2601.01743)
+- **GLM-5: From Vibe Coding to Agentic Engineering** (GLM-5-Team, Zhipu AI & Tsinghua University, 2026) — [arXiv:2602.15763](https://arxiv.org/abs/2602.15763)
+- **Manus AI: Autonomous AI Agent Framework** (Butterfly Effect / Monica.im, 2025) — [arXiv:2505.02024](https://arxiv.org/abs/2505.02024)
+
+### Open-Source Projects & Frameworks
+
+- **SWE-agent** — [GitHub: princeton-nlp/SWE-agent](https://github.com/princeton-nlp/SWE-agent)
+- **OpenHands** (formerly OpenDevin) — [GitHub: All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands)
+- **browser-use** — [GitHub: browser-use/browser-use](https://github.com/browser-use/browser-use)
+- **Skyvern** — [GitHub: Skyvern-AI/skyvern](https://github.com/Skyvern-AI/skyvern)
+- **Aider** — [aider.chat](https://aider.chat) · [GitHub: paul-gauthier/aider](https://github.com/paul-gauthier/aider)
+- **Goose** — [GitHub: block/goose](https://github.com/block/goose)
+- **LangGraph** — [GitHub: langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)
+- **Google ADK** (Agent Development Kit) — [google.github.io/adk-docs](https://google.github.io/adk-docs/) · [GitHub: google/adk-python](https://github.com/google/adk-python)
+
+### Official Framework & Protocol Documentation
+
+- **Model Context Protocol (MCP)** — [modelcontextprotocol.io](https://modelcontextprotocol.io)
+- **Agent2Agent Protocol (A2A)** — [developers.googleblog.com](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/) · Donated to Linux Foundation Jun 2025
+- **Microsoft Agent Framework** — [azure.microsoft.com/blog/introducing-microsoft-agent-framework](https://azure.microsoft.com/en-us/blog/introducing-microsoft-agent-framework/)
+- **Claude Agent SDK** — [anthropic.com/engineering/building-agents-with-the-claude-agent-sdk](https://www.anthropic.com/engineering/building-agents-with-the-claude-agent-sdk)
+- **OpenAI Operator & Deep Research** — [Introducing Operator](https://openai.com/index/introducing-operator/) · [Introducing Deep Research](https://openai.com/index/introducing-deep-research/) · [Introducing ChatGPT Agent](https://openai.com/index/introducing-chatgpt-agent/)
+- **Anthropic Computer Use** — [anthropic.com](https://www.anthropic.com/)
+- **GitHub Copilot Coding Agent** — [github.blog](https://github.blog/news-insights/product-news/github-copilot-meet-the-new-coding-agent/)
+
+### Key Blog Posts & Practitioner Resources
+
+- **Building Effective Agents** (Erik Schluntz & Barry Zhang, Anthropic, Dec 2024) — [anthropic.com/research/building-effective-agents](https://www.anthropic.com/research/building-effective-agents)
+  - Simon Willison's summary: [simonwillison.net/2024/Dec/20/building-effective-agents/](https://simonwillison.net/2024/Dec/20/building-effective-agents/)
+- **Reference Implementations for Agent Patterns** (Anthropic Cookbook) — [github.com/anthropics/anthropic-cookbook](https://github.com/anthropics/anthropic-cookbook/tree/main/patterns/agents)
+- **Lessons from 2025 on Agents and Trust** (Google Cloud CTO Office, Dec 2025) — [cloud.google.com](https://cloud.google.com/transform/ai-grew-up-and-got-a-job-lessons-from-2025-on-agents-and-trust)
+- **Agentic AI, MCP, and Spec-Driven Development** (GitHub Blog, Jan 2026) — [github.blog](https://github.blog/developer-skills/agentic-ai-mcp-and-spec-driven-development-top-blog-posts-of-2025/)
+- **What We Learned from a Year of Building with LLMs** (Eugene Yan et al., 2024) — [applied-llms.org](https://applied-llms.org)
+- **Model Context Protocol Overview** (Simon Willison, Nov 2024) — [simonwillison.net/2024/Nov/25/model-context-protocol/](https://simonwillison.net/2024/Nov/25/model-context-protocol/)
+- **AI in Production: Frameworks, Protocols, and What Actually Works in 2026** (47 Billion) — [47billion.com/blog/ai-agents-in-production-frameworks-protocols-and-what-actually-works-in-2026/](https://47billion.com/blog/ai-agents-in-production-frameworks-protocols-and-what-actually-works-in-2026/)
+- **Agents 101: How to Work with Coding Agents** (Cognition AI) — [devin.ai/agents101](https://devin.ai/agents101)
+
+### Enterprise Products & Evaluations
+
+- **MIT AI Agent Index** (2025) — [aiagentindex.mit.edu](https://aiagentindex.mit.edu)
+  - Companion paper: [arXiv:2602.17753](https://arxiv.org/abs/2602.17753)
+- **Devin** — [cognition.ai](https://cognition.ai)
+- **Manus AI** — [manus.im](https://manus.im)
+- **Aider Coding Leaderboard** — [aider.chat/docs/leaderboards](https://aider.chat/docs/leaderboards)
+
+### Measurement & Research
+
+- **METR: Task Time Horizons as a Measure of Agent Capability** (METR, 2025) — [metr.org/time-horizons](https://metr.org/time-horizons/)
+- **OpenAI Harness Engineering** — [openai.com/index/harness-engineering](https://openai.com/index/harness-engineering/)
+- **Running Long-Horizon Tasks with Codex** (OpenAI) — [developers.openai.com/blog/run-long-horizon-tasks-with-codex](https://developers.openai.com/blog/run-long-horizon-tasks-with-codex)
 
 *Back to [Overview →](index.qmd) · See [Resources →](resources.qmd) for a curated reading list*

@@ -148,7 +148,7 @@ The MIT AI Agent Index notes that **there are no established standards** for how
 | **InjecAgent** | Indirect prompt injection (1,054 test cases, 2 attack types) | Most models highly vulnerable |
 | **AgentHarm** | Harmful behavior compliance | Safety-tuned models can still be steered |
 | **ST-WebAgentBench** | Safety instruction following in web tasks | Agents often violate safety instructions |
-| **Gartner Prediction (2025)** | Project cancellations | 40%+ of agentic AI projects predicted cancelled by 2027 due to cost/safety |
+| **Gartner Prediction (2025)** | Project cancellations | 40%+ of agentic AI projects predicted cancelled by 2027 due to cost/safety *(source needed)* |
 
 ---
 
@@ -161,6 +161,29 @@ Key open problems in agent safety:
 3. **Trust protocols** — formal standards for agent-to-agent trust in multi-agent systems (A2A is a start, but doesn't address adversarial trust)
 4. **Accountability** — legal and organizational frameworks for when agents cause harm
 5. **Interpretability for action** — understanding *why* an agent chose a particular action, not just *what* the LLM output was
+
+---
+
+## References
+
+### Papers
+
+- **InjecAgent: Shedding Light on LLM Agent Vulnerability to Indirect Prompt Injection** (Qi et al., 2024) — [arXiv:2403.02691](https://arxiv.org/abs/2403.02691)
+- **AgentDojo: A Benchmark for LLM-based Agents** (Fang et al., 2024) — [arXiv:2406.13352](https://arxiv.org/abs/2406.13352)
+- **AgentHarm: Evaluating the Vulnerability of LLM Agents Against Adversarial Attacks** (Qi et al., 2024) — [arXiv:2410.09024](https://arxiv.org/abs/2410.09024)
+- **Constitutional AI: Harmlessness from AI Feedback** (Bai et al., Anthropic, 2022) — [arXiv:2212.08073](https://arxiv.org/abs/2212.08073)
+- **MIT AI Agent Index 2025** — [arXiv:2602.17753](https://arxiv.org/html/2602.17753v1)
+
+### Blog Posts & Resources
+
+- **Lessons from 2025 on Agents and Trust** (Google Cloud) — [cloud.google.com/transform](https://cloud.google.com/transform/ai-grew-up-and-got-a-job-lessons-from-2025-on-agents-and-trust)
+- **MIT AI Agent Index** — [aiagentindex.mit.edu](https://aiagentindex.mit.edu)
+- **System Prompts and Models of AI Tools** (Leaked/extracted prompts from 20+ agentic systems) — [github.com/x1xhlol/system-prompts-and-models-of-ai-tools](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools)
+
+### Code & Projects
+
+- **stereOS** (Agent sandboxing OS) — [papercompute.co](https://papercompute.co)
+- **AgentFS** (Auditable agent filesystem) — Turso
 
 ---
 

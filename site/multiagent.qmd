@@ -96,7 +96,7 @@ Has echoes of classical **blackboard systems** in AI — shared structured state
 These are the tools practitioners actually build with:
 
 ### LangChain
-**[github.com/langchain-ai/langchain](https://github.com/langchain-ai/langchain)** — 95k+ stars
+**[github.com/langchain-ai/langchain](https://github.com/langchain-ai/langchain)** — 95k+ stars *(as of early 2025)*
 
 The most widely used LLM application framework. Provides chains, agents, tools, and memory as composable building blocks. The **Agents module** supports ReAct, structured output, and tool-calling agents.
 
@@ -105,16 +105,16 @@ The most widely used LLM application framework. Provides chains, agents, tools, 
 - **Limitation:** Can be opaque; complex chains are hard to debug
 
 ### LangGraph
-**[github.com/langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)** — 12k+ stars
+**[github.com/langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)** — 12k+ stars *(as of early 2025)*
 
-Graph-based framework for **stateful, multi-actor workflows**. Nodes are agents/functions; edges are transitions. Supports cycles (loops), branching, and human-in-the-loop checkpoints. Released LangGraph v1.0 (production-ready) November 2025.
+Graph-based framework for **stateful, multi-actor workflows**. Nodes are agents/functions; edges are transitions. Supports cycles (loops), branching, and human-in-the-loop checkpoints. Production-ready with persistent checkpoints.
 
 - **Philosophy:** Explicit state machines — you control the flow
 - **Best for:** Complex multi-agent workflows, production deployments, long-running agents
 - **Key feature:** Persistent checkpoints enable fault recovery
 
 ### AutoGen (Microsoft)
-**[github.com/microsoft/autogen](https://github.com/microsoft/autogen)** — 40k+ stars
+**[github.com/microsoft/autogen](https://github.com/microsoft/autogen)** — 40k+ stars *(as of early 2025)*
 
 Conversable agent framework for multi-agent conversations. AutoGen v0.4 (2024) is a complete rewrite with async-first, event-driven architecture.
 
@@ -123,7 +123,7 @@ Conversable agent framework for multi-agent conversations. AutoGen v0.4 (2024) i
 - **Notable:** AutoGen Studio provides a no-code GUI for building agent workflows
 
 ### CrewAI
-**[github.com/crewAIInc/crewAI](https://github.com/crewAIInc/crewAI)** — 40k+ stars
+**[github.com/crewAIInc/crewAI](https://github.com/crewAIInc/crewAI)** — 40k+ stars *(as of early 2025)*
 
 Role-based agent framework with a high-level "crew" abstraction. Define agents with roles, goals, and backstories; assign tasks; the crew coordinates to complete the objective.
 
@@ -132,7 +132,7 @@ Role-based agent framework with a high-level "crew" abstraction. Define agents w
 - **Simplicity:** Lower learning curve than LangGraph for basic use cases
 
 ### DSPy (Stanford)
-**[github.com/stanfordnlp/dspy](https://github.com/stanfordnlp/dspy)** — 22k+ stars
+**[github.com/stanfordnlp/dspy](https://github.com/stanfordnlp/dspy)** — 22k+ stars *(as of early 2025)*
 
 Programming language models via **declarative modules and automatic optimization**. Instead of hand-crafting prompts, you define a program and DSPy optimizes the prompts automatically.
 
@@ -140,7 +140,7 @@ Programming language models via **declarative modules and automatic optimization
 - **Best for:** Applications where you want systematic prompt optimization, research
 
 ### Semantic Kernel (Microsoft)
-**[github.com/microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel)** — 23k+ stars
+**[github.com/microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel)** — 23k+ stars *(as of early 2025)*
 
 Enterprise-focused SDK for AI-powered applications. Strong .NET/C# support alongside Python. Integrates with Azure AI, OpenAI, and Hugging Face.
 
@@ -148,7 +148,7 @@ Enterprise-focused SDK for AI-powered applications. Strong .NET/C# support along
 - **Best for:** Enterprise deployments, .NET applications
 
 ### Haystack (deepset)
-**[github.com/deepset-ai/haystack](https://github.com/deepset-ai/haystack)** — 18k+ stars
+**[github.com/deepset-ai/haystack](https://github.com/deepset-ai/haystack)** — 18k+ stars *(as of early 2025)*
 
 Pipeline-based framework for NLP applications with strong RAG and document processing support. v2.0 (2024) redesigned as composable components.
 
@@ -298,6 +298,55 @@ Desktop GUI tasks across Windows/macOS/Linux. 369 real computer tasks. Baseline 
 Safety and trustworthiness evaluation for web agents. Tests whether agents follow safety instructions and avoid harmful actions.
 
 ---
+
+---
+
+## References
+
+### Papers
+
+#### Multi-Agent Systems & Frameworks
+- **CAMEL: Communicative Agents for "Mind" Exploration** (Li et al., 2023) — [arXiv:2303.17760](https://arxiv.org/abs/2303.17760)
+- **Generative Agents: Interactive Simulacra of Human Behavior** (Park et al., 2023) — [arXiv:2304.03442](https://arxiv.org/abs/2304.03442)
+- **MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework** (Hong et al., 2023) — [arXiv:2308.00352](https://arxiv.org/abs/2308.00352)
+- **ChatDev: Communicative Agents for Software Development** (Qian et al., 2023) — [arXiv:2307.07924](https://arxiv.org/abs/2307.07924)
+- **AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation** (Wu et al., 2023) — [arXiv:2308.08155](https://arxiv.org/abs/2308.08155)
+- **AgentVerse: Facilitating Multi-Agent Collaboration and Exploring Emergent Behaviors** (Chen et al., 2023) — [arXiv:2308.10848](https://arxiv.org/abs/2308.10848)
+- **DyLAN: Towards Dynamic LLM-Agent Network Deployed at the Edge** (Liu et al., 2023) — [arXiv:2310.02170](https://arxiv.org/abs/2310.02170)
+- **Solo Performance Prompting** (Wang et al., 2023) — [arXiv:2307.05300](https://arxiv.org/abs/2307.05300)
+- **AgentScope: A Flexible yet Robust Multi-Agent Platform** (Alibaba, 2024) — [arXiv:2402.14034](https://arxiv.org/abs/2402.14034)
+- **TapeAgents: Tape-Centric Agent Framework** (Bahdanau et al., 2024) — [arXiv:2412.08445](https://arxiv.org/abs/2412.08445)
+
+#### Evaluation & Benchmarks
+- **AgentBench: Evaluating LLMs as Agents** (Liu et al., 2023) — [arXiv:2308.03688](https://arxiv.org/abs/2308.03688)
+- **WebArena: A Realistic Web Environment for Building Autonomous Agents** (Zhou et al., 2023) — [arXiv:2307.13854](https://arxiv.org/abs/2307.13854)
+- **GAIA: A Benchmark for General AI Assistants** (Mialon et al., 2023) — [arXiv:2311.12983](https://arxiv.org/abs/2311.12983)
+- **OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments** (Xie et al., 2024) — [arXiv:2404.07972](https://arxiv.org/abs/2404.07972)
+- **ST-WebAgentBench: Towards Evaluating Safety and Trustworthiness for Autonomous Web Agents** (2024) *(source needed)*
+
+#### Theory of Mind & Social Behavior
+- **Towards a Unified Taxonomy of Multi-Agent LLMs: Survey, Evaluation, and Future Research Directions** (Plaat et al., 2025) *(cite as reference for theory of mind section and emergent social behavior)*
+
+### Blog Posts & Articles
+- **Anthropic: Building Effective Agents** — [anthropic.com/engineering/multi-agent-research-system](https://www.anthropic.com/engineering/multi-agent-research-system)
+
+### Frameworks & Open-Source Projects
+- **LangChain** — [github.com/langchain-ai/langchain](https://github.com/langchain-ai/langchain)
+- **LangGraph** — [github.com/langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)
+- **AutoGen** (Microsoft) — [github.com/microsoft/autogen](https://github.com/microsoft/autogen)
+- **CrewAI** — [github.com/crewAIInc/crewAI](https://github.com/crewAIInc/crewAI)
+- **DSPy** (Stanford) — [github.com/stanfordnlp/dspy](https://github.com/stanfordnlp/dspy)
+- **Semantic Kernel** (Microsoft) — [github.com/microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel)
+- **Haystack** (deepset) — [github.com/deepset-ai/haystack](https://github.com/deepset-ai/haystack)
+- **Agno** — [github.com/agno-agi/agno](https://github.com/agno-agi/agno)
+- **OpenAI Swarm** — [github.com/openai/swarm](https://github.com/openai/swarm)
+- **CAMEL** — [github.com/camel-ai/camel](https://github.com/camel-ai/camel)
+- **MetaGPT** — [github.com/geekan/MetaGPT](https://github.com/geekan/MetaGPT)
+- **ChatDev** — [github.com/OpenBMB/ChatDev](https://github.com/OpenBMB/ChatDev)
+- **AgentVerse** — [github.com/OpenBMB/AgentVerse](https://github.com/OpenBMB/AgentVerse)
+
+### Standards & Specifications
+- **Model Context Protocol (MCP)** (Anthropic, 2024) — [modelcontextprotocol.io](https://modelcontextprotocol.io)
 
 ---
 

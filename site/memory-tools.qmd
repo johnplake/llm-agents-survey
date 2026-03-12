@@ -64,13 +64,13 @@ Grounds agent memory in cognitive science (ACT-R, SOAR). Proposes the four-memor
 
 The leading open-source **production memory layer for AI agents**. Provides multi-level memory (User, Session, Agent state) with adaptive personalization. Key benchmarks vs. full-context and OpenAI Memory:
 
-- **+26% accuracy** over OpenAI Memory on the LOCOMO benchmark
-- **91% faster** responses than full-context approaches
-- **90% lower token usage** than full-context (critical cost reduction)
+- **+26% accuracy** over OpenAI Memory on the LOCOMO benchmark *(source needed)*
+- **91% faster** responses than full-context approaches *(source needed)*
+- **90% lower token usage** than full-context (critical cost reduction) *(source needed)*
 
 Core capabilities: remembers user preferences, adapts to individual needs over time, provides cross-platform SDKs (Python, TypeScript) and a managed cloud service. v1.0.0 release (2025) added improved vector store support and enhanced GCP integration.
 
-**GitHub:** [mem0ai/mem0](https://github.com/mem0ai/mem0) — 27k+ stars
+**GitHub:** [mem0ai/mem0](https://github.com/mem0ai/mem0) — 27k+ stars *(as of early 2025)*
 
 ### Letta (formerly MemGPT) (2024-2025)
 **letta-ai** · [github.com/letta-ai/letta](https://github.com/letta-ai/letta) · [letta.com](https://letta.com)
@@ -83,7 +83,7 @@ MemGPT evolved into **Letta** — a full platform for building stateful agents w
 
 The key advance over vanilla MemGPT: Letta's memory blocks are explicitly represented, not just paged in/out — agents can *inspect* and *modify* their own memory programmatically. This enables genuinely stateful agents that improve over time. Maintains a [model leaderboard](https://leaderboard.letta.com/) for agent capability evaluation.
 
-**GitHub:** [letta-ai/letta](https://github.com/letta-ai/letta) — 14k+ stars
+**GitHub:** [letta-ai/letta](https://github.com/letta-ai/letta) — 14k+ stars *(as of early 2025)*
 
 ### ENGRAM (2025)
 [arXiv:2511.12960](https://arxiv.org/abs/2511.12960)
@@ -189,7 +189,7 @@ General computer control agent.
 **OSWorld** (2024) · [arXiv:2404.07972](https://arxiv.org/abs/2404.07972)  
 Benchmark for desktop GUI tasks across real apps. Agents started <10%; specialized models reached 72.5% by late 2024.
 
-**Anthropic Computer Use** (Oct 2024)  
+**Anthropic Computer Use** (Oct 2024) — [anthropic.com/news/introducing-computer-use](https://www.anthropic.com/news/introducing-computer-use)  
 First major LLM provider to offer native computer control. Spawned the browser-use ecosystem.
 
 ### Code Execution Agents
@@ -238,6 +238,57 @@ As agent frameworks matured in 2024, several RAG patterns emerged:
 - **HyDE (Hypothetical Document Embeddings):** Generate a hypothetical answer, embed it, retrieve similar documents
 
 ---
+
+## References
+
+### Memory Systems Papers
+- **MemGPT: Towards LLMs as Operating Systems** (Packer et al., 2023) — [arXiv:2310.08560](https://arxiv.org/abs/2310.08560)
+- **Generative Agents: Interactive Simulacra of Human Behavior** (Park et al., 2023) — [arXiv:2304.03442](https://arxiv.org/abs/2304.03442)
+- **Cognitive Architectures for Language Agents** (Sumers et al., 2023) — [arXiv:2309.02427](https://arxiv.org/abs/2309.02427)
+- **ReadAgent: Gist Memory for Long Documents** (Lee et al., 2024) — [arXiv:2402.09727](https://arxiv.org/abs/2402.09727)
+- **ENGRAM: Efficient Orchestration of LLM Agents with Multi-Memory Types** (2025) — [arXiv:2511.12960](https://arxiv.org/abs/2511.12960)
+- **Episodic Memory is the Missing Piece in Long-Context Language Agents** (2025) — [arXiv:2502.06975](https://arxiv.org/abs/2502.06975)
+
+### Tool Use & Function Calling Papers
+- **Toolformer: Language Models Can Teach Themselves to Use Tools** (Schick et al., 2023) — [arXiv:2302.04761](https://arxiv.org/abs/2302.04761)
+- **Gorilla: Large Language Model Connected with Massive APIs** (Patil et al., 2023) — [arXiv:2305.15334](https://arxiv.org/abs/2305.15334)
+- **ToolLLM: Facilitating Large Language Models to Master 16,000+ Real-world APIs** (Qin et al., 2023) — [arXiv:2307.16789](https://arxiv.org/abs/2307.16789)
+- **HuggingGPT: Solving AI Tasks with ChatGPT and its Friends in Hugging Face** (Shen et al., 2023) — [arXiv:2303.17580](https://arxiv.org/abs/2303.17580)
+- **AnyTool: Self-Reflective, Hierarchical Agents for Large-Scale API Calls** (2024) — [arXiv:2402.04253](https://arxiv.org/abs/2402.04253)
+- **CodeAct: Unified and Interoperable Agent Framework with Customizable Prompts and Execution** (Wang et al., 2024) — [arXiv:2402.01030](https://arxiv.org/abs/2402.01030)
+- **Large Language Models as Tool Makers** (Cai et al., 2023) — [arXiv:2305.17126](https://arxiv.org/abs/2305.17126)
+
+### Web Browsing Agents
+- **WebGPT: Browser-Assisted Question-Answering with Human Feedback** (2021) — [arXiv:2112.09332](https://arxiv.org/abs/2112.09332)
+- **Mind2Web: Towards a Generalist Agent for the Web** (2023) — [arXiv:2306.06070](https://arxiv.org/abs/2306.06070)
+- **WebArena: A Realistic Web Environment for Building Autonomous Agents** (Zhou et al., 2023) — [arXiv:2307.13854](https://arxiv.org/abs/2307.13854)
+- **Towards Autonomous Web Agent** (Google, 2023) — [arXiv:2307.12856](https://arxiv.org/abs/2307.12856)
+
+### GUI, Desktop & Computer Use Agents
+- **CogAgent: A Visual Language Model for GUI Agents** (2024) — [arXiv:2312.08914](https://arxiv.org/abs/2312.08914)
+- **AppAgent: Multimodal Agents as Smartphone Users** (2023) — [arXiv:2312.13771](https://arxiv.org/abs/2312.13771)
+- **UFO: A UI-Focused Agent for Windows OS Interaction** (Microsoft, 2024) — [arXiv:2402.07939](https://arxiv.org/abs/2402.07939)
+- **OS-Copilot: Towards Generalist Computer Agents with Open-Ended Goals and Open-Platform Actions** (2024) — [arXiv:2402.07456](https://arxiv.org/abs/2402.07456)
+- **OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments** (Xie et al., 2024) — [arXiv:2404.07972](https://arxiv.org/abs/2404.07972)
+
+### Embodied & Robotics Agents
+- **Do as I can, not as I say: Grounding Language in Robotic Affordances** (Ahn et al., 2022) — [arXiv:2204.01691](https://arxiv.org/abs/2204.01691)
+- **PaLM-E: An Embodied Multimodal Language Model** (2023) — [arXiv:2303.03378](https://arxiv.org/abs/2303.03378)
+- **RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control** (Google, 2023) — [arXiv:2307.15818](https://arxiv.org/abs/2307.15818)
+
+### Retrieval-Augmented Agents
+- **Self-RAG: Learning to Retrieve, Generate, and Critique for Self-Improved Generation** (Asai et al., 2023) — [arXiv:2310.11511](https://arxiv.org/abs/2310.11511)
+
+### Memory & Agent Platforms
+- **mem0** — [github.com/mem0ai/mem0](https://github.com/mem0ai/mem0) · [mem0.ai](https://mem0.ai)
+- **Letta** (formerly MemGPT) — [github.com/letta-ai/letta](https://github.com/letta-ai/letta) · [letta.com](https://letta.com)
+
+### Agent Filesystem & Infrastructure
+- **AgentFS: The Filesystem for Agents** (Turso, 2025) — [github.com/tursodatabase/agentfs](https://github.com/tursodatabase/agentfs)
+
+### API Standards & Milestones
+- **OpenAI Function Calling** (June 2023) — De facto standard for structured tool use in LLM agents
+- **Anthropic Computer Use** (Oct 2024) — [anthropic.com/news/introducing-computer-use](https://www.anthropic.com/news/introducing-computer-use)
 
 ---
 
