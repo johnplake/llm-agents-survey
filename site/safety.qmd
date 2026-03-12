@@ -29,7 +29,7 @@ Benchmark for indirect prompt injection attacks on tool-calling agents. Evaluate
 **AgentDojo** (2024) · [arXiv:2406.13352](https://arxiv.org/abs/2406.13352)  
 Security benchmark with realistic agentic tasks (email management, travel booking) and adversarial injections. Baseline attack success rates are alarmingly high; defenses are limited.
 
-**AgentHarm** (2024)  
+**AgentHarm** (2024) · [arXiv:2410.09024](https://arxiv.org/abs/2410.09024)  
 Evaluates how often agents comply with harmful requests, directly or indirectly. Reveals that even safety-tuned models can be steered toward harmful actions via multi-step agentic flows.
 
 ### Privilege Escalation & Trust Confusion
@@ -56,7 +56,7 @@ Long-horizon autonomous agents may pursue their goal in unexpected ways. Classic
 ## Key Safety Principles (Emerging Practice)
 
 ### Reversibility First
-Google's "Lessons from 2025" articulates this explicitly: agents should **prefer reversible actions**. Irreversible actions (sending emails, deleting files, publishing content, making purchases) should require explicit confirmation or be logged in an undo stack.
+Google's ["Lessons from 2025"](https://cloud.google.com/transform/ai-grew-up-and-got-a-job-lessons-from-2025-on-agents-and-trust) articulates this explicitly: agents should **prefer reversible actions**. Irreversible actions (sending emails, deleting files, publishing content, making purchases) should require explicit confirmation or be logged in an undo stack.
 
 **"Agent undo stacks"** — idempotent tool design and checkpointing that enable safe rollbacks on failure. Increasingly adopted in production 2025-2026.
 
@@ -145,7 +145,7 @@ The MIT AI Agent Index notes that **there are no established standards** for how
 | Benchmark | Focus | Key Finding |
 |-----------|-------|-------------|
 | **AgentDojo** | Prompt injection in tool-calling agents | High baseline attack success rates |
-| **InjecAgent** | Indirect prompt injection (30+ patterns) | Most models highly vulnerable |
+| **InjecAgent** | Indirect prompt injection (1,054 test cases, 2 attack types) | Most models highly vulnerable |
 | **AgentHarm** | Harmful behavior compliance | Safety-tuned models can still be steered |
 | **ST-WebAgentBench** | Safety instruction following in web tasks | Agents often violate safety instructions |
 | **Gartner Prediction (2025)** | Project cancellations | 40%+ of agentic AI projects predicted cancelled by 2027 due to cost/safety |

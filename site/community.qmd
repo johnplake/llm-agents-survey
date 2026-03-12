@@ -213,7 +213,7 @@ Key topics: CLI tool design, context management, multi-file editing, testing age
 
 *"It's less 'building software' and more 'raising software.'"*
 
-A developer builds a working web browser **from scratch** in one week with one human and one LLM agent (Codex), with zero third-party Rust libraries. The browser renders HTML/CSS, handles links, runs on Windows/macOS/Linux via X11 and cURL.
+A developer builds a working web browser **from scratch** in about 3 days (~70 hours) with one human and one LLM agent (Codex), with zero third-party Rust libraries. The browser renders HTML/CSS, handles links, runs on Windows/macOS/Linux via X11 and cURL.
 
 An inspiring and honest account of human-agent pair programming at the frontier — including what worked (agent as tireless implementer with good spec-following), what didn't (agent never actually read the spec documents provided), and what it felt like.
 
