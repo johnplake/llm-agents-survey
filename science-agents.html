@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Resources &amp; Reading List – LLM Agents: A Survey (2022–2026)</title>
+<title>Science &amp; Research Agents – LLM Agents: A Survey (2022–2026)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -286,7 +286,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">2024–2026</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./science-agents.html"> 
+    <a class="nav-link active" href="./science-agents.html" aria-current="page"> 
 <span class="menu-text">Science Agents</span></a>
   </li>  
   <li class="nav-item">
@@ -294,7 +294,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Community</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./resources.html" aria-current="page"> 
+    <a class="nav-link" href="./resources.html"> 
 <span class="menu-text">Resources</span></a>
   </li>  
 </ul>
@@ -321,22 +321,34 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting Started</a></li>
-  <li><a href="#key-survey-papers" id="toc-key-survey-papers" class="nav-link" data-scroll-target="#key-survey-papers">Key Survey Papers</a></li>
-  <li><a href="#essential-papers-by-category" id="toc-essential-papers-by-category" class="nav-link" data-scroll-target="#essential-papers-by-category">Essential Papers by Category</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#futurehouse-platform-2025" id="toc-futurehouse-platform-2025" class="nav-link" data-scroll-target="#futurehouse-platform-2025">FutureHouse Platform (2025)</a>
   <ul class="collapse">
-  <li><a href="#foundations" id="toc-foundations" class="nav-link" data-scroll-target="#foundations">Foundations</a></li>
-  <li><a href="#reasoning-planning" id="toc-reasoning-planning" class="nav-link" data-scroll-target="#reasoning-planning">Reasoning &amp; Planning</a></li>
-  <li><a href="#multi-agent" id="toc-multi-agent" class="nav-link" data-scroll-target="#multi-agent">Multi-Agent</a></li>
-  <li><a href="#memory" id="toc-memory" class="nav-link" data-scroll-target="#memory">Memory</a></li>
-  <li><a href="#tools-actions" id="toc-tools-actions" class="nav-link" data-scroll-target="#tools-actions">Tools &amp; Actions</a></li>
-  <li><a href="#coding-agents" id="toc-coding-agents" class="nav-link" data-scroll-target="#coding-agents">Coding Agents</a></li>
+  <li><a href="#crow" id="toc-crow" class="nav-link" data-scroll-target="#crow">Crow</a></li>
+  <li><a href="#falcon" id="toc-falcon" class="nav-link" data-scroll-target="#falcon">Falcon</a></li>
+  <li><a href="#owl-formerly-hasanyone" id="toc-owl-formerly-hasanyone" class="nav-link" data-scroll-target="#owl-formerly-hasanyone">Owl (formerly HasAnyone)</a></li>
+  <li><a href="#phoenix-experimental" id="toc-phoenix-experimental" class="nav-link" data-scroll-target="#phoenix-experimental">Phoenix (experimental)</a></li>
   </ul></li>
-  <li><a href="#key-frameworks-github" id="toc-key-frameworks-github" class="nav-link" data-scroll-target="#key-frameworks-github">Key Frameworks (GitHub)</a></li>
-  <li><a href="#influential-blog-posts" id="toc-influential-blog-posts" class="nav-link" data-scroll-target="#influential-blog-posts">Influential Blog Posts</a></li>
-  <li><a href="#benchmarks-evaluation" id="toc-benchmarks-evaluation" class="nav-link" data-scroll-target="#benchmarks-evaluation">Benchmarks &amp; Evaluation</a></li>
-  <li><a href="#courses-tutorials" id="toc-courses-tutorials" class="nav-link" data-scroll-target="#courses-tutorials">Courses &amp; Tutorials</a></li>
-  <li><a href="#about-this-survey" id="toc-about-this-survey" class="nav-link" data-scroll-target="#about-this-survey">About This Survey</a></li>
+  <li><a href="#google-ai-co-scientist-2025" id="toc-google-ai-co-scientist-2025" class="nav-link" data-scroll-target="#google-ai-co-scientist-2025">Google AI Co-Scientist (2025)</a></li>
+  <li><a href="#skydiscover-uc-berkeley-sky-lab-2025" id="toc-skydiscover-uc-berkeley-sky-lab-2025" class="nav-link" data-scroll-target="#skydiscover-uc-berkeley-sky-lab-2025">SkyDiscover (UC Berkeley Sky Lab, 2025)</a></li>
+  <li><a href="#skyrl-full-stack-rl-for-agents-2025" id="toc-skyrl-full-stack-rl-for-agents-2025" class="nav-link" data-scroll-target="#skyrl-full-stack-rl-for-agents-2025">SkyRL: Full-Stack RL for Agents (2025)</a></li>
+  <li><a href="#minimax-forge-scalable-agent-rl-2025" id="toc-minimax-forge-scalable-agent-rl-2025" class="nav-link" data-scroll-target="#minimax-forge-scalable-agent-rl-2025">MiniMax Forge: Scalable Agent RL (2025)</a></li>
+  <li><a href="#search-r1-training-deep-research-agents-2026" id="toc-search-r1-training-deep-research-agents-2026" class="nav-link" data-scroll-target="#search-r1-training-deep-research-agents-2026">Search-R1++: Training Deep Research Agents (2026)</a></li>
+  <li><a href="#metr-measuring-ai-ability-to-complete-long-tasks-2025" id="toc-metr-measuring-ai-ability-to-complete-long-tasks-2025" class="nav-link" data-scroll-target="#metr-measuring-ai-ability-to-complete-long-tasks-2025">METR: Measuring AI Ability to Complete Long Tasks (2025)</a></li>
+  <li><a href="#inference-time-hyper-scaling-with-kv-cache-compression-neurips-2025" id="toc-inference-time-hyper-scaling-with-kv-cache-compression-neurips-2025" class="nav-link" data-scroll-target="#inference-time-hyper-scaling-with-kv-cache-compression-neurips-2025">Inference-Time Hyper-Scaling with KV Cache Compression (NeurIPS 2025)</a></li>
+  <li><a href="#towards-a-science-of-scaling-agent-systems-2025" id="toc-towards-a-science-of-scaling-agent-systems-2025" class="nav-link" data-scroll-target="#towards-a-science-of-scaling-agent-systems-2025">Towards a Science of Scaling Agent Systems (2025)</a></li>
+  <li><a href="#agentevolver-self-evolving-agent-systems-2025" id="toc-agentevolver-self-evolving-agent-systems-2025" class="nav-link" data-scroll-target="#agentevolver-self-evolving-agent-systems-2025">AgentEvolver: Self-Evolving Agent Systems (2025)</a></li>
+  <li><a href="#specialized-scientific-tools-context" id="toc-specialized-scientific-tools-context" class="nav-link" data-scroll-target="#specialized-scientific-tools-context">Specialized Scientific Tools &amp; Context</a>
+  <ul class="collapse">
+  <li><a href="#moonshot-ai-kimi-k2.5" id="toc-moonshot-ai-kimi-k2.5" class="nav-link" data-scroll-target="#moonshot-ai-kimi-k2.5">Moonshot AI / Kimi K2.5</a></li>
+  <li><a href="#glm-5-from-vibe-coding-to-agentic-engineering-2026" id="toc-glm-5-from-vibe-coding-to-agentic-engineering-2026" class="nav-link" data-scroll-target="#glm-5-from-vibe-coding-to-agentic-engineering-2026">GLM-5 / From Vibe Coding to Agentic Engineering (2026)</a></li>
+  </ul></li>
+  <li><a href="#key-themes-in-scientific-agent-research" id="toc-key-themes-in-scientific-agent-research" class="nav-link" data-scroll-target="#key-themes-in-scientific-agent-research">Key Themes in Scientific Agent Research</a>
+  <ul class="collapse">
+  <li><a href="#why-science-is-the-ultimate-test-for-agents" id="toc-why-science-is-the-ultimate-test-for-agents" class="nav-link" data-scroll-target="#why-science-is-the-ultimate-test-for-agents">Why Science is the Ultimate Test for Agents</a></li>
+  <li><a href="#the-grounding-problem" id="toc-the-grounding-problem" class="nav-link" data-scroll-target="#the-grounding-problem">The Grounding Problem</a></li>
+  <li><a href="#domain-specificity-vs.-generality" id="toc-domain-specificity-vs.-generality" class="nav-link" data-scroll-target="#domain-specificity-vs.-generality">Domain Specificity vs.&nbsp;Generality</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -346,8 +358,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Resources &amp; Reading List</h1>
-<p class="subtitle lead">Curated entry points into the LLM agents literature</p>
+<h1 class="title">Science &amp; Research Agents</h1>
+<p class="subtitle lead">AI agents built for scientific discovery, literature review, and hypothesis generation</p>
 </div>
 
 
@@ -364,264 +376,167 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
-<p>If you’re new to LLM agents, start with these:</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>A growing sub-field is building agents specifically for <strong>scientific research</strong> — not general-purpose assistants, but systems designed to navigate the scientific literature, form hypotheses, design experiments, and accelerate discovery. These agents operate in domains where the “correctness” criterion is not a benchmark score but scientific validity.</p>
+<p>Key challenges unique to scientific agents:</p>
+<ul>
+<li>Literature is vast (38M+ papers on PubMed) and growing faster than any human can read</li>
+<li>Knowledge is specialized: a general LLM may hallucinate domain-specific facts</li>
+<li>Discovery requires synthesis <em>across</em> disciplines, not just within them</li>
+<li>Hypotheses must be novel <em>and</em> grounded in prior evidence</li>
+</ul>
+<hr>
+</section>
+<section id="futurehouse-platform-2025" class="level2">
+<h2 class="anchored" data-anchor-id="futurehouse-platform-2025">FutureHouse Platform (2025)</h2>
+<p><strong>FutureHouse</strong> · <a href="https://www.futurehouse.org/research-announcements/launching-futurehouse-platform-ai-agents">futurehouse.org/research-announcements/launching-futurehouse-platform-ai-agents</a></p>
+<p><em>“Science is bottlenecked by data. The 38 million papers on PubMed, 500,000+ clinical trials, and thousands of specialized tools have created an information bottleneck that even the most brilliant scientists can’t navigate.”</em></p>
+<p>FutureHouse’s mission is to build an AI Scientist. Their platform launches with <strong>four specialized scientific agents</strong>, each benchmarked against state-of-the-art models:</p>
+<section id="crow" class="level3">
+<h3 class="anchored" data-anchor-id="crow">Crow</h3>
+<p>General-purpose scientific agent. Searches scientific literature, provides concise scholarly answers, and is designed for API use — the “smart assistant” for rapid questions.</p>
+</section>
+<section id="falcon" class="level3">
+<h3 class="anchored" data-anchor-id="falcon">Falcon</h3>
+<p>Deep literature review specialist. Capable of searching and synthesizing more scientific literature than any comparable system. Has access to specialized databases including OpenTargets (drug targets), enabling domain-specific queries that go far beyond general web search.</p>
+</section>
+<section id="owl-formerly-hasanyone" class="level3">
+<h3 class="anchored" data-anchor-id="owl-formerly-hasanyone">Owl (formerly HasAnyone)</h3>
+<p>Specialized for prior art detection: answers “Has anyone done X before?” — critical for avoiding duplication in research planning.</p>
+</section>
+<section id="phoenix-experimental" class="level3">
+<h3 class="anchored" data-anchor-id="phoenix-experimental">Phoenix (experimental)</h3>
+<p>Deployment of <strong>ChemCrow</strong> — a chemistry-specific agent with access to tools for planning chemistry experiments, molecular synthesis, and lab procedure guidance.</p>
+<p><strong>Benchmarking:</strong> Crow, Falcon, and Owl have been benchmarked on PaperQA2 (RAG QA arena for science), LabBench (biology research capabilities), and BixBench (bioinformatics). They outperform all major frontier search models on retrieval precision and accuracy.</p>
+<p><strong>GitHub:</strong> <a href="https://github.com/Future-House/paper-qa">future-house/paper-qa</a> (PaperQA2 library)</p>
+<hr>
+</section>
+</section>
+<section id="google-ai-co-scientist-2025" class="level2">
+<h2 class="anchored" data-anchor-id="google-ai-co-scientist-2025">Google AI Co-Scientist (2025)</h2>
+<p><strong>Google DeepMind / Google Research</strong> · <a href="https://research.google/blog/accelerating-scientific-breakthroughs-with-an-ai-co-scientist/">research.google/blog/accelerating-scientific-breakthroughs-with-an-ai-co-scientist</a></p>
+<p>Built on <strong>Gemini 2.0</strong>, the AI co-scientist is a <strong>multi-agent system designed to function as a collaborative tool for scientists</strong>. Unlike literature review tools, it is designed to generate genuinely novel, original research hypotheses and experimental protocols.</p>
+<p><strong>Architecture:</strong> Uses a multi-agent design where agents perform: 1. Literature review and synthesis 2. Hypothesis generation 3. Experimental design 4. Hypothesis ranking and evaluation (scientific plausibility assessment) 5. Research proposal writing</p>
+<p><strong>Key distinction from standard deep research tools:</strong> The system goes beyond summarizing what is known to proposing <em>what should be investigated next</em>, grounded in specific research objectives provided by the scientist. The AI co-scientist is designed to mirror the reasoning process of the scientific method itself.</p>
+<p><strong>Example applications:</strong> Drug repurposing for rare diseases, identifying novel gene targets, designing experimental protocols in molecular biology.</p>
+<hr>
+</section>
+<section id="skydiscover-uc-berkeley-sky-lab-2025" class="level2">
+<h2 class="anchored" data-anchor-id="skydiscover-uc-berkeley-sky-lab-2025">SkyDiscover (UC Berkeley Sky Lab, 2025)</h2>
+<p><strong>NovaSky AI / UC Berkeley</strong> · <a href="https://sky.cs.berkeley.edu/project/skydiscover/">sky.cs.berkeley.edu/project/skydiscover</a></p>
+<p>Research project on AI-driven scientific discovery from the Berkeley Sky Computing Lab. Part of the broader SkyRL ecosystem (see also: <a href="https://github.com/NovaSky-AI/SkyRL">SkyRL</a>).</p>
+<hr>
+</section>
+<section id="skyrl-full-stack-rl-for-agents-2025" class="level2">
+<h2 class="anchored" data-anchor-id="skyrl-full-stack-rl-for-agents-2025">SkyRL: Full-Stack RL for Agents (2025)</h2>
+<p><strong>NovaSky AI (UC Berkeley)</strong> · <a href="https://github.com/NovaSky-AI/SkyRL">github.com/NovaSky-AI/SkyRL</a></p>
+<p>A modular, full-stack reinforcement learning library for training long-horizon real-world agents. Components:</p>
+<ul>
+<li><strong>skyrl-train</strong> — modular training framework for RL on arbitrary agent scaffolds</li>
+<li><strong>skyrl-agent</strong> — agent layer for long-horizon real-world tasks</li>
+<li><strong>skyrl-gym</strong> — gymnasium of tool-use tasks (math, coding, search, SQL)</li>
+<li><strong>Tinker API</strong> — unified interface for training and inference</li>
+</ul>
+<p>Supports the training of agents on real-world environments with context lengths up to 200k. Closely related to the broader question of how to train capable agents with RL rather than relying purely on prompting.</p>
+<hr>
+</section>
+<section id="minimax-forge-scalable-agent-rl-2025" class="level2">
+<h2 class="anchored" data-anchor-id="minimax-forge-scalable-agent-rl-2025">MiniMax Forge: Scalable Agent RL (2025)</h2>
+<p><strong>MiniMax AI</strong> · <a href="https://huggingface.co/blog/MiniMax-AI/forge-scalable-agent-rl-framework-and-algorithm">huggingface.co/blog/MiniMax-AI/forge-scalable-agent-rl-framework-and-algorithm</a></p>
+<p>Forge is MiniMax’s internal RL framework that enabled the training of their <strong>M2.5 model</strong> on over <strong>100,000 distinct real-world agent scaffolds and environments</strong>, processing millions of samples daily at context lengths up to 200k tokens.</p>
+<p><strong>The core challenge Forge solves:</strong> An “impossible triangle” in agentic RL: 1. <strong>System throughput</strong> — processing millions of agent trajectories per day 2. <strong>Training stability</strong> — consistent reward convergence across diverse environments 3. <strong>Agent flexibility</strong> — supporting arbitrary agent scaffolds and action spaces</p>
+<p><strong>CISPO algorithm:</strong> MiniMax’s custom policy optimization combining elements of GRPO with stability constraints, enabling consistent convergence across heterogeneous environments.</p>
+<p>This represents one of the most serious published treatments of the systems engineering challenges in training real-world agents at scale with RL.</p>
+<hr>
+</section>
+<section id="search-r1-training-deep-research-agents-2026" class="level2">
+<h2 class="anchored" data-anchor-id="search-r1-training-deep-research-agents-2026">Search-R1++: Training Deep Research Agents (2026)</h2>
+<p><strong>Xu et al.</strong> · <a href="https://arxiv.org/abs/2602.19526">arXiv:2602.19526</a></p>
+<p>Systematic study of <strong>reinforcement learning for deep research agents</strong> — systems that answer knowledge-intensive questions via multi-round retrieval and decision-making. Decouples three dimensions:</p>
 <ol type="1">
-<li><p><strong><a href="https://lilianweng.github.io/posts/2023-06-23-agent/">Lilian Weng — LLM Powered Autonomous Agents</a></strong> (June 2023)<br>
-The most widely cited blog post introduction to the field. Covers planning, memory, tool use with great diagrams.</p></li>
-<li><p><strong><a href="https://arxiv.org/abs/2210.03629">ReAct paper</a></strong> (Yao et al., 2022)<br>
-The canonical agent loop: Reason + Act interleaved. Essential reading.</p></li>
-<li><p><strong><a href="https://arxiv.org/abs/2308.11432">A Survey on Large Language Model based Autonomous Agents</a></strong> (Wang et al., 2023)<br>
-Comprehensive academic survey covering construction, application, and evaluation.</p></li>
+<li><strong>Prompt template:</strong> Fast Thinking vs.&nbsp;Slow Thinking — Fast Thinking yields better stability</li>
+<li><strong>Reward function:</strong> F1-based rewards collapse due to answer avoidance; EM with action-level penalties works best</li>
+<li><strong>Policy optimization:</strong> REINFORCE &gt; PPO &gt; GRPO (stability ordering)</li>
 </ol>
+<p>Introduces <strong>Search-R1++</strong>, improving the base Search-R1 from 0.403 → 0.442 (Qwen2.5-7B). Offers principled guidance for training deep research systems.</p>
 <hr>
 </section>
-<section id="key-survey-papers" class="level2">
-<h2 class="anchored" data-anchor-id="key-survey-papers">Key Survey Papers</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Title</th>
-<th>Authors</th>
-<th>Year</th>
-<th>Link</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>A Survey on Large Language Model based Autonomous Agents</td>
-<td>Wang et al.</td>
-<td>2023</td>
-<td><a href="https://arxiv.org/abs/2308.11432">arXiv</a></td>
-</tr>
-<tr class="even">
-<td>The Rise and Potential of Large Language Model Based Agents</td>
-<td>Xi et al.</td>
-<td>2023</td>
-<td><a href="https://arxiv.org/abs/2309.07864">arXiv</a></td>
-</tr>
-<tr class="odd">
-<td>Agent AI: Surveying the Horizons of Multimodal Interaction</td>
-<td>Wang et al.</td>
-<td>2024</td>
-<td><a href="https://arxiv.org/abs/2401.03568">arXiv</a></td>
-</tr>
-<tr class="even">
-<td>Large Language Models as Tool Makers</td>
-<td>Cai et al.</td>
-<td>2023</td>
-<td><a href="https://arxiv.org/abs/2305.17126">arXiv</a></td>
-</tr>
-</tbody>
-</table>
+<section id="metr-measuring-ai-ability-to-complete-long-tasks-2025" class="level2">
+<h2 class="anchored" data-anchor-id="metr-measuring-ai-ability-to-complete-long-tasks-2025">METR: Measuring AI Ability to Complete Long Tasks (2025)</h2>
+<p><strong>METR (Model Evaluation &amp; Threat Research)</strong> · <a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/">metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks</a> · <a href="https://metr.org/time-horizons/">metr.org/time-horizons</a></p>
+<p>Proposes measuring AI performance via <strong>task time horizon</strong> — the length of tasks an agent can complete at a given success rate. Key findings:</p>
+<ul>
+<li><strong>Doubling time ~7 months</strong>: The maximum task length completable with 50% reliability has been doubling approximately every 7 months since 2019</li>
+<li><strong>Current state (Mar 2025):</strong> Claude 3.7 Sonnet has a ~1 hour time horizon (50% success on 1-hour tasks); GPT-5 reached ~2 hours 17 minutes by later 2025</li>
+<li><strong>Extrapolation:</strong> If this trend continues, agents could complete days-long tasks within a few years</li>
+</ul>
+<p>This framing — measuring agents by <em>how long a task they can sustain</em> rather than accuracy on fixed benchmarks — is emerging as the key metric for agentic capability.</p>
+<p><strong>Why it matters for science:</strong> Scientific experiments, literature reviews, and hypothesis generation often take days or weeks. The METR framework directly measures whether agents are approaching the capability to run such tasks.</p>
 <hr>
 </section>
-<section id="essential-papers-by-category" class="level2">
-<h2 class="anchored" data-anchor-id="essential-papers-by-category">Essential Papers by Category</h2>
-<section id="foundations" class="level3">
-<h3 class="anchored" data-anchor-id="foundations">Foundations</h3>
-<ul>
-<li><strong>ReAct</strong> — <a href="https://arxiv.org/abs/2210.03629">arxiv.org/abs/2210.03629</a></li>
-<li><strong>Toolformer</strong> — <a href="https://arxiv.org/abs/2302.04761">arxiv.org/abs/2302.04761</a></li>
-<li><strong>Chain-of-Thought Prompting</strong> — <a href="https://arxiv.org/abs/2201.11903">arxiv.org/abs/2201.11903</a></li>
-<li><strong>MRKL Systems</strong> — <a href="https://arxiv.org/abs/2205.00445">arxiv.org/abs/2205.00445</a></li>
-<li><strong>WebGPT</strong> — <a href="https://arxiv.org/abs/2112.09332">arxiv.org/abs/2112.09332</a></li>
-</ul>
+<section id="inference-time-hyper-scaling-with-kv-cache-compression-neurips-2025" class="level2">
+<h2 class="anchored" data-anchor-id="inference-time-hyper-scaling-with-kv-cache-compression-neurips-2025">Inference-Time Hyper-Scaling with KV Cache Compression (NeurIPS 2025)</h2>
+<p><strong>NeurIPS 2025</strong> · <a href="https://neurips.cc/virtual/2025/loc/san-diego/poster/119605">neurips.cc poster</a></p>
+<p>Introduces <strong>Dynamic Memory Sparsification (DMS)</strong> — a method for compressing KV caches in Transformer LLMs, enabling 8× compression in just 1K training steps while maintaining accuracy.</p>
+<p><strong>Why relevant to agents:</strong> Inference-time scaling (generating more tokens for harder tasks) is bottlenecked by KV cache size, not flops. By compressing the cache, agents can reason over longer horizons within a fixed compute budget. Demonstrated on Qwen-R1 32B and other reasoning models.</p>
+<p><strong>Key insight:</strong> “Inference-time hyper-scaling” — compress the cache to fit more tokens, rather than scaling model size.</p>
+<hr>
 </section>
-<section id="reasoning-planning" class="level3">
-<h3 class="anchored" data-anchor-id="reasoning-planning">Reasoning &amp; Planning</h3>
-<ul>
-<li><strong>Tree of Thoughts</strong> — <a href="https://arxiv.org/abs/2305.10601">arxiv.org/abs/2305.10601</a></li>
-<li><strong>Reflexion</strong> — <a href="https://arxiv.org/abs/2303.11366">arxiv.org/abs/2303.11366</a></li>
-<li><strong>Self-Refine</strong> — <a href="https://arxiv.org/abs/2303.17651">arxiv.org/abs/2303.17651</a></li>
-</ul>
+<section id="towards-a-science-of-scaling-agent-systems-2025" class="level2">
+<h2 class="anchored" data-anchor-id="towards-a-science-of-scaling-agent-systems-2025">Towards a Science of Scaling Agent Systems (2025)</h2>
+<p><strong>Google Research</strong> · <a href="https://arxiv.org/abs/2512.08296">arXiv:2512.08296</a> · <a href="https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/">research.google/blog</a></p>
+<p>Large-scale controlled evaluation of <strong>180 agent configurations</strong> to derive the first quantitative scaling principles for multi-agent systems.</p>
+<p><strong>Core finding:</strong> The common belief that “more agents is always better” is wrong. Adding agents has diminishing returns — and can <em>degrade</em> performance if the agent design isn’t matched to the task’s specific properties.</p>
+<p><strong>Three defining properties of agentic tasks:</strong> 1. Sustained multi-step interactions with an external environment 2. Iterative information gathering under partial observability 3. Adaptive strategy refinement based on environment feedback</p>
+<p><strong>Practical implication:</strong> Before scaling up agent count, verify that your task actually benefits from specialization. Many tasks are better served by one capable agent than a poorly-coordinated team.</p>
+<hr>
 </section>
-<section id="multi-agent" class="level3">
-<h3 class="anchored" data-anchor-id="multi-agent">Multi-Agent</h3>
-<ul>
-<li><strong>CAMEL</strong> — <a href="https://arxiv.org/abs/2303.17760">arxiv.org/abs/2303.17760</a></li>
-<li><strong>MetaGPT</strong> — <a href="https://arxiv.org/abs/2308.00352">arxiv.org/abs/2308.00352</a></li>
-<li><strong>AutoGen</strong> — <a href="https://arxiv.org/abs/2308.08155">arxiv.org/abs/2308.08155</a></li>
-<li><strong>Generative Agents</strong> — <a href="https://arxiv.org/abs/2304.03442">arxiv.org/abs/2304.03442</a></li>
-<li><strong>ChatDev</strong> — <a href="https://arxiv.org/abs/2307.07924">arxiv.org/abs/2307.07924</a></li>
-</ul>
+<section id="agentevolver-self-evolving-agent-systems-2025" class="level2">
+<h2 class="anchored" data-anchor-id="agentevolver-self-evolving-agent-systems-2025">AgentEvolver: Self-Evolving Agent Systems (2025)</h2>
+<p><strong>Zhai et al.</strong> · <a href="https://arxiv.org/abs/2511.10395">arXiv:2511.10395</a></p>
+<p>Addresses a key bottleneck in agent training: current approaches require manually constructed datasets and RL pipelines with extensive random exploration. AgentEvolver introduces three mechanisms:</p>
+<ol type="1">
+<li><strong>Self-questioning</strong> — curiosity-driven task generation in novel environments (no handcrafted datasets)</li>
+<li><strong>Self-navigating</strong> — experience reuse and hybrid policy guidance for efficient exploration</li>
+<li><strong>Self-attributing</strong> — credit assignment for multi-step agent trajectories</li>
+</ol>
+<p>Represents the direction of <strong>self-improving agent systems</strong> — agents that generate their own training curriculum.</p>
+<hr>
 </section>
-<section id="memory" class="level3">
-<h3 class="anchored" data-anchor-id="memory">Memory</h3>
-<ul>
-<li><strong>MemGPT</strong> — <a href="https://arxiv.org/abs/2310.08560">arxiv.org/abs/2310.08560</a></li>
-</ul>
+<section id="specialized-scientific-tools-context" class="level2">
+<h2 class="anchored" data-anchor-id="specialized-scientific-tools-context">Specialized Scientific Tools &amp; Context</h2>
+<section id="moonshot-ai-kimi-k2.5" class="level3">
+<h3 class="anchored" data-anchor-id="moonshot-ai-kimi-k2.5">Moonshot AI / Kimi K2.5</h3>
+<p><strong>Moonshot AI (China)</strong> · <a href="https://platform.moonshot.ai">platform.moonshot.ai</a></p>
+<p>Chinese LLM provider with the Kimi model series, known for <strong>very long context windows</strong> (up to 128k tokens) optimized for document-heavy tasks. Positioned as an alternative to OpenAI/Anthropic for scientific workflows requiring processing of large documents. Popular with researchers in China and East Asia.</p>
 </section>
-<section id="tools-actions" class="level3">
-<h3 class="anchored" data-anchor-id="tools-actions">Tools &amp; Actions</h3>
-<ul>
-<li><strong>HuggingGPT / JARVIS</strong> — <a href="https://arxiv.org/abs/2303.17580">arxiv.org/abs/2303.17580</a></li>
-<li><strong>Gorilla LLM</strong> — <a href="https://arxiv.org/abs/2305.15334">arxiv.org/abs/2305.15334</a></li>
-<li><strong>ToolLLM</strong> — <a href="https://arxiv.org/abs/2307.16789">arxiv.org/abs/2307.16789</a></li>
-</ul>
-</section>
-<section id="coding-agents" class="level3">
-<h3 class="anchored" data-anchor-id="coding-agents">Coding Agents</h3>
-<ul>
-<li><strong>SWE-agent</strong> — <a href="https://arxiv.org/abs/2405.15793">arxiv.org/abs/2405.15793</a></li>
-<li><strong>CodeAct</strong> — <a href="https://arxiv.org/abs/2402.01030">arxiv.org/abs/2402.01030</a></li>
-<li><strong>SWE-bench</strong> — <a href="https://arxiv.org/abs/2310.06770">arxiv.org/abs/2310.06770</a></li>
-</ul>
+<section id="glm-5-from-vibe-coding-to-agentic-engineering-2026" class="level3">
+<h3 class="anchored" data-anchor-id="glm-5-from-vibe-coding-to-agentic-engineering-2026">GLM-5 / From Vibe Coding to Agentic Engineering (2026)</h3>
+<p><strong>GLM-5-Team (Zhipu AI)</strong> · <a href="https://arxiv.org/abs/2602.15763">arXiv:2602.15763</a></p>
+<p>Chinese LLM team’s paper tracing the trajectory from informal “vibe coding” (prompting for code generation) to systematic <strong>agentic software engineering</strong> — structured agent pipelines, verification loops, and multi-step workflows. The GLM series has been competitive with international models on coding benchmarks.</p>
 <hr>
 </section>
 </section>
-<section id="key-frameworks-github" class="level2">
-<h2 class="anchored" data-anchor-id="key-frameworks-github">Key Frameworks (GitHub)</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Framework</th>
-<th>GitHub</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>LangChain</td>
-<td><a href="https://github.com/langchain-ai/langchain">github.com/langchain-ai/langchain</a></td>
-<td>Full-stack agent framework</td>
-</tr>
-<tr class="even">
-<td>LangGraph</td>
-<td><a href="https://github.com/langchain-ai/langgraph">github.com/langchain-ai/langgraph</a></td>
-<td>Graph-based agent workflows</td>
-</tr>
-<tr class="odd">
-<td>AutoGen</td>
-<td><a href="https://github.com/microsoft/autogen">github.com/microsoft/autogen</a></td>
-<td>Multi-agent conversation</td>
-</tr>
-<tr class="even">
-<td>CrewAI</td>
-<td><a href="https://github.com/joaomdmoura/crewAI">github.com/joaomdmoura/crewAI</a></td>
-<td>Role-based agent crews</td>
-</tr>
-<tr class="odd">
-<td>SWE-agent</td>
-<td><a href="https://github.com/princeton-nlp/SWE-agent">github.com/princeton-nlp/SWE-agent</a></td>
-<td>GitHub issue resolution</td>
-</tr>
-<tr class="even">
-<td>OpenDevin</td>
-<td><a href="https://github.com/All-Hands-AI/OpenHands">github.com/All-Hands-AI/OpenHands</a></td>
-<td>Open software dev agent</td>
-</tr>
-<tr class="odd">
-<td>DSPy</td>
-<td><a href="https://github.com/stanfordnlp/dspy">github.com/stanfordnlp/dspy</a></td>
-<td>Programming language models</td>
-</tr>
-<tr class="even">
-<td>MemGPT</td>
-<td><a href="https://github.com/cpacker/MemGPT">github.com/cpacker/MemGPT</a></td>
-<td>Agents with long-term memory</td>
-</tr>
-</tbody>
-</table>
-<hr>
+<section id="key-themes-in-scientific-agent-research" class="level2">
+<h2 class="anchored" data-anchor-id="key-themes-in-scientific-agent-research">Key Themes in Scientific Agent Research</h2>
+<section id="why-science-is-the-ultimate-test-for-agents" class="level3">
+<h3 class="anchored" data-anchor-id="why-science-is-the-ultimate-test-for-agents">Why Science is the Ultimate Test for Agents</h3>
+<p>Scientific discovery represents the hardest challenge for agents because it requires: - <strong>Breadth:</strong> Synthesizing across thousands of papers and multiple disciplines - <strong>Novelty:</strong> Generating genuinely new ideas, not just summarizing what’s known - <strong>Verification:</strong> Designing experiments to test hypotheses — connecting language to lab - <strong>Long horizons:</strong> Real scientific work takes days, weeks, months</p>
+<p>The gap between “search and summarize” (current capability) and “form and test novel hypotheses” (the goal) defines the frontier of scientific AI agents.</p>
 </section>
-<section id="influential-blog-posts" class="level2">
-<h2 class="anchored" data-anchor-id="influential-blog-posts">Influential Blog Posts</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Title</th>
-<th>Author</th>
-<th>Date</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="https://lilianweng.github.io/posts/2023-06-23-agent/">LLM Powered Autonomous Agents</a></td>
-<td>Lilian Weng</td>
-<td>Jun 2023</td>
-</tr>
-<tr class="even">
-<td><a href="https://a16z.com/emerging-architectures-for-llm-applications/">Emerging Architectures for LLM Applications</a></td>
-<td>a16z</td>
-<td>Jun 2023</td>
-</tr>
-<tr class="odd">
-<td><a href="https://www.sequoiacap.com/article/ai-agents-perspective/">The Anatomy of Autonomy</a></td>
-<td>Sequoia Capital</td>
-<td>2023</td>
-</tr>
-<tr class="even">
-<td><a href="https://applied-llms.org">What We Learned from a Year of Building with LLMs</a></td>
-<td>Various practitioners</td>
-<td>2024</td>
-</tr>
-<tr class="odd">
-<td><a href="https://www.anthropic.com/research/building-effective-agents">Building effective agents</a></td>
-<td>Anthropic</td>
-<td>Dec 2024</td>
-</tr>
-</tbody>
-</table>
-<hr>
+<section id="the-grounding-problem" class="level3">
+<h3 class="anchored" data-anchor-id="the-grounding-problem">The Grounding Problem</h3>
+<p>Scientific agents must be grounded in <em>actual</em> literature — not the LLM’s parametric knowledge, which may be outdated or incorrect. This is why FutureHouse, Google AI Co-Scientist, and others emphasize retrieval-augmented architectures rather than relying on base model knowledge.</p>
 </section>
-<section id="benchmarks-evaluation" class="level2">
-<h2 class="anchored" data-anchor-id="benchmarks-evaluation">Benchmarks &amp; Evaluation</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Benchmark</th>
-<th>Focus</th>
-<th>Link</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>SWE-bench</td>
-<td>Software engineering tasks</td>
-<td><a href="https://www.swebench.com">swebench.com</a></td>
-</tr>
-<tr class="even">
-<td>WebArena</td>
-<td>Web navigation</td>
-<td><a href="https://arxiv.org/abs/2307.13854">arxiv.org/abs/2307.13854</a></td>
-</tr>
-<tr class="odd">
-<td>AgentBench</td>
-<td>Multi-domain agent eval</td>
-<td><a href="https://arxiv.org/abs/2308.03688">arxiv.org/abs/2308.03688</a></td>
-</tr>
-<tr class="even">
-<td>GAIA</td>
-<td>General AI assistant tasks</td>
-<td><a href="https://arxiv.org/abs/2311.12983">arxiv.org/abs/2311.12983</a></td>
-</tr>
-<tr class="odd">
-<td>OSWorld</td>
-<td>Desktop GUI tasks</td>
-<td><a href="https://arxiv.org/abs/2404.07972">arxiv.org/abs/2404.07972</a></td>
-</tr>
-</tbody>
-</table>
+<section id="domain-specificity-vs.-generality" class="level3">
+<h3 class="anchored" data-anchor-id="domain-specificity-vs.-generality">Domain Specificity vs.&nbsp;Generality</h3>
+<p>General-purpose agents struggle with specialized scientific domains (chemistry, genomics, drug discovery) because the tools, databases, and reasoning patterns are highly domain-specific. The trend is toward <strong>domain-specialized sub-agents</strong> within a general orchestration layer — as in FutureHouse’s platform (Falcon for literature, Phoenix for chemistry, Owl for prior art).</p>
 <hr>
-</section>
-<section id="courses-tutorials" class="level2">
-<h2 class="anchored" data-anchor-id="courses-tutorials">Courses &amp; Tutorials</h2>
-<ul>
-<li><strong><a href="https://www.deeplearning.ai/short-courses/ai-agents-in-langgraph/">DeepLearning.AI — AI Agents in LangGraph</a></strong> — Harrison Chase + Andrew Ng</li>
-<li><strong><a href="https://www.deeplearning.ai/short-courses/multi-ai-agent-systems-with-crewai/">DeepLearning.AI — Multi AI Agent Systems with crewAI</a></strong> — João Moura</li>
-<li><strong><a href="https://www.deeplearning.ai/short-courses/ai-agentic-design-patterns-with-autogen/">DeepLearning.AI — AI Agentic Design Patterns with AutoGen</a></strong> — Chi Wang + Qingyun Wu</li>
-<li><strong><a href="https://huggingface.co/learn/agents-course">Hugging Face — Agents Course</a></strong> — Free, hands-on</li>
-</ul>
-<hr>
-</section>
-<section id="about-this-survey" class="level2">
-<h2 class="anchored" data-anchor-id="about-this-survey">About This Survey</h2>
-<p>This survey was compiled in <strong>March 2026</strong> by <a href="https://github.com/johnplake">John P. Lake</a>. It covers the LLM agent literature from 2022 through early 2026.</p>
-<p><a href="https://github.com/johnplake/llm-agents-survey">View source on GitHub</a> · <a href="https://github.com/johnplake/llm-agents-survey/issues">Report an issue</a></p>
+<p><em>Back to <a href="./index.html">Overview →</a></em></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

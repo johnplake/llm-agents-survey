@@ -286,6 +286,14 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">2024–2026</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./science-agents.html"> 
+<span class="menu-text">Science Agents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./community.html"> 
+<span class="menu-text">Community</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./resources.html"> 
 <span class="menu-text">Resources</span></a>
   </li>  
@@ -325,6 +333,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#dylan-dynamic-llm-powered-agent-network-2023" id="toc-dylan-dynamic-llm-powered-agent-network-2023" class="nav-link" data-scroll-target="#dylan-dynamic-llm-powered-agent-network-2023">DyLAN: Dynamic LLM-Powered Agent Network (2023)</a></li>
   <li><a href="#solo-performance-prompting-spp-2023" id="toc-solo-performance-prompting-spp-2023" class="nav-link" data-scroll-target="#solo-performance-prompting-spp-2023">Solo Performance Prompting (SPP) (2023)</a></li>
   <li><a href="#agentscope-a-flexible-yet-robust-multi-agent-platform-2024" id="toc-agentscope-a-flexible-yet-robust-multi-agent-platform-2024" class="nav-link" data-scroll-target="#agentscope-a-flexible-yet-robust-multi-agent-platform-2024">AgentScope: A Flexible yet Robust Multi-Agent Platform (2024)</a></li>
+  <li><a href="#tapeagents-tape-centric-agent-framework-2024" id="toc-tapeagents-tape-centric-agent-framework-2024" class="nav-link" data-scroll-target="#tapeagents-tape-centric-agent-framework-2024">TapeAgents: Tape-Centric Agent Framework (2024)</a></li>
   </ul></li>
   <li><a href="#open-source-frameworks" id="toc-open-source-frameworks" class="nav-link" data-scroll-target="#open-source-frameworks">Open-Source Frameworks</a>
   <ul class="collapse">
@@ -335,6 +344,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#dspy-stanford" id="toc-dspy-stanford" class="nav-link" data-scroll-target="#dspy-stanford">DSPy (Stanford)</a></li>
   <li><a href="#semantic-kernel-microsoft" id="toc-semantic-kernel-microsoft" class="nav-link" data-scroll-target="#semantic-kernel-microsoft">Semantic Kernel (Microsoft)</a></li>
   <li><a href="#haystack-deepset" id="toc-haystack-deepset" class="nav-link" data-scroll-target="#haystack-deepset">Haystack (deepset)</a></li>
+  <li><a href="#agno" id="toc-agno" class="nav-link" data-scroll-target="#agno">Agno</a></li>
   <li><a href="#openai-swarm-2024" id="toc-openai-swarm-2024" class="nav-link" data-scroll-target="#openai-swarm-2024">OpenAI Swarm (2024)</a></li>
   </ul></li>
   <li><a href="#orchestration-patterns" id="toc-orchestration-patterns" class="nav-link" data-scroll-target="#orchestration-patterns">Orchestration Patterns</a>
@@ -466,6 +476,12 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="agentscope-a-flexible-yet-robust-multi-agent-platform-2024">AgentScope: A Flexible yet Robust Multi-Agent Platform (2024)</h3>
 <p><strong>Alibaba</strong> · <a href="https://arxiv.org/abs/2402.14034">arXiv:2402.14034</a></p>
 <p>Production-oriented multi-agent platform with fault tolerance, distributed execution, and operator/developer separation. Built for real-world scale.</p>
+</section>
+<section id="tapeagents-tape-centric-agent-framework-2024" class="level3">
+<h3 class="anchored" data-anchor-id="tapeagents-tape-centric-agent-framework-2024">TapeAgents: Tape-Centric Agent Framework (2024)</h3>
+<p><strong>Bahdanau, Gontier, Huang et al.&nbsp;(Cohere, ServiceNow)</strong> · <a href="https://arxiv.org/abs/2412.08445">arXiv:2412.08445</a></p>
+<p>Agent framework built around a <strong>structured log tape</strong> — the tape is simultaneously the session log, resumable state, and development artifact. Agents append thought/action steps to the tape; the environment appends observations back. This tape-centric design supports the full agent lifecycle: development (debugging, auditing), post-deployment (evaluation, fine-tuning), and cross-agent knowledge transfer (adapt tapes from other agents).</p>
+<p>Has echoes of classical <strong>blackboard systems</strong> in AI — shared structured state that multiple agents read and write. The tape makes agent behavior transparent, reproducible, and reusable in ways that ad-hoc logging doesn’t.</p>
 <hr>
 </section>
 </section>
@@ -534,6 +550,11 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="haystack-deepset">Haystack (deepset)</h3>
 <p><strong><a href="https://github.com/deepset-ai/haystack">github.com/deepset-ai/haystack</a></strong> — 18k+ stars</p>
 <p>Pipeline-based framework for NLP applications with strong RAG and document processing support. v2.0 (2024) redesigned as composable components.</p>
+</section>
+<section id="agno" class="level3">
+<h3 class="anchored" data-anchor-id="agno">Agno</h3>
+<p><strong>agno-agi</strong> · <a href="https://github.com/agno-agi/agno">github.com/agno-agi/agno</a></p>
+<p>Full-stack platform for agentic software: framework + production runtime (FastAPI-based, session-scoped) + control plane (AgentOS UI). Builds stateful agents with memory, 100+ tool integrations, guardrails, and MCP support in ~20 lines. Model-agnostic. See <a href="./community.html#agno-build-run--manage-agentic-software-at-scale">Community Agents →</a> for full coverage.</p>
 </section>
 <section id="openai-swarm-2024" class="level3">
 <h3 class="anchored" data-anchor-id="openai-swarm-2024">OpenAI Swarm (2024)</h3>
