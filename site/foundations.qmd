@@ -59,7 +59,7 @@ A major peer-reviewed survey published in the Journal of Artificial Intelligence
 **Applications highlighted:** medical diagnosis, logistics, financial market analysis, scientific research augmentation.
 
 ### Cognitive Architectures for Language Agents (2023)
-**Sumers et al.** · [arXiv:2309.02427](https://arxiv.org/abs/2309.02427)
+**Sumers et al.** · [arXiv:2309.02427](https://arxiv.org/abs/2309.02427) · *TMLR 2024*
 
 Grounds LLM agent design in cognitive science. Proposes four-part memory model (working, procedural, semantic, episodic) drawing from ACT-R and SOAR. Essential for understanding memory system design.
 
@@ -115,7 +115,7 @@ GPT-3 fine-tuned to browse the web to answer questions. Introduced the concept o
 - **Key ideas:** Web browsing as an action space; RLHF for agent behavior; long-form question answering with citations
 
 ### HuggingGPT / JARVIS (2023)
-**Shen et al.** · [arXiv:2303.17580](https://arxiv.org/abs/2303.17580)
+**Shen et al.** · [arXiv:2303.17580](https://arxiv.org/abs/2303.17580) · *NeurIPS 2023*
 
 LLM (ChatGPT) as a **task planner** that orchestrates hundreds of specialized ML models from HuggingFace. The LLM parses user requests, selects the right ML models, executes them in sequence, and synthesizes results.
 
@@ -123,7 +123,7 @@ LLM (ChatGPT) as a **task planner** that orchestrates hundreds of specialized ML
 - **GitHub:** [microsoft/JARVIS](https://github.com/microsoft/JARVIS)
 
 ### SayCan: Grounding Language in Robotic Affordances (2022)
-**Ahn et al.** · [arXiv:2204.01691](https://arxiv.org/abs/2204.01691)
+**Ahn et al.** · [arXiv:2204.01691](https://arxiv.org/abs/2204.01691) · *CoRL 2022*
 
 Landmark paper combining LLMs with robotics. The LLM generates possible action plans; a learned "affordance" model scores which actions are physically feasible in the current environment. Early example of **embodied agent planning**.
 
@@ -135,7 +135,7 @@ Landmark paper combining LLMs with robotics. The LLM generates possible action p
 GPT-4 playing Minecraft autonomously for indefinite time spans. Features a **procedural skill library** that grows over time, an automatic curriculum for proposing increasingly complex tasks, and iterative skill refinement via execution feedback.
 
 - **Key ideas:** Lifelong learning via skill accumulation; automatic curriculum; code-as-action (skills written as JavaScript); never "forgets" learned skills
-- **Results:** 3.3× more unique items collected, 2.3× longer distances covered, unlocks more diverse tech tree items than prior methods
+- **Results:** 3.3× more unique items collected, 2.3× longer distances covered, up to **15.3× faster** at unlocking tech tree milestones compared to prior methods
 
 ### AutoGPT (2023)
 **Toran Bruce Richards (Significant Gravitas)** · [GitHub](https://github.com/Significant-Gravitas/AutoGPT)
