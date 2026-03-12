@@ -385,6 +385,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#one-human-one-agent-one-browser-2026" id="toc-one-human-one-agent-one-browser-2026" class="nav-link" data-scroll-target="#one-human-one-agent-one-browser-2026">One Human + One Agent + One Browser (2026)</a></li>
   <li><a href="#making-sense-of-memory-in-ai-agents-2025" id="toc-making-sense-of-memory-in-ai-agents-2025" class="nav-link" data-scroll-target="#making-sense-of-memory-in-ai-agents-2025">Making Sense of Memory in AI Agents (2025)</a></li>
   </ul></li>
+  <li><a href="#reverse-engineering-agent-design-system-prompts-collection" id="toc-reverse-engineering-agent-design-system-prompts-collection" class="nav-link" data-scroll-target="#reverse-engineering-agent-design-system-prompts-collection">Reverse Engineering Agent Design: System Prompts Collection</a>
+  <ul class="collapse">
+  <li><a href="#x1xhlolsystem-prompts-and-models-of-ai-tools" id="toc-x1xhlolsystem-prompts-and-models-of-ai-tools" class="nav-link" data-scroll-target="#x1xhlolsystem-prompts-and-models-of-ai-tools">x1xhlol/system-prompts-and-models-of-ai-tools</a></li>
+  </ul></li>
   <li><a href="#the-acp-ecosystem" id="toc-the-acp-ecosystem" class="nav-link" data-scroll-target="#the-acp-ecosystem">The ACP Ecosystem</a></li>
   <li><a href="#glm-5-agentic-engineering-2026" id="toc-glm-5-agentic-engineering-2026" class="nav-link" data-scroll-target="#glm-5-agentic-engineering-2026">GLM-5 &amp; Agentic Engineering (2026)</a></li>
   </ul>
@@ -655,6 +659,106 @@ Environment reacts → appends observations to tape</code></pre>
 <h3 class="anchored" data-anchor-id="making-sense-of-memory-in-ai-agents-2025">Making Sense of Memory in AI Agents (2025)</h3>
 <p><strong>Leonie Monigatti</strong> · <a href="https://www.leoniemonigatti.com/blog/memory-in-ai-agents.html">leoniemonigatti.com/blog/memory-in-ai-agents.html</a></p>
 <p>Careful working study notes on agent memory terminology and concepts. Useful for its precision: distinguishes “agent memory” (granting agents access to storage) from “agentic memory” (using agents to manage memory), and traces the terminology debates in the field.</p>
+<hr>
+</section>
+</section>
+<section id="reverse-engineering-agent-design-system-prompts-collection" class="level2">
+<h2 class="anchored" data-anchor-id="reverse-engineering-agent-design-system-prompts-collection">Reverse Engineering Agent Design: System Prompts Collection</h2>
+<section id="x1xhlolsystem-prompts-and-models-of-ai-tools" class="level3">
+<h3 class="anchored" data-anchor-id="x1xhlolsystem-prompts-and-models-of-ai-tools">x1xhlol/system-prompts-and-models-of-ai-tools</h3>
+<p><strong><a href="https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools">github.com/x1xhlol/system-prompts-and-models-of-ai-tools</a></strong></p>
+<p>A remarkable primary source: <strong>30,000+ lines</strong> of extracted or leaked system prompts, internal tool descriptions, and model configurations from major AI coding tools. Last updated March 8, 2026. Includes:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tool</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Augment Code</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="even">
+<td>Claude Code</td>
+<td>Full system prompt + internal tools</td>
+</tr>
+<tr class="odd">
+<td>Cursor</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="even">
+<td>Devin AI</td>
+<td>Architecture details</td>
+</tr>
+<tr class="odd">
+<td>Windsurf</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="even">
+<td>Replit</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="odd">
+<td>v0 (Vercel)</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="even">
+<td>Lovable</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="odd">
+<td>Manus</td>
+<td>System prompt</td>
+</tr>
+<tr class="even">
+<td>Perplexity</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="odd">
+<td>Warp.dev</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="even">
+<td>Kiro</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="odd">
+<td>Junie</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="even">
+<td>Same.dev</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="odd">
+<td>NotionAI</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="even">
+<td>Cluely</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="odd">
+<td>VSCode Agent</td>
+<td>Full system prompt</td>
+</tr>
+<tr class="even">
+<td><em>…and 10+ more</em></td>
+<td>Trae, Traycer AI, Xcode, Z.ai Code, Dia</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What this reveals:</strong></p>
+<ol type="1">
+<li><p><strong>Defensive prompting is universal</strong> — every major agent has extensive instructions for what <em>not</em> to do (modify unrelated files, delete without confirmation, claim uncertainty when you should try, etc.)</p></li>
+<li><p><strong>Tool definitions are tightly designed</strong> — production agents don’t just get a raw shell; they get carefully specified tool APIs with schemas, error guidance, and usage examples</p></li>
+<li><p><strong>AGENTS.md / context files are standard</strong> — Claude Code, Cursor, Devin all read project-specific context files from the repository root to understand conventions</p></li>
+<li><p><strong>Safety and scope are baked in</strong> — explicit instructions about when to ask vs.&nbsp;proceed, how to handle irreversible actions, how to escalate</p></li>
+<li><p><strong>The diversity of approaches</strong> — different agents make very different choices about how proactive vs.&nbsp;conservative to be, how much autonomy to assume, and how to handle ambiguity</p></li>
+</ol>
+<p><strong>Why this matters for agent research:</strong> System prompts are the primary “programming interface” for LLM agents in production. Studying how the best-performing agents are actually prompted reveals design principles that papers don’t capture. This repository is the closest thing to a comparative study of production agent prompt engineering.</p>
 <hr>
 </section>
 </section>
