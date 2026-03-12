@@ -1,11 +1,20 @@
 project:
   type: website
   output-dir: _site
+  render:
+    - index.qmd
+    - taxonomy.qmd
+    - foundations.qmd
+    - reasoning.qmd
+    - multiagent.qmd
+    - memory-tools.qmd
+    - recent.qmd
+    - resources.qmd
 
 website:
   title: "LLM Agents: A Survey (2022–2026)"
   description: "A thorough review of AI agent architectures, designs, and the evolving landscape of LLM-based agents"
-  favicon: favicon.ico
+  site-url: https://johnplake.github.io/llm-agents-survey/
   navbar:
     left:
       - href: index.qmd
@@ -37,5 +46,3 @@ format:
     toc: true
     toc-depth: 3
     smooth-scroll: true
-    code-fold: true
-    highlight-style: github
