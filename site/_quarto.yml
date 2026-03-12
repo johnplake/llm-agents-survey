@@ -29,10 +29,10 @@ website:
         text: Taxonomy
       - href: timeline.qmd
         text: Timeline
-      - text: "Core Areas"
+      - href: foundations.qmd
+        text: Foundations
+      - text: "Deep Dives"
         menu:
-          - href: foundations.qmd
-            text: Foundations (2022–2023)
           - href: reasoning.qmd
             text: Reasoning & Planning
           - href: multiagent.qmd
