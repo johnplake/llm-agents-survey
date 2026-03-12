@@ -24,7 +24,7 @@ The most prevalent and studied attack vector. Malicious content embedded in the 
 #### Key Papers
 
 **InjecAgent** · [arXiv:2403.02691](https://arxiv.org/abs/2403.02691)  
-Benchmark for indirect prompt injection attacks on tool-calling agents. Tests 30+ attack patterns. Most models are highly vulnerable, especially to indirect attacks embedded in tool outputs.
+Benchmark for indirect prompt injection attacks on tool-calling agents. Evaluates 30 LLM-based agents across 17 user tools and 62 attacker tools. Most models are highly vulnerable, especially to indirect attacks embedded in tool outputs.
 
 **AgentDojo** (2024) · [arXiv:2406.13352](https://arxiv.org/abs/2406.13352)  
 Security benchmark with realistic agentic tasks (email management, travel booking) and adversarial injections. Baseline attack success rates are alarmingly high; defenses are limited.
@@ -148,7 +148,7 @@ The MIT AI Agent Index notes that **there are no established standards** for how
 | **InjecAgent** | Indirect prompt injection (30+ patterns) | Most models highly vulnerable |
 | **AgentHarm** | Harmful behavior compliance | Safety-tuned models can still be steered |
 | **ST-WebAgentBench** | Safety instruction following in web tasks | Agents often violate safety instructions |
-| **Gartner Prediction (2024)** | Project cancellations | 40%+ of agentic AI projects predicted cancelled by 2027 due to cost/safety |
+| **Gartner Prediction (2025)** | Project cancellations | 40%+ of agentic AI projects predicted cancelled by 2027 due to cost/safety |
 
 ---
 

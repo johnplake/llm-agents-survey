@@ -42,14 +42,14 @@ A consolidated chronology of the major papers, releases, frameworks, benchmarks,
 | Mar 2023 | **GPT-4 released** | Capability threshold enabling reliable agent reasoning |
 | Apr 2023 | **Generative Agents** (Park et al.) | 25 agents in a simulated town; foundational episodic memory architecture |
 | Apr 2023 | **BabyAGI** (Nakajima) | Minimalist task management agent; viral open-source project |
-| Apr 2023 | **Reflexion** (Shinn et al.) | Verbal RL: agents reflect on failures; HumanEval 67%→91% |
+| Apr 2023 | **Reflexion** (Shinn et al.) | Verbal RL: agents reflect on failures; HumanEval 80%→91% (GPT-4 baseline to Reflexion) |
 | May 2023 | **Tree of Thoughts** (Yao et al.) | Branching search over reasoning steps; Game of 24: 4%→74% |
 | May 2023 | **Reasoning via Planning / RAP** (Hao et al.) | LLM as world model for MCTS-based planning |
 | May 2023 | **Voyager** (Wang et al.) | GPT-4 in Minecraft with lifelong skill library accumulation |
 | May 2023 | **Self-Refine** (Madaan et al.) | Iterative self-critique without additional training |
 | May 2023 | **Gorilla LLM** (Patil et al.) | Fine-tuned LLM for reliable API calling |
 | May 2023 | **Large Language Models as Tool Makers** (Cai et al.) | Agents create reusable tools |
-| May 2023 | **Step-Back Prompting** | Abstract before solving; +42.8% on multi-hop QA |
+| May 2023 | **Step-Back Prompting** | Abstract before solving; +7% MMLU Physics, +27% TimeQA (PaLM-2L) |
 
 ---
 
@@ -63,7 +63,7 @@ A consolidated chronology of the major papers, releases, frameworks, benchmarks,
 | Jun 2023 | **RestGPT** | REST API orchestration |
 | Jul 2023 | **ChatDev** (Qian et al.) | Multi-agent software development team |
 | Jul 2023 | **ToolLLM** (Qin et al.) | 16,000+ REST API coverage |
-| Jul 2023 | **WebArena** (Zhou et al.) | 4-site web benchmark; GPT-4 baseline ~14% |
+| Jul 2023 | **WebArena** (Zhou et al.) | 5-site web benchmark (+ Wikipedia); GPT-4 baseline ~14% |
 | Aug 2023 | **MetaGPT** (Hong et al.) | SOP-driven multi-agent software engineering |
 | Aug 2023 | **AutoGen** (Wu et al., Microsoft) | Conversable agents framework |
 | Aug 2023 | **AgentVerse** (Chen et al.) | Multi-agent dynamics study; first systematic failure mode analysis |
@@ -109,7 +109,7 @@ A consolidated chronology of the major papers, releases, frameworks, benchmarks,
 | Oct 2024 | **OpenAI Swarm** (experimental) | Minimal multi-agent handoff framework |
 | Nov 2024 | **MCP (Model Context Protocol)** (Anthropic) | Open standard: universal tool/data connection for agents |
 | Dec 2024 | **Anthropic "Building Effective Agents"** | Defining practitioner post; workflows vs. agents distinction; 5 workflow patterns |
-| Dec 2024 | **DeepSeek-R1** | Open RL-trained reasoning model matching o1 on math; "aha moments" emerge from GRPO |
+| Jan 2025 | **DeepSeek-R1** | Open RL-trained reasoning model matching o1 on math; "aha moments" emerge from GRPO ([arXiv:2501.12948](https://arxiv.org/abs/2501.12948)) |
 
 ---
 

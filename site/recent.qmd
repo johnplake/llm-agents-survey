@@ -25,15 +25,17 @@ This became the most competitive sub-field of agent research, driven by clear be
 
 SWE-bench (Jimenez et al., 2023) measures the ability of agents to resolve real GitHub issues. Progress has been stunning:
 
-| Date | System | SWE-bench Verified |
-|------|--------|--------------------|
-| May 2024 | SWE-agent (Princeton) | ~12% |
-| Mar 2024 | Devin (Cognition AI) | ~14% |
-| Late 2024 | Claude 3.5 Sonnet + scaffolding | ~49% |
-| 2025 | Claude Sonnet 4.5 | ~50-60% |
-| Nov 2025 | Gemini 3 Pro + Live-SWE-agent | **77.4%** |
+*Note: SWE-bench Verified (500 tasks, human-validated) became the standard leaderboard from Aug 2024. Earlier entries used SWE-bench Full (2,294 tasks) or Lite (570 tasks).*
 
-A separate harder benchmark, **SWE-bench Pro** (Scale Labs, 2026), tests generalization on never-before-seen private codebases. Performance drops significantly: GPT-5 falls from 23% (public) to ~15% (private), revealing overfitting to public repos.
+| Date | System | Benchmark | Score |
+|------|--------|-----------|-------|
+| May 2024 | SWE-agent + GPT-4 Turbo (Princeton) | Full | 12.47% |
+| Mar 2024 | Devin (Cognition AI) | Lite | 13.86% |
+| Late 2024 | Claude 3.5 Sonnet + scaffolding | Verified | ~49% |
+| Oct 2025 | Claude Sonnet 4.5 | Verified | 77.2% (82.0% with parallel compute) |
+| Nov 2025 | Gemini 3 Pro + Live-SWE-agent | Verified | **77.4%** |
+
+A separate harder benchmark, **SWE-bench Pro** (Scale Labs), tests generalization on never-before-seen private codebases. GPT-5 and Claude Opus 4.1 both score only ~23% there vs. 70%+ on Verified, revealing substantial overfitting to public repos.
 
 **Key takeaway:** The progress is real but benchmarks are being saturated. Evaluation is moving to harder, less contaminated tasks.
 

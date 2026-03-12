@@ -97,7 +97,7 @@ Argues episodic memory (timestamped experience records) is the most important an
 
 ### Long-Context Models & Memory (2024-2025)
 
-Models with 100k–2M token contexts (Llama 3.1 400k, Claude 3.5 200k, Gemini 2.0 2M) reduce but don't eliminate memory management needs. Challenges remain:
+Models with 100k–2M token contexts (Llama 3.1 128k, Claude 3.5 200k, Gemini 2.0 2M) reduce but don't eliminate memory management needs. Challenges remain:
 
 - **Lost in the middle:** Models attend poorly to information in the middle of long contexts
 - **Cost:** 1M token contexts are expensive per call
@@ -160,7 +160,7 @@ Agents don't just use tools — they **create new tools** as reusable functions 
 
 ### Web Browsing Agents
 
-**WebGPT** (2022) · [arXiv:2112.09332](https://arxiv.org/abs/2112.09332)  
+**WebGPT** (2021) · [arXiv:2112.09332](https://arxiv.org/abs/2112.09332)  
 First major browser-using agent. GPT-3 fine-tuned with RLHF to browse and answer questions.
 
 **Mind2Web** (2023) · [arXiv:2306.06070](https://arxiv.org/abs/2306.06070)  

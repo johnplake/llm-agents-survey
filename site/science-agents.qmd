@@ -60,7 +60,7 @@ Built on **Gemini 2.0**, the AI co-scientist is a **multi-agent system designed 
 ---
 
 ## SkyDiscover (UC Berkeley Sky Lab, 2025)
-**NovaSky AI / UC Berkeley** · [sky.cs.berkeley.edu/project/skydiscover](https://sky.cs.berkeley.edu/project/skydiscover/)
+**NovaSky AI / UC Berkeley** · [skydiscover-ai.github.io](https://skydiscover-ai.github.io/)
 
 Research project on AI-driven scientific discovery from the Berkeley Sky Computing Lab. Part of the broader SkyRL ecosystem (see also: [SkyRL](https://github.com/NovaSky-AI/SkyRL)).
 
@@ -90,7 +90,7 @@ Forge is MiniMax's internal RL framework that enabled the training of their **M2
 2. **Training stability** — consistent reward convergence across diverse environments
 3. **Agent flexibility** — supporting arbitrary agent scaffolds and action spaces
 
-**CISPO algorithm:** MiniMax's custom policy optimization combining elements of GRPO with stability constraints, enabling consistent convergence across heterogeneous environments.
+**CISPO algorithm (Clipped Importance Sampling Policy Optimization):** MiniMax's custom RL algorithm (first proposed in the M1 paper). Rather than clipping token-level updates like PPO or GRPO, CISPO clips importance sampling weights directly — enabling more stable policy learning across heterogeneous environments including rare action paths in code and long reasoning chains.
 
 This represents one of the most serious published treatments of the systems engineering challenges in training real-world agents at scale with RL.
 

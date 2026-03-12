@@ -24,14 +24,14 @@ The most comprehensive survey of the field. Covers 200+ papers and presents a **
 - **Impact:** De facto reference paper for new entrants to the field
 
 ### The Rise and Potential of Large Language Model Based Agents (2023)
-**Xi et al. (30 co-authors)** · [arXiv:2309.07864](https://arxiv.org/abs/2309.07864) · *Science China Information Sciences, 2025*
+**Xi et al. (29 co-authors)** · [arXiv:2309.07864](https://arxiv.org/abs/2309.07864) · *Science China Information Sciences, 2025*
 
 An 86-page survey tracing agents from philosophical origins through modern AI. Uses a brain-perception-action framework. Explores single-agent, multi-agent, and human-agent cooperation. Discusses agent societies, emergent behaviors, and the path toward AGI.
 
 - **Key ideas:** Historical and philosophical grounding; vision for agent societies; multi-agent coordination patterns
 
 ### Agent AI: Surveying the Horizons of Multimodal Interaction (2024)
-**Wang et al.** · [arXiv:2401.03568](https://arxiv.org/abs/2401.03568)
+**Durante et al.** · [arXiv:2401.03568](https://arxiv.org/abs/2401.03568)
 
 Expands scope to multimodal agents operating across text, vision, and action spaces. Covers gaming, robotics, healthcare, GUI navigation. A useful bridge between language-only and embodied/multimodal agents.
 
@@ -107,7 +107,7 @@ Early vision of **modular AI** where an LLM router dispatches to specialized exp
 - **Key ideas:** LLM as orchestrator; discrete symbolic modules for reliable computation; router learns which module is appropriate
 - **Legacy:** Direct ancestor of today's tool-calling agents
 
-### WebGPT: Browser-Assisted Question Answering (2022)
+### WebGPT: Browser-Assisted Question Answering (2021)
 **Nakano et al.** · [arXiv:2112.09332](https://arxiv.org/abs/2112.09332)
 
 GPT-3 fine-tuned to browse the web to answer questions. Introduced the concept of **browser-using agents** — now a major category. Used RLHF to train the browsing behavior.
@@ -135,10 +135,10 @@ Landmark paper combining LLMs with robotics. The LLM generates possible action p
 GPT-4 playing Minecraft autonomously for indefinite time spans. Features a **procedural skill library** that grows over time, an automatic curriculum for proposing increasingly complex tasks, and iterative skill refinement via execution feedback.
 
 - **Key ideas:** Lifelong learning via skill accumulation; automatic curriculum; code-as-action (skills written as JavaScript); never "forgets" learned skills
-- **Results:** 3× faster at milestones, unlocks tech tree substantially faster than prior methods
+- **Results:** 3.3× more unique items collected, 2.3× longer distances covered, unlocks more diverse tech tree items than prior methods
 
 ### AutoGPT (2023)
-**Riedl et al. (community)** · [GitHub](https://github.com/Significant-Gravitas/AutoGPT)
+**Toran Bruce Richards (Significant Gravitas)** · [GitHub](https://github.com/Significant-Gravitas/AutoGPT)
 
 Not a paper, but arguably the most influential artifact of 2023. AutoGPT showed the world what a **fully autonomous LLM agent** looked like: give it a goal, let it run. It sparked massive public interest and downstream research, despite significant reliability issues.
 

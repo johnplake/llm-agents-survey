@@ -116,7 +116,7 @@ Recursive decomposition that re-decomposes sub-tasks if they fail. Addresses bri
 ### Step-Back Prompting (2023)
 **Zou et al.** · [arXiv:2310.06117](https://arxiv.org/abs/2310.06117) · *ICLR 2024*
 
-Derives high-level abstractions and first principles before solving specific instances. 42.8% improvement on complex multi-hop QA. "Step back, think at the abstract level, then solve."
+Derives high-level abstractions and first principles before solving specific instances. Improves PaLM-2L on MMLU Physics by 7%, Chemistry by 11%, TimeQA by 27%, and multi-hop reasoning (MuSiQue) by 7%. "Step back, think at the abstract level, then solve."
 
 ### Decomposed Prompting (2022)
 **Khot et al.** · [arXiv:2210.02406](https://arxiv.org/abs/2210.02406) · *EMNLP 2022*
@@ -134,7 +134,7 @@ A major theme of 2023: agents that **evaluate and improve their own outputs**.
 
 Agents generate **verbal reflections** on their failures, stored in an episodic memory buffer. On the next attempt, the agent incorporates its own critique. No gradient updates — reinforcement via language alone.
 
-- **Results:** HumanEval coding: 67% → **91%** (GPT-4); WebArena significant improvements
+- **Results:** HumanEval coding: GPT-4 baseline 80% → **91%** with Reflexion; significant improvements on decision-making tasks
 - **Key ideas:** Verbal reinforcement; episodic memory of failures; trial-and-learn loop
 - **GitHub:** [noahshinn/reflexion](https://github.com/noahshinn/reflexion)
 

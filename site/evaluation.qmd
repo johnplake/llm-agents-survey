@@ -29,17 +29,17 @@ The dominant coding agent benchmark. Agents resolve real GitHub issues from 12 p
 - **SWE-bench Verified** — 500 manually verified high-quality issues; the standard leaderboard
 - **SWE-bench Lite** — 300 issues; faster/cheaper evaluation
 
-**Progress on SWE-bench Verified:**
+**Progress over time** (early scores are on SWE-bench Full/Lite; SWE-bench Verified was released Aug 2024 and became the standard leaderboard):
 
-| Date | System | Score |
-|------|--------|-------|
-| May 2024 | SWE-agent (Princeton) | ~12% |
-| Mar 2024 | Devin (Cognition AI) | ~14% (revised) |
-| Late 2024 | Claude 3.5 Sonnet + scaffolding | ~49% |
-| 2025 | Claude Sonnet 4.5 | ~55% |
-| Nov 2025 | Gemini 3 Pro + Live-SWE-agent | **77.4%** |
+| Date | System | Benchmark | Score |
+|------|--------|-----------|-------|
+| May 2024 | SWE-agent + GPT-4 Turbo (Princeton) | Full (2,294 tasks) | 12.47% |
+| Mar 2024 | Devin (Cognition AI) | Lite (570 tasks) | 13.86% |
+| Late 2024 | Claude 3.5 Sonnet + scaffolding | Verified (500 tasks) | ~49% |
+| Oct 2025 | Claude Sonnet 4.5 | Verified | 77.2% (82.0% with parallel compute) |
+| Nov 2025 | Gemini 3 Pro + Live-SWE-agent | Verified | **77.4%** |
 
-**Contamination concern:** By late 2025, SWE-bench Verified was showing signs of saturation and potential training data leakage. Models that score 70%+ on the public benchmark drop to ~15-20% on private codebases.
+**Contamination concern:** By late 2025, SWE-bench Verified showed signs of saturation and training data leakage. Models scoring 70%+ on the public Verified set drop to ~15-25% on SWE-bench Pro (Scale AI's private-codebase variant, released 2025).
 
 ### SWE-bench Pro (2026)
 **Scale AI** · Novel private-codebase variant
@@ -65,7 +65,7 @@ Pragmatic leaderboard maintained by the Aider project, ranking models by real-wo
 ### WebArena (2023)
 **Zhou et al.** · [arXiv:2307.13854](https://arxiv.org/abs/2307.13854)
 
-4 functional websites (e-commerce, Reddit clone, GitLab, map service), 812 long-horizon tasks. Baseline GPT-4: ~14%. Realistic web tasks that require multi-step navigation, form filling, and information retrieval.
+5 functional websites (e-commerce, Reddit, GitLab, CMS, map) plus Wikipedia as a reference resource. 812 long-horizon tasks. Baseline GPT-4: ~14% (exact: 14.41%). Realistic web tasks that require multi-step navigation, form filling, and information retrieval.
 
 ### Mind2Web (2023)
 **Deng et al.** · [arXiv:2306.06070](https://arxiv.org/abs/2306.06070)
@@ -77,11 +77,14 @@ Dataset of 2,350 tasks across 137 real websites. Tests generalization to unseen 
 
 Desktop GUI tasks across real applications on Windows, macOS, and Linux. 369 tasks requiring interaction with actual installed software (spreadsheets, code editors, file managers).
 
-| Date | Best Score |
-|------|-----------|
-| Apr 2024 | <10% (baseline models) |
-| Oct 2024 | ~22% (Claude with Computer Use) |
-| Late 2024 | ~72.5% (specialized GUI models) |
+Human expert baseline: **72.36%**
+
+| Date | Best Agent Score |
+|------|-----------------|
+| Apr 2024 | ~12% (GPT-4V baseline) |
+| Oct 2024 | ~22% (Claude 3.5 Sonnet with Computer Use) |
+| Early 2025 | ~25% (OSCAR scaffold + GPT-4o) |
+| 2025 | 76%+ (specialized GUI agents, surpassing human baseline) |
 
 ### ScreenSpot Pro (2025)
 High-resolution GUI grounding benchmark with tiny target icons. OmniParser V2 + GPT-4o achieves 39.6%; raw GPT-4o achieves 0.8% — showing the importance of specialized screen parsing.
@@ -93,7 +96,7 @@ High-resolution GUI grounding benchmark with tiny target icons. OmniParser V2 + 
 ### GAIA (2023)
 **Mialon et al. (Meta AI)** · [arXiv:2311.12983](https://arxiv.org/abs/2311.12983) · *ICLR 2024*
 
-General AI assistant tasks requiring multi-step reasoning, tool use, and common sense. Three difficulty levels. Human baseline: 92%; GPT-4 + plugins at release: ~30%. Designed to be "easy for humans, hard for AI."
+General AI assistant tasks requiring multi-step reasoning, tool use, and common sense. Three difficulty levels. Human baseline: 92%; GPT-4 with plugins at release: ~15%. ([arXiv:2311.12983](https://arxiv.org/abs/2311.12983)) Designed to be "easy for humans, hard for AI."
 
 ### AgentBench (2023)
 **Liu et al.** · [arXiv:2308.03688](https://arxiv.org/abs/2308.03688)
@@ -133,7 +136,7 @@ Tests ability to reproduce results from ML papers. PaperCoder (Seo et al., ICLR 
 ### LabBench (Biology, 2024)
 **FutureHouse** · Measures capabilities for biology research tasks. FutureHouse's agents outperform frontier models on retrieval precision and accuracy.
 
-### BixBench (Bioinformatics, 2024)
+### BixBench (Bioinformatics, 2025)
 **FutureHouse** · Bioinformatics-specific benchmark for scientific agents.
 
 ---

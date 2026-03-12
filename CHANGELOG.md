@@ -4,6 +4,53 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.0.5] - 2026-03-12 — Accuracy audit
+
+Comprehensive fact-check of all 14 pages using parallel sub-agents + manual verification. All factual claims verified against primary sources (arXiv, official docs, leaderboards).
+
+### Corrections
+
+**Benchmark scores (multiple pages):**
+- GAIA GPT-4+plugins score: `~30%` → `~15%` (published paper: arxiv.org/abs/2311.12983)
+- WebArena site count: `4 functional websites` → `5 websites + Wikipedia` (e-commerce, Reddit, GitLab, CMS, map)
+- OSWorld: Removed incorrect claim that agents scored `~72.5%` in late 2024 — `72.36%` is the human baseline; agents reached ~76%+ only in 2025
+- SWE-bench progress table: Clarified which benchmark variant (Full/Lite/Verified) applies to each score; Devin's 13.86% on SWE-bench Lite → `~14%` (previously mislabeled as Verified); SWE-agent's 12.47% on Full (not Verified)
+- Claude Sonnet 4.5 SWE-bench: `~55%` → `77.2%` (82.0% with parallel compute); confirmed from multiple sources
+- BixBench year: `2024` → `2025` (released March 2025 by FutureHouse + ScienceMachine)
+- WebGPT date: `2022` → `2021` (arXiv:2112.09332 submitted December 2021; citation year in literature is 2021)
+- DeepSeek-R1 date: `Dec 2024` → `Jan 2025` (arXiv:2501.12948 submitted January 22, 2025)
+
+**Reflexion (reasoning.qmd + timeline.qmd):**
+- HumanEval baseline: `67%→91%` → `80%→91%`; the published NeurIPS paper states GPT-4 baseline is 80%, Reflexion achieves 91%
+
+**Step-Back Prompting (reasoning.qmd + timeline.qmd):**
+- Removed fabricated `+42.8% on multi-hop QA` claim; replaced with actual paper results: +7% MMLU Physics, +11% Chemistry, +27% TimeQA, +7% MuSiQue (PaLM-2L)
+
+**Foundations and surveys:**
+- Xi et al. author count: `30` → `29` co-authors (verified via arXiv + GitHub BibTeX)
+- AutoGPT attribution: `Riedl et al. (community)` → `Toran Bruce Richards (Significant Gravitas)` — Marcus Riedl is an unrelated GT professor
+- Agent AI survey arXiv:2401.03568: `Wang et al.` → `Durante et al.` (first author: Zane Durante, Stanford)
+- Voyager results: `3× faster at milestones` → `3.3× more unique items collected, 2.3× longer distances`
+- Llama 3.1 context window: `400k` → `128k` (Meta's official figure)
+
+**Multi-agent page:**
+- MetaGPT title: `"Meta Programming for a Generalizable Agent System"` → `"Meta Programming for A Multi-Agent Collaborative Framework"` (actual paper title)
+- TapeAgents: removed erroneous `Cohere` attribution — ServiceNow only
+- CrewAI GitHub: updated repo from `joaomdmoura/crewAI` → `crewAIInc/crewAI` (org moved); star count updated to 40k+
+- GAIA score: `~30%` → `~15%` (corrected in multiagent.qmd as well)
+
+**Science agents page:**
+- CISPO description: was `"combining elements of GRPO with stability constraints"` — actually Clipped Importance Sampling Policy Optimization, which clips importance sampling weights (not token updates like PPO/GRPO); distinct algorithm from GRPO
+- SkyDiscover URL: `sky.cs.berkeley.edu/project/skydiscover` → `skydiscover-ai.github.io` (actual project URL; old link 404s)
+
+**Gartner (safety.qmd):**
+- Date: `(2024)` → `(2025)` (Gartner prediction published June 2025)
+
+**InjecAgent (safety.qmd):**
+- Changed "30+ attack patterns" → "30 LLM-based agents across 17 user tools and 62 attacker tools" (accurate to the benchmark structure)
+
+---
+
 ## [1.0.4] - 2026-03-12
 
 ### Structural reorganization

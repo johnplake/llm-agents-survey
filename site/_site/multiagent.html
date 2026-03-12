@@ -356,7 +356,7 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#camel-communicative-agents-for-mind-exploration-2023" id="toc-camel-communicative-agents-for-mind-exploration-2023" class="nav-link" data-scroll-target="#camel-communicative-agents-for-mind-exploration-2023">CAMEL: Communicative Agents for “Mind” Exploration (2023)</a></li>
   <li><a href="#generative-agents-interactive-simulacra-of-human-behavior-2023" id="toc-generative-agents-interactive-simulacra-of-human-behavior-2023" class="nav-link" data-scroll-target="#generative-agents-interactive-simulacra-of-human-behavior-2023">Generative Agents: Interactive Simulacra of Human Behavior (2023)</a></li>
-  <li><a href="#metagpt-meta-programming-for-a-generalizable-agent-system-2023" id="toc-metagpt-meta-programming-for-a-generalizable-agent-system-2023" class="nav-link" data-scroll-target="#metagpt-meta-programming-for-a-generalizable-agent-system-2023">MetaGPT: Meta Programming for a Generalizable Agent System (2023)</a></li>
+  <li><a href="#metagpt-meta-programming-for-a-multi-agent-collaborative-framework-2023" id="toc-metagpt-meta-programming-for-a-multi-agent-collaborative-framework-2023" class="nav-link" data-scroll-target="#metagpt-meta-programming-for-a-multi-agent-collaborative-framework-2023">MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework (2023)</a></li>
   <li><a href="#chatdev-communicative-agents-for-software-development-2023" id="toc-chatdev-communicative-agents-for-software-development-2023" class="nav-link" data-scroll-target="#chatdev-communicative-agents-for-software-development-2023">ChatDev: Communicative Agents for Software Development (2023)</a></li>
   <li><a href="#autogen-enabling-next-gen-llm-applications-via-multi-agent-conversation-2023" id="toc-autogen-enabling-next-gen-llm-applications-via-multi-agent-conversation-2023" class="nav-link" data-scroll-target="#autogen-enabling-next-gen-llm-applications-via-multi-agent-conversation-2023">AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation (2023)</a></li>
   <li><a href="#agentverse-facilitating-multi-agent-collaboration-2023" id="toc-agentverse-facilitating-multi-agent-collaboration-2023" class="nav-link" data-scroll-target="#agentverse-facilitating-multi-agent-collaboration-2023">AgentVerse: Facilitating Multi-Agent Collaboration (2023)</a></li>
@@ -463,8 +463,8 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Influence:</strong> Every subsequent work on agent memory architecture cites this paper</li>
 </ul>
 </section>
-<section id="metagpt-meta-programming-for-a-generalizable-agent-system-2023" class="level3">
-<h3 class="anchored" data-anchor-id="metagpt-meta-programming-for-a-generalizable-agent-system-2023">MetaGPT: Meta Programming for a Generalizable Agent System (2023)</h3>
+<section id="metagpt-meta-programming-for-a-multi-agent-collaborative-framework-2023" class="level3">
+<h3 class="anchored" data-anchor-id="metagpt-meta-programming-for-a-multi-agent-collaborative-framework-2023">MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework (2023)</h3>
 <p><strong>Hong et al.</strong> · <a href="https://arxiv.org/abs/2308.00352">arXiv:2308.00352</a></p>
 <p>Software development with LLM agents assigned roles mirroring a real software company: Product Manager, Architect, Engineer, QA. Agents share <strong>structured documents</strong> (PRD, architecture spec) rather than just conversations. Reduces hallucination and improves code quality.</p>
 <ul>
@@ -518,7 +518,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="tapeagents-tape-centric-agent-framework-2024" class="level3">
 <h3 class="anchored" data-anchor-id="tapeagents-tape-centric-agent-framework-2024">TapeAgents: Tape-Centric Agent Framework (2024)</h3>
-<p><strong>Bahdanau, Gontier, Huang et al.&nbsp;(Cohere, ServiceNow)</strong> · <a href="https://arxiv.org/abs/2412.08445">arXiv:2412.08445</a></p>
+<p><strong>Bahdanau, Gontier, Huang et al.&nbsp;(ServiceNow)</strong> · <a href="https://arxiv.org/abs/2412.08445">arXiv:2412.08445</a></p>
 <p>Agent framework built around a <strong>structured log tape</strong> — the tape is simultaneously the session log, resumable state, and development artifact. Agents append thought/action steps to the tape; the environment appends observations back. This tape-centric design supports the full agent lifecycle: development (debugging, auditing), post-deployment (evaluation, fine-tuning), and cross-agent knowledge transfer (adapt tapes from other agents).</p>
 <p>Has echoes of classical <strong>blackboard systems</strong> in AI — shared structured state that multiple agents read and write. The tape makes agent behavior transparent, reproducible, and reusable in ways that ad-hoc logging doesn’t.</p>
 <hr>
@@ -559,7 +559,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="crewai" class="level3">
 <h3 class="anchored" data-anchor-id="crewai">CrewAI</h3>
-<p><strong><a href="https://github.com/joaomdmoura/crewAI">github.com/joaomdmoura/crewAI</a></strong> — 28k+ stars</p>
+<p><strong><a href="https://github.com/crewAIInc/crewAI">github.com/crewAIInc/crewAI</a></strong> — 40k+ stars</p>
 <p>Role-based agent framework with a high-level “crew” abstraction. Define agents with roles, goals, and backstories; assign tasks; the crew coordinates to complete the objective.</p>
 <ul>
 <li><strong>Philosophy:</strong> Agents as a team with defined roles</li>
@@ -739,12 +739,12 @@ ul.task-list li input[type="checkbox"] {
 <section id="webarena-2023" class="level3">
 <h3 class="anchored" data-anchor-id="webarena-2023">WebArena (2023)</h3>
 <p><strong>Zhou et al.</strong> · <a href="https://arxiv.org/abs/2307.13854">arXiv:2307.13854</a></p>
-<p>Realistic web environment with 4 functional websites (e-commerce, Reddit, GitLab, map). 812 long-horizon tasks. Baseline GPT-4 success: ~14%.</p>
+<p>Realistic web environment with 5 functional websites (e-commerce, Reddit, GitLab, CMS, map) plus Wikipedia as a reference resource. 812 long-horizon tasks. Baseline GPT-4 success: ~14%.</p>
 </section>
 <section id="gaia-a-benchmark-for-general-ai-assistants-2023" class="level3">
 <h3 class="anchored" data-anchor-id="gaia-a-benchmark-for-general-ai-assistants-2023">GAIA: A Benchmark for General AI Assistants (2023)</h3>
 <p><strong>Mialon et al.</strong> · <a href="https://arxiv.org/abs/2311.12983">arXiv:2311.12983</a> · <em>ICLR 2024</em></p>
-<p>Tasks requiring multi-step reasoning, tool use, and common sense. Humans achieve 92%; GPT-4+plugins achieved ~30% at release. Tests true general-purpose assistant ability.</p>
+<p>Tasks requiring multi-step reasoning, tool use, and common sense. Humans achieve 92%; GPT-4+plugins achieved ~15% at release (<a href="https://arxiv.org/abs/2311.12983">arXiv:2311.12983</a>). Tests true general-purpose assistant ability.</p>
 </section>
 <section id="osworld-2024" class="level3">
 <h3 class="anchored" data-anchor-id="osworld-2024">OSWorld (2024)</h3>
