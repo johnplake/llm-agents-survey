@@ -178,6 +178,38 @@ Chinese LLM team's paper tracing the trajectory from informal "vibe coding" (pro
 
 ---
 
+## PaperCoder: ML Papers → Working Code (ICLR 2026)
+**Seo et al.** · [arXiv:2504.17192](https://arxiv.org/abs/2504.17192) · *ICLR 2026* · [github.com/going-doer/Paper2Code](https://github.com/going-doer/Paper2Code)
+
+A multi-agent LLM framework that transforms **machine learning papers into operational code repositories**. Addresses a real bottleneck in ML research: implementations are often unavailable, making reproduction slow and labor-intensive.
+
+### Three-Stage Pipeline with Specialized Agents
+
+**Stage 1 — Planning:**
+- Constructs high-level roadmap from paper
+- Designs system architecture (with diagrams)
+- Identifies file dependencies
+- Generates configuration files
+
+**Stage 2 — Analysis:**
+- Deep interpretation of implementation-specific details
+- Resolves ambiguities between paper text and implied code structure
+- Cross-references equations, pseudocode, and experimental setup
+
+**Stage 3 — Generation:**
+- Produces modular, dependency-aware code
+- Respects file structure and inter-module dependencies established in planning
+
+Each phase is implemented by specialized agents that collaborate across the pipeline. The result is not just snippets — it's a full repository with appropriate structure, imports, and documentation.
+
+### Evaluation: PaperBench
+
+Evaluated on the **PaperBench** benchmark (tests ability to reproduce ML papers) and validated by human judges including paper authors (with author-released repos as ground truth). PaperCoder consistently outperforms strong baselines by substantial margins.
+
+**Why it matters:** This is one of the clearest demonstrations of multi-agent agents tackling a complex real-world scientific task — not search/synthesis, but actual *implementation*. The planning → analysis → generation pattern (with specialized agents per stage) is a template applicable far beyond paper reproduction.
+
+---
+
 ## Key Themes in Scientific Agent Research
 
 ### Why Science is the Ultimate Test for Agents

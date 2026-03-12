@@ -226,6 +226,50 @@ Careful working study notes on agent memory terminology and concepts. Useful for
 
 ---
 
+## Reverse Engineering Agent Design: System Prompts Collection
+
+### x1xhlol/system-prompts-and-models-of-ai-tools
+**[github.com/x1xhlol/system-prompts-and-models-of-ai-tools](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools)**
+
+A remarkable primary source: **30,000+ lines** of extracted or leaked system prompts, internal tool descriptions, and model configurations from major AI coding tools. Last updated March 8, 2026. Includes:
+
+| Tool | Notes |
+|------|-------|
+| Augment Code | Full system prompt |
+| Claude Code | Full system prompt + internal tools |
+| Cursor | Full system prompt |
+| Devin AI | Architecture details |
+| Windsurf | Full system prompt |
+| Replit | Full system prompt |
+| v0 (Vercel) | Full system prompt |
+| Lovable | Full system prompt |
+| Manus | System prompt |
+| Perplexity | Full system prompt |
+| Warp.dev | Full system prompt |
+| Kiro | Full system prompt |
+| Junie | Full system prompt |
+| Same.dev | Full system prompt |
+| NotionAI | Full system prompt |
+| Cluely | Full system prompt |
+| VSCode Agent | Full system prompt |
+| *...and 10+ more* | Trae, Traycer AI, Xcode, Z.ai Code, Dia |
+
+**What this reveals:**
+
+1. **Defensive prompting is universal** — every major agent has extensive instructions for what *not* to do (modify unrelated files, delete without confirmation, claim uncertainty when you should try, etc.)
+
+2. **Tool definitions are tightly designed** — production agents don't just get a raw shell; they get carefully specified tool APIs with schemas, error guidance, and usage examples
+
+3. **AGENTS.md / context files are standard** — Claude Code, Cursor, Devin all read project-specific context files from the repository root to understand conventions
+
+4. **Safety and scope are baked in** — explicit instructions about when to ask vs. proceed, how to handle irreversible actions, how to escalate
+
+5. **The diversity of approaches** — different agents make very different choices about how proactive vs. conservative to be, how much autonomy to assume, and how to handle ambiguity
+
+**Why this matters for agent research:** System prompts are the primary "programming interface" for LLM agents in production. Studying how the best-performing agents are actually prompted reveals design principles that papers don't capture. This repository is the closest thing to a comparative study of production agent prompt engineering.
+
+---
+
 ## The ACP Ecosystem
 
 **Agent Communication Protocol (ACP)** — An emerging open protocol (associated with Anthropic but open-spec) for standardizing agent-to-host communication. crow-cli implements it; OpenClaw has its own session protocol. Related to MCP (model-to-tool) but focused on agent-to-agent and agent-to-host interfaces.

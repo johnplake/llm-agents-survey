@@ -343,6 +343,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#moonshot-ai-kimi-k2.5" id="toc-moonshot-ai-kimi-k2.5" class="nav-link" data-scroll-target="#moonshot-ai-kimi-k2.5">Moonshot AI / Kimi K2.5</a></li>
   <li><a href="#glm-5-from-vibe-coding-to-agentic-engineering-2026" id="toc-glm-5-from-vibe-coding-to-agentic-engineering-2026" class="nav-link" data-scroll-target="#glm-5-from-vibe-coding-to-agentic-engineering-2026">GLM-5 / From Vibe Coding to Agentic Engineering (2026)</a></li>
   </ul></li>
+  <li><a href="#papercoder-ml-papers-working-code-iclr-2026" id="toc-papercoder-ml-papers-working-code-iclr-2026" class="nav-link" data-scroll-target="#papercoder-ml-papers-working-code-iclr-2026">PaperCoder: ML Papers → Working Code (ICLR 2026)</a>
+  <ul class="collapse">
+  <li><a href="#three-stage-pipeline-with-specialized-agents" id="toc-three-stage-pipeline-with-specialized-agents" class="nav-link" data-scroll-target="#three-stage-pipeline-with-specialized-agents">Three-Stage Pipeline with Specialized Agents</a></li>
+  <li><a href="#evaluation-paperbench" id="toc-evaluation-paperbench" class="nav-link" data-scroll-target="#evaluation-paperbench">Evaluation: PaperBench</a></li>
+  </ul></li>
   <li><a href="#key-themes-in-scientific-agent-research" id="toc-key-themes-in-scientific-agent-research" class="nav-link" data-scroll-target="#key-themes-in-scientific-agent-research">Key Themes in Scientific Agent Research</a>
   <ul class="collapse">
   <li><a href="#why-science-is-the-ultimate-test-for-agents" id="toc-why-science-is-the-ultimate-test-for-agents" class="nav-link" data-scroll-target="#why-science-is-the-ultimate-test-for-agents">Why Science is the Ultimate Test for Agents</a></li>
@@ -515,6 +520,24 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="glm-5-from-vibe-coding-to-agentic-engineering-2026">GLM-5 / From Vibe Coding to Agentic Engineering (2026)</h3>
 <p><strong>GLM-5-Team (Zhipu AI)</strong> · <a href="https://arxiv.org/abs/2602.15763">arXiv:2602.15763</a></p>
 <p>Chinese LLM team’s paper tracing the trajectory from informal “vibe coding” (prompting for code generation) to systematic <strong>agentic software engineering</strong> — structured agent pipelines, verification loops, and multi-step workflows. The GLM series has been competitive with international models on coding benchmarks.</p>
+<hr>
+</section>
+</section>
+<section id="papercoder-ml-papers-working-code-iclr-2026" class="level2">
+<h2 class="anchored" data-anchor-id="papercoder-ml-papers-working-code-iclr-2026">PaperCoder: ML Papers → Working Code (ICLR 2026)</h2>
+<p><strong>Seo et al.</strong> · <a href="https://arxiv.org/abs/2504.17192">arXiv:2504.17192</a> · <em>ICLR 2026</em> · <a href="https://github.com/going-doer/Paper2Code">github.com/going-doer/Paper2Code</a></p>
+<p>A multi-agent LLM framework that transforms <strong>machine learning papers into operational code repositories</strong>. Addresses a real bottleneck in ML research: implementations are often unavailable, making reproduction slow and labor-intensive.</p>
+<section id="three-stage-pipeline-with-specialized-agents" class="level3">
+<h3 class="anchored" data-anchor-id="three-stage-pipeline-with-specialized-agents">Three-Stage Pipeline with Specialized Agents</h3>
+<p><strong>Stage 1 — Planning:</strong> - Constructs high-level roadmap from paper - Designs system architecture (with diagrams) - Identifies file dependencies - Generates configuration files</p>
+<p><strong>Stage 2 — Analysis:</strong> - Deep interpretation of implementation-specific details - Resolves ambiguities between paper text and implied code structure - Cross-references equations, pseudocode, and experimental setup</p>
+<p><strong>Stage 3 — Generation:</strong> - Produces modular, dependency-aware code - Respects file structure and inter-module dependencies established in planning</p>
+<p>Each phase is implemented by specialized agents that collaborate across the pipeline. The result is not just snippets — it’s a full repository with appropriate structure, imports, and documentation.</p>
+</section>
+<section id="evaluation-paperbench" class="level3">
+<h3 class="anchored" data-anchor-id="evaluation-paperbench">Evaluation: PaperBench</h3>
+<p>Evaluated on the <strong>PaperBench</strong> benchmark (tests ability to reproduce ML papers) and validated by human judges including paper authors (with author-released repos as ground truth). PaperCoder consistently outperforms strong baselines by substantial margins.</p>
+<p><strong>Why it matters:</strong> This is one of the clearest demonstrations of multi-agent agents tackling a complex real-world scientific task — not search/synthesis, but actual <em>implementation</em>. The planning → analysis → generation pattern (with specialized agents per stage) is a template applicable far beyond paper reproduction.</p>
 <hr>
 </section>
 </section>

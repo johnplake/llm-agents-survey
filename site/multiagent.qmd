@@ -167,6 +167,56 @@ Experimental (educational) framework from OpenAI for multi-agent orchestration. 
 
 ---
 
+## Production Case Study: Anthropic's Multi-Agent Research System (2025)
+**Anthropic Engineering** · [anthropic.com/engineering/multi-agent-research-system](https://www.anthropic.com/engineering/multi-agent-research-system)
+
+One of the most detailed public engineering accounts of building a real production multi-agent system — Anthropic's own **Claude Research** feature. Essential reading.
+
+### Architecture: Orchestrator-Worker
+
+The Research system uses an orchestrator Claude (Opus 4) that plans a research strategy, then spawns parallel worker agents (Sonnet 4) to pursue different sub-questions simultaneously. Each worker has its own context window and exploration trajectory. Results are compressed back to the orchestrator for synthesis.
+
+### Why Multi-Agent? The Core Argument
+
+> *"The essence of search is compression: distilling insights from a vast corpus. Subagents facilitate compression by operating in parallel with their own context windows, exploring different aspects of the question simultaneously before condensing the most important tokens for the lead research agent."*
+
+Three reasons multi-agent excels for research:
+1. **Breadth-first parallelism** — multiple threads explored simultaneously
+2. **Context window scaling** — total context across agents >> single agent window
+3. **Path independence** — separate explorations avoid getting stuck in the same dead-ends
+
+### Quantified Results
+
+| Metric | Value |
+|--------|-------|
+| Multi-agent (Opus 4 + Sonnet 4 workers) vs. single Opus 4 | **+90.2% on internal research eval** |
+| Token use: agents vs. chat | **~4×** |
+| Token use: multi-agent vs. chat | **~15×** |
+| BrowseComp variance explained by token count alone | **80%** |
+
+The 80% figure is striking: raw token budget explains most of hard web research performance, not clever prompting or architecture. Upgrading from Sonnet 3.7 to Sonnet 4 is a larger gain than doubling the token budget on 3.7.
+
+### When Multi-Agent Works (and Doesn't)
+
+**Best for:**
+- Heavy parallelization — many independent sub-queries
+- Information that exceeds single context windows
+- Interfacing with numerous complex tools
+
+**Poor fit:**
+- Many cross-agent dependencies (agents need to share context frequently)
+- Real-time coordination between agents
+- Most coding tasks (fewer truly parallelizable sub-tasks than research)
+
+### Engineering Lessons
+
+- **Tool design matters as much as prompting** — poorly designed tools cause cascading failures
+- **Evaluation is uniquely hard** — open-ended research quality is difficult to measure automatically
+- **Economic viability gate** — multi-agent is only justified for high-value tasks (15× token cost)
+- **Subagent separation of concerns** — distinct prompts and tools per worker, not a monolith
+
+---
+
 ## Orchestration Patterns
 
 The literature has converged on several reusable patterns:

@@ -347,6 +347,14 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#agno" id="toc-agno" class="nav-link" data-scroll-target="#agno">Agno</a></li>
   <li><a href="#openai-swarm-2024" id="toc-openai-swarm-2024" class="nav-link" data-scroll-target="#openai-swarm-2024">OpenAI Swarm (2024)</a></li>
   </ul></li>
+  <li><a href="#production-case-study-anthropics-multi-agent-research-system-2025" id="toc-production-case-study-anthropics-multi-agent-research-system-2025" class="nav-link" data-scroll-target="#production-case-study-anthropics-multi-agent-research-system-2025">Production Case Study: Anthropic’s Multi-Agent Research System (2025)</a>
+  <ul class="collapse">
+  <li><a href="#architecture-orchestrator-worker" id="toc-architecture-orchestrator-worker" class="nav-link" data-scroll-target="#architecture-orchestrator-worker">Architecture: Orchestrator-Worker</a></li>
+  <li><a href="#why-multi-agent-the-core-argument" id="toc-why-multi-agent-the-core-argument" class="nav-link" data-scroll-target="#why-multi-agent-the-core-argument">Why Multi-Agent? The Core Argument</a></li>
+  <li><a href="#quantified-results" id="toc-quantified-results" class="nav-link" data-scroll-target="#quantified-results">Quantified Results</a></li>
+  <li><a href="#when-multi-agent-works-and-doesnt" id="toc-when-multi-agent-works-and-doesnt" class="nav-link" data-scroll-target="#when-multi-agent-works-and-doesnt">When Multi-Agent Works (and Doesn’t)</a></li>
+  <li><a href="#engineering-lessons" id="toc-engineering-lessons" class="nav-link" data-scroll-target="#engineering-lessons">Engineering Lessons</a></li>
+  </ul></li>
   <li><a href="#orchestration-patterns" id="toc-orchestration-patterns" class="nav-link" data-scroll-target="#orchestration-patterns">Orchestration Patterns</a>
   <ul class="collapse">
   <li><a href="#pattern-1-planner-executor" id="toc-pattern-1-planner-executor" class="nav-link" data-scroll-target="#pattern-1-planner-executor">Pattern 1: Planner → Executor</a></li>
@@ -563,6 +571,71 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><strong>Philosophy:</strong> Minimalism; focus on handoffs and routines</li>
 <li><strong>Status:</strong> Experimental/educational, not production-intended</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="production-case-study-anthropics-multi-agent-research-system-2025" class="level2">
+<h2 class="anchored" data-anchor-id="production-case-study-anthropics-multi-agent-research-system-2025">Production Case Study: Anthropic’s Multi-Agent Research System (2025)</h2>
+<p><strong>Anthropic Engineering</strong> · <a href="https://www.anthropic.com/engineering/multi-agent-research-system">anthropic.com/engineering/multi-agent-research-system</a></p>
+<p>One of the most detailed public engineering accounts of building a real production multi-agent system — Anthropic’s own <strong>Claude Research</strong> feature. Essential reading.</p>
+<section id="architecture-orchestrator-worker" class="level3">
+<h3 class="anchored" data-anchor-id="architecture-orchestrator-worker">Architecture: Orchestrator-Worker</h3>
+<p>The Research system uses an orchestrator Claude (Opus 4) that plans a research strategy, then spawns parallel worker agents (Sonnet 4) to pursue different sub-questions simultaneously. Each worker has its own context window and exploration trajectory. Results are compressed back to the orchestrator for synthesis.</p>
+</section>
+<section id="why-multi-agent-the-core-argument" class="level3">
+<h3 class="anchored" data-anchor-id="why-multi-agent-the-core-argument">Why Multi-Agent? The Core Argument</h3>
+<blockquote class="blockquote">
+<p><em>“The essence of search is compression: distilling insights from a vast corpus. Subagents facilitate compression by operating in parallel with their own context windows, exploring different aspects of the question simultaneously before condensing the most important tokens for the lead research agent.”</em></p>
+</blockquote>
+<p>Three reasons multi-agent excels for research: 1. <strong>Breadth-first parallelism</strong> — multiple threads explored simultaneously 2. <strong>Context window scaling</strong> — total context across agents &gt;&gt; single agent window 3. <strong>Path independence</strong> — separate explorations avoid getting stuck in the same dead-ends</p>
+</section>
+<section id="quantified-results" class="level3">
+<h3 class="anchored" data-anchor-id="quantified-results">Quantified Results</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 53%">
+<col style="width: 46%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Multi-agent (Opus 4 + Sonnet 4 workers) vs.&nbsp;single Opus 4</td>
+<td><strong>+90.2% on internal research eval</strong></td>
+</tr>
+<tr class="even">
+<td>Token use: agents vs.&nbsp;chat</td>
+<td><strong>~4×</strong></td>
+</tr>
+<tr class="odd">
+<td>Token use: multi-agent vs.&nbsp;chat</td>
+<td><strong>~15×</strong></td>
+</tr>
+<tr class="even">
+<td>BrowseComp variance explained by token count alone</td>
+<td><strong>80%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The 80% figure is striking: raw token budget explains most of hard web research performance, not clever prompting or architecture. Upgrading from Sonnet 3.7 to Sonnet 4 is a larger gain than doubling the token budget on 3.7.</p>
+</section>
+<section id="when-multi-agent-works-and-doesnt" class="level3">
+<h3 class="anchored" data-anchor-id="when-multi-agent-works-and-doesnt">When Multi-Agent Works (and Doesn’t)</h3>
+<p><strong>Best for:</strong> - Heavy parallelization — many independent sub-queries - Information that exceeds single context windows - Interfacing with numerous complex tools</p>
+<p><strong>Poor fit:</strong> - Many cross-agent dependencies (agents need to share context frequently) - Real-time coordination between agents - Most coding tasks (fewer truly parallelizable sub-tasks than research)</p>
+</section>
+<section id="engineering-lessons" class="level3">
+<h3 class="anchored" data-anchor-id="engineering-lessons">Engineering Lessons</h3>
+<ul>
+<li><strong>Tool design matters as much as prompting</strong> — poorly designed tools cause cascading failures</li>
+<li><strong>Evaluation is uniquely hard</strong> — open-ended research quality is difficult to measure automatically</li>
+<li><strong>Economic viability gate</strong> — multi-agent is only justified for high-value tasks (15× token cost)</li>
+<li><strong>Subagent separation of concerns</strong> — distinct prompts and tools per worker, not a monolith</li>
 </ul>
 <hr>
 </section>

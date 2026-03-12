@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.0.2] - 2026-03-12
+
+### Updates to existing pages
+
+- **Multi-Agent Systems** — Added full production case study: Anthropic's multi-agent research system engineering post. Covers orchestrator-worker architecture, key numbers (90.2% improvement over single-agent, 4×/15× token multipliers, 80% BrowseComp variance explained by tokens alone), when multi-agent works vs. doesn't, and engineering lessons from shipping Claude Research to production
+
+- **2024–2026 Frontier (Coding Agents)** — Added Devin/Cognition's "Agents 101" guide: 6 practical principles for working effectively with coding agents (specify how not just what; defensive prompting; CI/test feedback loops; immediate delegation; human ownership of correctness)
+
+- **Science & Research Agents** — Added PaperCoder (arXiv:2504.17192, ICLR 2026): multi-agent framework that transforms ML papers into working code repositories via planning → analysis → generation pipeline with specialized agents per stage; evaluated on PaperBench, validated by paper authors; github.com/going-doer/Paper2Code
+
+- **Community & Independent Agents** — Added new "Reverse Engineering Agent Design" section: x1xhlol/system-prompts-and-models-of-ai-tools (30,000+ lines of system prompts from Cursor, Devin, Claude Code, Windsurf, v0, Manus, Replit, Perplexity, Warp, Kiro, Junie, Lovable, and 15+ more). Analyzes cross-cutting patterns: defensive prompting is universal; AGENTS.md context files are standard; tool definitions are tightly specified; safety/scope baked in; diversity of autonomy assumptions
+
+---
+
 ## [1.0.1] - 2026-03-12
 
 ### New Pages

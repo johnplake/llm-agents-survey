@@ -66,6 +66,22 @@ Started as Claude Code — an agentic coding tool for the terminal. By September
 
 GitHub Copilot gained autonomous agent mode, integrating with IDEs (VS Code, Xcode, Eclipse, JetBrains, Visual Studio). Agent mode allows multi-step autonomous task execution within the GitHub ecosystem. Introduced **GitHub Agent HQ** at Universe 2025 (Oct 2025) — a unified workflow for orchestrating any agent.
 
+### Agents 101: How to Work with Coding Agents (Devin / Cognition AI)
+**Cognition AI** · [devin.ai/agents101](https://devin.ai/agents101)
+
+Cognition's practical guide for engineers integrating autonomous coding agents into their workflows — distilled from building Devin and observing thousands of users. The framing: *"A human paired with an AI assistant can achieve more than any AI alone... turning every engineer into an engineering manager."*
+
+Six key principles:
+
+1. **Say how you want things done, not just what** — specify the approach and architecture upfront; don't just state the goal
+2. **Tell the agent where to start** — point it to the right files, repos, and docs; minimize wasted exploration
+3. **Practice defensive prompting** — anticipate where a "junior intern" would get confused; preemptively clarify
+4. **Give access to CI, tests, types, and linters** — feedback loops via tools are "the magic" of agents; typed Python > untyped; TypeScript > JavaScript
+5. **Leverage your expertise** — human oversight of correctness remains non-negotiable; you own the code
+6. **Delegate immediately** — when a side task comes up, delegate to the agent and refocus; agents enable async multi-tasking
+
+Note: the guide references a growing ecosystem of similar agents (OpenAI Codex, Google Jules, Cursor, Claude Code) and integration patterns (Slack @agent, GitHub, Linear/Jira).
+
 ### Aider
 **Paul Gauthier** · [aider.chat](https://aider.chat) · [GitHub](https://github.com/paul-gauthier/aider)
 
