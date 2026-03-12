@@ -9,6 +9,8 @@ project:
     - multiagent.qmd
     - memory-tools.qmd
     - recent.qmd
+    - science-agents.qmd
+    - community.qmd
     - resources.qmd
 
 website:
@@ -31,6 +33,10 @@ website:
         text: Memory & Tools
       - href: recent.qmd
         text: 2024–2026
+      - href: science-agents.qmd
+        text: Science Agents
+      - href: community.qmd
+        text: Community
       - href: resources.qmd
         text: Resources
     right:

@@ -1,0 +1,203 @@
+---
+title: "Science & Research Agents"
+subtitle: "AI agents built for scientific discovery, literature review, and hypothesis generation"
+---
+
+## Overview
+
+A growing sub-field is building agents specifically for **scientific research** — not general-purpose assistants, but systems designed to navigate the scientific literature, form hypotheses, design experiments, and accelerate discovery. These agents operate in domains where the "correctness" criterion is not a benchmark score but scientific validity.
+
+Key challenges unique to scientific agents:
+
+- Literature is vast (38M+ papers on PubMed) and growing faster than any human can read
+- Knowledge is specialized: a general LLM may hallucinate domain-specific facts
+- Discovery requires synthesis *across* disciplines, not just within them
+- Hypotheses must be novel *and* grounded in prior evidence
+
+---
+
+## FutureHouse Platform (2025)
+**FutureHouse** · [futurehouse.org/research-announcements/launching-futurehouse-platform-ai-agents](https://www.futurehouse.org/research-announcements/launching-futurehouse-platform-ai-agents)
+
+*"Science is bottlenecked by data. The 38 million papers on PubMed, 500,000+ clinical trials, and thousands of specialized tools have created an information bottleneck that even the most brilliant scientists can't navigate."*
+
+FutureHouse's mission is to build an AI Scientist. Their platform launches with **four specialized scientific agents**, each benchmarked against state-of-the-art models:
+
+### Crow
+General-purpose scientific agent. Searches scientific literature, provides concise scholarly answers, and is designed for API use — the "smart assistant" for rapid questions.
+
+### Falcon
+Deep literature review specialist. Capable of searching and synthesizing more scientific literature than any comparable system. Has access to specialized databases including OpenTargets (drug targets), enabling domain-specific queries that go far beyond general web search.
+
+### Owl (formerly HasAnyone)
+Specialized for prior art detection: answers "Has anyone done X before?" — critical for avoiding duplication in research planning.
+
+### Phoenix (experimental)
+Deployment of **ChemCrow** — a chemistry-specific agent with access to tools for planning chemistry experiments, molecular synthesis, and lab procedure guidance.
+
+**Benchmarking:** Crow, Falcon, and Owl have been benchmarked on PaperQA2 (RAG QA arena for science), LabBench (biology research capabilities), and BixBench (bioinformatics). They outperform all major frontier search models on retrieval precision and accuracy.
+
+**GitHub:** [future-house/paper-qa](https://github.com/Future-House/paper-qa) (PaperQA2 library)
+
+---
+
+## Google AI Co-Scientist (2025)
+**Google DeepMind / Google Research** · [research.google/blog/accelerating-scientific-breakthroughs-with-an-ai-co-scientist](https://research.google/blog/accelerating-scientific-breakthroughs-with-an-ai-co-scientist/)
+
+Built on **Gemini 2.0**, the AI co-scientist is a **multi-agent system designed to function as a collaborative tool for scientists**. Unlike literature review tools, it is designed to generate genuinely novel, original research hypotheses and experimental protocols.
+
+**Architecture:** Uses a multi-agent design where agents perform:
+1. Literature review and synthesis
+2. Hypothesis generation
+3. Experimental design
+4. Hypothesis ranking and evaluation (scientific plausibility assessment)
+5. Research proposal writing
+
+**Key distinction from standard deep research tools:** The system goes beyond summarizing what is known to proposing *what should be investigated next*, grounded in specific research objectives provided by the scientist. The AI co-scientist is designed to mirror the reasoning process of the scientific method itself.
+
+**Example applications:** Drug repurposing for rare diseases, identifying novel gene targets, designing experimental protocols in molecular biology.
+
+---
+
+## SkyDiscover (UC Berkeley Sky Lab, 2025)
+**NovaSky AI / UC Berkeley** · [sky.cs.berkeley.edu/project/skydiscover](https://sky.cs.berkeley.edu/project/skydiscover/)
+
+Research project on AI-driven scientific discovery from the Berkeley Sky Computing Lab. Part of the broader SkyRL ecosystem (see also: [SkyRL](https://github.com/NovaSky-AI/SkyRL)).
+
+---
+
+## SkyRL: Full-Stack RL for Agents (2025)
+**NovaSky AI (UC Berkeley)** · [github.com/NovaSky-AI/SkyRL](https://github.com/NovaSky-AI/SkyRL)
+
+A modular, full-stack reinforcement learning library for training long-horizon real-world agents. Components:
+
+- **skyrl-train** — modular training framework for RL on arbitrary agent scaffolds
+- **skyrl-agent** — agent layer for long-horizon real-world tasks
+- **skyrl-gym** — gymnasium of tool-use tasks (math, coding, search, SQL)
+- **Tinker API** — unified interface for training and inference
+
+Supports the training of agents on real-world environments with context lengths up to 200k. Closely related to the broader question of how to train capable agents with RL rather than relying purely on prompting.
+
+---
+
+## MiniMax Forge: Scalable Agent RL (2025)
+**MiniMax AI** · [huggingface.co/blog/MiniMax-AI/forge-scalable-agent-rl-framework-and-algorithm](https://huggingface.co/blog/MiniMax-AI/forge-scalable-agent-rl-framework-and-algorithm)
+
+Forge is MiniMax's internal RL framework that enabled the training of their **M2.5 model** on over **100,000 distinct real-world agent scaffolds and environments**, processing millions of samples daily at context lengths up to 200k tokens.
+
+**The core challenge Forge solves:** An "impossible triangle" in agentic RL:
+1. **System throughput** — processing millions of agent trajectories per day
+2. **Training stability** — consistent reward convergence across diverse environments
+3. **Agent flexibility** — supporting arbitrary agent scaffolds and action spaces
+
+**CISPO algorithm:** MiniMax's custom policy optimization combining elements of GRPO with stability constraints, enabling consistent convergence across heterogeneous environments.
+
+This represents one of the most serious published treatments of the systems engineering challenges in training real-world agents at scale with RL.
+
+---
+
+## Search-R1++: Training Deep Research Agents (2026)
+**Xu et al.** · [arXiv:2602.19526](https://arxiv.org/abs/2602.19526)
+
+Systematic study of **reinforcement learning for deep research agents** — systems that answer knowledge-intensive questions via multi-round retrieval and decision-making. Decouples three dimensions:
+
+1. **Prompt template:** Fast Thinking vs. Slow Thinking — Fast Thinking yields better stability
+2. **Reward function:** F1-based rewards collapse due to answer avoidance; EM with action-level penalties works best
+3. **Policy optimization:** REINFORCE > PPO > GRPO (stability ordering)
+
+Introduces **Search-R1++**, improving the base Search-R1 from 0.403 → 0.442 (Qwen2.5-7B). Offers principled guidance for training deep research systems.
+
+---
+
+## METR: Measuring AI Ability to Complete Long Tasks (2025)
+**METR (Model Evaluation & Threat Research)** · [metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks](https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/) · [metr.org/time-horizons](https://metr.org/time-horizons/)
+
+Proposes measuring AI performance via **task time horizon** — the length of tasks an agent can complete at a given success rate. Key findings:
+
+- **Doubling time ~7 months**: The maximum task length completable with 50% reliability has been doubling approximately every 7 months since 2019
+- **Current state (Mar 2025):** Claude 3.7 Sonnet has a ~1 hour time horizon (50% success on 1-hour tasks); GPT-5 reached ~2 hours 17 minutes by later 2025
+- **Extrapolation:** If this trend continues, agents could complete days-long tasks within a few years
+
+This framing — measuring agents by *how long a task they can sustain* rather than accuracy on fixed benchmarks — is emerging as the key metric for agentic capability.
+
+**Why it matters for science:** Scientific experiments, literature reviews, and hypothesis generation often take days or weeks. The METR framework directly measures whether agents are approaching the capability to run such tasks.
+
+---
+
+## Inference-Time Hyper-Scaling with KV Cache Compression (NeurIPS 2025)
+**NeurIPS 2025** · [neurips.cc poster](https://neurips.cc/virtual/2025/loc/san-diego/poster/119605)
+
+Introduces **Dynamic Memory Sparsification (DMS)** — a method for compressing KV caches in Transformer LLMs, enabling 8× compression in just 1K training steps while maintaining accuracy.
+
+**Why relevant to agents:** Inference-time scaling (generating more tokens for harder tasks) is bottlenecked by KV cache size, not flops. By compressing the cache, agents can reason over longer horizons within a fixed compute budget. Demonstrated on Qwen-R1 32B and other reasoning models.
+
+**Key insight:** "Inference-time hyper-scaling" — compress the cache to fit more tokens, rather than scaling model size.
+
+---
+
+## Towards a Science of Scaling Agent Systems (2025)
+**Google Research** · [arXiv:2512.08296](https://arxiv.org/abs/2512.08296) · [research.google/blog](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
+
+Large-scale controlled evaluation of **180 agent configurations** to derive the first quantitative scaling principles for multi-agent systems.
+
+**Core finding:** The common belief that "more agents is always better" is wrong. Adding agents has diminishing returns — and can *degrade* performance if the agent design isn't matched to the task's specific properties.
+
+**Three defining properties of agentic tasks:**
+1. Sustained multi-step interactions with an external environment
+2. Iterative information gathering under partial observability
+3. Adaptive strategy refinement based on environment feedback
+
+**Practical implication:** Before scaling up agent count, verify that your task actually benefits from specialization. Many tasks are better served by one capable agent than a poorly-coordinated team.
+
+---
+
+## AgentEvolver: Self-Evolving Agent Systems (2025)
+**Zhai et al.** · [arXiv:2511.10395](https://arxiv.org/abs/2511.10395)
+
+Addresses a key bottleneck in agent training: current approaches require manually constructed datasets and RL pipelines with extensive random exploration. AgentEvolver introduces three mechanisms:
+
+1. **Self-questioning** — curiosity-driven task generation in novel environments (no handcrafted datasets)
+2. **Self-navigating** — experience reuse and hybrid policy guidance for efficient exploration
+3. **Self-attributing** — credit assignment for multi-step agent trajectories
+
+Represents the direction of **self-improving agent systems** — agents that generate their own training curriculum.
+
+---
+
+## Specialized Scientific Tools & Context
+
+### Moonshot AI / Kimi K2.5
+**Moonshot AI (China)** · [platform.moonshot.ai](https://platform.moonshot.ai)
+
+Chinese LLM provider with the Kimi model series, known for **very long context windows** (up to 128k tokens) optimized for document-heavy tasks. Positioned as an alternative to OpenAI/Anthropic for scientific workflows requiring processing of large documents. Popular with researchers in China and East Asia.
+
+### GLM-5 / From Vibe Coding to Agentic Engineering (2026)
+**GLM-5-Team (Zhipu AI)** · [arXiv:2602.15763](https://arxiv.org/abs/2602.15763)
+
+Chinese LLM team's paper tracing the trajectory from informal "vibe coding" (prompting for code generation) to systematic **agentic software engineering** — structured agent pipelines, verification loops, and multi-step workflows. The GLM series has been competitive with international models on coding benchmarks.
+
+---
+
+## Key Themes in Scientific Agent Research
+
+### Why Science is the Ultimate Test for Agents
+
+Scientific discovery represents the hardest challenge for agents because it requires:
+- **Breadth:** Synthesizing across thousands of papers and multiple disciplines
+- **Novelty:** Generating genuinely new ideas, not just summarizing what's known
+- **Verification:** Designing experiments to test hypotheses — connecting language to lab
+- **Long horizons:** Real scientific work takes days, weeks, months
+
+The gap between "search and summarize" (current capability) and "form and test novel hypotheses" (the goal) defines the frontier of scientific AI agents.
+
+### The Grounding Problem
+
+Scientific agents must be grounded in *actual* literature — not the LLM's parametric knowledge, which may be outdated or incorrect. This is why FutureHouse, Google AI Co-Scientist, and others emphasize retrieval-augmented architectures rather than relying on base model knowledge.
+
+### Domain Specificity vs. Generality
+
+General-purpose agents struggle with specialized scientific domains (chemistry, genomics, drug discovery) because the tools, databases, and reasoning patterns are highly domain-specific. The trend is toward **domain-specialized sub-agents** within a general orchestration layer — as in FutureHouse's platform (Falcon for literature, Phoenix for chemistry, Owl for prior art).
+
+---
+
+*Back to [Overview →](index.qmd)*

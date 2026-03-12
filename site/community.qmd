@@ -1,0 +1,246 @@
+---
+title: "Community & Independent Agents"
+subtitle: "Open-source projects, indie builders, and the grassroots agent ecosystem"
+---
+
+## Overview
+
+The LLM agent landscape isn't just large labs and well-funded startups. A rich ecosystem of independent builders, open-source projects, and small teams has produced some of the most innovative and practical agent architectures — often building things the big labs haven't thought to try.
+
+This page documents agents, frameworks, and infrastructure from the broader community: individual developers, academic side projects, and open-source organizations building toward ambient, stateful, or specialized agents.
+
+---
+
+## Personal & Ambient Agents
+
+### OpenClaw
+**openclaw/openclaw** · [openclaw.ai](https://openclaw.ai) · [github.com/openclaw/openclaw](https://github.com/openclaw/openclaw)
+
+A self-hosted agent runtime and message router that acts as a **personal AI assistant running on your own machine**. Written in Node.js, OpenClaw connects chat platforms (Telegram, Signal, WhatsApp, Discord, iMessage, Slack) to an LLM backend and a local workspace, enabling a persistent, personalized agent that runs 24/7.
+
+Key design principles:
+- **Self-hosted:** Your data stays on your machine; no cloud dependency
+- **Multi-platform:** One agent, reachable from any of your messaging apps
+- **Agentic skills system:** Pluggable capability packages (email, calendar, web, code execution, etc.)
+- **Persistent identity:** The agent maintains long-term memory and context via workspace files
+- **Open source:** MIT-licensed, community-maintained
+
+OpenClaw represents the "personal computing" end of the agent spectrum — not a service you subscribe to, but an agent you run on your own infrastructure, with access to your own accounts and data.
+
+*Referenced in Wikipedia's entry on autonomous AI agents as part of the broader trend toward agents that act independently rather than just responding to prompts.*
+
+### Strix: The Stateful Agent (2025)
+**Tim Kellogg** · [timkellogg.me/blog/2025/12/15/strix](https://timkellogg.me/blog/2025/12/15/strix)
+
+A beautifully documented journey of building a **stateful, ambient personal agent** — one that lives in Discord, remembers across sessions, runs on a timer, and gets "weird" sometimes.
+
+*"It's less 'building software' and more 'raising software.'" — Strix*
+
+Strix's architecture (as of Dec 2025):
+- **Discord** as the UI (no custom front-end needed)
+- **Letta** for memory blocks (highly observed, modifiable memory)
+- **Claude Code SDK** as the agent harness
+- **Files** for long-term modifiable memory
+- **Skills** (modifiable by the agent — "starts to look a lot like continual learning")
+- **Cron** scheduling via a tool the agent controls itself
+- **Timer/perch time** — ambient compute intervals when idle
+
+A series of follow-up posts trace Strix's evolution:
+- [What Happens When You Leave an AI Alone?](https://timkellogg.me/blog/2025/12/24/strix-dead-ends) (Dec 24, 2025)
+- [Memory Architecture for a Synthetic Being](https://timkellogg.me/blog/2025/12/30/memory-arch) (Dec 30, 2025)
+- [Is Strix Alive?](https://timkellogg.me/blog/2026/01/01/is-strix-alive) (Jan 1, 2026)
+- [Viable Systems: How To Build a Fully Autonomous Agent](https://timkellogg.me/blog/2026/01/09/viable-systems) (Jan 9, 2026)
+
+**What makes Strix notable:** It's one of the most honest and thorough public accounts of building a real ambient agent — including the failure modes, the weird behaviors, and the philosophical questions about agent identity and consciousness.
+
+---
+
+## Coding Agents & Toolkits
+
+### Pi (badlogic) — AI Agent Toolkit
+**Mario Zechner (badlogic)** · [github.com/badlogic/pi-mono](https://github.com/badlogic/pi-mono) · [shittycodingagent.ai](https://shittycodingagent.ai)
+
+*"Tools for building AI agents and managing LLM deployments."* A monorepo containing:
+
+| Package | Description |
+|---------|-------------|
+| `pi-ai` | Unified multi-provider LLM API (OpenAI, Anthropic, Google, etc.) |
+| `pi-agent-core` | Agent runtime with tool calling and state management |
+| `pi-coding-agent` | Interactive coding agent CLI |
+| `pi-mom` | Slack bot delegating to the coding agent |
+| `pi-tui` | Terminal UI library with differential rendering |
+| `pi-web-ui` | Web components for AI chat interfaces |
+| `pi-pods` | CLI for managing vLLM deployments on GPU pods |
+
+The coding agent CLI is the main artifact — a pragmatic, well-engineered coding assistant that takes a unified approach to multiple LLM providers. Includes an `AGENTS.md` convention for project-specific agent rules.
+
+### crow-cli: Minimal MCP/ACP Agent
+**crow-cli** · [github.com/crow-cli/crow-cli](https://github.com/crow-cli/crow-cli)
+
+A minimal, well-architected two-layer agent system:
+- **crow-cli** — ACP agent (Agent Communication Protocol) that does the thinking, runs a ReAct loop against an OpenAI-compatible LLM
+- **crow-mcp** — MCP toolserver that does the doing
+
+```
+User → ACP Client → crow-cli (AcpAgent)
+          ↓
+     ReAct Loop ←→ LLM (OpenAI-compatible)
+          ↓
+     Tool Dispatch
+     ├── ACP Client Terminal
+     └── crow-mcp (MCP Server)
+         ├── terminal (PTY-backed bash)
+         ├── read/write/edit files
+         ├── web_search (SearXNG)
+         └── web_fetch (readabilipy)
+```
+
+Notable: The terminal tool uses a real pseudoterminal (pty) with proper signal handling — `crow-cli` interacts with the shell the way a human developer would. Implements the [Agent Communication Protocol (ACP)](https://github.com/anthropics/acp), loading `AGENTS.md` from the project directory for agent instructions.
+
+**Key design:** Clean separation of reasoning (ACP agent) from capability (MCP server). The `edit` tool uses 9 cascading fuzzy matchers for string replacement, making file editing robust to minor whitespace/formatting differences.
+
+---
+
+## Production Frameworks
+
+### Agno: Build, Run & Manage Agentic Software at Scale
+**agno-agi** · [github.com/agno-agi/agno](https://github.com/agno-agi/agno) · [agno.com](https://agno.com)
+
+A full-stack platform for agentic software across three layers:
+
+| Layer | What it does |
+|-------|-------------|
+| **Framework** | Build agents, teams, and workflows with memory, knowledge, guardrails, 100+ integrations |
+| **Runtime** | Serve in production with stateless, session-scoped FastAPI backend |
+| **Control Plane** | Test, monitor, manage via AgentOS UI |
+
+A complete agent in ~20 lines:
+```python
+from agno.agent import Agent
+from agno.models.anthropic import Claude
+from agno.tools.mcp import MCPTools
+
+agent = Agent(
+    model=Claude(id="claude-sonnet-4-6"),
+    tools=[MCPTools(url="...")],
+    add_history_to_context=True,
+)
+```
+
+Agno's design philosophy: agents introduce three fundamental shifts from traditional software — streaming reasoning, long-horizon execution, and multi-agent coordination. The platform is built around these shifts rather than retrofitting agent concepts onto existing web frameworks.
+
+### Orchestra: Cognitive Load Distribution
+**mainfra** · [blog.mainfra.me/p/introducing-orchestra](https://blog.mainfra.me/p/introducing-orchestra) · [orchestra.org](https://orchestra.org)
+
+Multi-agent framework built on the principle that **complex problems are solved through composition** — like a symphony emerging from individual instruments.
+
+Core idea: Cognitive load overwhelms models into repetition or hallucination. Orchestra **distributes cognitive load** by decomposing tasks into sequential steps, each handled by a focused instance. Each step builds on previous results, maintaining a clear execution history.
+
+*"Composability refers to a property of software that allows smaller pieces to be assembled into larger compositions... Composing software is like making music or writing where larger creations like symphonies or novels are composed of smaller parts."* — Chris Dixon
+
+Key features:
+- Explicit execution history as first-class state
+- Sequential cognitive decomposition (one responsibility per step)
+- Composable agent patterns like musical composition
+
+### TapeAgents: Tape-Centric Agent Development (2024)
+**Bahdanau et al. (Cohere, ServiceNow)** · [arXiv:2412.08445](https://arxiv.org/abs/2412.08445)
+
+Agent framework built around a **granular structured log tape** — the tape serves simultaneously as the session log, resumable state, and development artifact.
+
+```
+Agent reasons → appends thought/action to tape
+Environment reacts → appends observations to tape
+```
+
+This tape-centric design enables:
+- **Development:** Session persistence, step-by-step debugging, agent auditing
+- **Post-deployment:** Evaluation on recorded tapes, fine-tuning from tapes, prompt-tuning
+- **Cross-agent learning:** Adapt tapes from other agents; use revised historical tapes as training data
+
+The tape is the critical artifact — not just a log, but a structured representation of the agent's entire experience that can be replayed, modified, and reused. Strong connection to ideas from blackboard systems (shared state that multiple agents read/write) in classical AI.
+
+---
+
+## Infrastructure for Agents
+
+### AgentFS: The Filesystem for Agents
+**Turso** · [github.com/tursodatabase/agentfs](https://github.com/tursodatabase/agentfs)
+
+*"Just as traditional filesystems provide file and directory abstractions for applications, AgentFS provides the storage abstractions that AI agents need."*
+
+Built on SQLite (via Turso's libsql), AgentFS provides:
+
+- **Auditability:** Every file operation, tool call, and state change is recorded in SQLite. Full history queryable with SQL.
+- **Reproducibility:** Snapshot agent state at any point with `cp agent.db snapshot.db`. Restore to reproduce exact execution states.
+- **Portability:** The entire agent runtime — files, state, history — lives in one SQLite file. Move between machines, check into version control.
+
+Available as FUSE mount (Linux) or NFS (macOS), with TypeScript, Python, and Rust SDKs. Addresses a real gap: when agents use standard filesystems, their operations are invisible and non-reproducible. AgentFS makes them auditable and durable by design.
+
+### papercomputeco / stereOS: Linux for Agents
+**papercompute.co** · [github.com/papercomputeco](https://github.com/papercomputeco)
+
+Building an **OS hardened and purpose-built for AI agents**. The stereOS ecosystem includes:
+
+| Repo | Description |
+|------|-------------|
+| **stereOS** | NixOS-based Linux distribution hardened for agent workloads |
+| **tapes** | Transparent telemetry collector for agents (191 stars) |
+| **stereosd** | The stereOS daemon control plane |
+| **agentd** | Agent management daemon |
+| **masterblaster** | Create, manage, and orchestrate stereOS AI agent sandboxes |
+
+The philosophy: agents need their own OS-level primitives — sandboxing, telemetry, reproducible environments, resource management. Rather than running agents on general-purpose Linux, stereOS bakes these requirements into the OS itself.
+
+---
+
+## Practitioner Perspectives: Essential Reads
+
+### A Hitchhiker's Guide to Building AI Agents (2025)
+**Saurabh Alone** · [saurabhalone.com/blog/agent](https://saurabhalone.com/blog/agent)
+
+A comprehensive practitioner's guide to building agents — covering the full stack from LLM selection to production deployment. One of the most practically useful guides from an independent developer perspective.
+
+### Building Your Own Coding Agent (2025)
+**Martin Fowler** · [martinfowler.com/articles/build-own-coding-agent.html](https://martinfowler.com/articles/build-own-coding-agent.html)
+
+Martin Fowler (of refactoring and software architecture fame) builds a coding agent from scratch and documents every design decision. An unusually thoughtful treatment of agentic coding from someone with deep software engineering expertise.
+
+Key topics: CLI tool design, context management, multi-file editing, testing agent behavior, the ReAct loop in practice.
+
+### One Human + One Agent + One Browser (2026)
+**emsh.cat** · [emsh.cat/one-human-one-agent-one-browser](https://emsh.cat/one-human-one-agent-one-browser/)
+
+*"It's less 'building software' and more 'raising software.'"*
+
+A developer builds a working web browser **from scratch** in one week with one human and one LLM agent (Codex), with zero third-party Rust libraries. The browser renders HTML/CSS, handles links, runs on Windows/macOS/Linux via X11 and cURL.
+
+An inspiring and honest account of human-agent pair programming at the frontier — including what worked (agent as tireless implementer with good spec-following), what didn't (agent never actually read the spec documents provided), and what it felt like.
+
+**Why it matters:** Demonstrates that complex, constrained engineering tasks (write a browser from scratch, no dependencies) are now achievable by a small human-agent team, even with significant agent limitations.
+
+### Making Sense of Memory in AI Agents (2025)
+**Leonie Monigatti** · [leoniemonigatti.com/blog/memory-in-ai-agents.html](https://www.leoniemonigatti.com/blog/memory-in-ai-agents.html)
+
+Careful working study notes on agent memory terminology and concepts. Useful for its precision: distinguishes "agent memory" (granting agents access to storage) from "agentic memory" (using agents to manage memory), and traces the terminology debates in the field.
+
+---
+
+## The ACP Ecosystem
+
+**Agent Communication Protocol (ACP)** — An emerging open protocol (associated with Anthropic but open-spec) for standardizing agent-to-host communication. crow-cli implements it; OpenClaw has its own session protocol. Related to MCP (model-to-tool) but focused on agent-to-agent and agent-to-host interfaces.
+
+The emergence of protocols like ACP alongside MCP and A2A signals the field maturing toward **interoperable agent infrastructure** — where agents from different builders can communicate, delegate, and collaborate reliably.
+
+---
+
+## GLM-5 & Agentic Engineering (2026)
+**GLM-5-Team (Zhipu AI)** · [arXiv:2602.15763](https://arxiv.org/abs/2602.15763)
+
+*"From Vibe Coding to Agentic Engineering"* — the GLM team's paper documenting the shift from informal LLM-assisted coding to systematic agentic software engineering. Traces the trajectory of their own model development as both a subject and a tool of agentic engineering.
+
+Zhipu AI's GLM series has been competitive with international frontier models on coding benchmarks, making this a notable non-Western perspective on the agentic AI frontier.
+
+---
+
+*Back to [Overview →](index.qmd) · See [2024–2026 Frontier →](recent.qmd)*

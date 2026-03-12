@@ -237,6 +237,22 @@ Synthesizes emerging agent architectures for reasoning, planning, tool use, and 
 
 ---
 
+## MIT AI Agent Index (2025)
+**MIT** · [aiagentindex.mit.edu](https://aiagentindex.mit.edu)
+
+Systematic evaluation of **30 prominent AI agents** based on publicly available information. Documents origins, design, capabilities, ecosystem, and safety features. Key findings:
+
+- **24/30 agents** were released or received major agentic updates in 2024-2025
+- **Autonomy split:** Chat agents at Level 1-3; browser agents at Level 4-5; enterprise agents from Level 1-2 (design) to Level 3-5 (deployment)
+- **Transparency gap:** Of 13 frontier-autonomy agents, only 4 disclose any agentic safety evaluations. Developers share far more about capabilities than safety.
+- **Foundation model concentration:** Nearly all depend on GPT, Claude, or Gemini — structural ecosystem risk
+- **No web conduct standards:** Some agents explicitly designed to bypass anti-bot protections
+- **Geographic divergence:** 21/30 US-based, 5/30 Chinese, markedly different safety frameworks
+
+Companion paper: [arXiv:2602.17753](https://arxiv.org/html/2602.17753v1)
+
+---
+
 ## Agent Safety & Reliability in 2025-2026
 
 Safety emerged as a first-class concern as agents took real-world actions.
@@ -287,6 +303,49 @@ Gartner predicted that 40%+ of agentic AI projects would be cancelled by 2027 du
 | Dec 2025 | Meta acquires Manus AI |
 | Jan 2026 | Multiple 2025 retrospectives on agent deployments |
 | Mar 2026 | Anthropic Code Review for Claude Code — multi-agent PR review |
+
+---
+
+## METR: Task Time Horizons as the New Benchmark
+
+**METR (Model Evaluation & Threat Research)** · [metr.org/time-horizons](https://metr.org/time-horizons/)
+
+METR proposed measuring agents not by task accuracy but by **task time horizon** — the longest task an agent can complete with 50% reliability. This reframing captures something accuracy-based benchmarks miss: can agents sustain coherent action over minutes, hours, or days?
+
+**Key findings (March 2025):**
+- Claude 3.7 Sonnet: ~1 hour time horizon
+- GPT-5 (later 2025): ~2 hours 17 minutes
+- The time horizon has been **doubling approximately every 7 months** since 2019
+- Extrapolation: agents capable of multi-day tasks within a few years
+
+This metric directly maps to real-world utility. A 1-hour agent can do a coding task or research summary. A 24-hour agent could run a full experiment pipeline or manage a complex project.
+
+See [Science & Research Agents →](science-agents.qmd#metr-measuring-ai-ability-to-complete-long-tasks-2025) for more.
+
+---
+
+## OpenAI Harness Engineering & Long-Horizon Codex (2025)
+
+### OpenAI Harness Engineering
+**OpenAI** · [openai.com/index/harness-engineering](https://openai.com/index/harness-engineering/)
+
+OpenAI's own internal experience with agentic software development. A team of 3 (growing to 7) engineers built a product with **zero manually-written lines of code**, over 1M+ lines of generated code, in ~5 months — with agents handling architecture, implementation, testing, and PR review.
+
+Documents the workflow, failure modes, and lessons learned from living at the frontier of AI-assisted development. Key insight: at this level, the human's job shifts from writing code to writing specs and reviewing agent outputs.
+
+### Running Long-Horizon Tasks with Codex
+**OpenAI** · [developers.openai.com/blog/run-long-horizon-tasks-with-codex](https://developers.openai.com/blog/run-long-horizon-tasks-with-codex)
+
+Guidance on using OpenAI Codex for extended, multi-step software tasks. Covers context management, checkpointing, failure recovery, and task decomposition for tasks that span hours rather than minutes.
+
+---
+
+## From Vibe Coding to Agentic Engineering
+
+### GLM-5: From Vibe Coding to Agentic Engineering (2026)
+**GLM-5-Team (Zhipu AI)** · [arXiv:2602.15763](https://arxiv.org/abs/2602.15763)
+
+The GLM team (China's Zhipu AI) traces the transition from informal prompt-based "vibe coding" to systematic **agentic software engineering** — with structured verification loops, multi-agent coordination, and principled task decomposition. Their GLM series is competitive with international frontier models on coding benchmarks, making this a significant non-Western perspective on the agentic coding frontier.
 
 ---
 

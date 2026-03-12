@@ -286,6 +286,14 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">2024–2026</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./science-agents.html"> 
+<span class="menu-text">Science Agents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./community.html"> 
+<span class="menu-text">Community</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./resources.html"> 
 <span class="menu-text">Resources</span></a>
   </li>  
@@ -321,6 +329,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#generative-agents-memory-architecture-2023" id="toc-generative-agents-memory-architecture-2023" class="nav-link" data-scroll-target="#generative-agents-memory-architecture-2023">Generative Agents: Memory Architecture (2023)</a></li>
   <li><a href="#readagent-gist-memory-for-long-documents-2024" id="toc-readagent-gist-memory-for-long-documents-2024" class="nav-link" data-scroll-target="#readagent-gist-memory-for-long-documents-2024">ReadAgent: Gist Memory for Long Documents (2024)</a></li>
   <li><a href="#cognitive-architectures-for-language-agents-2023" id="toc-cognitive-architectures-for-language-agents-2023" class="nav-link" data-scroll-target="#cognitive-architectures-for-language-agents-2023">Cognitive Architectures for Language Agents (2023)</a></li>
+  <li><a href="#mem0-universal-memory-layer-2024-2025" id="toc-mem0-universal-memory-layer-2024-2025" class="nav-link" data-scroll-target="#mem0-universal-memory-layer-2024-2025">mem0: Universal Memory Layer (2024-2025)</a></li>
+  <li><a href="#letta-formerly-memgpt-2024-2025" id="toc-letta-formerly-memgpt-2024-2025" class="nav-link" data-scroll-target="#letta-formerly-memgpt-2024-2025">Letta (formerly MemGPT) (2024-2025)</a></li>
   <li><a href="#engram-2025" id="toc-engram-2025" class="nav-link" data-scroll-target="#engram-2025">ENGRAM (2025)</a></li>
   <li><a href="#episodic-memory-is-the-missing-piece-2025" id="toc-episodic-memory-is-the-missing-piece-2025" class="nav-link" data-scroll-target="#episodic-memory-is-the-missing-piece-2025">Episodic Memory is the Missing Piece (2025)</a></li>
   <li><a href="#long-context-models-memory-2024-2025" id="toc-long-context-models-memory-2024-2025" class="nav-link" data-scroll-target="#long-context-models-memory-2024-2025">Long-Context Models &amp; Memory (2024-2025)</a></li>
@@ -342,6 +352,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#gui-computer-use-agents" id="toc-gui-computer-use-agents" class="nav-link" data-scroll-target="#gui-computer-use-agents">GUI &amp; Computer Use Agents</a></li>
   <li><a href="#code-execution-agents" id="toc-code-execution-agents" class="nav-link" data-scroll-target="#code-execution-agents">Code Execution Agents</a></li>
   <li><a href="#embodied-robotics-agents" id="toc-embodied-robotics-agents" class="nav-link" data-scroll-target="#embodied-robotics-agents">Embodied / Robotics Agents</a></li>
+  <li><a href="#agentfs-the-filesystem-for-agents-2025" id="toc-agentfs-the-filesystem-for-agents-2025" class="nav-link" data-scroll-target="#agentfs-the-filesystem-for-agents-2025">AgentFS: The Filesystem for Agents (2025)</a></li>
   </ul></li>
   <li><a href="#retrieval-augmented-agents" id="toc-retrieval-augmented-agents" class="nav-link" data-scroll-target="#retrieval-augmented-agents">Retrieval-Augmented Agents</a>
   <ul class="collapse">
@@ -462,6 +473,30 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Sumers et al.</strong> · <a href="https://arxiv.org/abs/2309.02427">arXiv:2309.02427</a></p>
 <p>Grounds agent memory in cognitive science (ACT-R, SOAR). Proposes the four-memory framework. Essential reading for understanding memory design from first principles.</p>
 </section>
+<section id="mem0-universal-memory-layer-2024-2025" class="level3">
+<h3 class="anchored" data-anchor-id="mem0-universal-memory-layer-2024-2025">mem0: Universal Memory Layer (2024-2025)</h3>
+<p><strong>mem0ai</strong> · <a href="https://github.com/mem0ai/mem0">github.com/mem0ai/mem0</a> · <a href="https://mem0.ai">mem0.ai</a> · Y Combinator-backed</p>
+<p>The leading open-source <strong>production memory layer for AI agents</strong>. Provides multi-level memory (User, Session, Agent state) with adaptive personalization. Key benchmarks vs.&nbsp;full-context and OpenAI Memory:</p>
+<ul>
+<li><strong>+26% accuracy</strong> over OpenAI Memory on the LOCOMO benchmark</li>
+<li><strong>91% faster</strong> responses than full-context approaches</li>
+<li><strong>90% lower token usage</strong> than full-context (critical cost reduction)</li>
+</ul>
+<p>Core capabilities: remembers user preferences, adapts to individual needs over time, provides cross-platform SDKs (Python, TypeScript) and a managed cloud service. v1.0.0 release (2025) added improved vector store support and enhanced GCP integration.</p>
+<p><strong>GitHub:</strong> <a href="https://github.com/mem0ai/mem0">mem0ai/mem0</a> — 27k+ stars</p>
+</section>
+<section id="letta-formerly-memgpt-2024-2025" class="level3">
+<h3 class="anchored" data-anchor-id="letta-formerly-memgpt-2024-2025">Letta (formerly MemGPT) (2024-2025)</h3>
+<p><strong>letta-ai</strong> · <a href="https://github.com/letta-ai/letta">github.com/letta-ai/letta</a> · <a href="https://letta.com">letta.com</a></p>
+<p>MemGPT evolved into <strong>Letta</strong> — a full platform for building stateful agents with advanced memory. Where the original MemGPT was a research prototype demonstrating OS-inspired memory paging, Letta is a production-ready platform:</p>
+<ul>
+<li><strong>Letta Code</strong> — coding CLI agent with memory, skills, and subagents (open-source)</li>
+<li><strong>Letta API</strong> — stateful agent API for building agents into applications (Python + TypeScript SDKs)</li>
+<li><strong>Memory architecture</strong> — tiered memory blocks that are explicitly managed, inspectable, and modifiable</li>
+</ul>
+<p>The key advance over vanilla MemGPT: Letta’s memory blocks are explicitly represented, not just paged in/out — agents can <em>inspect</em> and <em>modify</em> their own memory programmatically. This enables genuinely stateful agents that improve over time. Maintains a <a href="https://leaderboard.letta.com/">model leaderboard</a> for agent capability evaluation.</p>
+<p><strong>GitHub:</strong> <a href="https://github.com/letta-ai/letta">letta-ai/letta</a> — 14k+ stars</p>
+</section>
 <section id="engram-2025" class="level3">
 <h3 class="anchored" data-anchor-id="engram-2025">ENGRAM (2025)</h3>
 <p><a href="https://arxiv.org/abs/2511.12960">arXiv:2511.12960</a></p>
@@ -579,6 +614,16 @@ LLM proposes actions; learned affordance function scores physical feasibility. �
 562B parameter embodied multimodal language model. Directly ingests sensor data.</p>
 <p><strong>RT-2</strong> (Google, 2023) · <a href="https://arxiv.org/abs/2307.15818">arXiv:2307.15818</a><br>
 Vision-language-action model. Web-scale training + robot data; emergent robot generalization.</p>
+</section>
+<section id="agentfs-the-filesystem-for-agents-2025" class="level3">
+<h3 class="anchored" data-anchor-id="agentfs-the-filesystem-for-agents-2025">AgentFS: The Filesystem for Agents (2025)</h3>
+<p><strong>Turso</strong> · <a href="https://github.com/tursodatabase/agentfs">github.com/tursodatabase/agentfs</a></p>
+<p>A SQLite-based filesystem explicitly designed for agent state management. See <a href="./community.html#agentfs-the-filesystem-for-agents">Community &amp; Independent Agents →</a> for full coverage.</p>
+<ul>
+<li>Every file operation recorded in SQLite → full audit trail</li>
+<li>Snapshot and restore agent state at any point</li>
+<li>Single-file portability (the entire agent runtime is one <code>.db</code> file)</li>
+</ul>
 <hr>
 </section>
 </section>

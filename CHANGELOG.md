@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.0.1] - 2026-03-12
+
+### New Pages
+
+- **Science & Research Agents** (`science-agents.qmd`) — FutureHouse Platform (Crow/Falcon/Owl/Phoenix), Google AI Co-Scientist, SkyRL (NovaSky/Berkeley), MiniMax Forge (scalable agent RL), Search-R1++ (deep research training), METR task time horizons (doubling every 7 months), AgentEvolver (self-evolving agents), NeurIPS 2025 KV cache hyper-scaling, Google's science of scaling agent systems, Moonshot AI / Kimi K2.5, GLM-5 agentic engineering
+
+- **Community & Independent Agents** (`community.qmd`) — OpenClaw (self-hosted personal agent runtime), Strix by Tim Kellogg (stateful ambient agent on Discord with full build diary), Pi by badlogic (AI agent toolkit: unified LLM API, coding agent CLI, Slack bot, TUI/web UI, vLLM pod management), crow-cli (minimal MCP/ACP two-layer agent with PTY terminal), Agno (production framework: build/run/manage agents at scale with AgentOS control plane), Orchestra (cognitive load distribution via composition), TapeAgents (Bahdanau et al. — tape-centric framework with full audit trail; blackboard system echoes), AgentFS/Turso (SQLite-based filesystem for agents — auditability, reproducibility, portability), papercomputeco/stereOS (NixOS-based Linux hardened for AI agents: tapes telemetry, agentd daemon, masterblaster sandboxes), practitioner posts: Saurabh Alone Hitchhiker's Guide, Martin Fowler CLI coding agent, emsh.cat one-human-one-agent-one-browser, Leonie Monigatti memory in AI agents
+
+### Updates to Existing Pages
+
+- **Memory, Tools & Actions** — Added mem0 (26% accuracy improvement over OpenAI Memory, 91% faster, 90% fewer tokens; YC-backed, 27k stars), Letta/MemGPT evolution (full stateful agent platform with inspectable memory blocks, Letta Code CLI, model leaderboard), AgentFS cross-reference
+
+- **Multi-Agent Systems** — Added TapeAgents (tape-centric agent framework with blackboard system connections), Agno (full-stack production framework)
+
+- **2024–2026 Frontier** — Added: METR time horizons benchmark (doubling every 7 months), OpenAI Harness Engineering (0 manual code, 1M+ generated lines, 3→7 engineers, 5 months), OpenAI Codex long-horizon tasks guidance, GLM-5 vibe coding to agentic engineering (Zhipu AI), MIT AI Agent Index (aiagentindex.mit.edu — 30 agents, transparency gap, geographic divergence)
+
+### Site structure
+- Homepage: 6 → 8 navigation cards, stats updated to 300+ resources and 8 major themes
+- Navbar updated with Science Agents and Community pages
+- `_quarto.yml` render list updated (8 → 10 pages)
+
+---
+
 ## [1.0.0] - 2026-03-12
 
 ### Initial release

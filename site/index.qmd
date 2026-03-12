@@ -30,7 +30,7 @@ Years Covered
 :::
 ::: {.stat-item}
 ::: {.stat-number}
-200+
+300+
 :::
 ::: {.stat-label}
 Papers & Resources
@@ -38,7 +38,7 @@ Papers & Resources
 :::
 ::: {.stat-item}
 ::: {.stat-number}
-6
+8
 :::
 ::: {.stat-label}
 Major Themes
@@ -104,6 +104,22 @@ How agents remember and act: memory architectures, tool use (Toolformer, functio
 :::
 ### [2024–2026: Frontier](recent.qmd)
 The leading edge: coding agents (SWE-agent, Devin), agentic products (Operator, Computer Use), MCP, o1/o3 implications, safety, and where things are heading.
+:::
+
+::: {.survey-card}
+::: {.card-icon}
+🔬
+:::
+### [Science & Research Agents](science-agents.qmd)
+FutureHouse Platform, Google AI Co-Scientist, SkyRL, MiniMax Forge, METR time horizons, AgentEvolver, and the frontier of agents built for scientific discovery.
+:::
+
+::: {.survey-card}
+::: {.card-icon}
+🛠️
+:::
+### [Community & Independent Agents](community.qmd)
+OpenClaw, Pi, Strix, crow-cli, Agno, Orchestra, TapeAgents, AgentFS, stereOS, and the grassroots builder ecosystem. Practitioner blog posts and indie architectures.
 :::
 
 :::

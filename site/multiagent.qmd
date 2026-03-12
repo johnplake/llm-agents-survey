@@ -82,6 +82,13 @@ Single LLM plays **multiple expert personas** sequentially — extracting multi-
 
 Production-oriented multi-agent platform with fault tolerance, distributed execution, and operator/developer separation. Built for real-world scale.
 
+### TapeAgents: Tape-Centric Agent Framework (2024)
+**Bahdanau, Gontier, Huang et al. (Cohere, ServiceNow)** · [arXiv:2412.08445](https://arxiv.org/abs/2412.08445)
+
+Agent framework built around a **structured log tape** — the tape is simultaneously the session log, resumable state, and development artifact. Agents append thought/action steps to the tape; the environment appends observations back. This tape-centric design supports the full agent lifecycle: development (debugging, auditing), post-deployment (evaluation, fine-tuning), and cross-agent knowledge transfer (adapt tapes from other agents).
+
+Has echoes of classical **blackboard systems** in AI — shared structured state that multiple agents read and write. The tape makes agent behavior transparent, reproducible, and reusable in ways that ad-hoc logging doesn't.
+
 ---
 
 ## Open-Source Frameworks
@@ -144,6 +151,11 @@ Enterprise-focused SDK for AI-powered applications. Strong .NET/C# support along
 **[github.com/deepset-ai/haystack](https://github.com/deepset-ai/haystack)** — 18k+ stars
 
 Pipeline-based framework for NLP applications with strong RAG and document processing support. v2.0 (2024) redesigned as composable components.
+
+### Agno
+**agno-agi** · [github.com/agno-agi/agno](https://github.com/agno-agi/agno)
+
+Full-stack platform for agentic software: framework + production runtime (FastAPI-based, session-scoped) + control plane (AgentOS UI). Builds stateful agents with memory, 100+ tool integrations, guardrails, and MCP support in ~20 lines. Model-agnostic. See [Community Agents →](community.qmd#agno-build-run--manage-agentic-software-at-scale) for full coverage.
 
 ### OpenAI Swarm (2024)
 **[github.com/openai/swarm](https://github.com/openai/swarm)**
