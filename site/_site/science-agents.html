@@ -376,7 +376,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#papercoder-ml-papers-working-code-iclr-2026" id="toc-papercoder-ml-papers-working-code-iclr-2026" class="nav-link" data-scroll-target="#papercoder-ml-papers-working-code-iclr-2026">PaperCoder: ML Papers → Working Code (ICLR 2026)</a>
   <ul class="collapse">
   <li><a href="#three-stage-pipeline-with-specialized-agents" id="toc-three-stage-pipeline-with-specialized-agents" class="nav-link" data-scroll-target="#three-stage-pipeline-with-specialized-agents">Three-Stage Pipeline with Specialized Agents</a></li>
-  <li><a href="#evaluation-paperbench" id="toc-evaluation-paperbench" class="nav-link" data-scroll-target="#evaluation-paperbench">Evaluation: PaperBench</a></li>
+  <li><a href="#evaluation" id="toc-evaluation" class="nav-link" data-scroll-target="#evaluation">Evaluation</a></li>
   </ul></li>
   <li><a href="#key-themes-in-scientific-agent-research" id="toc-key-themes-in-scientific-agent-research" class="nav-link" data-scroll-target="#key-themes-in-scientific-agent-research">Key Themes in Scientific Agent Research</a>
   <ul class="collapse">
@@ -544,7 +544,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="moonshot-ai-kimi-k2.5" class="level3">
 <h3 class="anchored" data-anchor-id="moonshot-ai-kimi-k2.5">Moonshot AI / Kimi K2.5</h3>
 <p><strong>Moonshot AI (China)</strong> · <a href="https://platform.moonshot.ai">platform.moonshot.ai</a></p>
-<p>Chinese LLM provider with the Kimi model series, known for <strong>very long context windows</strong> (up to 128k tokens) optimized for document-heavy tasks. Positioned as an alternative to OpenAI/Anthropic for scientific workflows requiring processing of large documents. Popular with researchers in China and East Asia.</p>
+<p>Chinese LLM provider with the Kimi model series, known for <strong>very long context windows</strong> (up to 256k tokens) optimized for document-heavy tasks. Positioned as an alternative to OpenAI/Anthropic for scientific workflows requiring processing of large documents. Popular with researchers in China and East Asia.</p>
 </section>
 <section id="glm-5-from-vibe-coding-to-agentic-engineering-2026" class="level3">
 <h3 class="anchored" data-anchor-id="glm-5-from-vibe-coding-to-agentic-engineering-2026">GLM-5 / From Vibe Coding to Agentic Engineering (2026)</h3>
@@ -564,9 +564,13 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Stage 3 — Generation:</strong> - Produces modular, dependency-aware code - Respects file structure and inter-module dependencies established in planning</p>
 <p>Each phase is implemented by specialized agents that collaborate across the pipeline. The result is not just snippets — it’s a full repository with appropriate structure, imports, and documentation.</p>
 </section>
-<section id="evaluation-paperbench" class="level3">
-<h3 class="anchored" data-anchor-id="evaluation-paperbench">Evaluation: PaperBench</h3>
-<p>Evaluated on the <strong>PaperBench</strong> benchmark (tests ability to reproduce ML papers) and validated by human judges including paper authors (with author-released repos as ground truth). PaperCoder consistently outperforms strong baselines by substantial margins.</p>
+<section id="evaluation" class="level3">
+<h3 class="anchored" data-anchor-id="evaluation">Evaluation</h3>
+<p>Evaluated on two distinct benchmarks:</p>
+<ul>
+<li><strong>Paper2CodeBench</strong> (their own benchmark): validated by human judges including original paper authors, with author-released repos as ground truth. PaperCoder achieves strong human-validated scores.</li>
+<li><strong>PaperBench</strong> (OpenAI’s separate benchmark, testing ML paper reproducibility): PaperCoder consistently outperforms strong baselines by substantial margins.</li>
+</ul>
 <p><strong>Why it matters:</strong> This is one of the clearest demonstrations of multi-agent agents tackling a complex real-world scientific task — not search/synthesis, but actual <em>implementation</em>. The planning → analysis → generation pattern (with specialized agents per stage) is a template applicable far beyond paper reproduction.</p>
 <hr>
 </section>

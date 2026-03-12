@@ -169,7 +169,7 @@ Represents the direction of **self-improving agent systems** — agents that gen
 ### Moonshot AI / Kimi K2.5
 **Moonshot AI (China)** · [platform.moonshot.ai](https://platform.moonshot.ai)
 
-Chinese LLM provider with the Kimi model series, known for **very long context windows** (up to 128k tokens) optimized for document-heavy tasks. Positioned as an alternative to OpenAI/Anthropic for scientific workflows requiring processing of large documents. Popular with researchers in China and East Asia.
+Chinese LLM provider with the Kimi model series, known for **very long context windows** (up to 256k tokens) optimized for document-heavy tasks. Positioned as an alternative to OpenAI/Anthropic for scientific workflows requiring processing of large documents. Popular with researchers in China and East Asia.
 
 ### GLM-5 / From Vibe Coding to Agentic Engineering (2026)
 **GLM-5-Team (Zhipu AI)** · [arXiv:2602.15763](https://arxiv.org/abs/2602.15763)
@@ -202,9 +202,12 @@ A multi-agent LLM framework that transforms **machine learning papers into opera
 
 Each phase is implemented by specialized agents that collaborate across the pipeline. The result is not just snippets — it's a full repository with appropriate structure, imports, and documentation.
 
-### Evaluation: PaperBench
+### Evaluation
 
-Evaluated on the **PaperBench** benchmark (tests ability to reproduce ML papers) and validated by human judges including paper authors (with author-released repos as ground truth). PaperCoder consistently outperforms strong baselines by substantial margins.
+Evaluated on two distinct benchmarks:
+
+- **Paper2CodeBench** (their own benchmark): validated by human judges including original paper authors, with author-released repos as ground truth. PaperCoder achieves strong human-validated scores.
+- **PaperBench** (OpenAI's separate benchmark, testing ML paper reproducibility): PaperCoder consistently outperforms strong baselines by substantial margins.
 
 **Why it matters:** This is one of the clearest demonstrations of multi-agent agents tackling a complex real-world scientific task — not search/synthesis, but actual *implementation*. The planning → analysis → generation pattern (with specialized agents per stage) is a template applicable far beyond paper reproduction.
 
