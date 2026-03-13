@@ -25,8 +25,6 @@ website:
   site-url: https://johnplake.github.io/llm-agents-survey/
   navbar:
     left:
-      - href: index.qmd
-        text: Home
       - href: taxonomy.qmd
         text: Taxonomy
       - href: timeline.qmd
