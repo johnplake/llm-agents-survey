@@ -29,8 +29,6 @@ website:
         text: Taxonomy
       - href: timeline.qmd
         text: Timeline
-      - href: foundations.qmd
-        text: Foundations
       - text: "Deep Dives"
         menu:
           - href: reasoning.qmd
@@ -39,6 +37,8 @@ website:
             text: Multi-Agent Systems
           - href: memory-tools.qmd
             text: Memory, Tools & Actions
+      - href: foundations.qmd
+        text: 2022–2023
       - href: recent.qmd
         text: 2024–2026
       - text: "Topics"
