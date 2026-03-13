@@ -42,6 +42,22 @@ FutureHouse Platform, Google AI Co-Scientist, PaperCoder, SkyRL, METR, and the f
 How agents learn about users, adopt personas, and represent identities — plus digital twins, evaluation benchmarks (LaMP, PersonaGym), and adversarial attacks including DAN jailbreaks, memory poisoning, and system prompt leakage.
 :::
 
+::: {.survey-card}
+::: {.card-icon}
+🔧
+:::
+### [Infrastructure & Protocols](infrastructure.qmd)
+MCP, A2A, ACP, OpenAI Agents SDK — the protocols and frameworks that connect agents to tools and each other. Plus tool registries, security considerations, and deployment patterns.
+:::
+
+::: {.survey-card}
+::: {.card-icon}
+🤝
+:::
+### [Human-Agent Interaction & Trust](human-agent.qmd)
+How humans work with autonomous agents — trust calibration, delegation patterns, UX of agentic systems, human-in-the-loop design, and the emerging world of ambient background agents.
+:::
+
 :::
 
 ---

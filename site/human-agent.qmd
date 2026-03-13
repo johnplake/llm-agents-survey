@@ -1,0 +1,267 @@
+---
+title: "Human-Agent Interaction & Trust"
+subtitle: "Delegation, oversight, and how humans work with autonomous agents"
+---
+
+## Overview
+
+The bottleneck in AI deployment is shifting. For most of the last decade, the central question was *capability*: can the system do the task at all? As LLM-based agents become increasingly capable of extended autonomous work — browsing, coding, writing, managing email, running experiments — the bottleneck moves: **can the human trust the agent to do it, and should they let it?**
+
+This shift surfaces a genuinely distinct research thread. Pure agent capability research asks *what* an agent can do. Human-agent interaction research asks *how* a human and agent share a task, build a working relationship, and maintain appropriate oversight as the agent's autonomy grows. The questions are different, the methods are different, and the failure modes are different.
+
+Human-agent interaction also differs from classical HCI in important ways. Traditional HCI studies how humans use tools — tools that do exactly what they are instructed, synchronously, with deterministic outputs. Agents are *not* tools in this sense. They act asynchronously, make multi-step plans, produce non-deterministic outputs, and can take actions with real-world side effects (sending emails, running code, modifying files) that may be difficult or impossible to reverse. The appropriate conceptual model is closer to *delegation* than *tool use* — and delegation raises questions of trust, oversight, and accountability that traditional HCI rarely had to engage.
+
+### The Delegation Spectrum
+
+It is useful to think of human-agent interaction as a spectrum:
+
+| Mode | Human role | Agent role | Examples |
+|---|---|---|---|
+| **Tool use** | Directs every action | Executes specific commands | Calculator, search API |
+| **Copilot** | Approves each step | Suggests, auto-completes | GitHub Copilot, Cursor |
+| **Semi-autonomous** | Reviews at checkpoints | Plans and executes subtasks | Claude Code w/ approval gates |
+| **Fully autonomous** | Sets goal; monitors outcomes | Plans, executes, recovers | Background scheduling agents |
+
+Most deployed LLM agents today sit in the copilot or semi-autonomous range. The research questions — when to move toward fuller autonomy, how to do it safely, what UI affordances to provide — are actively contested.
+
+---
+
+## Trust Calibration
+
+### The Core Challenge
+
+Trust in AI is not binary. *Calibrated* trust means trusting appropriately: following the agent's output when it is likely to be right, and overriding it when it is likely to be wrong. This sounds obvious but is empirically difficult. Humans are systematically bad at it in both directions.
+
+**Overtrust (automation bias):** When an AI system provides a confident recommendation, humans tend to accept it — even when they have contrary evidence. Automation bias was documented in aviation, nuclear operations, and clinical decision support systems long before LLMs, but it transfers directly. Springer's 2025 review ["Exploring automation bias in human–AI collaboration"](https://link.springer.com/article/10.1007/s00146-025-02422-7) summarizes the literature and notes that participants who receive AI suggestions *before* forming their own judgments are significantly more likely to align with incorrect AI assessments — a "primacy of AI output" effect.
+
+**Undertrust:** The opposite failure — refusing to use capable agents because of excessive skepticism — is less studied but equally costly. Users who don't delegate appropriately to competent agents forgo real productivity gains. The asymmetry in attention (overtrust dominates the safety literature; undertrust is mostly studied in productivity economics) can distort research agendas.
+
+**Calibration:** The goal is *appropriate reliance* — overriding incorrect AI advice and following correct advice. [Schoeffer et al., "Explanations, Fairness, and Appropriate Reliance in Human-AI Decision-Making"](https://arxiv.org/abs/2209.11812) (arXiv:2209.11812) develops a formal conceptualization of appropriate reliance and finds that explanations can improve calibration, but the effect depends heavily on the quality and framing of the explanation. [Bansal et al., 2021](https://arxiv.org/abs/2102.04566) is an influential earlier study finding that human-AI teams often underperform the AI alone because humans fail to identify when to trust machine predictions and when to apply their own judgment.
+
+### What Affects Trust?
+
+The classical framework in human factors is Parasuraman, Sheridan & Wickens' (2000) levels-of-automation taxonomy, which models automation as a 10-level scale from "human does everything" to "automation acts without human input" and connects each level to trust dynamics. This framework was originally developed for aviation and process control but maps cleanly onto the LLM agent setting.
+
+More recent work focuses on the specific signals that drive trust in AI systems:
+
+- **Uncertainty communication:** Does the system express confidence appropriately? [arXiv:2402.07632](https://arxiv.org/abs/2402.07632) (Steyvers et al.) studies miscalibrated AI confidence and finds that overconfident AI substantially degrades user trust and reliance calibration over time.
+- **Explainability:** Showing the agent's reasoning or tool calls helps users identify when to override, but can also produce *illusions* of understanding that increase overtrust in wrong answers.
+- **Track record:** Users develop calibrated trust faster when they can observe the agent's historical accuracy domain by domain.
+- **Task stakes:** Users apply more scrutiny to high-stakes tasks. This is rational but can cause under-reliance on agents operating in lower-stakes domains where they actually perform well.
+
+### The Complementarity Challenge
+
+A subtler problem: humans and agents often have *different* error profiles. An agent may be confidently wrong precisely in the domains where humans are most uncertain — which is the worst possible failure mode for trust calibration. Research on *complementary* human-AI performance (discussed below in the Evaluation section) is directly relevant here.
+
+---
+
+## Delegation & Autonomy Levels
+
+### Design Patterns for Agentic Systems
+
+Anthropic's ["Building Effective Agents"](https://www.anthropic.com/engineering/building-effective-agents) (December 2024) distills practical patterns from production deployments. A key insight: most successful implementations are *not* fully autonomous end-to-end; they use carefully chosen degrees of automation. The post identifies six core patterns:
+
+1. **Augmented LLM** — a single model with retrieval, tools, and memory. The baseline.
+2. **Prompt chaining** — decomposing a task into a fixed pipeline of LLM calls, each working with the prior's output. Predictable, auditable.
+3. **Routing** — classifying inputs and directing them to specialized subagents. Efficient for diverse workloads.
+4. **Parallelization** — running multiple independent LLM calls concurrently and synthesizing results.
+5. **Orchestrator-workers** — one LLM dynamically creates and assigns tasks to specialized workers. Higher flexibility, higher risk.
+6. **Evaluator-optimizer** — a loop where one LLM evaluates and critiques another's output. Used for high-quality generation tasks.
+
+Anthropic's recommendation: use the simplest pattern that works. Fully autonomous agents are appropriate when flexibility and model-driven decision-making are needed *and* the cost of latency and unpredictability is acceptable.
+
+### Human-in-the-Loop Patterns
+
+In practice, most production agentic systems maintain human-in-the-loop oversight through:
+
+- **Approval gates:** agent pauses before irreversible actions (sending email, deleting files, making purchases) and requests explicit user confirmation
+- **Escalation:** agent detects ambiguity or high risk and surfaces the issue to a human rather than proceeding
+- **Interrupt-and-resume:** human can pause a running agent, inspect state, redirect, and resume
+- **Periodic review:** agent works autonomously but presents a summary of completed actions for human review at checkpoints
+
+Anthropic's empirical study ["Measuring AI agent autonomy in practice"](https://www.anthropic.com/research/measuring-agent-autonomy) (2025) analyzes millions of Claude Code interactions and finds instructive patterns: among new users, ~20% of sessions use full auto-approve; this rises to >40% as users gain experience. Experienced users auto-approve more *and* interrupt more — a signal that expertise produces better calibration rather than simply more or less trust. On the most complex tasks, Claude Code stops to ask for clarification more than twice as often as humans interrupt it: agent-initiated pauses are an underappreciated oversight mechanism.
+
+### When Should an Agent Ask vs. Act?
+
+This is one of the core design tensions. Asking too often is annoying and defeats the purpose of delegation; acting too aggressively risks irreversible errors. Relevant considerations:
+
+- **Reversibility:** the agent should be more conservative when actions are hard to undo
+- **Ambiguity:** underspecified goals warrant clarification, but agents often proceed with implicit assumptions
+- **Stake magnitude:** high-consequence actions deserve higher confirmation thresholds
+- **User preference:** different users have different tolerance for interruption
+
+The Knight First Amendment Institute's ["Levels of Autonomy for AI Agents"](https://knightcolumbia.org/content/levels-of-autonomy-for-ai-agents-1) provides a policy-oriented taxonomy, mapping autonomy levels to appropriate oversight requirements — relevant both for product design and regulation.
+
+---
+
+## UX of Agentic Systems
+
+### Chat vs. Agentic UIs
+
+Chat interfaces were designed for *conversation* — short, synchronous exchanges where the human reads each response before sending the next message. Agentic UIs must support something qualitatively different: long-horizon, multi-step tasks that execute asynchronously, involve tool use and side effects, and may run for minutes, hours, or longer. The interaction design challenges are distinct:
+
+- **Transparency:** users need to understand *what the agent is doing*, not just *what it has done*. Showing tool calls, sub-plans, and intermediate results in real time is now common (Claude Code's streaming output, OpenAI's tool-use UI) but the right level of detail is not settled.
+- **Interruptibility:** users must be able to stop or redirect mid-task without data loss. This requires agents to maintain resumable state. A system the user cannot interrupt quickly becomes threatening regardless of accuracy — as UX practitioners have noted, the user's ability to intervene is a precondition for trust.
+- **Progress communication:** for long-running tasks, the agent should communicate progress in human terms ("I've found 12 papers, now summarizing") not just technical terms ("tool call 7 of 23").
+- **Error recovery:** when an agent fails mid-task, what happens? The UX of failure is underdesigned in most current systems. Good designs provide explainable failure summaries, partial results, and proposed recovery paths.
+- **Attribution and auditability:** for consequential tasks, users may need to understand *why* the agent took a specific action — relevant for professional liability (legal, medical, financial workflows).
+
+Google's [PAIR (People + AI Research)](https://pair.withgoogle.com) initiative has produced guidelines for AI transparency that are increasingly relevant to agentic systems, emphasizing that users should be able to form accurate mental models of AI behavior.
+
+### The "One Human, One Agent, One Browser" Paradigm
+
+An emerging design philosophy — articulated in blog posts and product discussions around systems like [Claude.ai's Computer Use](https://www.anthropic.com/news/3-5-models-and-computer-use) and [OpenAI Operator](https://openai.com/operator) — frames the natural unit of agentic work as a single human with a single agent sharing a single browser or execution environment. This paradigm:
+
+- Grounds the agent in a concrete, observable environment the human can inspect
+- Makes the agent's "view" of the world transparent (the human can look at the same screen)
+- Enables natural interruption (the human can take over the browser at any point)
+- Limits blast radius (one browser, one context, bounded potential side effects)
+
+As agents become more capable and multi-modal, this "bounded execution environment" pattern is increasingly recommended as a design primitive for trustworthy delegation.
+
+---
+
+## Evaluation of Human-Agent Collaboration
+
+### Does Human + Agent Beat Either Alone?
+
+The central empirical question: does a human-agent team outperform both the human alone *and* the agent alone? The answer turns out to be nuanced and domain-dependent.
+
+[arXiv:2404.00029](https://arxiv.org/abs/2404.00029) ("Complementarity in Human-AI Collaboration: Concept, Sources, and Evidence") synthesizes the literature and finds that while human-AI teams can outperform individuals, genuine complementarity — where the team exceeds both the human alone *and* the AI alone — is relatively rare and depends on:
+
+- **Selective reliance:** humans must correctly identify when to follow the AI and when to apply their own judgment
+- **Task structure:** complementarity is more common when humans and AI have genuinely different strengths (e.g., human contextual judgment + AI breadth recall)
+- **Training:** users can learn better reliance calibration, but this takes time and feedback
+
+The [Collaborative Gym (Co-Gym)](https://arxiv.org/abs/2412.15701) framework (Shao et al., 2024/2025; [GitHub](https://github.com/SALT-NLP/collaborative-gym)) provides an open framework specifically for developing and evaluating collaborative agents that engage in *bidirectional* communication with humans while executing tasks. It operationalizes evaluation of whether the human-agent interaction produces better outcomes than fully autonomous operation — a gap in most prior benchmarks, which either tested humans or agents in isolation.
+
+### The GitHub Copilot Studies
+
+GitHub Copilot is the most extensively studied human-agent collaboration product to date. [Peng et al. (arXiv:2302.06590)](https://arxiv.org/abs/2302.06590) conducted a randomized controlled trial finding that developers with Copilot completed an HTTP server implementation task **55.8% faster** than the control group. This is one of the largest effect sizes in any human-AI productivity study. Importantly, the task was well-scoped and had a clear correct answer — the ideal setting for AI assistance.
+
+GitHub's own internal research ([GitHub Blog, 2022](https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/)) found that Copilot users reported higher satisfaction, better focus, and more "flow" during coding — suggesting that the productivity gains go beyond raw speed to include cognitive quality-of-life improvements.
+
+Nuance: more recent studies have found that Copilot benefits are heterogeneous across developers (larger for less-experienced developers) and task types (larger for boilerplate, smaller for novel algorithmic design). The productivity gains also do not straightforwardly generalize from isolated tasks to multi-session production codebases — a recurring methodological limitation in AI productivity research.
+
+### Measurement Challenges
+
+Evaluating human-agent collaboration is methodologically hard:
+
+- **Baselines:** human alone vs. agent alone vs. human+agent requires recruiting participants and controlling for skill differences
+- **Time horizon:** short-task experiments may not predict long-horizon collaboration quality
+- **Subjective quality:** many agent-assisted tasks produce outputs that are hard to objectively score
+- **Trust dynamics:** trust changes over time; a single-session experiment misses how collaboration evolves with experience
+
+The [arXiv:2307.03913](https://arxiv.org/abs/2307.03913) survey on human-AI teaming outlines evaluation frameworks that attempt to capture long-horizon collaboration, emphasizing the importance of studying *team* performance rather than simply measuring the quality of individual outputs.
+
+---
+
+## Safety & Oversight in Delegation
+
+### The Principal-Agent Problem
+
+The principal-agent problem from economics applies directly to AI agents: when a principal (human) delegates a task to an agent (AI), the agent may have different information, different incentives, or simply different values than the principal intends. In classical economics, misalignment arises from asymmetric information and divergent incentives. With AI agents, the misalignment can arise from:
+
+- **Value misspecification:** the agent optimizes for a proxy objective (e.g., task completion) rather than the principal's true goals (e.g., task completion *in a way that preserves the principal's preferences and constraints*)
+- **Instruction ambiguity:** underspecified goals lead agents to make implicit assumptions that may diverge from user intent
+- **Shadow principals:** the companies that deploy agents may have interests (engagement, upselling, data collection) that diverge from the end user's — making the agent a "double agent" serving multiple principals simultaneously ([arXiv:2601.23211](https://arxiv.org/abs/2601.23211), "Multi-Agent Systems Should be Treated as Principal-Agent Problems")
+
+### Monitoring and Reversibility
+
+For autonomous agents, good oversight requires:
+
+- **Action logging:** every action taken by the agent should be logged with sufficient context to reconstruct the agent's reasoning
+- **Rollback capability:** where possible, actions should be reversible. The agent should prefer reversible actions and clearly flag irreversible ones.
+- **Anomaly detection:** monitoring systems should flag unexpected action patterns — deviations from prior behavior or policy, unusual resource use, or unanticipated external effects
+- **Scope limitation:** agents should operate with least-privilege access — only the permissions needed for the current task, no more
+
+### AI Safety Levels
+
+Anthropic's [Responsible Scaling Policy](https://www.anthropic.com/responsible-scaling-policy) (updated October 2024) formalizes a framework of AI Safety Levels (ASL-1 through ASL-4+) where safeguards scale with capability. ASL-3 — which requires substantially enhanced deployment controls — is triggered when models show "low-level autonomous capabilities" or substantially increased risk of catastrophic misuse. This framework is directly relevant to agentic deployment: the RSP commits Anthropic to not deploying agents that have crossed certain capability thresholds without corresponding oversight infrastructure.
+
+[METR (Model Evaluation & Threat Research)](https://metr.org) focuses specifically on evaluating AI systems for dangerous autonomous capabilities. METR's [Autonomy Evaluation Resources](https://metr.org/blog/2024-03-13-autonomy-evaluation-resources/) (March 2024) provide protocols for testing whether agents can autonomously complete multi-hour tasks in ways that could pose risks — from cybersecurity threats to self-replication. METR's 2025 evaluations of Claude 3.5 Sonnet and o1 found no evidence of dangerous autonomous capabilities, but noted that evaluation methodologies are still immature.
+
+The field is moving toward formal **oversight adequacy** frameworks — not just "can we monitor the agent?" but "do our monitoring mechanisms actually catch the behaviors we care about?" METR's research on agents performing "side tasks" while avoiding detection is a concrete example of this harder question.
+
+---
+
+## The Future: Ambient & Background Agents
+
+### From Reactive to Ambient
+
+Current LLM agent deployments are predominantly *reactive*: the user initiates a session, gives a goal, the agent works, and the session ends. The natural next step is *ambient* agents: agents that run continuously in the background, monitoring streams of information (email, Slack, code repositories, calendars, news) and acting proactively when relevant conditions arise.
+
+The design shift is significant. A reactive agent has a defined scope (this task, this session) that bounds its potential impact. An ambient agent has indefinite scope — it observes everything in its feed and acts whenever it judges appropriate. This dramatically changes:
+
+- **Oversight burden:** users can no longer review actions session by session; they need ongoing monitoring infrastructure
+- **Trust calibration:** users must trust the agent's judgment about *when to act*, not just *how to act*
+- **Notification fatigue:** an over-eager ambient agent produces noise that degrades rather than enhances human attention
+- **Interaction design:** the interface is not a chat window but a notification stream, an action log, a preference editor
+
+### Persistent & Stateful Agents
+
+[Letta](https://www.letta.com) (formerly MemGPT; [GitHub](https://github.com/letta-ai/letta)) is a platform for building stateful agents that maintain persistent memory across sessions, learn from experience, and operate as long-running services rather than ephemeral chatbots. Letta's architecture separates working memory (in-context), recall storage (episodic), and archival storage (semantic), enabling agents that genuinely accumulate knowledge over time. This is the infrastructure layer for ambient agent deployment.
+
+The key design tension in persistent agents: more context enables better assistance, but also concentrates risk. An agent with months of accumulated context about a user's workflows, communications, and preferences is both more useful and more dangerous if misused or compromised.
+
+### The "Perch" Model
+
+A concept emerging in discussions of always-on AI — sometimes called "perch time" — frames ambient agents as systems that spend most of their time *watching and waiting* rather than actively acting. Like a bird of prey on a perch, the agent observes the environment continuously but acts only when a clear trigger is met and action is clearly warranted. This model:
+
+- Keeps human oversight tractable (actions are infrequent and well-motivated)
+- Reduces false positives (the agent doesn't act on every potential trigger)
+- Maintains user agency (the human remains the primary actor; the agent supplements)
+
+Projects like [OpenClaw](https://openclaw.dev) (always-on personal AI assistant with scheduled heartbeats), [Perplexity's ambient AI integrations](https://glenrhodes.com/perplexitys-always-on-personal-computer-mac-mini-and-the-shift-from-reactive-to-ambient-ai-agents/), and various enterprise workflow agents are early instantiations of this model.
+
+### Open Questions
+
+The ambient agent paradigm raises research questions that have no good answers yet:
+
+- **Consent and control:** how does a user meaningfully consent to an agent monitoring their email indefinitely? What should the "off switch" look like?
+- **Drift:** as ambient agents accumulate context and learn from their environment, how do we detect when their behavior is drifting from user preferences?
+- **Composability:** users will eventually have multiple ambient agents (work, personal, health, finance). How do they interact? Who arbitrates conflicts?
+- **Accountability:** when an ambient agent takes a consequential action without explicit user instruction, who is responsible?
+
+These are not purely technical questions. They require input from law, ethics, HCI, and organizational behavior — a genuinely interdisciplinary research agenda.
+
+---
+
+## References
+
+### Papers
+
+- **Complementarity in Human-AI Collaboration: Concept, Sources, and Evidence** (2024) — [arXiv:2404.00029](https://arxiv.org/abs/2404.00029)
+- **Collaborative Gym: A Framework for Enabling and Evaluating Human-Agent Collaboration** (Shao, Samuel, Jiang, Yang, Yang, 2024) — [arXiv:2412.15701](https://arxiv.org/abs/2412.15701) · [GitHub](https://github.com/SALT-NLP/collaborative-gym)
+- **The Impact of AI on Developer Productivity: Evidence from GitHub Copilot** (Peng et al., 2023) — [arXiv:2302.06590](https://arxiv.org/abs/2302.06590)
+- **Explanations, Fairness, and Appropriate Reliance in Human-AI Decision-Making** (Schoeffer, De-Arteaga, Kuehl, 2022/2024) — [arXiv:2209.11812](https://arxiv.org/abs/2209.11812)
+- **Appropriate Reliance on AI Advice: Conceptualization and the Effect of Explanations** (Schemmer et al., IUI 2023) — [arXiv:2302.02187](https://arxiv.org/abs/2302.02187)
+- **Understanding the Effects of Miscalibrated AI Confidence on User Trust, Reliance, and Decision Efficacy** (Steyvers et al., 2024) — [arXiv:2402.07632](https://arxiv.org/abs/2402.07632)
+- **Multi-Agent Systems Should be Treated as Principal-Agent Problems** (2026) — [arXiv:2601.23211](https://arxiv.org/abs/2601.23211)
+- **Governing AI Agents** (Kolt, 2025) — [arXiv:2501.07913](https://arxiv.org/abs/2501.07913)
+- **Unraveling Human-AI Teaming: A Review and Outlook** (Lou et al., 2025) — [arXiv:2504.05755](https://arxiv.org/abs/2504.05755)
+- **A Decision-Theoretic Approach for Managing Misalignment** (2025) — [arXiv:2512.15584](https://arxiv.org/abs/2512.15584)
+- **A model for types and levels of human interaction with automation** (Parasuraman, Sheridan & Wickens, 2000) — foundational LOA taxonomy; [Semantic Scholar](https://www.semanticscholar.org/paper/A-model-for-types-and-levels-of-human-interaction-Parasuraman-Sheridan/14ae6f2231e09e226b99002aa04b5c70f3c59f2b)
+- **Trust in Automation: Misuse and Disuse** (Parasuraman & Riley, 1997) — foundational framework for automation bias and undertrust
+
+### Blog Posts & Industry Resources
+
+- **Building Effective Agents** — Anthropic Engineering Blog, December 2024 — [anthropic.com/engineering/building-effective-agents](https://www.anthropic.com/engineering/building-effective-agents)
+- **Measuring AI Agent Autonomy in Practice** — Anthropic Research, 2025 — [anthropic.com/research/measuring-agent-autonomy](https://www.anthropic.com/research/measuring-agent-autonomy)
+- **Anthropic Responsible Scaling Policy (RSP)** — Updated October 2024 — [anthropic.com/responsible-scaling-policy](https://www.anthropic.com/responsible-scaling-policy)
+- **METR Autonomy Evaluation Resources** — March 2024 — [metr.org/blog/2024-03-13-autonomy-evaluation-resources](https://metr.org/blog/2024-03-13-autonomy-evaluation-resources/)
+- **Levels of Autonomy for AI Agents** — Knight First Amendment Institute — [knightcolumbia.org](https://knightcolumbia.org/content/levels-of-autonomy-for-ai-agents-1)
+- **Research: Quantifying GitHub Copilot's Impact on Developer Productivity and Happiness** — GitHub Blog — [github.blog](https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/)
+- **Exploring Automation Bias in Human-AI Collaboration** — AI & Society, 2025 — [Springer](https://link.springer.com/article/10.1007/s00146-025-02422-7)
+- **MemGPT is now Letta** — [letta.com/blog/memgpt-and-letta](https://www.letta.com/blog/memgpt-and-letta)
+- **PAIR: People + AI Research** — Google — [pair.withgoogle.com](https://pair.withgoogle.com)
+
+### Code & Projects
+
+- **Letta** (Stateful agent platform with persistent memory) — [letta.com](https://www.letta.com) · [GitHub](https://github.com/letta-ai/letta)
+- **Collaborative Gym** (Human-agent collaboration evaluation framework) — [GitHub](https://github.com/SALT-NLP/collaborative-gym)
+- **METR Task Standard** (Evaluation framework for autonomous AI capabilities) — [GitHub](https://github.com/METR/task-standard)
+
+---
+
+*Back to [Topics →](topics.qmd) · See also: [Safety & Alignment →](safety.qmd) · [Personalization & Digital Twins →](personalization.qmd)*

@@ -15,6 +15,8 @@ project:
     - safety.qmd
     - science-agents.qmd
     - personalization.qmd
+    - infrastructure.qmd
+    - human-agent.qmd
     - community.qmd
     - resources.qmd
 
@@ -53,6 +55,10 @@ website:
             text: Science & Research Agents
           - href: personalization.qmd
             text: Personalization & Digital Twins
+          - href: infrastructure.qmd
+            text: Infrastructure & Protocols
+          - href: human-agent.qmd
+            text: Human-Agent Interaction
       - href: community.qmd
         text: Community
       - href: resources.qmd

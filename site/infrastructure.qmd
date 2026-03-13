@@ -1,0 +1,320 @@
+---
+title: "Agent Infrastructure & Protocols"
+subtitle: "MCP, A2A, ACP, and the plumbing that connects agents to the world"
+---
+
+## Overview
+
+For most of AI history, capability was the bottleneck. Now, increasingly, **infrastructure is the bottleneck**: how do agents connect to tools? How do they communicate with each other? How do you deploy them reliably, securely, and at scale? These questions have produced an explosion of competing and complementary protocols, frameworks, and platforms in 2024–2026.
+
+The core challenge is interoperability. An agent built on one framework needs to invoke tools built for another. An orchestrating agent needs to delegate to a specialized sub-agent without knowing how that agent was implemented. A deployed system needs to be secured against malicious tools and prompt injection. The solutions to these problems — protocols, registries, access-control frameworks, deployment runtimes — constitute the **infrastructure layer** of the agent ecosystem.
+
+This layer is now the central battleground. The choices made here will determine how agents compose, interoperate, and are controlled for years to come.
+
+---
+
+## 1. The Protocol Landscape
+
+### Model Context Protocol (MCP)
+
+**Anthropic** · [modelcontextprotocol.io](https://modelcontextprotocol.io) · [github.com/modelcontextprotocol](https://github.com/modelcontextprotocol)
+
+*"Think of MCP like a USB-C port for AI applications. Just as USB-C provides a standardized way to connect electronic devices, MCP provides a standardized way to connect AI applications to external systems."*
+
+Launched in **November 2024**, MCP is an open-source protocol for connecting LLMs to external tools and data sources. Its design is consciously modeled on the [Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protocol/) — the same architectural pattern that standardized IDE integrations across editors. Where LSP standardized how editors talk to language compilers, MCP standardizes how AI applications talk to tools.
+
+**Architecture:** MCP defines three roles:
+
+- **Host** — the AI application (e.g., Claude Desktop, a custom agent runner) that orchestrates everything and enforces security policy
+- **Client** — a connection inside the host that maintains a 1:1 session with a server
+- **Server** — a lightweight process exposing capabilities (tools, resources, prompts) to the AI
+
+Communication uses **JSON-RPC 2.0** over multiple transport options (stdio for local processes, HTTP/SSE for remote servers). Servers can expose three primitive types: **tools** (callable functions), **resources** (data the LLM can read), and **prompts** (reusable prompt templates).
+
+**Ecosystem explosion:** MCP spread faster than any comparable developer protocol. Within its first year, the official [MCP Registry](https://github.com/modelcontextprotocol/registry) — launched in preview in September 2025 — accumulated close to 2,000 entries. Unofficial directories like [mcp.so](https://mcp.so) indexed over 16,000 servers by early 2026. Major platforms adopted it rapidly: Visual Studio Code, Cursor, Claude, ChatGPT, and Windows 11 all announced MCP support within months of launch.
+
+**Governance:** In December 2025, Anthropic donated MCP to the **Agentic AI Foundation (AAIF)**, a directed fund under the Linux Foundation co-founded by Anthropic, Block, and OpenAI. This moved MCP from a vendor-controlled spec to shared industry infrastructure.
+
+---
+
+### Agent2Agent Protocol (A2A)
+
+**Google** · [developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/) · [github.com/a2aproject/A2A](https://github.com/a2aproject/A2A)
+
+MCP solves agent-to-tool connectivity. **A2A**, launched by Google in **April 2025**, solves the complementary problem: **agent-to-agent communication**. Where MCP is about what an agent can *do*, A2A is about how agents can *collaborate*.
+
+**Core design:** A2A treats agents as opaque — they don't share internal state, memory, or implementation. Instead, they communicate through a well-defined message-passing protocol:
+
+- **Agent Cards** — JSON documents published by each agent describing its capabilities, supported tasks, and interface. Capability discovery without shared code or framework.
+- **Task lifecycle** — A2A defines task states (submitted, working, completed, failed) with structured progress updates, enabling long-running asynchronous collaboration.
+- **Streaming and push** — Support for streaming responses and server-sent events so orchestrators can monitor sub-agent progress in real time.
+
+A2A received a major update in **July 2025** adding gRPC transport support, signed Agent Cards (for authentication), and extended Python SDK coverage. The [A2A spec](https://github.com/a2aproject/A2A) is maintained as an open community project under the Linux Foundation LF AI & Data umbrella.
+
+---
+
+### Agent Communication Protocol (ACP)
+
+**IBM Research / BeeAI** · [agentcommunicationprotocol.dev](https://agentcommunicationprotocol.dev) · [github.com/i-am-bee/beeai-platform](https://github.com/i-am-bee/beeai-platform)
+
+**ACP** was launched by **IBM Research** in March 2025 to power its [BeeAI Platform](https://beeai.dev) — an open-source system for agent orchestration, deployment, and sharing. Like A2A, ACP addresses inter-agent communication, but with a specific emphasis on agent portability and framework independence.
+
+Key design choices in ACP: REST-based message passing (rather than gRPC), stateful session support for long-running agents, **capability tokens** (signed objects encoding resource type, operations, and expiry for authorization), and native observability via OpenTelemetry (OTLP instrumentation with Arize Phoenix trace export).
+
+In **August 2025**, the ACP team joined forces with Google's A2A protocol team to develop a unified standard for agent communication, formally merging the two efforts under the **Linux Foundation LF AI & Data**. ACP's stateful session model and authorization primitives are being incorporated into the converging specification. The original ACP repository remains active as the BeeAI reference implementation.
+
+---
+
+### OpenAI Agents SDK
+
+**OpenAI** · [openai.github.io/openai-agents-python](https://openai.github.io/openai-agents-python/) · [github.com/openai/openai-agents-python](https://github.com/openai/openai-agents-python)
+
+While not strictly a protocol, the **OpenAI Agents SDK** (open-sourced in early 2025, available in Python and TypeScript) deserves inclusion as infrastructure: it established the dominant practical vocabulary for building multi-agent applications and has been widely adopted.
+
+**Core primitives:**
+
+- **Agents** — LLMs equipped with instructions, tools, and optional handoffs to other agents
+- **Handoffs** — the mechanism for one agent to transfer control to another, with customizable context filtering and transfer logic. Enables hierarchical and peer delegation patterns.
+- **Guardrails** — input and output validation checks that run in parallel with agent execution, failing fast when safety or quality thresholds are not met. Available as both agent-level and tool-level guardrails.
+- **Tracing** — built-in observability that records all LLM calls, tool invocations, handoffs, and guardrail checks. The Traces dashboard enables debugging and monitoring.
+
+The SDK is provider-agnostic: despite the OpenAI name, it supports non-OpenAI models through documented adapters. It natively supports MCP servers as tool sources, illustrating how protocols and frameworks interlock.
+
+---
+
+### Comparing the Protocols
+
+These four efforts solve related but distinct problems:
+
+| Protocol | Problem Solved | Transport | Key Primitive |
+|---|---|---|---|
+| **MCP** | Agent ↔ Tool/Data | JSON-RPC (stdio, HTTP/SSE) | Tool call, Resource read |
+| **A2A** | Agent ↔ Agent (opaque) | HTTP/REST, gRPC | Agent Card, Task |
+| **ACP** | Agent ↔ Agent (portable) | REST | Capability token, Session |
+| **OpenAI Agents SDK** | Multi-agent orchestration | N/A (library) | Handoff, Guardrail |
+
+A well-designed agentic system will typically use several of these together: MCP for connecting to external tools, A2A or ACP for delegating to specialized sub-agents, and a framework SDK (OpenAI Agents, LangGraph, etc.) for orchestration logic.
+
+---
+
+## 2. Agent Frameworks & Orchestration
+
+Protocols define *how* agents talk. Frameworks define *how* agents are built and coordinated. The two layers are related but distinct: frameworks are built on top of protocols, and the same framework can support multiple protocols.
+
+### LangGraph
+
+**LangChain** · [langchain-ai.github.io/langgraph](https://langchain-ai.github.io/langgraph/) · [github.com/langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)
+
+LangGraph models agent workflows as **explicit directed graphs** where nodes are computational steps (LLM calls, tool invocations, branching logic) and edges define control flow. This gives developers fine-grained control over execution paths — essential for complex, stateful workflows requiring cycles, conditionals, and human-in-the-loop checkpoints.
+
+LangGraph is part of the LangChain ecosystem and has become the go-to choice for multi-step agent pipelines where predictability and auditability matter. Its explicit state machine model is more verbose than higher-level frameworks but makes it far easier to reason about and debug agent behavior.
+
+### AutoGen
+
+**Microsoft Research** · [microsoft.github.io/autogen](https://microsoft.github.io/autogen/) · [github.com/microsoft/autogen](https://github.com/microsoft/autogen)
+
+AutoGen pioneered the **conversational multi-agent** pattern: agents communicate with each other through structured message passing, and coordination emerges from the conversation rather than a predefined graph. This makes it natural for tasks where the agent count and communication topology aren't known in advance.
+
+AutoGen supports both synchronous and asynchronous agent execution. In **October 2025**, Microsoft announced the **Microsoft Agent Framework**, unifying AutoGen and Semantic Kernel into a single open-source offering for Python and .NET.
+
+### CrewAI
+
+**CrewAI** · [crewai.com](https://crewai.com) · [github.com/crewAI/crewAI](https://github.com/crewAI/crewAI)
+
+CrewAI takes an **organizational metaphor**: agents are assigned roles (researcher, writer, editor), goals, and backstories, and they collaborate on shared tasks like members of a work crew. This role-based model makes it intuitive for teams already thinking in terms of specialization and delegation. CrewAI consistently benchmarks as the fastest framework for straightforward task orchestration, with minimal execution overhead.
+
+### DSPy
+
+**Stanford NLP** · [dspy.ai](https://dspy.ai) · [github.com/stanfordnlp/dspy](https://github.com/stanfordnlp/dspy)
+
+DSPy (from Khattab et al., ICLR 2024 — [arXiv:2310.03714](https://arxiv.org/abs/2310.03714)) takes a fundamentally different approach. Rather than prompting language models, **DSPy programs them**: pipelines are expressed as declarative modules with typed signatures, and a compiler (*teleprompter*) automatically optimizes the underlying prompts against a metric, replacing brittle hand-crafted prompt engineering with principled, reproducible program optimization.
+
+DSPy is particularly powerful for building agentic systems with retrieval, multi-hop reasoning, or tool use, where the interaction between components makes manual prompt tuning difficult. The [GitHub repo](https://github.com/stanfordnlp/dspy) has over 20,000 stars.
+
+### Semantic Kernel
+
+**Microsoft** · [learn.microsoft.com/semantic-kernel](https://learn.microsoft.com/en-us/semantic-kernel/) · [github.com/microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel)
+
+Semantic Kernel is Microsoft's enterprise-focused SDK for AI orchestration, available in Python, C#, and Java. It centers on the concept of the **Kernel** — a central orchestration object that manages AI services, memory, plugins (tool wrappers), and agent coordination. Strong integration with Azure OpenAI, Azure AI Foundry, and Microsoft 365 makes it the natural choice for enterprise deployments in Microsoft environments. As noted above, it was merged with AutoGen into the **Microsoft Agent Framework** in late 2025.
+
+### Haystack
+
+**deepset** · [haystack.deepset.ai](https://haystack.deepset.ai) · [github.com/deepset-ai/haystack](https://github.com/deepset-ai/haystack)
+
+Haystack is deepset's open-source orchestration framework, designed for **production-ready LLM applications** with explicit control over every component: retrieval, routing, memory, and generation. Its modular pipeline model (components are connected via typed edges) prioritizes observability — every decision in the agent pipeline can be inspected and debugged. Haystack is particularly strong for RAG-heavy architectures and enterprise deployments where auditability is critical. The August 2025 launch of **Haystack Enterprise Starter** formalized its production support offering.
+
+### Frameworks and Protocols: The Relationship
+
+Frameworks consume protocols. A LangGraph workflow can invoke MCP tools through protocol-compliant calls; an AutoGen agent can act as an A2A server exposing its capabilities via an Agent Card; a CrewAI crew can delegate to a sub-crew using A2A task lifecycle semantics. The emergence of standard protocols is what allows frameworks to interoperate rather than forming isolated islands.
+
+---
+
+## 3. Tool Registries & Discovery
+
+As the number of available tools has exploded — over 16,000 MCP servers indexed by early 2026 — **tool discovery** has become a non-trivial problem. An agent serving a user's request needs to identify, from thousands of available tools, which handful are relevant.
+
+### MCP Server Registries
+
+The **official MCP Registry** ([github.com/modelcontextprotocol/registry](https://github.com/modelcontextprotocol/registry)) launched in preview in September 2025. It serves as a canonical index where developers publish their MCP servers with structured metadata. The architecture supports a hierarchical system: a primary registry with sub-registries for specific communities, use cases, or enterprises.
+
+Alongside the official registry, several community directories emerged: [mcp.so](https://mcp.so), [MCPJam](https://mcpjam.io), and [PulseMCP](https://pulsemcp.com) track the long tail of community-built servers. These meta-registries illustrate a pattern common in package ecosystems: the official registry provides authority while community directories provide volume and curation.
+
+The deeper problem is **semantic discovery**: even with 2,000 well-catalogued servers, an agent making a tool selection decision needs more than a directory listing. Vector similarity search over tool descriptions and embeddings of prior usage patterns are active areas of development for intelligent tool routing.
+
+### Tool Aggregators
+
+**[Composio](https://composio.dev)** · [github.com/ComposioHQ/composio](https://github.com/ComposioHQ/composio)
+
+Composio is the leading tool aggregation platform for agents, providing a unified layer across 1,000+ toolkits — from GitHub to HackerNews to enterprise APIs. Rather than connecting to each tool individually, agents connect to Composio once and gain access to the full catalog. Composio handles authentication (OAuth, API keys), context management, and a sandboxed workbench. It integrates with all major frameworks (OpenAI Agents SDK, LangGraph, AutoGen) and supports MCP. Its **COMPOSIO_SEARCH_TOOLS** capability enables agents to discover relevant tools at runtime from the full catalog.
+
+**[Toolhouse](https://toolhouse.ai)** builds a similar layer focused on composable tool execution: plug-and-play tool infrastructure with cloud execution, context-aware storage, and unified authentication across providers.
+
+The long-term vision shared by both is an "**app store for agents**": a curated, searchable marketplace of pre-built, verified tools with standardized authentication and billing. The parallel to mobile app stores is intentional — the infrastructure challenge of discovering, authenticating, and securely invoking a tool is analogous to discovering, installing, and running an app.
+
+---
+
+## 4. Security & Trust in Agent Infrastructure
+
+The infrastructure layer is also where agents are most vulnerable. Protocols that allow agents to invoke arbitrary external code create attack surfaces that didn't exist in earlier AI deployments.
+
+### Tool Poisoning and Malicious MCP Servers
+
+**Tool poisoning** is the MCP-specific variant of prompt injection: a malicious or compromised MCP server includes harmful instructions in its tool descriptions, which are read by the LLM as part of the context. Unlike traditional prompt injection (which targets the user-facing conversation), tool poisoning exploits the trust the agent places in tool metadata.
+
+The MCPTox benchmark has documented that tool poisoning attacks are alarmingly common in the MCP ecosystem. Real-world incidents have followed the same supply-chain attack pattern seen in traditional software:
+
+- **Rug pulls:** a tool that initially behaves safely dynamically alters its behavior or description after the user has granted it permissions
+- **Malicious updates:** a widely-installed MCP server package is updated with malicious code, instantly compromising all users (the mcp-remote npm package, with over 558,000 downloads, contained a critical vulnerability: CVE-2025-6514)
+- **Server-side CVEs:** Anthropic's own mcp-server-git shipped with chained vulnerabilities (CVE-2025-68145, CVE-2025-68143, CVE-2025-68144) enabling path traversal and argument injection attacks
+
+[Authzed published a consolidated timeline](https://authzed.com/blog/timeline-mcp-breaches) of major MCP-related security breaches through mid-2025, providing a useful chronicle of how quickly the attack surface materialized.
+
+### AgentBound: Access Control for MCP Servers
+
+**Bühler et al. (2025)** · [arXiv:2510.21236](https://arxiv.org/abs/2510.21236)
+
+**AgentBound** is the first formal access-control framework for MCP servers. It combines:
+
+1. A **declarative policy mechanism** — inspired by the Android permission model — that specifies what filesystem paths, network hosts, and system calls an MCP server may access
+2. A **policy enforcement engine** that contains malicious behavior without requiring modifications to the MCP server itself
+
+The authors built a dataset of the 296 most popular MCP servers and showed that access-control policies can be automatically generated from source code with **80.9% accuracy** using LLM-based static analysis. In evaluation on known malicious servers, AgentBound blocked the majority of documented threats with negligible performance overhead.
+
+### Security of AI Agents: A Systems View
+
+**He & Wang (2024)** · [arXiv:2406.08689](https://arxiv.org/abs/2406.08689)
+
+This paper provides a systematic treatment of AI agent vulnerabilities from a **system security perspective** — analyzing the agent not just as a language model but as a running process with memory, tool access, and environmental interactions. Key vulnerability classes identified include: unauthorized data exfiltration through tool calls, privilege escalation via chained tool use, and memory corruption through adversarial inputs. The paper introduces corresponding defense mechanisms and evaluates their viability — making it the definitive systems-security reference for agent deployments.
+
+### Authentication and Authorization Patterns
+
+Beyond tool-level security, agent infrastructure must address **identity** and **authorization**:
+
+- **Which agent is making a request?** A2A's signed Agent Cards and ACP's capability tokens both address this, providing unforgeable credentials that encode what an agent is authorized to do.
+- **On whose behalf?** OAuth flows embedded in MCP (as in the mcp-remote package) allow agents to act as users toward external services — but this also means the token is now in the agent's context and accessible to any tool the agent invokes.
+- **Audit trails:** comprehensive logging of all tool invocations is essential for post-hoc security analysis. Both AgentBound and the OpenAI Agents SDK's tracing feature address this.
+
+The [OWASP GenAI Security Project](https://genai.owasp.org/llmrisk/llm01-prompt-injection/) documents prompt injection — the parent category of tool poisoning — as the top risk in LLM deployments (LLM01:2025). Infrastructure-layer defenses are a complement to, not a replacement for, model-level robustness.
+
+---
+
+## 5. Deployment Patterns
+
+The infrastructure for running agents in production has diversified rapidly. The choices — local vs. cloud, self-hosted vs. managed, stateful vs. stateless — have significant implications for cost, privacy, latency, and capability.
+
+### Local Agent Runtimes
+
+Running agents locally (on a developer's machine or a private server) is the natural choice for privacy-sensitive applications and for development. MCP's stdio transport makes this easy for tool connections: the host process spawns MCP servers as local subprocesses. Frameworks like LangGraph and the OpenAI Agents SDK can run entirely locally against locally-hosted LLMs (via Ollama or similar).
+
+The tradeoff is capability: local deployments are limited to the compute and model quality available locally. Local LLMs have improved dramatically in 2024–2026, but frontier reasoning tasks still require cloud inference.
+
+### Self-Hosted Platforms
+
+**[Letta](https://letta.com)** · [github.com/letta-ai/letta](https://github.com/letta-ai/letta) (formerly MemGPT)
+
+Letta is the leading self-hosted **stateful agent platform**. It runs as a server — locally or on your infrastructure — and provides persistent agent state management: memory, conversation history, tool execution traces, and reasoning traces are stored in a model-agnostic format, enabling seamless migration between model providers. Letta's REST API allows external systems to create, query, and interact with agents programmatically, making it well-suited for building "agent-as-a-service" backends.
+
+**[OpenClaw](https://openclaw.ai)** is an emerging self-hosted agent runtime combining a local agent server with Telegram-based natural language control, MCP tool integration, and multi-agent orchestration. Its design philosophy emphasizes running capable agents on infrastructure you control, with full access to your data and tools, while remaining connected to frontier models via API.
+
+### Managed Platforms
+
+**OpenAI's Responses API** and **Anthropic's Claude API** offer managed inference with increasing agentic capabilities (tool use, computer use, long context). The tradeoff is lock-in and privacy: data sent to managed platforms is subject to provider terms and may be used for model improvement.
+
+**Agent-as-a-Service** platforms like [Beam.cloud](https://beam.cloud) and [Modal](https://modal.com) offer serverless compute environments specifically designed for long-running agentic workloads — handling the infrastructure complexity of scaling agent sessions, managing persistent state, and billing per task rather than per server-hour.
+
+### Edge Deployment
+
+Running agents at the edge — on mobile devices, IoT hardware, or regional compute nodes close to users — is an emerging frontier. Small, quantized models (Phi-3-mini, Gemma-3, Llama-3.1-8B running at INT4) can handle many tool-use tasks acceptably, with larger cloud models available for fallback on complex reasoning. The [Personal LLM Agents](https://arxiv.org/abs/2401.05459) survey (Liu et al., 2024) provides a detailed treatment of the capability and efficiency considerations for on-device agent deployment.
+
+### The Self-Hosted vs. Managed Tradeoff
+
+| Dimension | Self-Hosted | Managed |
+|---|---|---|
+| **Privacy** | Data stays on your infrastructure | Data processed by provider |
+| **Capability** | Limited by local compute | Access to frontier models |
+| **Cost** | Fixed infrastructure + API costs | Variable per-request pricing |
+| **Control** | Full — modify runtime, add tools | Limited to provider API surface |
+| **Maintenance** | You manage updates, security | Provider manages infrastructure |
+
+The trend is toward **hybrid deployments**: local agent runtimes (Letta, OpenClaw) that invoke cloud frontier model APIs for inference, keeping agent state and tool access under operator control while leveraging cloud-scale model quality.
+
+---
+
+## Key Themes
+
+### The Stack is Crystallizing
+
+After two years of fragmentation, the infrastructure stack is converging: MCP for tool connectivity, A2A/ACP (now merging) for inter-agent communication, a handful of frameworks (LangGraph, AutoGen, CrewAI) for orchestration, and Composio-style aggregators for tool access. This convergence mirrors the maturation of earlier API ecosystems (REST APIs, npm packages) — the "plumbing wars" are mostly over; now the focus shifts to security and quality.
+
+### Security is the Unsolved Problem
+
+The rapid adoption of MCP created a large attack surface before security practices caught up. The combination of tool poisoning, malicious server updates, and OAuth token exposure in agent context windows represents a genuinely new threat model. AgentBound's declarative access-control approach, modeled on the Android permission system, is the most principled published solution — but widespread adoption requires either framework-level enforcement or platform-level policies.
+
+### The Protocol Convergence Signal
+
+The merger of IBM's ACP with Google's A2A under the Linux Foundation, combined with Anthropic's donation of MCP to the AAIF and OpenAI co-founding that foundation — represents an unusual degree of cross-company coordination on shared infrastructure. This is the industry betting that interoperability is a prerequisite, not a competitive differentiator.
+
+---
+
+## References
+
+### Papers
+
+- **AgentBound: Securing AI Agent Execution** (Bühler et al., 2025) — [arXiv:2510.21236](https://arxiv.org/abs/2510.21236) *(first declarative access-control framework for MCP servers; dataset of 296 top servers; 80.9% auto-generated policy accuracy)*
+- **Security of AI Agents** (He & Wang, 2024) — [arXiv:2406.08689](https://arxiv.org/abs/2406.08689) *(system security analysis of AI agent vulnerabilities and defenses)*
+- **Personal LLM Agents: Insights and Survey about Capability, Efficiency and Security** (Liu et al., 2024) — [arXiv:2401.05459](https://arxiv.org/abs/2401.05459) *(on-device agent deployment constraints and design)*
+- **DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines** (Khattab et al., ICLR 2024) — [arXiv:2310.03714](https://arxiv.org/abs/2310.03714) *(programming, not prompting; automatic pipeline optimization)*
+
+### Blog Posts & Resources
+
+- **Introducing the Model Context Protocol** (Anthropic, November 2024) — [anthropic.com/news/model-context-protocol](https://www.anthropic.com/news/model-context-protocol)
+- **One Year of MCP: November 2025 Spec Release** (MCP Blog, November 2025) — [blog.modelcontextprotocol.io/posts/2025-11-25-first-mcp-anniversary](http://blog.modelcontextprotocol.io/posts/2025-11-25-first-mcp-anniversary/)
+- **Announcing the Agent2Agent Protocol (A2A)** (Google, April 2025) — [developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/)
+- **Agent2Agent Protocol Gets an Upgrade** (Google Cloud, July 2025) — [cloud.google.com/blog/products/ai-machine-learning/agent2agent-protocol-is-getting-an-upgrade](https://cloud.google.com/blog/products/ai-machine-learning/agent2agent-protocol-is-getting-an-upgrade)
+- **ACP Joins Forces with A2A** (Linux Foundation LF AI & Data, August 2025) — [lfaidata.foundation/communityblog/2025/08/29/acp-joins-forces-with-a2a-under-the-linux-foundations-lf-ai-data](https://lfaidata.foundation/communityblog/2025/08/29/acp-joins-forces-with-a2a-under-the-linux-foundations-lf-ai-data/)
+- **Why the Model Context Protocol Won** (The New Stack, December 2025) — [thenewstack.io/why-the-model-context-protocol-won](https://thenewstack.io/why-the-model-context-protocol-won/)
+- **State of MCP Server Security 2025** (Astrix Security, February 2026) — [astrix.security/learn/blog/state-of-mcp-server-security-2025](https://astrix.security/learn/blog/state-of-mcp-server-security-2025/)
+- **A Timeline of MCP Security Breaches** (Authzed, 2025) — [authzed.com/blog/timeline-mcp-breaches](https://authzed.com/blog/timeline-mcp-breaches)
+- **IBM's Agent Communication Protocol: A Technical Overview** (WorkOS, April 2025) — [workos.com/blog/ibm-agent-communication-protocol-acp](https://workos.com/blog/ibm-agent-communication-protocol-acp)
+- **Semantic Kernel + AutoGen = Microsoft Agent Framework** (Visual Studio Magazine, October 2025) — [visualstudiomagazine.com/articles/2025/10/01/semantic-kernel-autogen--open-source-microsoft-agent-framework.aspx](https://visualstudiomagazine.com/articles/2025/10/01/semantic-kernel-autogen--open-source-microsoft-agent-framework.aspx)
+- **OWASP GenAI Security: LLM01:2025 Prompt Injection** — [genai.owasp.org/llmrisk/llm01-prompt-injection](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)
+
+### Code & Projects
+
+- **Model Context Protocol (official specification + SDKs)** — [github.com/modelcontextprotocol](https://github.com/modelcontextprotocol)
+- **MCP Registry** (official community-driven server registry) — [github.com/modelcontextprotocol/registry](https://github.com/modelcontextprotocol/registry)
+- **Agent2Agent Protocol (A2A)** — [github.com/a2aproject/A2A](https://github.com/a2aproject/A2A)
+- **BeeAI Platform / ACP reference implementation** — [github.com/i-am-bee/beeai-platform](https://github.com/i-am-bee/beeai-platform)
+- **OpenAI Agents SDK** (Python) — [github.com/openai/openai-agents-python](https://github.com/openai/openai-agents-python)
+- **LangGraph** (graph-based agent workflows) — [github.com/langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)
+- **AutoGen** (Microsoft multi-agent conversation framework) — [github.com/microsoft/autogen](https://github.com/microsoft/autogen)
+- **Semantic Kernel** (Microsoft enterprise AI SDK) — [github.com/microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel)
+- **CrewAI** (role-based multi-agent crews) — [github.com/crewAI/crewAI](https://github.com/crewAI/crewAI)
+- **DSPy** (Stanford NLP; programming language models) — [github.com/stanfordnlp/dspy](https://github.com/stanfordnlp/dspy)
+- **Haystack** (deepset production-ready agent orchestration) — [github.com/deepset-ai/haystack](https://github.com/deepset-ai/haystack)
+- **Composio** (tool aggregation platform for agents) — [github.com/ComposioHQ/composio](https://github.com/ComposioHQ/composio)
+- **Letta** (self-hosted stateful agent platform, formerly MemGPT) — [github.com/letta-ai/letta](https://github.com/letta-ai/letta)
+
+---
+
+*Back to [Topics →](topics.qmd) · See also: [2024–2026 Frontier →](recent.qmd) · [Community & Independent Agents →](community.qmd)*
