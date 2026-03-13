@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Agent Infrastructure &amp; Protocols – LLM Agents: A Survey (2022–2026)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./favicon.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-254a3ef50811769e7b813971395bbfc6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-31e29ad2a3d1e7985534403fb9b8ee74.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-254a3ef50811769e7b813971395bbfc6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">LLM Agents: A Survey (2022–2026)</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./taxonomy.html"> 
+<span class="menu-text">Taxonomy</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./timeline.html"> 
+<span class="menu-text">Timeline</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./foundations.html"> 
+<span class="menu-text">2022–2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./recent.html"> 
+<span class="menu-text">2024–2026</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-deep-dives" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Deep Dives</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-deep-dives">    
+        <li>
+    <a class="dropdown-item" href="./reasoning.html">
+ <span class="dropdown-text">Reasoning &amp; Planning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./multiagent.html">
+ <span class="dropdown-text">Multi-Agent Systems</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./memory-tools.html">
+ <span class="dropdown-text">Memory, Tools &amp; Actions</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-topics" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Topics</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-topics">    
+        <li>
+    <a class="dropdown-item" href="./topics.html">
+ <span class="dropdown-text">Topics Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./evaluation.html">
+ <span class="dropdown-text">Evaluation &amp; Benchmarks</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./safety.html">
+ <span class="dropdown-text">Safety &amp; Alignment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./science-agents.html">
+ <span class="dropdown-text">Science &amp; Research Agents</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./personalization.html">
+ <span class="dropdown-text">Personalization &amp; Digital Twins</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./infrastructure.html">
+ <span class="dropdown-text">Infrastructure &amp; Protocols</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./human-agent.html">
+ <span class="dropdown-text">Human-Agent Interaction</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./community.html"> 
+<span class="menu-text">Community</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./resources.html"> 
+<span class="menu-text">Resources</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/johnplake/llm-agents-survey"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#the-protocol-landscape" id="toc-the-protocol-landscape" class="nav-link" data-scroll-target="#the-protocol-landscape">1. The Protocol Landscape</a>
+  <ul class="collapse">
+  <li><a href="#model-context-protocol-mcp" id="toc-model-context-protocol-mcp" class="nav-link" data-scroll-target="#model-context-protocol-mcp">Model Context Protocol (MCP)</a></li>
+  <li><a href="#agent2agent-protocol-a2a" id="toc-agent2agent-protocol-a2a" class="nav-link" data-scroll-target="#agent2agent-protocol-a2a">Agent2Agent Protocol (A2A)</a></li>
+  <li><a href="#agent-communication-protocol-acp" id="toc-agent-communication-protocol-acp" class="nav-link" data-scroll-target="#agent-communication-protocol-acp">Agent Communication Protocol (ACP)</a></li>
+  <li><a href="#openai-agents-sdk" id="toc-openai-agents-sdk" class="nav-link" data-scroll-target="#openai-agents-sdk">OpenAI Agents SDK</a></li>
+  <li><a href="#comparing-the-protocols" id="toc-comparing-the-protocols" class="nav-link" data-scroll-target="#comparing-the-protocols">Comparing the Protocols</a></li>
+  </ul></li>
+  <li><a href="#agent-frameworks-orchestration" id="toc-agent-frameworks-orchestration" class="nav-link" data-scroll-target="#agent-frameworks-orchestration">2. Agent Frameworks &amp; Orchestration</a>
+  <ul class="collapse">
+  <li><a href="#langgraph" id="toc-langgraph" class="nav-link" data-scroll-target="#langgraph">LangGraph</a></li>
+  <li><a href="#autogen" id="toc-autogen" class="nav-link" data-scroll-target="#autogen">AutoGen</a></li>
+  <li><a href="#crewai" id="toc-crewai" class="nav-link" data-scroll-target="#crewai">CrewAI</a></li>
+  <li><a href="#dspy" id="toc-dspy" class="nav-link" data-scroll-target="#dspy">DSPy</a></li>
+  <li><a href="#semantic-kernel" id="toc-semantic-kernel" class="nav-link" data-scroll-target="#semantic-kernel">Semantic Kernel</a></li>
+  <li><a href="#haystack" id="toc-haystack" class="nav-link" data-scroll-target="#haystack">Haystack</a></li>
+  <li><a href="#frameworks-and-protocols-the-relationship" id="toc-frameworks-and-protocols-the-relationship" class="nav-link" data-scroll-target="#frameworks-and-protocols-the-relationship">Frameworks and Protocols: The Relationship</a></li>
+  </ul></li>
+  <li><a href="#tool-registries-discovery" id="toc-tool-registries-discovery" class="nav-link" data-scroll-target="#tool-registries-discovery">3. Tool Registries &amp; Discovery</a>
+  <ul class="collapse">
+  <li><a href="#mcp-server-registries" id="toc-mcp-server-registries" class="nav-link" data-scroll-target="#mcp-server-registries">MCP Server Registries</a></li>
+  <li><a href="#tool-aggregators" id="toc-tool-aggregators" class="nav-link" data-scroll-target="#tool-aggregators">Tool Aggregators</a></li>
+  </ul></li>
+  <li><a href="#security-trust-in-agent-infrastructure" id="toc-security-trust-in-agent-infrastructure" class="nav-link" data-scroll-target="#security-trust-in-agent-infrastructure">4. Security &amp; Trust in Agent Infrastructure</a>
+  <ul class="collapse">
+  <li><a href="#tool-poisoning-and-malicious-mcp-servers" id="toc-tool-poisoning-and-malicious-mcp-servers" class="nav-link" data-scroll-target="#tool-poisoning-and-malicious-mcp-servers">Tool Poisoning and Malicious MCP Servers</a></li>
+  <li><a href="#agentbound-access-control-for-mcp-servers" id="toc-agentbound-access-control-for-mcp-servers" class="nav-link" data-scroll-target="#agentbound-access-control-for-mcp-servers">AgentBound: Access Control for MCP Servers</a></li>
+  <li><a href="#security-of-ai-agents-a-systems-view" id="toc-security-of-ai-agents-a-systems-view" class="nav-link" data-scroll-target="#security-of-ai-agents-a-systems-view">Security of AI Agents: A Systems View</a></li>
+  <li><a href="#authentication-and-authorization-patterns" id="toc-authentication-and-authorization-patterns" class="nav-link" data-scroll-target="#authentication-and-authorization-patterns">Authentication and Authorization Patterns</a></li>
+  </ul></li>
+  <li><a href="#deployment-patterns" id="toc-deployment-patterns" class="nav-link" data-scroll-target="#deployment-patterns">5. Deployment Patterns</a>
+  <ul class="collapse">
+  <li><a href="#local-agent-runtimes" id="toc-local-agent-runtimes" class="nav-link" data-scroll-target="#local-agent-runtimes">Local Agent Runtimes</a></li>
+  <li><a href="#self-hosted-platforms" id="toc-self-hosted-platforms" class="nav-link" data-scroll-target="#self-hosted-platforms">Self-Hosted Platforms</a></li>
+  <li><a href="#managed-platforms" id="toc-managed-platforms" class="nav-link" data-scroll-target="#managed-platforms">Managed Platforms</a></li>
+  <li><a href="#edge-deployment" id="toc-edge-deployment" class="nav-link" data-scroll-target="#edge-deployment">Edge Deployment</a></li>
+  <li><a href="#the-self-hosted-vs.-managed-tradeoff" id="toc-the-self-hosted-vs.-managed-tradeoff" class="nav-link" data-scroll-target="#the-self-hosted-vs.-managed-tradeoff">The Self-Hosted vs.&nbsp;Managed Tradeoff</a></li>
+  </ul></li>
+  <li><a href="#key-themes" id="toc-key-themes" class="nav-link" data-scroll-target="#key-themes">Key Themes</a>
+  <ul class="collapse">
+  <li><a href="#the-stack-is-crystallizing" id="toc-the-stack-is-crystallizing" class="nav-link" data-scroll-target="#the-stack-is-crystallizing">The Stack is Crystallizing</a></li>
+  <li><a href="#security-is-the-unsolved-problem" id="toc-security-is-the-unsolved-problem" class="nav-link" data-scroll-target="#security-is-the-unsolved-problem">Security is the Unsolved Problem</a></li>
+  <li><a href="#the-protocol-convergence-signal" id="toc-the-protocol-convergence-signal" class="nav-link" data-scroll-target="#the-protocol-convergence-signal">The Protocol Convergence Signal</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a>
+  <ul class="collapse">
+  <li><a href="#papers" id="toc-papers" class="nav-link" data-scroll-target="#papers">Papers</a></li>
+  <li><a href="#blog-posts-resources" id="toc-blog-posts-resources" class="nav-link" data-scroll-target="#blog-posts-resources">Blog Posts &amp; Resources</a></li>
+  <li><a href="#code-projects" id="toc-code-projects" class="nav-link" data-scroll-target="#code-projects">Code &amp; Projects</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Agent Infrastructure &amp; Protocols</h1>
+<p class="subtitle lead">MCP, A2A, ACP, and the plumbing that connects agents to the world</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>For most of AI history, capability was the bottleneck. Now, increasingly, <strong>infrastructure is the bottleneck</strong>: how do agents connect to tools? How do they communicate with each other? How do you deploy them reliably, securely, and at scale? These questions have produced an explosion of competing and complementary protocols, frameworks, and platforms in 2024–2026.</p>
+<p>The core challenge is interoperability. An agent built on one framework needs to invoke tools built for another. An orchestrating agent needs to delegate to a specialized sub-agent without knowing how that agent was implemented. A deployed system needs to be secured against malicious tools and prompt injection. The solutions to these problems — protocols, registries, access-control frameworks, deployment runtimes — constitute the <strong>infrastructure layer</strong> of the agent ecosystem.</p>
+<p>This layer is now the central battleground. The choices made here will determine how agents compose, interoperate, and are controlled for years to come.</p>
+<hr>
+</section>
+<section id="the-protocol-landscape" class="level2">
+<h2 class="anchored" data-anchor-id="the-protocol-landscape">1. The Protocol Landscape</h2>
+<section id="model-context-protocol-mcp" class="level3">
+<h3 class="anchored" data-anchor-id="model-context-protocol-mcp">Model Context Protocol (MCP)</h3>
+<p><strong>Anthropic</strong> · <a href="https://modelcontextprotocol.io">modelcontextprotocol.io</a> · <a href="https://github.com/modelcontextprotocol">github.com/modelcontextprotocol</a></p>
+<p><em>“Think of MCP like a USB-C port for AI applications. Just as USB-C provides a standardized way to connect electronic devices, MCP provides a standardized way to connect AI applications to external systems.”</em></p>
+<p>Launched in <strong>November 2024</strong>, MCP is an open-source protocol for connecting LLMs to external tools and data sources. Its design is consciously modeled on the <a href="https://microsoft.github.io/language-server-protocol/">Language Server Protocol (LSP)</a> — the same architectural pattern that standardized IDE integrations across editors. Where LSP standardized how editors talk to language compilers, MCP standardizes how AI applications talk to tools.</p>
+<p><strong>Architecture:</strong> MCP defines three roles:</p>
+<ul>
+<li><strong>Host</strong> — the AI application (e.g., Claude Desktop, a custom agent runner) that orchestrates everything and enforces security policy</li>
+<li><strong>Client</strong> — a connection inside the host that maintains a 1:1 session with a server</li>
+<li><strong>Server</strong> — a lightweight process exposing capabilities (tools, resources, prompts) to the AI</li>
+</ul>
+<p>Communication uses <strong>JSON-RPC 2.0</strong> over multiple transport options (stdio for local processes, HTTP/SSE for remote servers). Servers can expose three primitive types: <strong>tools</strong> (callable functions), <strong>resources</strong> (data the LLM can read), and <strong>prompts</strong> (reusable prompt templates).</p>
+<p><strong>Ecosystem explosion:</strong> MCP spread faster than any comparable developer protocol. Within its first year, the official <a href="https://github.com/modelcontextprotocol/registry">MCP Registry</a> — launched in preview in September 2025 — accumulated close to 2,000 entries. Unofficial directories like <a href="https://mcp.so">mcp.so</a> indexed over 16,000 servers by early 2026. Major platforms adopted it rapidly: Visual Studio Code, Cursor, Claude, ChatGPT, and Windows 11 all announced MCP support within months of launch.</p>
+<p><strong>Governance:</strong> In December 2025, Anthropic donated MCP to the <strong>Agentic AI Foundation (AAIF)</strong>, a directed fund under the Linux Foundation co-founded by Anthropic, Block, and OpenAI. This moved MCP from a vendor-controlled spec to shared industry infrastructure.</p>
+<hr>
+</section>
+<section id="agent2agent-protocol-a2a" class="level3">
+<h3 class="anchored" data-anchor-id="agent2agent-protocol-a2a">Agent2Agent Protocol (A2A)</h3>
+<p><strong>Google</strong> · <a href="https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/">developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability</a> · <a href="https://github.com/a2aproject/A2A">github.com/a2aproject/A2A</a></p>
+<p>MCP solves agent-to-tool connectivity. <strong>A2A</strong>, launched by Google in <strong>April 2025</strong>, solves the complementary problem: <strong>agent-to-agent communication</strong>. Where MCP is about what an agent can <em>do</em>, A2A is about how agents can <em>collaborate</em>.</p>
+<p><strong>Core design:</strong> A2A treats agents as opaque — they don’t share internal state, memory, or implementation. Instead, they communicate through a well-defined message-passing protocol:</p>
+<ul>
+<li><strong>Agent Cards</strong> — JSON documents published by each agent describing its capabilities, supported tasks, and interface. Capability discovery without shared code or framework.</li>
+<li><strong>Task lifecycle</strong> — A2A defines task states (submitted, working, completed, failed) with structured progress updates, enabling long-running asynchronous collaboration.</li>
+<li><strong>Streaming and push</strong> — Support for streaming responses and server-sent events so orchestrators can monitor sub-agent progress in real time.</li>
+</ul>
+<p>A2A received a major update in <strong>July 2025</strong> adding gRPC transport support, signed Agent Cards (for authentication), and extended Python SDK coverage. The <a href="https://github.com/a2aproject/A2A">A2A spec</a> is maintained as an open community project under the Linux Foundation LF AI &amp; Data umbrella.</p>
+<hr>
+</section>
+<section id="agent-communication-protocol-acp" class="level3">
+<h3 class="anchored" data-anchor-id="agent-communication-protocol-acp">Agent Communication Protocol (ACP)</h3>
+<p><strong>IBM Research / BeeAI</strong> · <a href="https://agentcommunicationprotocol.dev">agentcommunicationprotocol.dev</a> · <a href="https://github.com/i-am-bee/beeai-platform">github.com/i-am-bee/beeai-platform</a></p>
+<p><strong>ACP</strong> was launched by <strong>IBM Research</strong> in March 2025 to power its <a href="https://beeai.dev">BeeAI Platform</a> — an open-source system for agent orchestration, deployment, and sharing. Like A2A, ACP addresses inter-agent communication, but with a specific emphasis on agent portability and framework independence.</p>
+<p>Key design choices in ACP: REST-based message passing (rather than gRPC), stateful session support for long-running agents, <strong>capability tokens</strong> (signed objects encoding resource type, operations, and expiry for authorization), and native observability via OpenTelemetry (OTLP instrumentation with Arize Phoenix trace export).</p>
+<p>In <strong>August 2025</strong>, the ACP team joined forces with Google’s A2A protocol team to develop a unified standard for agent communication, formally merging the two efforts under the <strong>Linux Foundation LF AI &amp; Data</strong>. ACP’s stateful session model and authorization primitives are being incorporated into the converging specification. The original ACP repository remains active as the BeeAI reference implementation.</p>
+<hr>
+</section>
+<section id="openai-agents-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="openai-agents-sdk">OpenAI Agents SDK</h3>
+<p><strong>OpenAI</strong> · <a href="https://openai.github.io/openai-agents-python/">openai.github.io/openai-agents-python</a> · <a href="https://github.com/openai/openai-agents-python">github.com/openai/openai-agents-python</a></p>
+<p>While not strictly a protocol, the <strong>OpenAI Agents SDK</strong> (open-sourced in early 2025, available in Python and TypeScript) deserves inclusion as infrastructure: it established the dominant practical vocabulary for building multi-agent applications and has been widely adopted.</p>
+<p><strong>Core primitives:</strong></p>
+<ul>
+<li><strong>Agents</strong> — LLMs equipped with instructions, tools, and optional handoffs to other agents</li>
+<li><strong>Handoffs</strong> — the mechanism for one agent to transfer control to another, with customizable context filtering and transfer logic. Enables hierarchical and peer delegation patterns.</li>
+<li><strong>Guardrails</strong> — input and output validation checks that run in parallel with agent execution, failing fast when safety or quality thresholds are not met. Available as both agent-level and tool-level guardrails.</li>
+<li><strong>Tracing</strong> — built-in observability that records all LLM calls, tool invocations, handoffs, and guardrail checks. The Traces dashboard enables debugging and monitoring.</li>
+</ul>
+<p>The SDK is provider-agnostic: despite the OpenAI name, it supports non-OpenAI models through documented adapters. It natively supports MCP servers as tool sources, illustrating how protocols and frameworks interlock.</p>
+<hr>
+</section>
+<section id="comparing-the-protocols" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-the-protocols">Comparing the Protocols</h3>
+<p>These four efforts solve related but distinct problems:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Protocol</th>
+<th>Problem Solved</th>
+<th>Transport</th>
+<th>Key Primitive</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>MCP</strong></td>
+<td>Agent ↔︎ Tool/Data</td>
+<td>JSON-RPC (stdio, HTTP/SSE)</td>
+<td>Tool call, Resource read</td>
+</tr>
+<tr class="even">
+<td><strong>A2A</strong></td>
+<td>Agent ↔︎ Agent (opaque)</td>
+<td>HTTP/REST, gRPC</td>
+<td>Agent Card, Task</td>
+</tr>
+<tr class="odd">
+<td><strong>ACP</strong></td>
+<td>Agent ↔︎ Agent (portable)</td>
+<td>REST</td>
+<td>Capability token, Session</td>
+</tr>
+<tr class="even">
+<td><strong>OpenAI Agents SDK</strong></td>
+<td>Multi-agent orchestration</td>
+<td>N/A (library)</td>
+<td>Handoff, Guardrail</td>
+</tr>
+</tbody>
+</table>
+<p>A well-designed agentic system will typically use several of these together: MCP for connecting to external tools, A2A or ACP for delegating to specialized sub-agents, and a framework SDK (OpenAI Agents, LangGraph, etc.) for orchestration logic.</p>
+<hr>
+</section>
+</section>
+<section id="agent-frameworks-orchestration" class="level2">
+<h2 class="anchored" data-anchor-id="agent-frameworks-orchestration">2. Agent Frameworks &amp; Orchestration</h2>
+<p>Protocols define <em>how</em> agents talk. Frameworks define <em>how</em> agents are built and coordinated. The two layers are related but distinct: frameworks are built on top of protocols, and the same framework can support multiple protocols.</p>
+<section id="langgraph" class="level3">
+<h3 class="anchored" data-anchor-id="langgraph">LangGraph</h3>
+<p><strong>LangChain</strong> · <a href="https://langchain-ai.github.io/langgraph/">langchain-ai.github.io/langgraph</a> · <a href="https://github.com/langchain-ai/langgraph">github.com/langchain-ai/langgraph</a></p>
+<p>LangGraph models agent workflows as <strong>explicit directed graphs</strong> where nodes are computational steps (LLM calls, tool invocations, branching logic) and edges define control flow. This gives developers fine-grained control over execution paths — essential for complex, stateful workflows requiring cycles, conditionals, and human-in-the-loop checkpoints.</p>
+<p>LangGraph is part of the LangChain ecosystem and has become the go-to choice for multi-step agent pipelines where predictability and auditability matter. Its explicit state machine model is more verbose than higher-level frameworks but makes it far easier to reason about and debug agent behavior.</p>
+</section>
+<section id="autogen" class="level3">
+<h3 class="anchored" data-anchor-id="autogen">AutoGen</h3>
+<p><strong>Microsoft Research</strong> · <a href="https://microsoft.github.io/autogen/">microsoft.github.io/autogen</a> · <a href="https://github.com/microsoft/autogen">github.com/microsoft/autogen</a></p>
+<p>AutoGen pioneered the <strong>conversational multi-agent</strong> pattern: agents communicate with each other through structured message passing, and coordination emerges from the conversation rather than a predefined graph. This makes it natural for tasks where the agent count and communication topology aren’t known in advance.</p>
+<p>AutoGen supports both synchronous and asynchronous agent execution. In <strong>October 2025</strong>, Microsoft announced the <strong>Microsoft Agent Framework</strong>, unifying AutoGen and Semantic Kernel into a single open-source offering for Python and .NET.</p>
+</section>
+<section id="crewai" class="level3">
+<h3 class="anchored" data-anchor-id="crewai">CrewAI</h3>
+<p><strong>CrewAI</strong> · <a href="https://crewai.com">crewai.com</a> · <a href="https://github.com/crewAI/crewAI">github.com/crewAI/crewAI</a></p>
+<p>CrewAI takes an <strong>organizational metaphor</strong>: agents are assigned roles (researcher, writer, editor), goals, and backstories, and they collaborate on shared tasks like members of a work crew. This role-based model makes it intuitive for teams already thinking in terms of specialization and delegation. CrewAI consistently benchmarks as the fastest framework for straightforward task orchestration, with minimal execution overhead.</p>
+</section>
+<section id="dspy" class="level3">
+<h3 class="anchored" data-anchor-id="dspy">DSPy</h3>
+<p><strong>Stanford NLP</strong> · <a href="https://dspy.ai">dspy.ai</a> · <a href="https://github.com/stanfordnlp/dspy">github.com/stanfordnlp/dspy</a></p>
+<p>DSPy (from Khattab et al., ICLR 2024 — <a href="https://arxiv.org/abs/2310.03714">arXiv:2310.03714</a>) takes a fundamentally different approach. Rather than prompting language models, <strong>DSPy programs them</strong>: pipelines are expressed as declarative modules with typed signatures, and a compiler (<em>teleprompter</em>) automatically optimizes the underlying prompts against a metric, replacing brittle hand-crafted prompt engineering with principled, reproducible program optimization.</p>
+<p>DSPy is particularly powerful for building agentic systems with retrieval, multi-hop reasoning, or tool use, where the interaction between components makes manual prompt tuning difficult. The <a href="https://github.com/stanfordnlp/dspy">GitHub repo</a> has over 20,000 stars.</p>
+</section>
+<section id="semantic-kernel" class="level3">
+<h3 class="anchored" data-anchor-id="semantic-kernel">Semantic Kernel</h3>
+<p><strong>Microsoft</strong> · <a href="https://learn.microsoft.com/en-us/semantic-kernel/">learn.microsoft.com/semantic-kernel</a> · <a href="https://github.com/microsoft/semantic-kernel">github.com/microsoft/semantic-kernel</a></p>
+<p>Semantic Kernel is Microsoft’s enterprise-focused SDK for AI orchestration, available in Python, C#, and Java. It centers on the concept of the <strong>Kernel</strong> — a central orchestration object that manages AI services, memory, plugins (tool wrappers), and agent coordination. Strong integration with Azure OpenAI, Azure AI Foundry, and Microsoft 365 makes it the natural choice for enterprise deployments in Microsoft environments. As noted above, it was merged with AutoGen into the <strong>Microsoft Agent Framework</strong> in late 2025.</p>
+</section>
+<section id="haystack" class="level3">
+<h3 class="anchored" data-anchor-id="haystack">Haystack</h3>
+<p><strong>deepset</strong> · <a href="https://haystack.deepset.ai">haystack.deepset.ai</a> · <a href="https://github.com/deepset-ai/haystack">github.com/deepset-ai/haystack</a></p>
+<p>Haystack is deepset’s open-source orchestration framework, designed for <strong>production-ready LLM applications</strong> with explicit control over every component: retrieval, routing, memory, and generation. Its modular pipeline model (components are connected via typed edges) prioritizes observability — every decision in the agent pipeline can be inspected and debugged. Haystack is particularly strong for RAG-heavy architectures and enterprise deployments where auditability is critical. The August 2025 launch of <strong>Haystack Enterprise Starter</strong> formalized its production support offering.</p>
+</section>
+<section id="frameworks-and-protocols-the-relationship" class="level3">
+<h3 class="anchored" data-anchor-id="frameworks-and-protocols-the-relationship">Frameworks and Protocols: The Relationship</h3>
+<p>Frameworks consume protocols. A LangGraph workflow can invoke MCP tools through protocol-compliant calls; an AutoGen agent can act as an A2A server exposing its capabilities via an Agent Card; a CrewAI crew can delegate to a sub-crew using A2A task lifecycle semantics. The emergence of standard protocols is what allows frameworks to interoperate rather than forming isolated islands.</p>
+<hr>
+</section>
+</section>
+<section id="tool-registries-discovery" class="level2">
+<h2 class="anchored" data-anchor-id="tool-registries-discovery">3. Tool Registries &amp; Discovery</h2>
+<p>As the number of available tools has exploded — over 16,000 MCP servers indexed by early 2026 — <strong>tool discovery</strong> has become a non-trivial problem. An agent serving a user’s request needs to identify, from thousands of available tools, which handful are relevant.</p>
+<section id="mcp-server-registries" class="level3">
+<h3 class="anchored" data-anchor-id="mcp-server-registries">MCP Server Registries</h3>
+<p>The <strong>official MCP Registry</strong> (<a href="https://github.com/modelcontextprotocol/registry">github.com/modelcontextprotocol/registry</a>) launched in preview in September 2025. It serves as a canonical index where developers publish their MCP servers with structured metadata. The architecture supports a hierarchical system: a primary registry with sub-registries for specific communities, use cases, or enterprises.</p>
+<p>Alongside the official registry, several community directories emerged: <a href="https://mcp.so">mcp.so</a>, <a href="https://mcpjam.io">MCPJam</a>, and <a href="https://pulsemcp.com">PulseMCP</a> track the long tail of community-built servers. These meta-registries illustrate a pattern common in package ecosystems: the official registry provides authority while community directories provide volume and curation.</p>
+<p>The deeper problem is <strong>semantic discovery</strong>: even with 2,000 well-catalogued servers, an agent making a tool selection decision needs more than a directory listing. Vector similarity search over tool descriptions and embeddings of prior usage patterns are active areas of development for intelligent tool routing.</p>
+</section>
+<section id="tool-aggregators" class="level3">
+<h3 class="anchored" data-anchor-id="tool-aggregators">Tool Aggregators</h3>
+<p><strong><a href="https://composio.dev">Composio</a></strong> · <a href="https://github.com/ComposioHQ/composio">github.com/ComposioHQ/composio</a></p>
+<p>Composio is the leading tool aggregation platform for agents, providing a unified layer across 1,000+ toolkits — from GitHub to HackerNews to enterprise APIs. Rather than connecting to each tool individually, agents connect to Composio once and gain access to the full catalog. Composio handles authentication (OAuth, API keys), context management, and a sandboxed workbench. It integrates with all major frameworks (OpenAI Agents SDK, LangGraph, AutoGen) and supports MCP. Its <strong>COMPOSIO_SEARCH_TOOLS</strong> capability enables agents to discover relevant tools at runtime from the full catalog.</p>
+<p><strong><a href="https://toolhouse.ai">Toolhouse</a></strong> builds a similar layer focused on composable tool execution: plug-and-play tool infrastructure with cloud execution, context-aware storage, and unified authentication across providers.</p>
+<p>The long-term vision shared by both is an “<strong>app store for agents</strong>”: a curated, searchable marketplace of pre-built, verified tools with standardized authentication and billing. The parallel to mobile app stores is intentional — the infrastructure challenge of discovering, authenticating, and securely invoking a tool is analogous to discovering, installing, and running an app.</p>
+<hr>
+</section>
+</section>
+<section id="security-trust-in-agent-infrastructure" class="level2">
+<h2 class="anchored" data-anchor-id="security-trust-in-agent-infrastructure">4. Security &amp; Trust in Agent Infrastructure</h2>
+<p>The infrastructure layer is also where agents are most vulnerable. Protocols that allow agents to invoke arbitrary external code create attack surfaces that didn’t exist in earlier AI deployments.</p>
+<section id="tool-poisoning-and-malicious-mcp-servers" class="level3">
+<h3 class="anchored" data-anchor-id="tool-poisoning-and-malicious-mcp-servers">Tool Poisoning and Malicious MCP Servers</h3>
+<p><strong>Tool poisoning</strong> is the MCP-specific variant of prompt injection: a malicious or compromised MCP server includes harmful instructions in its tool descriptions, which are read by the LLM as part of the context. Unlike traditional prompt injection (which targets the user-facing conversation), tool poisoning exploits the trust the agent places in tool metadata.</p>
+<p>The MCPTox benchmark has documented that tool poisoning attacks are alarmingly common in the MCP ecosystem. Real-world incidents have followed the same supply-chain attack pattern seen in traditional software:</p>
+<ul>
+<li><strong>Rug pulls:</strong> a tool that initially behaves safely dynamically alters its behavior or description after the user has granted it permissions</li>
+<li><strong>Malicious updates:</strong> a widely-installed MCP server package is updated with malicious code, instantly compromising all users (the mcp-remote npm package, with over 558,000 downloads, contained a critical vulnerability: CVE-2025-6514)</li>
+<li><strong>Server-side CVEs:</strong> Anthropic’s own mcp-server-git shipped with chained vulnerabilities (CVE-2025-68145, CVE-2025-68143, CVE-2025-68144) enabling path traversal and argument injection attacks</li>
+</ul>
+<p><a href="https://authzed.com/blog/timeline-mcp-breaches">Authzed published a consolidated timeline</a> of major MCP-related security breaches through mid-2025, providing a useful chronicle of how quickly the attack surface materialized.</p>
+</section>
+<section id="agentbound-access-control-for-mcp-servers" class="level3">
+<h3 class="anchored" data-anchor-id="agentbound-access-control-for-mcp-servers">AgentBound: Access Control for MCP Servers</h3>
+<p><strong>Bühler et al.&nbsp;(2025)</strong> · <a href="https://arxiv.org/abs/2510.21236">arXiv:2510.21236</a></p>
+<p><strong>AgentBound</strong> is the first formal access-control framework for MCP servers. It combines:</p>
+<ol type="1">
+<li>A <strong>declarative policy mechanism</strong> — inspired by the Android permission model — that specifies what filesystem paths, network hosts, and system calls an MCP server may access</li>
+<li>A <strong>policy enforcement engine</strong> that contains malicious behavior without requiring modifications to the MCP server itself</li>
+</ol>
+<p>The authors built a dataset of the 296 most popular MCP servers and showed that access-control policies can be automatically generated from source code with <strong>80.9% accuracy</strong> using LLM-based static analysis. In evaluation on known malicious servers, AgentBound blocked the majority of documented threats with negligible performance overhead.</p>
+</section>
+<section id="security-of-ai-agents-a-systems-view" class="level3">
+<h3 class="anchored" data-anchor-id="security-of-ai-agents-a-systems-view">Security of AI Agents: A Systems View</h3>
+<p><strong>He &amp; Wang (2024)</strong> · <a href="https://arxiv.org/abs/2406.08689">arXiv:2406.08689</a></p>
+<p>This paper provides a systematic treatment of AI agent vulnerabilities from a <strong>system security perspective</strong> — analyzing the agent not just as a language model but as a running process with memory, tool access, and environmental interactions. Key vulnerability classes identified include: unauthorized data exfiltration through tool calls, privilege escalation via chained tool use, and memory corruption through adversarial inputs. The paper introduces corresponding defense mechanisms and evaluates their viability — making it the definitive systems-security reference for agent deployments.</p>
+</section>
+<section id="authentication-and-authorization-patterns" class="level3">
+<h3 class="anchored" data-anchor-id="authentication-and-authorization-patterns">Authentication and Authorization Patterns</h3>
+<p>Beyond tool-level security, agent infrastructure must address <strong>identity</strong> and <strong>authorization</strong>:</p>
+<ul>
+<li><strong>Which agent is making a request?</strong> A2A’s signed Agent Cards and ACP’s capability tokens both address this, providing unforgeable credentials that encode what an agent is authorized to do.</li>
+<li><strong>On whose behalf?</strong> OAuth flows embedded in MCP (as in the mcp-remote package) allow agents to act as users toward external services — but this also means the token is now in the agent’s context and accessible to any tool the agent invokes.</li>
+<li><strong>Audit trails:</strong> comprehensive logging of all tool invocations is essential for post-hoc security analysis. Both AgentBound and the OpenAI Agents SDK’s tracing feature address this.</li>
+</ul>
+<p>The <a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP GenAI Security Project</a> documents prompt injection — the parent category of tool poisoning — as the top risk in LLM deployments (LLM01:2025). Infrastructure-layer defenses are a complement to, not a replacement for, model-level robustness.</p>
+<hr>
+</section>
+</section>
+<section id="deployment-patterns" class="level2">
+<h2 class="anchored" data-anchor-id="deployment-patterns">5. Deployment Patterns</h2>
+<p>The infrastructure for running agents in production has diversified rapidly. The choices — local vs.&nbsp;cloud, self-hosted vs.&nbsp;managed, stateful vs.&nbsp;stateless — have significant implications for cost, privacy, latency, and capability.</p>
+<section id="local-agent-runtimes" class="level3">
+<h3 class="anchored" data-anchor-id="local-agent-runtimes">Local Agent Runtimes</h3>
+<p>Running agents locally (on a developer’s machine or a private server) is the natural choice for privacy-sensitive applications and for development. MCP’s stdio transport makes this easy for tool connections: the host process spawns MCP servers as local subprocesses. Frameworks like LangGraph and the OpenAI Agents SDK can run entirely locally against locally-hosted LLMs (via Ollama or similar).</p>
+<p>The tradeoff is capability: local deployments are limited to the compute and model quality available locally. Local LLMs have improved dramatically in 2024–2026, but frontier reasoning tasks still require cloud inference.</p>
+</section>
+<section id="self-hosted-platforms" class="level3">
+<h3 class="anchored" data-anchor-id="self-hosted-platforms">Self-Hosted Platforms</h3>
+<p><strong><a href="https://letta.com">Letta</a></strong> · <a href="https://github.com/letta-ai/letta">github.com/letta-ai/letta</a> (formerly MemGPT)</p>
+<p>Letta is the leading self-hosted <strong>stateful agent platform</strong>. It runs as a server — locally or on your infrastructure — and provides persistent agent state management: memory, conversation history, tool execution traces, and reasoning traces are stored in a model-agnostic format, enabling seamless migration between model providers. Letta’s REST API allows external systems to create, query, and interact with agents programmatically, making it well-suited for building “agent-as-a-service” backends.</p>
+<p><strong><a href="https://openclaw.ai">OpenClaw</a></strong> is an emerging self-hosted agent runtime combining a local agent server with Telegram-based natural language control, MCP tool integration, and multi-agent orchestration. Its design philosophy emphasizes running capable agents on infrastructure you control, with full access to your data and tools, while remaining connected to frontier models via API.</p>
+</section>
+<section id="managed-platforms" class="level3">
+<h3 class="anchored" data-anchor-id="managed-platforms">Managed Platforms</h3>
+<p><strong>OpenAI’s Responses API</strong> and <strong>Anthropic’s Claude API</strong> offer managed inference with increasing agentic capabilities (tool use, computer use, long context). The tradeoff is lock-in and privacy: data sent to managed platforms is subject to provider terms and may be used for model improvement.</p>
+<p><strong>Agent-as-a-Service</strong> platforms like <a href="https://beam.cloud">Beam.cloud</a> and <a href="https://modal.com">Modal</a> offer serverless compute environments specifically designed for long-running agentic workloads — handling the infrastructure complexity of scaling agent sessions, managing persistent state, and billing per task rather than per server-hour.</p>
+</section>
+<section id="edge-deployment" class="level3">
+<h3 class="anchored" data-anchor-id="edge-deployment">Edge Deployment</h3>
+<p>Running agents at the edge — on mobile devices, IoT hardware, or regional compute nodes close to users — is an emerging frontier. Small, quantized models (Phi-3-mini, Gemma-3, Llama-3.1-8B running at INT4) can handle many tool-use tasks acceptably, with larger cloud models available for fallback on complex reasoning. The <a href="https://arxiv.org/abs/2401.05459">Personal LLM Agents</a> survey (Liu et al., 2024) provides a detailed treatment of the capability and efficiency considerations for on-device agent deployment.</p>
+</section>
+<section id="the-self-hosted-vs.-managed-tradeoff" class="level3">
+<h3 class="anchored" data-anchor-id="the-self-hosted-vs.-managed-tradeoff">The Self-Hosted vs.&nbsp;Managed Tradeoff</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dimension</th>
+<th>Self-Hosted</th>
+<th>Managed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Privacy</strong></td>
+<td>Data stays on your infrastructure</td>
+<td>Data processed by provider</td>
+</tr>
+<tr class="even">
+<td><strong>Capability</strong></td>
+<td>Limited by local compute</td>
+<td>Access to frontier models</td>
+</tr>
+<tr class="odd">
+<td><strong>Cost</strong></td>
+<td>Fixed infrastructure + API costs</td>
+<td>Variable per-request pricing</td>
+</tr>
+<tr class="even">
+<td><strong>Control</strong></td>
+<td>Full — modify runtime, add tools</td>
+<td>Limited to provider API surface</td>
+</tr>
+<tr class="odd">
+<td><strong>Maintenance</strong></td>
+<td>You manage updates, security</td>
+<td>Provider manages infrastructure</td>
+</tr>
+</tbody>
+</table>
+<p>The trend is toward <strong>hybrid deployments</strong>: local agent runtimes (Letta, OpenClaw) that invoke cloud frontier model APIs for inference, keeping agent state and tool access under operator control while leveraging cloud-scale model quality.</p>
+<hr>
+</section>
+</section>
+<section id="key-themes" class="level2">
+<h2 class="anchored" data-anchor-id="key-themes">Key Themes</h2>
+<section id="the-stack-is-crystallizing" class="level3">
+<h3 class="anchored" data-anchor-id="the-stack-is-crystallizing">The Stack is Crystallizing</h3>
+<p>After two years of fragmentation, the infrastructure stack is converging: MCP for tool connectivity, A2A/ACP (now merging) for inter-agent communication, a handful of frameworks (LangGraph, AutoGen, CrewAI) for orchestration, and Composio-style aggregators for tool access. This convergence mirrors the maturation of earlier API ecosystems (REST APIs, npm packages) — the “plumbing wars” are mostly over; now the focus shifts to security and quality.</p>
+</section>
+<section id="security-is-the-unsolved-problem" class="level3">
+<h3 class="anchored" data-anchor-id="security-is-the-unsolved-problem">Security is the Unsolved Problem</h3>
+<p>The rapid adoption of MCP created a large attack surface before security practices caught up. The combination of tool poisoning, malicious server updates, and OAuth token exposure in agent context windows represents a genuinely new threat model. AgentBound’s declarative access-control approach, modeled on the Android permission system, is the most principled published solution — but widespread adoption requires either framework-level enforcement or platform-level policies.</p>
+</section>
+<section id="the-protocol-convergence-signal" class="level3">
+<h3 class="anchored" data-anchor-id="the-protocol-convergence-signal">The Protocol Convergence Signal</h3>
+<p>The merger of IBM’s ACP with Google’s A2A under the Linux Foundation, combined with Anthropic’s donation of MCP to the AAIF and OpenAI co-founding that foundation — represents an unusual degree of cross-company coordination on shared infrastructure. This is the industry betting that interoperability is a prerequisite, not a competitive differentiator.</p>
+<hr>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<section id="papers" class="level3">
+<h3 class="anchored" data-anchor-id="papers">Papers</h3>
+<ul>
+<li><strong>AgentBound: Securing AI Agent Execution</strong> (Bühler et al., 2025) — <a href="https://arxiv.org/abs/2510.21236">arXiv:2510.21236</a> <em>(first declarative access-control framework for MCP servers; dataset of 296 top servers; 80.9% auto-generated policy accuracy)</em></li>
+<li><strong>Security of AI Agents</strong> (He &amp; Wang, 2024) — <a href="https://arxiv.org/abs/2406.08689">arXiv:2406.08689</a> <em>(system security analysis of AI agent vulnerabilities and defenses)</em></li>
+<li><strong>Personal LLM Agents: Insights and Survey about Capability, Efficiency and Security</strong> (Liu et al., 2024) — <a href="https://arxiv.org/abs/2401.05459">arXiv:2401.05459</a> <em>(on-device agent deployment constraints and design)</em></li>
+<li><strong>DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines</strong> (Khattab et al., ICLR 2024) — <a href="https://arxiv.org/abs/2310.03714">arXiv:2310.03714</a> <em>(programming, not prompting; automatic pipeline optimization)</em></li>
+</ul>
+</section>
+<section id="blog-posts-resources" class="level3">
+<h3 class="anchored" data-anchor-id="blog-posts-resources">Blog Posts &amp; Resources</h3>
+<ul>
+<li><strong>Introducing the Model Context Protocol</strong> (Anthropic, November 2024) — <a href="https://www.anthropic.com/news/model-context-protocol">anthropic.com/news/model-context-protocol</a></li>
+<li><strong>One Year of MCP: November 2025 Spec Release</strong> (MCP Blog, November 2025) — <a href="http://blog.modelcontextprotocol.io/posts/2025-11-25-first-mcp-anniversary/">blog.modelcontextprotocol.io/posts/2025-11-25-first-mcp-anniversary</a></li>
+<li><strong>Announcing the Agent2Agent Protocol (A2A)</strong> (Google, April 2025) — <a href="https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/">developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability</a></li>
+<li><strong>Agent2Agent Protocol Gets an Upgrade</strong> (Google Cloud, July 2025) — <a href="https://cloud.google.com/blog/products/ai-machine-learning/agent2agent-protocol-is-getting-an-upgrade">cloud.google.com/blog/products/ai-machine-learning/agent2agent-protocol-is-getting-an-upgrade</a></li>
+<li><strong>ACP Joins Forces with A2A</strong> (Linux Foundation LF AI &amp; Data, August 2025) — <a href="https://lfaidata.foundation/communityblog/2025/08/29/acp-joins-forces-with-a2a-under-the-linux-foundations-lf-ai-data/">lfaidata.foundation/communityblog/2025/08/29/acp-joins-forces-with-a2a-under-the-linux-foundations-lf-ai-data</a></li>
+<li><strong>Why the Model Context Protocol Won</strong> (The New Stack, December 2025) — <a href="https://thenewstack.io/why-the-model-context-protocol-won/">thenewstack.io/why-the-model-context-protocol-won</a></li>
+<li><strong>State of MCP Server Security 2025</strong> (Astrix Security, February 2026) — <a href="https://astrix.security/learn/blog/state-of-mcp-server-security-2025/">astrix.security/learn/blog/state-of-mcp-server-security-2025</a></li>
+<li><strong>A Timeline of MCP Security Breaches</strong> (Authzed, 2025) — <a href="https://authzed.com/blog/timeline-mcp-breaches">authzed.com/blog/timeline-mcp-breaches</a></li>
+<li><strong>IBM’s Agent Communication Protocol: A Technical Overview</strong> (WorkOS, April 2025) — <a href="https://workos.com/blog/ibm-agent-communication-protocol-acp">workos.com/blog/ibm-agent-communication-protocol-acp</a></li>
+<li><strong>Semantic Kernel + AutoGen = Microsoft Agent Framework</strong> (Visual Studio Magazine, October 2025) — <a href="https://visualstudiomagazine.com/articles/2025/10/01/semantic-kernel-autogen--open-source-microsoft-agent-framework.aspx">visualstudiomagazine.com/articles/2025/10/01/semantic-kernel-autogen–open-source-microsoft-agent-framework.aspx</a></li>
+<li><strong>OWASP GenAI Security: LLM01:2025 Prompt Injection</strong> — <a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">genai.owasp.org/llmrisk/llm01-prompt-injection</a></li>
+</ul>
+</section>
+<section id="code-projects" class="level3">
+<h3 class="anchored" data-anchor-id="code-projects">Code &amp; Projects</h3>
+<ul>
+<li><strong>Model Context Protocol (official specification + SDKs)</strong> — <a href="https://github.com/modelcontextprotocol">github.com/modelcontextprotocol</a></li>
+<li><strong>MCP Registry</strong> (official community-driven server registry) — <a href="https://github.com/modelcontextprotocol/registry">github.com/modelcontextprotocol/registry</a></li>
+<li><strong>Agent2Agent Protocol (A2A)</strong> — <a href="https://github.com/a2aproject/A2A">github.com/a2aproject/A2A</a></li>
+<li><strong>BeeAI Platform / ACP reference implementation</strong> — <a href="https://github.com/i-am-bee/beeai-platform">github.com/i-am-bee/beeai-platform</a></li>
+<li><strong>OpenAI Agents SDK</strong> (Python) — <a href="https://github.com/openai/openai-agents-python">github.com/openai/openai-agents-python</a></li>
+<li><strong>LangGraph</strong> (graph-based agent workflows) — <a href="https://github.com/langchain-ai/langgraph">github.com/langchain-ai/langgraph</a></li>
+<li><strong>AutoGen</strong> (Microsoft multi-agent conversation framework) — <a href="https://github.com/microsoft/autogen">github.com/microsoft/autogen</a></li>
+<li><strong>Semantic Kernel</strong> (Microsoft enterprise AI SDK) — <a href="https://github.com/microsoft/semantic-kernel">github.com/microsoft/semantic-kernel</a></li>
+<li><strong>CrewAI</strong> (role-based multi-agent crews) — <a href="https://github.com/crewAI/crewAI">github.com/crewAI/crewAI</a></li>
+<li><strong>DSPy</strong> (Stanford NLP; programming language models) — <a href="https://github.com/stanfordnlp/dspy">github.com/stanfordnlp/dspy</a></li>
+<li><strong>Haystack</strong> (deepset production-ready agent orchestration) — <a href="https://github.com/deepset-ai/haystack">github.com/deepset-ai/haystack</a></li>
+<li><strong>Composio</strong> (tool aggregation platform for agents) — <a href="https://github.com/ComposioHQ/composio">github.com/ComposioHQ/composio</a></li>
+<li><strong>Letta</strong> (self-hosted stateful agent platform, formerly MemGPT) — <a href="https://github.com/letta-ai/letta">github.com/letta-ai/letta</a></li>
+</ul>
+<hr>
+<p><em>Back to <a href="./topics.html">Topics →</a> · See also: <a href="./recent.html">2024–2026 Frontier →</a> · <a href="./community.html">Community &amp; Independent Agents →</a></em></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/johnplake\.github\.io\/llm-agents-survey\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

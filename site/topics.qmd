@@ -58,6 +58,14 @@ MCP, A2A, ACP, OpenAI Agents SDK — the protocols and frameworks that connect a
 How humans work with autonomous agents — trust calibration, delegation patterns, UX of agentic systems, human-in-the-loop design, and the emerging world of ambient background agents.
 :::
 
+::: {.survey-card}
+::: {.card-icon}
+💰
+:::
+### [Agent Economics](economics.qmd)
+Cost per task, token efficiency, budget-constrained execution, model routing & cascading (FrugalGPT, RouteLLM), prompt compression, and enterprise ROI — the economics of making agents affordable at scale.
+:::
+
 :::
 
 ---
