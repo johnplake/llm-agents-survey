@@ -231,15 +231,15 @@ The **[ChatGPT "spAIware" incident](https://embracethered.com/blog/posts/2024/ch
 
 **[PoisonedRAG](https://arxiv.org/abs/2402.07867)** (Zou et al., 2024) demonstrates that retrieval-augmented memories are vulnerable to data-poisoning: injecting a small number of adversarial texts into the knowledge base causes the LLM to generate attacker-chosen outputs for targeted questions.
 
-Composite attacks can chain memory corruption with persona manipulation: an attacker first injects a false memory (via a malicious document or tool output), then in a subsequent session leverages that stored corruption to influence the agent's persona or behavior — multi-step attack chains substantially harder to detect than single-turn jailbreaks.
+Composite attacks can chain memory corruption with persona manipulation: an attacker first injects a false memory (via a malicious document or tool output), then in a subsequent session leverages that stored corruption to influence the agent's persona or behavior — multi-step attack chains substantially harder to detect than single-turn jailbreaks. See **[MINJA](https://arxiv.org/abs/2503.03704)** (arXiv:2503.03704) for a concrete demonstration, and **[Memory Poisoning Attack and Defense on Memory-Based LLM Agents](https://arxiv.org/abs/2601.05504)** (arXiv:2601.05504, 2026) for a comprehensive attack+defense survey of this class.
 
 ### Defense Approaches
 
 **[Constitutional AI](https://arxiv.org/abs/2212.08073)** (Anthropic, 2022) trains models to critique and revise their own outputs against a set of principles, making safety behavior more robust to persona-based circumvention — though it does not fully eliminate roleplay jailbreaks.
 
-**Persona-aware safety training** fine-tunes models to maintain safety behaviors specifically when in character, rather than treating persona adoption as a context that overrides safety constraints. This requires training data that explicitly includes persona-jailbreak attempts with desired refusals.
+**Persona-aware safety training** fine-tunes models to maintain safety behaviors specifically when in character, rather than treating persona adoption as a context that overrides safety constraints. **[Jailbroken: How Does LLM Safety Training Fail?](https://arxiv.org/abs/2307.02483)** (Wei et al., arXiv:2307.02483, NeurIPS 2023) analyses the competing objectives that cause safety training to fail under roleplay and persona prompting — the key theoretical motivation for persona-specific safety training data.
 
-**Memory access controls** and **memory sandboxing** limit what information can be written to persistent memory (e.g., only the model's own summarization can write to long-term memory, not raw user input), reducing the attack surface for memory-poisoning.
+**Memory access controls** and **memory sandboxing** limit what information can be written to persistent memory (e.g., only the model's own summarization can write to long-term memory, not raw user input), reducing the attack surface for memory-poisoning. **[Security of AI Agents](https://arxiv.org/abs/2406.08689)** (He & Wang, arXiv:2406.08689) provides a systematic treatment of sandboxing and access-control primitives for LLM agents; **[Securing AI Agent Execution](https://arxiv.org/abs/2510.21236)** (Bühler et al., arXiv:2510.21236, 2025) extends this with runtime enforcement mechanisms.
 
 ---
 
@@ -280,6 +280,11 @@ The research landscape above is complemented by a growing set of commercial prod
 - **RoleLLM: Benchmarking, Eliciting, and Enhancing Role-Playing Abilities of LLMs** (Wang et al., 2023) — [arXiv:2310.00746](https://arxiv.org/abs/2310.00746) *(includes RoleGPT prompting component and RoleBench evaluation)*
 - **Scaling Synthetic Data Creation with 1,000,000,000 Personas** (Chan et al., 2024) — [arXiv:2406.20094](https://arxiv.org/abs/2406.20094) *(Persona Hub: diverse web-scale personas for synthetic data generation)*
 - **InjecMEM: Memory Injection Attack on LLM Agent Memory Systems** (OpenReview 2025) — [openreview.net/forum?id=QVX6hcJ2um](https://openreview.net/forum?id=QVX6hcJ2um)
+- **A Practical Memory Injection Attack against LLM Agents (MINJA)** (2025) — [arXiv:2503.03704](https://arxiv.org/abs/2503.03704)
+- **Memory Poisoning Attack and Defense on Memory-Based LLM Agents** (2026) — [arXiv:2601.05504](https://arxiv.org/abs/2601.05504)
+- **Jailbroken: How Does LLM Safety Training Fail?** (Wei et al., NeurIPS 2023) — [arXiv:2307.02483](https://arxiv.org/abs/2307.02483)
+- **Security of AI Agents** (He & Wang, 2024) — [arXiv:2406.08689](https://arxiv.org/abs/2406.08689)
+- **Securing AI Agent Execution** (Bühler et al., 2025) — [arXiv:2510.21236](https://arxiv.org/abs/2510.21236)
 - **PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation** (Zou et al., 2024) — [arXiv:2402.07867](https://arxiv.org/abs/2402.07867)
 - **PLeak: Prompt Leaking Attacks against Large Language Model Applications** (CCS 2024) — [ACM DL](https://dl.acm.org/doi/10.1145/3658644.3670370)
 - **Prompt Leakage Effect and Mitigation Strategies for Multi-Turn LLM Applications** (Agarwal et al., EMNLP Industry 2024) — [ACL Anthology](https://aclanthology.org/2024.emnlp-industry.94.pdf)
