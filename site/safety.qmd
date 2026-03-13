@@ -29,8 +29,8 @@ Benchmark for indirect prompt injection attacks on tool-calling agents. Evaluate
 **AgentDojo** (2024) · [arXiv:2406.13352](https://arxiv.org/abs/2406.13352)  
 Security benchmark with realistic agentic tasks (email management, travel booking) and adversarial injections. Baseline attack success rates are alarmingly high; defenses are limited.
 
-**AgentHarm** (2024) · [arXiv:2410.09024](https://arxiv.org/abs/2410.09024)  
-Evaluates how often agents comply with harmful requests, directly or indirectly. Reveals that even safety-tuned models can be steered toward harmful actions via multi-step agentic flows.
+**AgentHarm** (2025) · [arXiv:2410.09024](https://arxiv.org/abs/2410.09024)  
+Benchmark of 110 explicitly malicious agent tasks (440 with augmentations) across 11 harm categories (fraud, cybercrime, harassment, etc.). Key finding: leading LLMs are **surprisingly compliant with malicious agent requests even without jailbreaking**. Additionally, simple universal jailbreak templates can be adapted to effectively jailbreak agents for coherent multi-step harmful behavior. Accepted at ICLR 2025.
 
 ### Privilege Escalation & Trust Confusion
 
@@ -84,14 +84,14 @@ Poorly designed tools are a primary source of agent safety failures (per Anthrop
 ## Monitoring & Transparency
 
 ### MIT AI Agent Index (2025)
-**[aiagentindex.mit.edu](https://aiagentindex.mit.edu)** · [arXiv:2602.17753](https://arxiv.org/html/2602.17753v1)
+**[aiagentindex.mit.edu](https://aiagentindex.mit.edu)** · [arXiv:2602.17753](https://arxiv.org/abs/2602.17753)
 
 The most systematic public audit of deployed agents. Key safety findings from studying 30 prominent agents:
 
 - Of 13 agents with frontier-level autonomy, **only 4 disclose any agentic safety evaluations**
 - **25/30 agents disclose no internal safety results**
 - **23/30 have no third-party safety testing**
-- 9/30 report capability benchmarks but lack corresponding safety data
+- 9/30 report capability benchmarks but lack corresponding safety data *(unverified — not confirmed in paper excerpts)*
 - Some agents explicitly designed to **bypass anti-bot protections**
 - No established standards for agent behavior on the web
 
@@ -147,7 +147,7 @@ The MIT AI Agent Index notes that **there are no established standards** for how
 | **AgentDojo** | Prompt injection in tool-calling agents | High baseline attack success rates |
 | **InjecAgent** | Indirect prompt injection (1,054 test cases, 2 attack types) | Most models highly vulnerable |
 | **AgentHarm** | Harmful behavior compliance | Safety-tuned models can still be steered |
-| **ST-WebAgentBench** | Safety instruction following in web tasks | Agents often violate safety instructions |
+| **ST-WebAgentBench** · [arXiv:2410.06703](https://arxiv.org/abs/2410.06703) | Safety instruction following in web tasks (222 tasks, CuP metric) | Average CuP < 2/3 of nominal completion rate; critical safety gaps exposed |
 | **Gartner Prediction (2025)** | Project cancellations | 40%+ of agentic AI projects predicted cancelled by 2027 due to cost/safety *(source needed)* |
 
 ---
@@ -168,11 +168,11 @@ Key open problems in agent safety:
 
 ### Papers
 
-- **InjecAgent: Shedding Light on LLM Agent Vulnerability to Indirect Prompt Injection** (Qi et al., 2024) — [arXiv:2403.02691](https://arxiv.org/abs/2403.02691)
-- **AgentDojo: A Benchmark for LLM-based Agents** (Fang et al., 2024) — [arXiv:2406.13352](https://arxiv.org/abs/2406.13352)
-- **AgentHarm: Evaluating the Vulnerability of LLM Agents Against Adversarial Attacks** (Qi et al., 2024) — [arXiv:2410.09024](https://arxiv.org/abs/2410.09024)
+- **InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents** (Zhan et al., 2024) — [arXiv:2403.02691](https://arxiv.org/abs/2403.02691)
+- **AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents** (Debenedetti et al., 2024) — [arXiv:2406.13352](https://arxiv.org/abs/2406.13352)
+- **AgentHarm: A Benchmark for Measuring Harmfulness of LLM Agents** (Andriushchenko et al., 2025) — [arXiv:2410.09024](https://arxiv.org/abs/2410.09024)
 - **Constitutional AI: Harmlessness from AI Feedback** (Bai et al., Anthropic, 2022) — [arXiv:2212.08073](https://arxiv.org/abs/2212.08073)
-- **MIT AI Agent Index 2025** — [arXiv:2602.17753](https://arxiv.org/html/2602.17753v1)
+- **The 2025 AI Agent Index: Documenting Technical and Safety Features of Deployed Agentic AI Systems** (Staufer et al., 2025) — [arXiv:2602.17753](https://arxiv.org/abs/2602.17753)
 
 ### Blog Posts & Resources
 

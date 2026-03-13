@@ -167,7 +167,7 @@ First major browser-using agent. GPT-3 fine-tuned with RLHF to browse and answer
 Dataset of 2,350 web tasks across 137 websites. Introduced generalist web agent challenge.
 
 **WebArena** (2023) · [arXiv:2307.13854](https://arxiv.org/abs/2307.13854)  
-4 functional websites (e-commerce, Reddit, GitLab, map), 812 realistic tasks. Baseline: ~14% for GPT-4.
+5 functional websites (e-commerce/OneStopShop, Reddit, GitLab, Map, Wikipedia), 812 realistic tasks. Baseline: ~14% for GPT-4.
 
 **WebAgent** (Google, 2023) · [arXiv:2307.12856](https://arxiv.org/abs/2307.12856)  
 Modular approach: HTML summarization + planning + grounded execution.
@@ -255,7 +255,7 @@ As agent frameworks matured in 2024, several RAG patterns emerged:
 - **ToolLLM: Facilitating Large Language Models to Master 16,000+ Real-world APIs** (Qin et al., 2023) — [arXiv:2307.16789](https://arxiv.org/abs/2307.16789)
 - **HuggingGPT: Solving AI Tasks with ChatGPT and its Friends in Hugging Face** (Shen et al., 2023) — [arXiv:2303.17580](https://arxiv.org/abs/2303.17580)
 - **AnyTool: Self-Reflective, Hierarchical Agents for Large-Scale API Calls** (2024) — [arXiv:2402.04253](https://arxiv.org/abs/2402.04253)
-- **CodeAct: Unified and Interoperable Agent Framework with Customizable Prompts and Execution** (Wang et al., 2024) — [arXiv:2402.01030](https://arxiv.org/abs/2402.01030)
+- **Executable Code Actions Elicit Better LLM Agents** (Wang et al., 2024) — [arXiv:2402.01030](https://arxiv.org/abs/2402.01030)
 - **Large Language Models as Tool Makers** (Cai et al., 2023) — [arXiv:2305.17126](https://arxiv.org/abs/2305.17126)
 
 ### Web Browsing Agents

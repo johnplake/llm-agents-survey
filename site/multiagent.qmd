@@ -61,7 +61,7 @@ Framework for building **conversable agents** that can interact with each other 
 ### AgentVerse: Facilitating Multi-Agent Collaboration (2023)
 **Chen et al.** · [arXiv:2308.10848](https://arxiv.org/abs/2308.10848)
 
-Platform for orchestrating agents in diverse scenarios and studying emergent behaviors — both positive (division of labor, error correction) and negative (groupthink, cascade failures). First systematic study of multi-agent failure modes.
+Platform for orchestrating agents in diverse scenarios and studying emergent behaviors — both positive (division of labor, error correction) and negative (groupthink, cascade failures). An early systematic study of both cooperative and failure modes in multi-agent systems. *(first-mover claim unverified)*
 
 - **GitHub:** [OpenBMB/AgentVerse](https://github.com/OpenBMB/AgentVerse)
 
@@ -312,7 +312,7 @@ Safety and trustworthiness evaluation for web agents. Tests whether agents follo
 - **ChatDev: Communicative Agents for Software Development** (Qian et al., 2023) — [arXiv:2307.07924](https://arxiv.org/abs/2307.07924)
 - **AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation** (Wu et al., 2023) — [arXiv:2308.08155](https://arxiv.org/abs/2308.08155)
 - **AgentVerse: Facilitating Multi-Agent Collaboration and Exploring Emergent Behaviors** (Chen et al., 2023) — [arXiv:2308.10848](https://arxiv.org/abs/2308.10848)
-- **DyLAN: Towards Dynamic LLM-Agent Network Deployed at the Edge** (Liu et al., 2023) — [arXiv:2310.02170](https://arxiv.org/abs/2310.02170)
+- **A Dynamic LLM-Powered Agent Network for Task-Oriented Agent Collaboration** (Liu et al., 2023) — [arXiv:2310.02170](https://arxiv.org/abs/2310.02170) — *Published COLM 2024*
 - **Solo Performance Prompting** (Wang et al., 2023) — [arXiv:2307.05300](https://arxiv.org/abs/2307.05300)
 - **AgentScope: A Flexible yet Robust Multi-Agent Platform** (Alibaba, 2024) — [arXiv:2402.14034](https://arxiv.org/abs/2402.14034)
 - **TapeAgents: Tape-Centric Agent Framework** (Bahdanau et al., 2024) — [arXiv:2412.08445](https://arxiv.org/abs/2412.08445)

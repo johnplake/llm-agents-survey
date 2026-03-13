@@ -9,7 +9,7 @@ A growing sub-field is building agents specifically for **scientific research** 
 
 Key challenges unique to scientific agents:
 
-- Literature is vast (38M+ papers on PubMed) and growing faster than any human can read
+- Literature is vast (39M+ papers on PubMed) and growing faster than any human can read
 - Knowledge is specialized: a general LLM may hallucinate domain-specific facts
 - Discovery requires synthesis *across* disciplines, not just within them
 - Hypotheses must be novel *and* grounded in prior evidence
@@ -125,7 +125,7 @@ This framing — measuring agents by *how long a task they can sustain* rather t
 ---
 
 ## Inference-Time Hyper-Scaling with KV Cache Compression (NeurIPS 2025)
-**NeurIPS 2025** · [neurips.cc poster](https://neurips.cc/virtual/2025/loc/san-diego/poster/119605)
+**Łańcucki et al. (NVIDIA / Edinburgh)** · [arXiv:2506.05345](https://arxiv.org/abs/2506.05345) · [neurips.cc poster](https://neurips.cc/virtual/2025/loc/san-diego/poster/119605)
 
 Introduces **Dynamic Memory Sparsification (DMS)** — a method for compressing KV caches in Transformer LLMs, enabling 8× compression in just 1K training steps while maintaining accuracy.
 
@@ -239,12 +239,12 @@ General-purpose agents struggle with specialized scientific domains (chemistry, 
 
 ### Papers
 
-- **Search-R1++: Advancing Deep Retrieval-Augmented Reasoning Systems** (Xu et al., 2026) — [arXiv:2602.19526](https://arxiv.org/abs/2602.19526)
+- **How to Train Your Deep Research Agent? Prompt, Reward, and Policy Optimization in Search-R1** (Xu et al., 2026) — [arXiv:2602.19526](https://arxiv.org/abs/2602.19526)
 - **METR: Measuring AI Ability to Complete Long Tasks** (Model Evaluation & Threat Research, 2025) — [metr.org/blog/2025-03-19](https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/) | [Time Horizons](https://metr.org/time-horizons/)
-- **Inference-Time Hyper-Scaling with KV Cache Compression: Dynamic Memory Sparsification** (NeurIPS 2025) — [neurips.cc/virtual/2025](https://neurips.cc/virtual/2025/loc/san-diego/poster/119605)
+- **Inference-Time Hyper-Scaling with KV Cache Compression: Dynamic Memory Sparsification** (Łańcucki et al., 2025) — [arXiv:2506.05345](https://arxiv.org/abs/2506.05345) | [neurips.cc/virtual/2025](https://neurips.cc/virtual/2025/loc/san-diego/poster/119605)
 - **Towards a Science of Scaling Agent Systems** (Google Research, 2025) — [arXiv:2512.08296](https://arxiv.org/abs/2512.08296) | [research.google/blog](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
-- **AgentEvolver: Self-Evolving Agent Systems via Curious Self-Questioning, Navigation and Attribution** (Zhai et al., 2025) — [arXiv:2511.10395](https://arxiv.org/abs/2511.10395)
-- **From Vibe Coding to Agentic Engineering with GLM-5** (GLM-5-Team, Zhipu AI, 2026) — [arXiv:2602.15763](https://arxiv.org/abs/2602.15763)
+- **AgentEvolver: Towards Efficient Self-Evolving Agent System** (Zhai et al., 2025) — [arXiv:2511.10395](https://arxiv.org/abs/2511.10395)
+- **from Vibe Coding to Agentic Engineering** (GLM-5-Team, Zhipu AI, 2026) — [arXiv:2602.15763](https://arxiv.org/abs/2602.15763)
 - **PaperCoder: Transforming ML Papers into Executable Code** (Seo et al., ICLR 2026) — [arXiv:2504.17192](https://arxiv.org/abs/2504.17192)
 
 ### Blog Posts & Research Platforms

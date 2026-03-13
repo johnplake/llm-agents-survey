@@ -218,8 +218,8 @@ Research thread exploring LLMs as simulators of environment dynamics for plannin
 
 | Benchmark | Focus | Key Papers |
 |-----------|-------|-----------|
-| GSM8K | Grade school math | [Cobbe et al. (2021)](https://arxiv.org/abs/2110.00476) |
-| MATH | Competition math | [Hendrycks et al. (2021)](https://arxiv.org/abs/2103.15808) |
+| GSM8K | Grade school math | [Cobbe et al. (2021)](https://arxiv.org/abs/2110.14168) |
+| MATH | Competition math | [Hendrycks et al. (2021)](https://arxiv.org/abs/2103.03874) |
 | HumanEval | Code generation | [Chen et al. (2021)](https://arxiv.org/abs/2107.03374) |
 | Game of 24 | Combinatorial reasoning | Tree of Thoughts (2023) |
 | ALFWorld | Embodied planning | [Shridhar et al. (2021)](https://arxiv.org/abs/2010.03768) |
@@ -289,7 +289,7 @@ Research thread exploring LLMs as simulators of environment dynamics for plannin
 
 ### Test-Time Compute & Search
 - **Scaling Language Models Test-Time Compute Optimally** (Snell et al., 2024) — [arXiv:2408.03314](https://arxiv.org/abs/2408.03314) — Targeted test-time scaling outperforms larger models
-- **Large Language Monkeys: Scaling to 256K Context Window with Token-Level Llama Emergencies** (Brown et al., 2024) — [arXiv:2407.21787](https://arxiv.org/abs/2407.21787) — Coverage via sampling and majority voting for test-time compute
+- **Large Language Monkeys: Scaling Inference Compute with Repeated Sampling** (Brown et al., 2024) — [arXiv:2407.21787](https://arxiv.org/abs/2407.21787) — Coverage (fraction of problems solved by any sample) scales over four orders of magnitude with repeated sampling; majority voting plateaus in domains without automatic verifiers
 
 ### RL-Trained Reasoning Models
 - **OpenAI o1 & o3** (OpenAI, 2024-2025) — [Technical report](https://openai.com/o1) — Models trained with RL to produce long internal reasoning chains; near-human Olympiad math performance
