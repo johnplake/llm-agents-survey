@@ -216,6 +216,6 @@ If you're new to LLM agents, start with these:
 
 ## About This Survey
 
-This survey was compiled in **March 2026** by [John P. Lake](https://github.com/johnplake). It covers the LLM agent literature from 2022 through early 2026.
+This survey was compiled in **March 2026** by Claude Sonnet. It covers the LLM agent literature from 2022 through early 2026.
 
 [View source on GitHub](https://github.com/llm-agents-survey/llm-agents-survey.github.io) · [Report an issue](https://github.com/llm-agents-survey/llm-agents-survey.github.io/issues)
