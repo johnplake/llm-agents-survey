@@ -124,6 +124,12 @@ The survey **"From Persona to Personalization: A Survey on Role-Playing Language
 
 **GitHub:** [Neph0s/awesome-llm-role-playing-with-persona](https://github.com/Neph0s/awesome-llm-role-playing-with-persona)
 
+### Persona Hub: Personas at Scale
+
+**[Persona Hub](https://arxiv.org/abs/2406.20094)** (Chan et al., 2024) approaches personas from a data synthesis angle: rather than building one faithful character, it creates a *billion* diverse personas drawn from the web to guide LLMs in generating synthetic data across many perspectives. The key insight is that a prompt conditioned on a specific persona ("a 45-year-old nurse in rural Ohio") elicits very different — and more realistic, more varied — outputs than a generic prompt. Persona Hub has been used to generate diverse math problems, preference data, instruction-following data, and red-teaming prompts. It bridges the demographic persona type (type 1 in Chen et al.'s taxonomy) with large-scale data engineering.
+
+**GitHub:** [tencent-ailab/persona-hub](https://github.com/tencent-ailab/persona-hub)
+
 ### Specifying Personas
 
 How do you give an LLM a persona? Three main approaches:
@@ -225,19 +231,30 @@ The **[ChatGPT "spAIware" incident](https://embracethered.com/blog/posts/2024/ch
 
 **[PoisonedRAG](https://arxiv.org/abs/2402.07867)** (Zou et al., 2024) demonstrates that retrieval-augmented memories are vulnerable to data-poisoning: injecting a small number of adversarial texts into the knowledge base causes the LLM to generate attacker-chosen outputs for targeted questions.
 
-**Prompt injection targeting personalized context** is described in **"From Prompt Injections to Protocol Exploits: Threats in LLM-Powered AI Agent Workflows"** (ScienceDirect, 2025): composite attacks that use prompt injection to first corrupt the memory store, then exploit stored corruptions in future turns, creating multi-step attack chains that are much harder to detect than single-turn attacks.
+Composite attacks can chain memory corruption with persona manipulation: an attacker first injects a false memory (via a malicious document or tool output), then in a subsequent session leverages that stored corruption to influence the agent's persona or behavior — multi-step attack chains substantially harder to detect than single-turn jailbreaks.
 
 ### Defense Approaches
 
-**Constitutional AI** (Anthropic, 2022) trains models to critique and revise their own outputs against a set of principles, making the safety behavior more robust to persona-based circumvention — though it does not fully eliminate persona jailbreaks.
+**[Constitutional AI](https://arxiv.org/abs/2212.08073)** (Anthropic, 2022) trains models to critique and revise their own outputs against a set of principles, making safety behavior more robust to persona-based circumvention — though it does not fully eliminate roleplay jailbreaks.
 
 **Persona-aware safety training** fine-tunes models to maintain safety behaviors specifically when in character, rather than treating persona adoption as a context that overrides safety constraints. This requires training data that explicitly includes persona-jailbreak attempts with desired refusals.
 
-**Memory access controls** and **memory sandboxing** limit what information can be written to persistent memory (e.g., only the model's own summarization can write to long-term memory, not raw user input), reducing the injection surface.
+**Memory access controls** and **memory sandboxing** limit what information can be written to persistent memory (e.g., only the model's own summarization can write to long-term memory, not raw user input), reducing the attack surface for memory-poisoning.
 
-**Input sanitization and anomaly detection** screen incoming user messages and retrieved memory items for injection patterns before they reach the reasoning layer.
+---
 
-The OWASP GenAI Security Project catalogues prompt injection (LLM01:2025) as the top risk for LLM applications, with memory persistence and persona manipulation as key sub-categories.
+## Industry Products & Deployments
+
+The research landscape above is complemented by a growing set of commercial products that embody personalization at scale:
+
+### Monica
+**[Monica.im](https://monica.im)** — An all-in-one personal AI assistant available as a browser extension and app, integrating access to multiple frontier models (GPT-5, Claude, Gemini) with cross-platform continuity. Monica's personalization features include user-customizable "PowerUPs" (mini AI assistants configured for specific tasks), document memory across sessions, and workflow automation that adapts to the user's recurrent tasks. It represents the consumer end of personalized AI: broad, multi-modal, and designed to fit into the user's existing digital environment rather than requiring a dedicated interface.
+
+### Character.AI
+**[character.ai](https://character.ai)** — Consumer persona platform with millions of user-created characters. Demonstrates the scale of demand for persistent persona agents; also one of the primary real-world sites where persona jailbreaking and character manipulation have been studied empirically.
+
+### OpenAI Memory (ChatGPT)
+**[OpenAI Memory](https://openai.com/blog/memory-and-new-controls-for-chatgpt)** — ChatGPT's memory feature, which stores facts about the user across sessions. Both the personalization use case (the agent "knows" the user) and the attack surface (the spAIware incident) emerged from this product feature, making it a central case study for personalization safety.
 
 ---
 
@@ -261,6 +278,7 @@ The OWASP GenAI Security Project catalogues prompt injection (LLM01:2025) as the
 - **How Far are LLMs from Being Our Digital Twins? A Benchmark and Study** (ACL Findings 2025) — [ACL Anthology](https://aclanthology.org/2025.findings-acl.813.pdf)
 - **"Do Anything Now": Characterizing and Evaluating In-The-Wild Jailbreak Prompts on LLMs** (Shen et al., 2023/2024) — [arXiv:2308.03825](https://arxiv.org/abs/2308.03825)
 - **RoleLLM: Benchmarking, Eliciting, and Enhancing Role-Playing Abilities of LLMs** (Wang et al., 2023) — [arXiv:2310.00746](https://arxiv.org/abs/2310.00746) *(includes RoleGPT prompting component and RoleBench evaluation)*
+- **Scaling Synthetic Data Creation with 1,000,000,000 Personas** (Chan et al., 2024) — [arXiv:2406.20094](https://arxiv.org/abs/2406.20094) *(Persona Hub: diverse web-scale personas for synthetic data generation)*
 - **InjecMEM: Memory Injection Attack on LLM Agent Memory Systems** (OpenReview 2025) — [openreview.net/forum?id=QVX6hcJ2um](https://openreview.net/forum?id=QVX6hcJ2um)
 - **PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation** (Zou et al., 2024) — [arXiv:2402.07867](https://arxiv.org/abs/2402.07867)
 - **PLeak: Prompt Leaking Attacks against Large Language Model Applications** (CCS 2024) — [ACM DL](https://dl.acm.org/doi/10.1145/3658644.3670370)
@@ -274,10 +292,7 @@ The OWASP GenAI Security Project catalogues prompt injection (LLM01:2025) as the
 
 - **ChatGPT macOS "spAIware" Memory Poisoning** — Johann Rehberger (Embrace the Red), September 2024 — [embracethered.com](https://embracethered.com/blog/posts/2024/chatgpt-macos-app-persistent-data-exfiltration/) · [Ars Technica coverage](https://arstechnica.com/security/2024/09/false-memories-planted-in-chatgpt-give-hacker-persistent-exfiltration-channel/)
 - **Microsoft Security: AI Recommendation Poisoning** (February 2026) — [microsoft.com/security/blog](https://www.microsoft.com/en-us/security/blog/2026/02/10/ai-recommendation-poisoning/)
-- **OWASP GenAI Security: LLM01:2025 Prompt Injection** — [genai.owasp.org](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)
-- **HiddenLayer: Prompt Injection Attacks on LLMs** — [hiddenlayer.com/innovation-hub](https://hiddenlayer.com/innovation-hub/prompt-injection-attacks-on-llms/)
-- **Prompt Injection Attacks in LLMs and AI Agents: Comprehensive Review** (Information 2026) — [mdpi.com](https://www.mdpi.com/2078-2489/17/1/54)
-- **From Prompt Injections to Protocol Exploits: Threats in LLM-Powered Agent Workflows** (ScienceDirect 2025) — [sciencedirect.com](https://www.sciencedirect.com/science/article/pii/S2405959525001997)
+- **OWASP GenAI Security: LLM01:2025 Prompt Injection** (relevant specifically to memory-based personalized agents) — [genai.owasp.org](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)
 
 ### Code & Projects
 
@@ -286,6 +301,10 @@ The OWASP GenAI Security Project catalogues prompt injection (LLM01:2025) as the
 - **Awesome LLM Role-Playing with Persona** (curated paper list) — [github.com/Neph0s/awesome-llm-role-playing-with-persona](https://github.com/Neph0s/awesome-llm-role-playing-with-persona)
 - **Awesome Role-Play Papers** (curated paper list) — [github.com/nuochenpku/Awesome-Role-Play-Papers](https://github.com/nuochenpku/Awesome-Role-Play-Papers)
 - **MemGPT** (Memory-augmented agent framework) — [github.com/cpacker/MemGPT](https://github.com/cpacker/MemGPT)
+- **Persona Hub** (1B persona synthetic data toolkit) — [github.com/tencent-ailab/persona-hub](https://github.com/tencent-ailab/persona-hub)
+- **Monica** (All-in-one personalized AI assistant) — [monica.im](https://monica.im)
+- **Character.AI** (Consumer persona platform) — [character.ai](https://character.ai)
+- **OpenAI Memory** (ChatGPT cross-session memory) — [openai.com/blog/memory-and-new-controls-for-chatgpt](https://openai.com/blog/memory-and-new-controls-for-chatgpt)
 
 ---
 
