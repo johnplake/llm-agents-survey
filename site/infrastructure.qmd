@@ -31,9 +31,9 @@ Launched in **November 2024**, MCP is an open-source protocol for connecting LLM
 
 Communication uses **JSON-RPC 2.0** over multiple transport options (stdio for local processes, HTTP/SSE for remote servers). Servers can expose three primitive types: **tools** (callable functions), **resources** (data the LLM can read), and **prompts** (reusable prompt templates).
 
-**Ecosystem explosion:** MCP spread faster than any comparable developer protocol. Within its first year, the official [MCP Registry](https://github.com/modelcontextprotocol/registry) — launched in preview in September 2025 — accumulated close to 2,000 entries. Unofficial directories like [mcp.so](https://mcp.so) indexed over 16,000 servers by early 2026. Major platforms adopted it rapidly: Visual Studio Code, Cursor, Claude, ChatGPT, and Windows 11 all announced MCP support within months of launch.
+**Ecosystem explosion:** MCP spread faster than any comparable developer protocol. Within its first year, the official [MCP Registry](https://github.com/modelcontextprotocol/registry) — launched in preview on September 8, 2025 — accumulated close to 2,000 entries. Unofficial directories like [mcp.so](https://mcp.so) indexed over 16,000 servers by early 2026. *(The 16,000+ figure is from community tracking; the official registry had ~2,000 vetted entries at that time.)* Major platforms adopted it rapidly: Visual Studio Code, Cursor, Claude, ChatGPT, and Windows 11 all announced MCP support within months of launch.
 
-**Governance:** In December 2025, Anthropic donated MCP to the **Agentic AI Foundation (AAIF)**, a directed fund under the Linux Foundation co-founded by Anthropic, Block, and OpenAI. This moved MCP from a vendor-controlled spec to shared industry infrastructure.
+**Governance:** On December 9, 2025, Anthropic donated MCP to the **Agentic AI Foundation (AAIF)**, a directed fund under the Linux Foundation co-founded by Anthropic, Block, and OpenAI. This moved MCP from a vendor-controlled spec to shared industry infrastructure.
 
 ---
 
@@ -49,7 +49,7 @@ MCP solves agent-to-tool connectivity. **A2A**, launched by Google in **April 20
 - **Task lifecycle** — A2A defines task states (submitted, working, completed, failed) with structured progress updates, enabling long-running asynchronous collaboration.
 - **Streaming and push** — Support for streaming responses and server-sent events so orchestrators can monitor sub-agent progress in real time.
 
-A2A received a major update in **July 2025** adding gRPC transport support, signed Agent Cards (for authentication), and extended Python SDK coverage. The [A2A spec](https://github.com/a2aproject/A2A) is maintained as an open community project under the Linux Foundation LF AI & Data umbrella.
+A2A received a major update on **July 31, 2025** (version 0.3) adding gRPC transport support, signed Agent Cards (for authentication), and extended Python SDK coverage. The [A2A spec](https://github.com/a2aproject/A2A) is maintained as an open community project under the Linux Foundation LF AI & Data umbrella.
 
 ---
 
@@ -109,13 +109,15 @@ LangGraph models agent workflows as **explicit directed graphs** where nodes are
 
 LangGraph is part of the LangChain ecosystem and has become the go-to choice for multi-step agent pipelines where predictability and auditability matter. Its explicit state machine model is more verbose than higher-level frameworks but makes it far easier to reason about and debug agent behavior.
 
-### AutoGen
+### AutoGen / AG2
 
 **Microsoft Research** · [microsoft.github.io/autogen](https://microsoft.github.io/autogen/) · [github.com/microsoft/autogen](https://github.com/microsoft/autogen)
 
 AutoGen pioneered the **conversational multi-agent** pattern: agents communicate with each other through structured message passing, and coordination emerges from the conversation rather than a predefined graph. This makes it natural for tasks where the agent count and communication topology aren't known in advance.
 
 AutoGen supports both synchronous and asynchronous agent execution. In **October 2025**, Microsoft announced the **Microsoft Agent Framework**, unifying AutoGen and Semantic Kernel into a single open-source offering for Python and .NET.
+
+> **Note on AutoGen / AG2:** In November 2024, a community fork emerged: the original AutoGen creators departed Microsoft Research and established [AG2](https://ag2.ai/) ([github.com/ag2ai/ag2](https://github.com/ag2ai/ag2)) as an independent continuation of AutoGen 0.2.x. Microsoft's `microsoft/autogen` repo continues development as AutoGen 0.4+ (now part of the Microsoft Agent Framework). Both lineages are actively maintained; the split is a notable point of confusion in the ecosystem.
 
 ### CrewAI
 
@@ -129,7 +131,7 @@ CrewAI takes an **organizational metaphor**: agents are assigned roles (research
 
 DSPy (from Khattab et al., ICLR 2024 — [arXiv:2310.03714](https://arxiv.org/abs/2310.03714)) takes a fundamentally different approach. Rather than prompting language models, **DSPy programs them**: pipelines are expressed as declarative modules with typed signatures, and a compiler (*teleprompter*) automatically optimizes the underlying prompts against a metric, replacing brittle hand-crafted prompt engineering with principled, reproducible program optimization.
 
-DSPy is particularly powerful for building agentic systems with retrieval, multi-hop reasoning, or tool use, where the interaction between components makes manual prompt tuning difficult. The [GitHub repo](https://github.com/stanfordnlp/dspy) has over 20,000 stars.
+DSPy is particularly powerful for building agentic systems with retrieval, multi-hop reasoning, or tool use, where the interaction between components makes manual prompt tuning difficult. The [GitHub repo](https://github.com/stanfordnlp/dspy) has over 20,000 stars *(as of early 2026)*.
 
 ### Semantic Kernel
 
@@ -143,6 +145,12 @@ Semantic Kernel is Microsoft's enterprise-focused SDK for AI orchestration, avai
 
 Haystack is deepset's open-source orchestration framework, designed for **production-ready LLM applications** with explicit control over every component: retrieval, routing, memory, and generation. Its modular pipeline model (components are connected via typed edges) prioritizes observability — every decision in the agent pipeline can be inspected and debugged. Haystack is particularly strong for RAG-heavy architectures and enterprise deployments where auditability is critical. The August 2025 launch of **Haystack Enterprise Starter** formalized its production support offering.
 
+### smolagents
+
+**Hugging Face** · [huggingface.co/blog/smolagents](https://huggingface.co/blog/smolagents) · [github.com/huggingface/smolagents](https://github.com/huggingface/smolagents)
+
+Released by Hugging Face in late December 2024, **smolagents** is a lightweight, code-first agent library built around the principle that the simplest thing that works is best. Its headline feature is **code agents**: rather than calling tools via JSON function-call syntax, the agent writes and executes Python code directly — a more expressive and compositional approach to tool use. smolagents is deliberately minimal (the core library is a few hundred lines), making it easy to audit and extend. It integrates natively with the Hugging Face Hub, giving access to thousands of open-source models as agent backends.
+
 ### Frameworks and Protocols: The Relationship
 
 Frameworks consume protocols. A LangGraph workflow can invoke MCP tools through protocol-compliant calls; an AutoGen agent can act as an A2A server exposing its capabilities via an Agent Card; a CrewAI crew can delegate to a sub-crew using A2A task lifecycle semantics. The emergence of standard protocols is what allows frameworks to interoperate rather than forming isolated islands.
@@ -155,7 +163,7 @@ As the number of available tools has exploded — over 16,000 MCP servers indexe
 
 ### MCP Server Registries
 
-The **official MCP Registry** ([github.com/modelcontextprotocol/registry](https://github.com/modelcontextprotocol/registry)) launched in preview in September 2025. It serves as a canonical index where developers publish their MCP servers with structured metadata. The architecture supports a hierarchical system: a primary registry with sub-registries for specific communities, use cases, or enterprises.
+The **official MCP Registry** ([github.com/modelcontextprotocol/registry](https://github.com/modelcontextprotocol/registry)) launched in preview on September 8, 2025. It serves as a canonical index where developers publish their MCP servers with structured metadata. The architecture supports a hierarchical system: a primary registry with sub-registries for specific communities, use cases, or enterprises.
 
 Alongside the official registry, several community directories emerged: [mcp.so](https://mcp.so), [MCPJam](https://mcpjam.io), and [PulseMCP](https://pulsemcp.com) track the long tail of community-built servers. These meta-registries illustrate a pattern common in package ecosystems: the official registry provides authority while community directories provide volume and curation.
 
@@ -181,10 +189,10 @@ The infrastructure layer is also where agents are most vulnerable. Protocols tha
 
 **Tool poisoning** is the MCP-specific variant of prompt injection: a malicious or compromised MCP server includes harmful instructions in its tool descriptions, which are read by the LLM as part of the context. Unlike traditional prompt injection (which targets the user-facing conversation), tool poisoning exploits the trust the agent places in tool metadata.
 
-The MCPTox benchmark has documented that tool poisoning attacks are alarmingly common in the MCP ecosystem. Real-world incidents have followed the same supply-chain attack pattern seen in traditional software:
+The [MCPTox benchmark](https://arxiv.org/abs/2508.14925) (arXiv:2508.14925) — the first systematic evaluation of tool poisoning against real-world MCP servers, covering 45 live servers with 353 authentic tools — documented that tool poisoning attacks achieve alarming success rates across leading LLMs. Real-world incidents have followed the same supply-chain attack pattern seen in traditional software:
 
 - **Rug pulls:** a tool that initially behaves safely dynamically alters its behavior or description after the user has granted it permissions
-- **Malicious updates:** a widely-installed MCP server package is updated with malicious code, instantly compromising all users (the mcp-remote npm package, with over 558,000 downloads, contained a critical vulnerability: CVE-2025-6514)
+- **Malicious updates:** a widely-installed MCP server package is updated with malicious code, instantly compromising all users (the mcp-remote npm package, with over 400,000 downloads, contained a critical vulnerability: CVE-2025-6514)
 - **Server-side CVEs:** Anthropic's own mcp-server-git shipped with chained vulnerabilities (CVE-2025-68145, CVE-2025-68143, CVE-2025-68144) enabling path traversal and argument injection attacks
 
 [Authzed published a consolidated timeline](https://authzed.com/blog/timeline-mcp-breaches) of major MCP-related security breaches through mid-2025, providing a useful chronicle of how quickly the attack surface materialized.
@@ -193,7 +201,7 @@ The MCPTox benchmark has documented that tool poisoning attacks are alarmingly c
 
 **Bühler et al. (2025)** · [arXiv:2510.21236](https://arxiv.org/abs/2510.21236)
 
-**AgentBound** is the first formal access-control framework for MCP servers. It combines:
+**AgentBound** is the first formal access-control framework for MCP servers (introduced in the paper "Securing AI Agent Execution", Bühler et al., 2025). It combines:
 
 1. A **declarative policy mechanism** — inspired by the Android permission model — that specifies what filesystem paths, network hosts, and system calls an MCP server may access
 2. A **policy enforcement engine** that contains malicious behavior without requiring modifications to the MCP server itself
@@ -244,7 +252,7 @@ Letta is the leading self-hosted **stateful agent platform**. It runs as a serve
 
 ### Edge Deployment
 
-Running agents at the edge — on mobile devices, IoT hardware, or regional compute nodes close to users — is an emerging frontier. Small, quantized models (Phi-3-mini, Gemma-3, Llama-3.1-8B running at INT4) can handle many tool-use tasks acceptably, with larger cloud models available for fallback on complex reasoning. The [Personal LLM Agents](https://arxiv.org/abs/2401.05459) survey (Liu et al., 2024) provides a detailed treatment of the capability and efficiency considerations for on-device agent deployment.
+Running agents at the edge — on mobile devices, IoT hardware, or regional compute nodes close to users — is an emerging frontier. Small, quantized models (Phi-3-mini, Gemma-3, Llama-3.1-8B running at INT4) can handle many tool-use tasks acceptably, with larger cloud models available for fallback on complex reasoning. The [Personal LLM Agents](https://arxiv.org/abs/2401.05459) survey (Li et al., 2024) provides a detailed treatment of the capability and efficiency considerations for on-device agent deployment.
 
 ### The Self-Hosted vs. Managed Tradeoff
 
@@ -280,15 +288,18 @@ The merger of IBM's ACP with Google's A2A under the Linux Foundation, combined w
 
 ### Papers
 
-- **AgentBound: Securing AI Agent Execution** (Bühler et al., 2025) — [arXiv:2510.21236](https://arxiv.org/abs/2510.21236) *(first declarative access-control framework for MCP servers; dataset of 296 top servers; 80.9% auto-generated policy accuracy)*
+- **Securing AI Agent Execution** (Bühler et al., 2025) — [arXiv:2510.21236](https://arxiv.org/abs/2510.21236) *(introduces AgentBound, the first declarative access-control framework for MCP servers; dataset of 296 top servers; 80.9% auto-generated policy accuracy)*
 - **Security of AI Agents** (He & Wang, 2024) — [arXiv:2406.08689](https://arxiv.org/abs/2406.08689) *(system security analysis of AI agent vulnerabilities and defenses)*
-- **Personal LLM Agents: Insights and Survey about Capability, Efficiency and Security** (Liu et al., 2024) — [arXiv:2401.05459](https://arxiv.org/abs/2401.05459) *(on-device agent deployment constraints and design)*
+- **Personal LLM Agents: Insights and Survey about the Capability, Efficiency and Security** (Li et al., 2024) — [arXiv:2401.05459](https://arxiv.org/abs/2401.05459) *(on-device agent deployment constraints and design)*
 - **DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines** (Khattab et al., ICLR 2024) — [arXiv:2310.03714](https://arxiv.org/abs/2310.03714) *(programming, not prompting; automatic pipeline optimization)*
+- **MCPTox: A Benchmark for Tool Poisoning Attack on Real-World MCP Servers** (2025) — [arXiv:2508.14925](https://arxiv.org/abs/2508.14925) *(first systematic benchmark for tool poisoning; 45 real MCP servers, 353 tools, 1,312 malicious test cases)*
 
 ### Blog Posts & Resources
 
 - **Introducing the Model Context Protocol** (Anthropic, November 2024) — [anthropic.com/news/model-context-protocol](https://www.anthropic.com/news/model-context-protocol)
+- **Introducing the MCP Registry** (MCP Blog, September 2025) — [blog.modelcontextprotocol.io/posts/2025-09-08-mcp-registry-preview](http://blog.modelcontextprotocol.io/posts/2025-09-08-mcp-registry-preview/)
 - **One Year of MCP: November 2025 Spec Release** (MCP Blog, November 2025) — [blog.modelcontextprotocol.io/posts/2025-11-25-first-mcp-anniversary](http://blog.modelcontextprotocol.io/posts/2025-11-25-first-mcp-anniversary/)
+- **MCP Joins the Agentic AI Foundation** (MCP Blog / Anthropic, December 9, 2025) — [blog.modelcontextprotocol.io/posts/2025-12-09-mcp-joins-agentic-ai-foundation](http://blog.modelcontextprotocol.io/posts/2025-12-09-mcp-joins-agentic-ai-foundation/) · [anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation](https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation)
 - **Announcing the Agent2Agent Protocol (A2A)** (Google, April 2025) — [developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/)
 - **Agent2Agent Protocol Gets an Upgrade** (Google Cloud, July 2025) — [cloud.google.com/blog/products/ai-machine-learning/agent2agent-protocol-is-getting-an-upgrade](https://cloud.google.com/blog/products/ai-machine-learning/agent2agent-protocol-is-getting-an-upgrade)
 - **ACP Joins Forces with A2A** (Linux Foundation LF AI & Data, August 2025) — [lfaidata.foundation/communityblog/2025/08/29/acp-joins-forces-with-a2a-under-the-linux-foundations-lf-ai-data](https://lfaidata.foundation/communityblog/2025/08/29/acp-joins-forces-with-a2a-under-the-linux-foundations-lf-ai-data/)
@@ -298,6 +309,7 @@ The merger of IBM's ACP with Google's A2A under the Linux Foundation, combined w
 - **IBM's Agent Communication Protocol: A Technical Overview** (WorkOS, April 2025) — [workos.com/blog/ibm-agent-communication-protocol-acp](https://workos.com/blog/ibm-agent-communication-protocol-acp)
 - **Semantic Kernel + AutoGen = Microsoft Agent Framework** (Visual Studio Magazine, October 2025) — [visualstudiomagazine.com/articles/2025/10/01/semantic-kernel-autogen--open-source-microsoft-agent-framework.aspx](https://visualstudiomagazine.com/articles/2025/10/01/semantic-kernel-autogen--open-source-microsoft-agent-framework.aspx)
 - **OWASP GenAI Security: LLM01:2025 Prompt Injection** — [genai.owasp.org/llmrisk/llm01-prompt-injection](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)
+- **Introducing smolagents** (Hugging Face, December 2024) — [huggingface.co/blog/smolagents](https://huggingface.co/blog/smolagents)
 
 ### Code & Projects
 
@@ -308,10 +320,12 @@ The merger of IBM's ACP with Google's A2A under the Linux Foundation, combined w
 - **OpenAI Agents SDK** (Python) — [github.com/openai/openai-agents-python](https://github.com/openai/openai-agents-python)
 - **LangGraph** (graph-based agent workflows) — [github.com/langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)
 - **AutoGen** (Microsoft multi-agent conversation framework) — [github.com/microsoft/autogen](https://github.com/microsoft/autogen)
+- **AG2** (community fork of AutoGen by original creators) — [github.com/ag2ai/ag2](https://github.com/ag2ai/ag2)
 - **Semantic Kernel** (Microsoft enterprise AI SDK) — [github.com/microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel)
 - **CrewAI** (role-based multi-agent crews) — [github.com/crewAI/crewAI](https://github.com/crewAI/crewAI)
 - **DSPy** (Stanford NLP; programming language models) — [github.com/stanfordnlp/dspy](https://github.com/stanfordnlp/dspy)
 - **Haystack** (deepset production-ready agent orchestration) — [github.com/deepset-ai/haystack](https://github.com/deepset-ai/haystack)
+- **smolagents** (Hugging Face lightweight code-first agents) — [github.com/huggingface/smolagents](https://github.com/huggingface/smolagents)
 - **Composio** (tool aggregation platform for agents) — [github.com/ComposioHQ/composio](https://github.com/ComposioHQ/composio)
 - **Letta** (self-hosted stateful agent platform, formerly MemGPT) — [github.com/letta-ai/letta](https://github.com/letta-ai/letta)
 
