@@ -10,7 +10,7 @@ format:
 
 A thorough review of the landscape of LLM-based agent architectures, designs, and the evolving ecosystem — covering papers, preprints, frameworks, blog posts, and open-source tools.
 
-*Compiled March 2026 · [View on GitHub](https://github.com/johnplake/llm-agents-survey)*
+*Compiled March 2026 · [View on GitHub](https://github.com/llm-agents-survey/llm-agents-survey.github.io)*
 :::
 
 ## What Is This?
@@ -144,4 +144,4 @@ The focus is on **LLM-based agents** — systems using large language models as 
 
 ---
 
-*This survey was compiled in March 2026. The field moves fast — if you spot a missing reference, [open an issue](https://github.com/johnplake/llm-agents-survey/issues).*
+*This survey was compiled in March 2026. The field moves fast — if you spot a missing reference, [open an issue](https://github.com/llm-agents-survey/llm-agents-survey.github.io/issues).*

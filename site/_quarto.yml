@@ -25,7 +25,7 @@ website:
   favicon: favicon.svg
   title: "LLM Agents: A Survey (2022–2026)"
   description: "A thorough review of AI agent architectures, designs, and the evolving landscape of LLM-based agents"
-  site-url: https://johnplake.github.io/llm-agents-survey/
+  site-url: https://llm-agents-survey.github.io/
   navbar:
     left:
       - href: taxonomy.qmd
@@ -68,7 +68,7 @@ website:
         text: Resources
     right:
       - icon: github
-        href: https://github.com/johnplake/llm-agents-survey
+        href: https://github.com/llm-agents-survey/llm-agents-survey.github.io
 
 format:
   html:
