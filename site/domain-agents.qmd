@@ -1,0 +1,300 @@
+---
+title: "Domain-Specific Agents"
+subtitle: "AI agents built for medicine, law, finance, and other professional domains"
+---
+
+General-purpose LLMs have proven remarkably capable across a broad range of tasks. Yet the most consequential deployments of AI agents are often in domains where errors carry serious real-world costs — a wrong medical answer is categorically different from a wrong recipe suggestion. **Domain-specific agents** combine LLM reasoning with specialized knowledge bases, domain-tailored tools, and bespoke evaluation frameworks to meet the reliability and safety bar that professional contexts demand.
+
+This page surveys agent systems in medicine, law, finance, customer service, and scientific domains, and examines the cross-cutting challenges that arise when agents are deployed in high-stakes settings.
+
+---
+
+## 1. Why Domain-Specific Agents?
+
+The tension between *generality* and *reliability* is central to applied AI agent design. A frontier model like GPT-4 or Claude can engage convincingly with medical, legal, or financial questions — but "convincingly" is not the same as "correctly," and in these domains the gap can have serious consequences.
+
+Domain-specific agents address this tension through three recurring patterns:
+
+**RAG over domain corpora.** Grounding agent responses in authoritative sources — clinical guidelines, case law, SEC filings — rather than relying solely on parametric knowledge reduces (but does not eliminate) hallucination of domain-specific facts. The key is retrieving from curated, version-controlled corpora with clear provenance.
+
+**Tool integration with domain APIs.** Connecting agents to specialized databases (PubMed, EDGAR, Westlaw, drug interaction checkers) and calculation engines extends their capabilities beyond what language modeling alone can reliably provide. Arithmetic, database lookups, and time-sensitive data are all better handled by tools than by the model's parametric memory.
+
+**Specialized evaluation.** Replacing general benchmarks like MMLU with domain-appropriate tests — USMLE for medicine, LegalBench for law, FinanceBench for finance — reveals performance characteristics that general benchmarks mask and drives targeted improvement.
+
+The combination of these patterns has produced a growing ecosystem of agents that are narrower than a general assistant but dramatically more trustworthy within their professional scope.
+
+A useful framing: domain-specific agents trade breadth for depth. They accept a narrower operational envelope in exchange for higher reliability, tighter integration with domain workflows, and the ability to satisfy domain-specific regulatory and safety requirements. As frontier models continue to improve, the width of that envelope expands — but the core trade-off between generality and accountability remains a permanent design consideration for professional AI deployments.
+
+---
+
+## 2. Medical & Healthcare Agents
+
+### Foundation Models for Medical QA
+
+[**Med-PaLM**](https://arxiv.org/abs/2212.13138) (Google, 2022) was among the first large language models specifically adapted for medical question answering, evaluated on MedQA using questions styled after the US Medical Licensing Exam (USMLE). Its successor, [**Med-PaLM 2**](https://arxiv.org/abs/2305.09617) (Singhal et al., 2023), achieved expert-level performance — scoring up to 86.5% on USMLE-style questions and becoming the first model to reach human expert parity on this benchmark. In a pairwise ranking study on 1,066 consumer medical questions, Med-PaLM 2 answers were preferred over physician answers by a panel of physicians across eight of nine evaluation axes. Med-PaLM 2 was also evaluated on newly introduced "adversarial" long-form questions designed to probe LLM limitations, showing significant improvements over the original Med-PaLM.
+
+These models represent the *backbone* for medical agents: a base of medical knowledge that can be augmented with agentic capabilities such as multi-step reasoning, tool use, and multi-agent collaboration.
+
+### Multi-Agent Medical Reasoning
+
+[**MedAgents**](https://arxiv.org/abs/2311.10537) (Tang et al., 2023) introduced a training-free multi-disciplinary collaboration framework in which LLM-based agents take on specialist roles — cardiologist, radiologist, pathologist, and others — in a role-playing setting. Agents participate in collaborative multi-round discussions, iterating until consensus is reached before making a final decision. The framework encompasses five steps: gathering domain experts, proposing individual analyses, summarizing into a report, iterating over discussions, and making a decision. Evaluated on nine datasets including MedQA, MedMCQA, PubMedQA, and six MMLU medical subtasks, MedAgents outperformed single-agent baselines.
+
+[**MDAgents**](https://arxiv.org/abs/2404.15155) (Kim et al., NeurIPS 2024) pushed further by *adaptively* assigning collaboration structure based on the complexity of the medical task — simple questions are handled by a solo LLM, while complex cases trigger a multi-agent panel. This mirrors how real clinical teams are assembled. MDAgents achieved best performance on 7 out of 10 benchmarks covering medical knowledge and multi-modal reasoning, with improvements of up to 4.2% over previous best methods.
+
+[**MedAgent-Pro**](https://arxiv.org/abs/2503.18968) (2025) extends multi-agent reasoning to multimodal inputs. It proposes an evidence-based diagnostic workflow that decouples the diagnosis process into sequential reasoning components, integrating retrieved medical guidelines and expert tools to enable step-by-step, grounded diagnosis — aligning with evidence-based medicine principles.
+
+### Radiology Agents
+
+Radiology is a particularly active area for domain agents, combining vision (interpreting medical images), language (generating reports), and workflow automation. [**RadCouncil**](https://arxiv.org/abs/2412.06828) (Zeng et al., 2024) from Massachusetts General Hospital and Harvard Medical School introduces a multi-agent LLM framework specifically for generating impressions — the clinical summary section — of radiology reports from the findings section. Multi-agent deliberation improves the quality and completeness of generated impressions compared to single-model baselines. Separately, [**KARGEN**](https://arxiv.org/abs/2409.05370) (Li et al., 2024) integrates knowledge graphs into an LLM-based radiology report generation pipeline to increase disease sensitivity, demonstrating strong results on MIMIC-CXR and IU-Xray datasets.
+
+### Clinical Trials and Drug Discovery
+
+LLM agents are being applied to the complex, multi-step workflow of clinical trial management. [**AutoCT**](https://arxiv.org/abs/2506.04293) (Liu et al., 2025) automates interpretable clinical trial outcome prediction by combining LLM reasoning with classical machine learning, addressing the interpretability requirements that clinical trial decision-making demands. [**ClinicalReTrial**](https://arxiv.org/pdf/2601.00290) (2025) explores self-evolving agents for clinical trial protocol design.
+
+Drug discovery is among the richest application areas for agentic AI. A [comprehensive survey of AI agents in drug discovery](https://arxiv.org/abs/2510.27130) (2025) shows how agents autonomously reason through complicated multi-step research workflows spanning target identification, lead optimization, and toxicity prediction — tasks that require integrating diverse data types and computational tools. A [modular LLM agent framework for drug discovery](https://arxiv.org/abs/2507.02925) (2025) automates key tasks across the early-stage computational pipeline, combining LLM reasoning with tools including AlphaFold wrappers for structure prediction and structural databases.
+
+### Clinical Agents in Practice: A Systematic View
+
+A [systematic review of AI agents in clinical medicine](https://pmc.ncbi.nlm.nih.gov/articles/PMC12407621/) (2025) identified 20 peer-reviewed studies (published 2024–2025) describing LLM agent implementations for clinical tasks, covering applications including clinical case reasoning, diagnostic support, treatment planning, and care coordination. The review found that agentic frameworks — which involve multi-step planning and tool use — consistently outperformed single-pass LLM prompting on complex clinical tasks, while noting that the field lacks standardized evaluation protocols.
+
+### Safety and Regulatory Considerations
+
+The FDA's regulatory framework for AI/ML-based Software as a Medical Device (SaMD) creates significant constraints on agentic medical systems. Clinical decision support tools that influence treatment decisions may require premarket clearance or notification. Autonomous clinical agents must navigate questions of liability, explainability, and human oversight that general-purpose agents do not face. Hallucinations in clinical advice can have life-threatening consequences, making uncertainty quantification, source attribution, and physician-in-the-loop checkpoints critical design requirements rather than optional niceties.
+
+The EU AI Act classifies medical AI systems as high-risk, mandating transparency, human oversight, and conformity assessments before deployment. These regulatory requirements are beginning to shape the architecture of medical agents — pushing toward explainable, auditable pipelines rather than opaque end-to-end models.
+
+**Privacy** is an additional constraint. Patient data used to ground agent responses (e.g., as RAG context) or to fine-tune clinical models must comply with HIPAA in the US and GDPR in the EU. De-identification, business associate agreements, and on-premises deployment are common strategies for navigating these requirements without sacrificing agent capabilities.
+
+---
+
+## 3. Legal Agents
+
+### Benchmarking Legal Reasoning
+
+[**LegalBench**](https://arxiv.org/abs/2308.11462) (Guha et al., NeurIPS 2023) is a collaboratively built benchmark covering **162 tasks** across six types of legal reasoning: issue spotting, rule recall, rule application, rule conclusion, interpretation, and rhetorical understanding. Developed by researchers at Stanford in collaboration with dozens of legal professionals, LegalBench revealed that performance on general benchmarks does not reliably predict legal reasoning ability. The benchmark has become a standard point of reference for evaluating legal AI systems.
+
+Stanford HAI's associated research into deployed legal AI tools found that [legal models hallucinate in at least 1 in 6 benchmark queries](https://hai.stanford.edu/news/ai-trial-legal-models-hallucinate-1-out-6-or-more-benchmarking-queries). More strikingly, when answering questions about court holdings — the precedential core of case law — models [hallucinate at least 75% of the time](https://hai.stanford.edu/news/hallucinating-law-legal-mistakes-large-language-models-are-pervasive). These findings directly inform the architecture of legal agent systems, where RAG over verified legal databases is standard rather than optional.
+
+### Legal Research Agents in Practice
+
+[**Harvey AI**](https://www.harvey.ai/) is among the most prominent deployed legal agent platforms. Founded by attorney Winston Weinberg and AI researcher Gabe Pereyra (formerly Google Brain and Meta), Harvey builds custom LLMs fine-tuned on legal corpora for elite law firms and in-house legal teams. Its agent capabilities span legal research, document drafting, due diligence, and contract analysis across practice areas and jurisdictions. Harvey has been [deployed by major firms](https://openai.com/index/harvey/) including Allen & Overy, PwC, and O'Melveny, in partnership with OpenAI.
+
+**Westlaw AI** and **LexisNexis AI** embed LLM agents into legal research workflows, providing case law retrieval with citation verification designed to reduce hallucinated references. These systems combine RAG over curated legal databases with heuristic checks to flag low-confidence citations. The approach reflects a broader industry consensus: purely generative legal reasoning is not safe; grounding in verified case law and statutes is essential.
+
+LLM agents are also being applied to **contract analysis and M&A due diligence**. [Research on legal NLP for due diligence](https://arxiv.org/abs/2505.21281) (2025) reviews how multi-agent and single-agent LLMs are being applied to contract review tasks. [**ContractEval**](https://arxiv.org/abs/2508.03080) (2025) introduces a benchmark for clause-level legal risk identification in commercial contracts, finding that larger model size does not always guarantee better performance and that fine-tuning on domain-specific contract data remains important.
+
+### Challenges Specific to Legal Agents
+
+**Hallucinated citations** are the defining failure mode of legal LLMs. Several high-profile incidents involving attorneys submitting AI-generated briefs with fabricated case citations — including the widely reported *Mata v. Avianca* case in 2023 — have driven courts to require disclosure of AI use. As of May 2024, more than 25 federal judges had issued standing orders instructing attorneys to disclose or monitor AI use in their courtrooms.
+
+**Jurisdictional variation** compounds this: legal rules differ dramatically across US states, federal circuits, and international systems. A rule of contract formation in California may not hold in New York; a GDPR compliance requirement in the EU has no direct US equivalent. This makes it difficult for a single model to generalize across jurisdictions without explicit grounding.
+
+**Attorney-client privilege** creates additional constraints around data. Fine-tuning a legal agent on a law firm's proprietary client communications raises serious privilege and confidentiality issues, pushing the industry toward retrieval-grounded architectures that never incorporate client data into model weights.
+
+---
+
+## 4. Financial Agents
+
+### Domain-Adapted Financial LLMs
+
+[**BloombergGPT**](https://arxiv.org/abs/2303.17564) (Wu et al., 2023) established the value of domain-adaptive pretraining for finance. Trained on a **363 billion token** Bloomberg financial dataset — potentially the largest domain-specific pretraining corpus published at the time — augmented with 345 billion tokens of general-purpose data, BloombergGPT outperformed general-purpose LLMs of similar scale on financial NLP benchmarks including sentiment analysis, named entity recognition, and financial question answering while remaining competitive on general tasks.
+
+[**FinGPT**](https://arxiv.org/abs/2306.06031) (Yang et al., 2023) took a more open-source approach, using LoRA fine-tuning on ~50K finance-specific instruction samples to adapt base models (LLaMA, ChatGLM) for financial tasks. FinGPT also incorporated RLHF to personalize financial assistants, making it a more accessible alternative to large proprietary training runs.
+
+### Benchmarking Financial QA
+
+[**FinanceBench**](https://arxiv.org/abs/2311.11944) (Islam et al., 2023) is a benchmark comprising **10,231 questions** about publicly traded companies, derived from SEC filings, with corresponding answers and evidence strings. Questions require numerical reasoning over financial statements such as income statements, balance sheets, and cash flow reports. FinanceBench revealed that even state-of-the-art LLMs frequently make arithmetic errors or hallucinate financial figures — a serious concern in advisory contexts. Retrieval-augmented systems substantially outperform pure generation on this benchmark, reinforcing the importance of grounding.
+
+[**FinanceQA**](https://arxiv.org/abs/2501.18062) (2025) extends the financial QA landscape with a focus on evaluating LLMs' financial analysis reasoning capabilities, including multi-hop reasoning over multiple financial documents — a requirement for realistic analyst tasks.
+
+### Trading and Portfolio Management Agents
+
+[**FinAgent**](https://arxiv.org/abs/2402.18485) (Zhang et al., KDD 2024) describes itself as the first multimodal foundation agent for financial trading, combining layered memory, iterative reflection, and a multimodal module that ingests numeric data, text (news, analyst reports), and image (charts) inputs to inform trading decisions. This design addresses a key limitation of text-only LLMs in finance: financial signals are inherently multimodal.
+
+[**TradingAgents**](https://arxiv.org/abs/2412.20138) (Xiao et al., 2024) proposes a multi-agent framework explicitly inspired by real-world trading firm structures: four analyst agents concurrently gather market information across different aspects, a research team discusses and evaluates findings, and a trader agent makes final decisions. Extensive experiments showed improvements in cumulative returns, Sharpe ratio, and maximum drawdown compared to single-agent baselines, highlighting the value of multi-agent deliberation in financial decision-making.
+
+A [survey of LLM agents in financial trading](https://arxiv.org/abs/2408.06361) (2024) provides a comprehensive taxonomy of approaches, from reflection-driven agents (FinMem, FinAgent) that use layered memory and self-critique, to debate-driven agents that use LLM-to-LLM argumentation to improve decision validity.
+
+### Challenges in Financial Agents
+
+**Real-time data access** is essential but non-trivial: LLMs have training cutoffs, and financial markets move continuously. Agents address this via tool calls to financial data APIs, but latency constraints and rate limits can restrict the speed of decision-making — particularly for intraday trading strategies.
+
+**Regulatory compliance** is a formidable constraint. SEC regulations, MiFID II in Europe, and fiduciary duty requirements impose strict rules on investment advice, position limits, conflicts of interest disclosure, and audit trails. Autonomous agents making investment decisions on behalf of clients without human review may trigger investment adviser registration requirements.
+
+**Hallucinated financial data** — fabricated earnings figures, invented analyst ratings, incorrect price history — is a particularly dangerous failure mode. Retrieval grounding against authoritative sources (SEC EDGAR, Bloomberg, Reuters) and arithmetic delegation to code execution are standard mitigations, but no approach fully eliminates the risk.
+
+---
+
+## 5. Customer Service & Enterprise Agents
+
+### From Chatbots to Agents
+
+Customer service was one of the earliest and most widely deployed domains for conversational AI, beginning with rigid rule-based chatbots that required explicit programming for every query type. The shift to LLM-powered agents represents a qualitative change: rather than pattern-matching against predefined intents, agents can analyze the full context of a customer interaction, reason about what the customer needs, and autonomously decide what actions to take.
+
+### Platform-Level Enterprise Deployments
+
+[**Salesforce Agentforce**](https://www.salesforce.com/agentforce/) (launched 2024, built on the earlier Einstein Service Agent) exemplifies enterprise-scale deployment. Agentforce uses LLMs to analyze the full context of customer interactions and autonomously determine next steps — accessing order management systems, processing exchanges, or escalating to human agents. It can be configured via natural language "service topics" rather than ML engineering, and supports GPT-4o as the default backbone alongside bring-your-own-LLM options. One early pilot customer replaced a traditional chatbot that required 248 separate machine-learning models with a single Einstein Service Agent configured with three natural-language service topics.
+
+**ServiceNow** and **Zendesk** have similarly introduced LLM-powered agents for IT helpdesk and customer support. These platforms execute multi-step workflows — ticket creation, knowledge base lookup, CRM updates, escalation routing — rather than simply retrieving answers. The shift from answer-retrieval to task-execution is the defining characteristic of the agent paradigm in enterprise customer service.
+
+### Enterprise Workflow Agents
+
+Beyond customer-facing applications, enterprise agents are deployed for internal workflows. HR agents answer policy questions, route requests to the right teams, and assist with onboarding. Procurement agents compare vendors, summarize contracts, and flag compliance concerns. IT helpdesk agents diagnose and remediate common issues — running diagnostic scripts, checking system logs, applying fixes — escalating to human engineers only when automated remediation fails.
+
+These agents typically combine RAG over enterprise knowledge bases (SharePoint, Confluence, internal wikis) with action APIs (ServiceNow, Jira, Workday, Salesforce) for task execution. **Multi-channel deployment** — handling voice, chat, and email simultaneously — adds engineering complexity: agents must handle modality-specific challenges (speech recognition errors, email threading conventions) while maintaining context continuity across a customer's interaction history.
+
+### Agentic vs. Copilot Paradigms
+
+An important distinction in enterprise deployments is between *copilot* systems (which suggest actions for a human to approve) and *agent* systems (which autonomously execute actions). Most current enterprise deployments are closer to copilots, with human approval required for consequential steps. Fully autonomous enterprise agents — capable of procuring services, sending external communications, or modifying production systems — remain relatively rare due to risk management concerns. The shift from copilot to agent is a key trend to watch as trust in these systems accumulates.
+
+---
+
+## 6. Scientific Domain Agents (Non-Medical)
+
+### Chemistry
+
+[**ChemCrow**](https://arxiv.org/abs/2304.05376) (Bran et al., 2023; published in *Nature Machine Intelligence*, 2024) is the landmark demonstration of chemistry-specialized agents. By equipping GPT-4 with **18 expert-designed tools** — including RDKit for cheminformatics, web and literature search, reaction planning software, and safety checkers — ChemCrow successfully handled tasks across organic synthesis, drug discovery, and materials design that LLMs alone could not perform reliably. The agent autonomously planned and executed the syntheses of an insect repellent and three organocatalysts, demonstrating end-to-end agentic capability in a real scientific domain. ChemCrow is open-source and available on [GitHub](https://github.com/ur-whitelab/chemcrow-public).
+
+### Mathematics
+
+[**MathAgent**](https://arxiv.org/abs/2312.08926) (Hu et al., 2023) explored LLM-based agents for complex mathematical reasoning by defining pools of actions that decompose proofs and calculations into logical subproblems. Experiments on the miniF2F and MATH benchmarks showed improvements over GPT-4 baselines, demonstrating that structuring LLM reasoning as agent actions yields gains on hard mathematical problems. More recently, [**AgentMath**](https://arxiv.org/abs/2512.20745) (2024) integrates LLM reasoning with code execution for precise symbolic computation and arithmetic, delegating calculation to a Python interpreter rather than relying on the LLM's notoriously unreliable arithmetic.
+
+### Materials Science and Physics
+
+Beyond chemistry and mathematics, LLM agents are being applied across the physical sciences. In materials science, agents can propose candidate materials satisfying specified property constraints, run computational simulations via tool calls, and iterate on designs — compressing the materials discovery cycle from years to months. In physics, agents assist with literature synthesis, hypothesis generation, and experiment design for particle physics and condensed matter problems. These systems are covered in depth in the [**Science & Research Agents →**](science-agents.qmd) page.
+
+### Biology and Life Sciences
+
+Biological agents connect LLMs to bioinformatics databases (UniProt, NCBI, STRING), protein structure predictors (AlphaFold), and gene expression analysis tools. Tasks include gene function annotation, pathway analysis, experimental protocol design, and interpretation of multi-omics data. The boundary between "drug discovery agents" and "biology agents" is blurry; many of the same tool integrations appear in both.
+
+### Cross-References
+
+Agents for biology, materials science, physics, and fully automated scientific discovery pipelines — including self-driving labs that close the loop between hypothesis, experiment, and analysis — are covered in depth in [**Science & Research Agents →**](science-agents.qmd). The overlap between coding agents — which enable agents to write, execute, and debug scientific code — and scientific domain agents is covered in [**Coding Agents →**](coding-agents.qmd).
+
+---
+
+## 7. Emerging and Overlapping Domains
+
+Several additional domains are seeing active agent development that warrant brief mention:
+
+**Education.** Tutoring agents model student knowledge, adapt explanations to the learner's level, generate practice problems, and provide targeted feedback. These agents combine pedagogical knowledge (learning science, curriculum standards) with LLM generative capability. Key challenges include preventing students from simply copying agent-generated answers, and ensuring explanations are accurate in technical subjects like mathematics and science.
+
+**Cybersecurity.** Security agents automate vulnerability scanning, threat analysis, log triage, and incident response. They face a distinctive adversarial challenge: the same capabilities that make LLMs useful for defense can be used for attack (e.g., generating phishing emails, finding exploits). Security agent deployments require careful access controls, sandboxed execution environments, and red-teaming to prevent misuse.
+
+**Government and Policy.** Government agencies are experimenting with agents for document processing (benefits applications, permit review), citizen information services, and regulatory analysis. These deployments face heightened public accountability requirements, accessibility mandates, and the need to operate across multiple languages and literacy levels.
+
+**Real Estate and Insurance.** Property valuation agents, underwriting agents, and claims-processing agents are being deployed at scale. Like financial agents, these operate in regulated environments and must produce auditable reasoning chains for decisions that affect people's livelihoods.
+
+---
+
+## 8. Cross-Cutting Challenges
+
+### Domain Knowledge Injection
+
+Three main approaches exist for endowing agents with specialized domain knowledge, each with distinct trade-offs:
+
+1. **Fine-tuning on domain corpora** (e.g., BloombergGPT, Med-PaLM). Produces deeply integrated knowledge and fluent domain language, but requires significant compute, large-scale domain-specific data curation, and periodic retraining as the domain evolves. Knowledge becomes stale at the training cutoff.
+
+2. **Retrieval-Augmented Generation (RAG)** over domain databases. More maintainable and auditable — every claim can be traced to a retrieved source — but requires careful retrieval design to avoid surfacing irrelevant or misleading context. RAG pipelines must handle the specific structure of domain documents: case law citations, clinical SOAP notes, financial table formats.
+
+3. **Tool use with domain APIs**. Gives agents access to structured, up-to-date information (live financial data, drug interaction databases, current case law) at query time, but requires reliable API contracts, error handling, and graceful degradation when APIs are unavailable.
+
+In practice, the most effective domain agents combine all three: a domain-pretrained or instruction-tuned backbone with RAG for knowledge retrieval, and tools for live data access and computation.
+
+### Evaluation
+
+Domain benchmarks are more meaningful than general benchmarks for assessing domain agents, but they have their own limitations. USMLE-style QA tests medical knowledge recall rather than clinical reasoning in context. LegalBench tasks mostly involve short-form classification rather than the long-form argumentation attorneys perform in practice. FinanceBench requires numerical reasoning over documents but does not capture trading judgment or portfolio risk management.
+
+The deeper challenge is that the most important capabilities — correctly advising a patient during a complex consultation, correctly identifying binding precedent across jurisdictions, correctly assessing portfolio risk under novel market conditions — remain difficult to evaluate systematically at scale. Domain experts are needed for evaluation design, and their time is expensive.
+
+There is also a **distributional shift** problem: benchmarks reflect historical data, but domains evolve. New drugs receive approval, legal precedents are overturned, financial instruments are invented. An agent that scores well on a snapshot benchmark may fail on current-day queries that fall outside its training distribution. This motivates continuous evaluation pipelines rather than one-shot benchmark releases. The [**Evaluation →**](evaluation.qmd) page covers general agent evaluation methodology in detail.
+
+### Safety and Liability
+
+In high-stakes domains, wrong answers are asymmetrically costly: a hallucinated drug interaction, a fabricated legal citation, or an erroneous earnings figure can cause real harm. This creates demand for:
+
+- **Calibrated uncertainty**: Agents should know when they don't know, and communicate this clearly. Overconfident wrong answers are more dangerous than expressed uncertainty.
+- **Source attribution**: Every factual claim should trace to an authoritative, verifiable source. This is a design constraint, not a post-hoc nicety.
+- **Human-in-the-loop checkpoints**: For consequential decisions — treatment plans, legal filings, large trades — agents should route to human experts rather than acting fully autonomously.
+- **Auditability**: Regulators and professional licensing bodies increasingly require that AI-assisted decisions be explainable and auditable.
+
+The question of **liability** — who is responsible when a medical AI gives bad advice, or a legal AI fabricates a citation — remains legally unsettled in most jurisdictions. Current consensus treats AI as a tool: the human professional using it retains responsibility. This places pressure on agents to support rather than replace professional judgment.
+
+### Regulatory Compliance
+
+Different professional domains come with distinct regulatory frameworks that constrain agent design:
+
+- **HIPAA** (healthcare, US): Patient data used for agent context or fine-tuning must be de-identified or covered by business associate agreements. This limits the ability to use real patient records for training or logging.
+- **FDA SaMD regulation** (clinical AI, US): Decision-support tools that influence treatment decisions may require premarket clearance or notification, depending on their risk classification.
+- **SEC/FINRA** (investment advice, US): Automated investment advice may trigger registration requirements and disclosure obligations.
+- **EU AI Act**: High-risk AI systems — which include medical diagnostics, legal interpretation, and employment-related tools — face mandatory transparency requirements, human oversight mandates, and conformity assessments before deployment.
+
+### Hallucination in High-Stakes Domains
+
+Hallucination is not merely an accuracy problem in professional domains — it is a safety and liability problem. Stanford HAI found that legal AI tools hallucinate in at least 1 in 6 queries; when reasoning about case holdings, the hallucination rate exceeds 75%. Medical agents can confidently state incorrect drug dosages or contraindications. Financial agents can invent earnings figures.
+
+Mitigations include retrieval grounding, output verification against structured databases, chain-of-thought prompting to expose reasoning for review, and red-teaming with domain experts. None fully eliminates hallucination, making human oversight a non-negotiable design requirement for high-stakes domain agents — at least with current LLM architectures.
+
+### The Road Ahead
+
+As models improve, the boundary of what requires human oversight will shift. Narrow, well-defined tasks — answering routine benefits questions, summarizing standard contracts, generating preliminary radiology impressions for radiologist review — are already being reliably automated. More complex, judgment-intensive tasks — treatment planning for rare diseases, litigation strategy, macro portfolio allocation — remain firmly in the human-in-the-loop category.
+
+The trajectory of domain-specific agents mirrors the historical trajectory of professional software tools: each generation extends automation into tasks that previously required expert judgment, reshaping the role of professionals rather than replacing them. The key question is not whether AI agents will transform professional work — they already are — but how the resulting human-agent collaboration is designed to be safe, accountable, and genuinely beneficial.
+
+---
+
+## References
+
+---
+
+### Papers
+
+- Singhal, K. et al. (2022). [Large Language Models Encode Clinical Knowledge (Med-PaLM)](https://arxiv.org/abs/2212.13138). arXiv:2212.13138.
+- Singhal, K. et al. (2023). [Towards Expert-Level Medical Question Answering with Large Language Models (Med-PaLM 2)](https://arxiv.org/abs/2305.09617). arXiv:2305.09617.
+- Tang, X. et al. (2023). [MedAgents: Large Language Models as Collaborators for Zero-shot Medical Reasoning](https://arxiv.org/abs/2311.10537). arXiv:2311.10537.
+- Kim, Y. et al. (2024). [MDAgents: An Adaptive Collaboration of LLMs for Medical Decision-Making](https://arxiv.org/abs/2404.15155). NeurIPS 2024.
+- MedAgent-Pro (2025). [Towards Evidence-based Multi-modal Medical Diagnosis via Reasoning Agentic Workflow](https://arxiv.org/abs/2503.18968). arXiv:2503.18968.
+- Zeng, F. et al. (2024). [Enhancing LLMs for Impression Generation in Radiology Reports through a Multi-Agent System (RadCouncil)](https://arxiv.org/abs/2412.06828). arXiv:2412.06828.
+- Li, X. et al. (2024). [KARGEN: Knowledge-enhanced Automated Radiology Report Generation](https://arxiv.org/abs/2409.05370). arXiv:2409.05370.
+- Liu, F. et al. (2025). [AutoCT: Automating Interpretable Clinical Trial Prediction with LLM Agents](https://arxiv.org/abs/2506.04293). arXiv:2506.04293.
+- Bran, A.M. et al. (2023/2024). [ChemCrow: Augmenting large-language models with chemistry tools](https://arxiv.org/abs/2304.05376). *Nature Machine Intelligence*, 2024.
+- [AI Agents in Drug Discovery](https://arxiv.org/abs/2510.27130) (2025). arXiv:2510.27130.
+- [Large Language Model Agent for Modular Task Execution in Drug Discovery](https://arxiv.org/abs/2507.02925) (2025). arXiv:2507.02925.
+- Guha, N. et al. (2023). [LegalBench: A Collaboratively Built Benchmark for Measuring Legal Reasoning in Large Language Models](https://arxiv.org/abs/2308.11462). NeurIPS 2023.
+- [ContractEval: Benchmarking LLMs for Clause-Level Legal Risk Identification](https://arxiv.org/abs/2508.03080) (2025). arXiv:2508.03080.
+- Wu, S. et al. (2023). [BloombergGPT: A Large Language Model for Finance](https://arxiv.org/abs/2303.17564). arXiv:2303.17564.
+- Yang, H. et al. (2023). [FinGPT: Open-Source Financial Large Language Models](https://arxiv.org/abs/2306.06031). arXiv:2306.06031.
+- Islam, P. et al. (2023). [FinanceBench: A New Benchmark for Financial Question Answering](https://arxiv.org/abs/2311.11944). arXiv:2311.11944.
+- Zhang, W. et al. (2024). [FinAgent: A Multimodal Foundation Agent for Financial Trading](https://arxiv.org/abs/2402.18485). KDD 2024.
+- Xiao, Y. et al. (2024). [TradingAgents: Multi-Agents LLM Financial Trading Framework](https://arxiv.org/abs/2412.20138). arXiv:2412.20138.
+- [Large Language Model Agent in Financial Trading: A Survey](https://arxiv.org/abs/2408.06361) (2024). arXiv:2408.06361.
+- [FinanceQA: A Benchmark for Evaluating Financial Analysis Capabilities](https://arxiv.org/abs/2501.18062) (2025). arXiv:2501.18062.
+- Hu, S. et al. (2023). [Modeling Complex Mathematical Reasoning via Large Language Model based MathAgent](https://arxiv.org/abs/2312.08926). arXiv:2312.08926.
+- [AgentMath: Empowering Mathematical Reasoning via Tool-Augmented Agent](https://arxiv.org/abs/2512.20745) (2024). arXiv:2512.20745.
+- [AI Agents in Clinical Medicine: A Systematic Review](https://pmc.ncbi.nlm.nih.gov/articles/PMC12407621/) (2025). PMC12407621.
+
+### Blog Posts & Resources
+
+- [Med-PaLM project page](https://sites.research.google/gr/med-palm/) — Google Research.
+- [BloombergGPT announcement](https://www.bloomberg.com/company/press/bloomberggpt-50-billion-parameter-llm-tuned-finance/) — Bloomberg LP, April 2023.
+- [Harvey AI customizing models for legal professionals](https://openai.com/index/harvey/) — OpenAI case study.
+- [AI on Trial: Legal Models Hallucinate in 1 out of 6 Queries](https://hai.stanford.edu/news/ai-trial-legal-models-hallucinate-1-out-6-or-more-benchmarking-queries) — Stanford HAI.
+- [Hallucinating Law: Legal Mistakes with Large Language Models are Pervasive](https://hai.stanford.edu/news/hallucinating-law-legal-mistakes-large-language-models-are-pervasive) — Stanford HAI.
+- [Meet Einstein Service Agent: Salesforce's Autonomous AI Agent](https://www.salesforce.com/news/stories/einstein-service-agent-announcement/) — Salesforce, 2024.
+- [MDAgents project page](https://mdagents2024.github.io/) — MIT / NeurIPS 2024.
+- [Hallucination-Free? Assessing the Reliability of Leading AI Legal Research Tools](https://dho.stanford.edu/wp-content/uploads/Legal_RAG_Hallucinations.pdf) — Stanford Law (2025).
+- [Large Language Models in Legal Systems: A Survey](https://www.nature.com/articles/s41599-025-05924-3) — *Humanities and Social Sciences Communications*, 2025.
+
+### Code & Projects
+
+- [LegalBench GitHub](https://github.com/HazyResearch/legalbench) — HazyResearch, Stanford.
+- [LegalBench website](https://hazyresearch.stanford.edu/legalbench/) — Task catalog and leaderboard.
+- [FinanceBench GitHub](https://github.com/patronus-ai/financebench) — Patronus AI.
+- [ChemCrow GitHub](https://github.com/ur-whitelab/chemcrow-public) — ur-whitelab.
+- [TradingAgents GitHub](https://github.com/TauricResearch/TradingAgents) — TauricResearch.
+- [Harvey AI](https://www.harvey.ai/) — Enterprise legal agent platform.
+- [Salesforce Agentforce](https://www.salesforce.com/agentforce/) — Enterprise customer service agents.
+
+---
+
+*Back to [Topics →](topics.qmd) · See also: [Coding Agents →](coding-agents.qmd) · [Science & Research Agents →](science-agents.qmd) · [Evaluation →](evaluation.qmd)*

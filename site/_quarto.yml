@@ -24,6 +24,8 @@ project:
     - agent-societies.qmd
     - governance.qmd
     - agent-training.qmd
+    - domain-agents.qmd
+    - data-science-agents.qmd
     - community.qmd
     - resources.qmd
 
@@ -80,6 +82,10 @@ website:
             text: Governance & Regulation
           - href: agent-training.qmd
             text: Agent Training & RL
+          - href: domain-agents.qmd
+            text: Domain-Specific Agents
+          - href: data-science-agents.qmd
+            text: Data Science & Analytics Agents
       - href: community.qmd
         text: Community
       - href: resources.qmd

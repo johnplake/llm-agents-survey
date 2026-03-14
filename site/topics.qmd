@@ -114,6 +114,22 @@ Legal liability, the EU AI Act, US and UK frameworks, industry self-governance (
 How agents learn from experience — RL for agents (GRPO, WebRL, Agent Q), trajectory learning (AgentTrek, SWE-smith), tool use training (Toolformer, Gorilla, ToolBench), test-time compute, and small model agents.
 :::
 
+::: {.survey-card}
+::: {.card-icon}
+🏥
+:::
+### [Domain-Specific Agents](domain-agents.qmd)
+AI agents built for professional domains — medical (Med-PaLM, MedAgents, radiology), legal (LegalBench, Harvey, hallucinated citations), financial (BloombergGPT, FinanceBench, trading agents), customer service, chemistry, and the cross-cutting challenge of high-stakes hallucination.
+:::
+
+::: {.survey-card}
+::: {.card-icon}
+📊
+:::
+### [Data Science & Analytics Agents](data-science-agents.qmd)
+Agents that explore, analyze, and model data — Code Interpreter, Data Interpreter, DS-Agent, AIDE (Kaggle bronze medals), MLAgentBench, LIDA visualization, NL-to-SQL (Spider, BIRD), and the distinct challenges of data correctness over code correctness.
+:::
+
 :::
 
 ---

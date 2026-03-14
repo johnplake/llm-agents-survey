@@ -1,0 +1,297 @@
+---
+title: "Data Science & Analytics Agents"
+subtitle: "Agents that explore, analyze, and model data — from EDA to ML pipelines"
+---
+
+## Overview
+
+Data science is one of the most natural application domains for LLM-based agents. The work is inherently iterative — load data, inspect it, form a hypothesis, write some code, check the output, revise the approach — which maps cleanly onto the agent loop. Unlike a one-shot question-answering task, good data analysis requires multiple rounds of reasoning and execution before arriving at an answer. Agents that can write code, run it, observe results, and adjust accordingly are well-suited to this.
+
+The key distinction from [coding agents](coding-agents.qmd) is subtle but important: in coding tasks, the *code* is the output; correctness is relatively verifiable (does the program pass tests?). In data science, the *insight* is the output. The code is just a means to get there. A data science agent must not only generate runnable code but also make judgment calls — which variables matter, whether an outlier is noise or signal, which visualization conveys the finding, whether a correlation merits further investigation. These require statistical reasoning, domain knowledge, and the ability to interpret intermediate results.
+
+Data science is also distinct from [science and research agents](science-agents.qmd) in its primary orientation: data science agents typically operate on business or engineering data (customer tables, sensor readings, model performance metrics), where the goal is operational decision-making rather than hypothesis-driven scientific inquiry. The datasets are often messy, underdocumented, and proprietary — a very different environment from the curated datasets used in academic research.
+
+This makes data science a genuinely hard domain for agents:
+
+- **EDA requires taste.** There is rarely a uniquely correct path through exploratory data analysis. The agent must make choices, and those choices determine what it finds.
+- **Success criteria are fuzzy.** A trading strategy backtest might look great and still be overfit. A regression might have high R² and still make no causal sense.
+- **Errors are often silent.** Unlike a crashing program, a wrong statistical conclusion produces no error message — it just looks like a result.
+- **Domain knowledge matters.** Knowing that a particular spike in the data coincides with a system outage, or that a correlation is likely a known confound, requires context that an agent may not have.
+- **The data itself is unknown.** In most tasks, the agent must first *understand* the dataset — column semantics, data quality issues, encoding quirks — before it can do anything useful with it.
+
+Despite these challenges, the gains from agentic data science tools have been substantial, and the field has rapidly developed both production products and research benchmarks. The space spans a wide spectrum: from consumer-facing tools like ChatGPT's Advanced Data Analysis that democratize basic EDA, to research-grade agents competing on Kaggle, to production engineering tools embedded in data infrastructure like dbt and Databricks.
+
+---
+
+## Code Interpreter / Advanced Data Analysis
+
+The product that launched this category was **OpenAI's Code Interpreter**, released in beta in July 2023 and subsequently renamed **Advanced Data Analysis** [(OpenAI Help Center)](https://help.openai.com/en/articles/8437071-data-analysis-with-chatgpt). It is available to ChatGPT Plus subscribers as a GPT-4 capability.
+
+The mechanism is conceptually simple but powerful in practice:
+
+1. The user uploads a file (CSV, Excel, PDF, image, etc.) and poses a question in natural language.
+2. GPT-4 writes Python code to address the question and executes it in a sandboxed environment.
+3. The output — including printed values, error tracebacks, or rendered charts — is fed back into context.
+4. GPT-4 interprets the output, revises the code if needed, and continues until it can answer the question.
+
+This loop enables genuine multi-step analysis: cleaning messy data, computing statistics, fitting models, generating visualizations, and converting between formats — all within a single conversation. The key technical insight is that the code execution output is fed back into context, allowing GPT-4 to observe errors and revise its approach — a tight feedback loop that mirrors how an experienced analyst works at the Python REPL.
+
+**Strengths:** Exploratory data analysis, data cleaning, descriptive statistics, visualization, pivot tables, format conversion (e.g., CSV to JSON), light statistical modeling.
+
+**Limitations:** No internet access; session-scoped (files are lost when the conversation ends); file size limits (roughly 50MB for CSVs); no persistent memory across sessions. Perhaps most importantly, the agent can confidently produce analyses that are statistically flawed without any indication of uncertainty. Users who lack the statistical background to check outputs are particularly at risk of treating agent-generated analyses as authoritative.
+
+The product's commercial success — it became one of the most-used features of ChatGPT Plus — validated the hypothesis that there is massive pent-up demand for accessible data analysis tools. It also sparked a wave of research and competing products.
+
+---
+
+## Research Papers on Data Analysis Agents
+
+### Data Interpreter
+
+The **[Data Interpreter](https://arxiv.org/abs/2402.18679)** (Hong et al., 2024; arXiv:2402.18679), developed by the MetaGPT team, is one of the most thorough academic treatments of LLM agents for data science tasks. Rather than treating analysis as a flat sequence of steps, Data Interpreter uses **Hierarchical Graph Modeling**: the problem is decomposed into a directed acyclic graph of subproblems, with dynamic node generation as new information becomes available during execution. A second module, **Programmable Node Generation**, refines and verifies each subproblem before generating code for it.
+
+This structure allows the agent to adapt its plan mid-execution — for example, discovering that a dataset has missing values and inserting a cleaning step that wasn't in the original plan. This dynamic replanning is what distinguishes Data Interpreter from simpler code generation agents that commit to a plan upfront. The approach was evaluated on machine learning tasks, mathematical reasoning, and data visualization challenges, outperforming prior agents across all three categories.
+
+### DS-Agent
+
+**[DS-Agent](https://arxiv.org/abs/2402.17453)** (Guo et al., 2024; ICML 2024; arXiv:2402.17453) tackles automated data science through **case-based reasoning**. Rather than generating code purely from the task description, DS-Agent retrieves similar past cases (e.g., winning Kaggle notebooks) and adapts their solutions to the current problem. This reflects a key insight: expert data scientists don't start from scratch — they build on established patterns and known-good approaches.
+
+DS-Agent operates in two stages: a **development stage** (using retrieved cases to produce initial code) and a **deployment stage** (refining for production use). Evaluated against GPT-3.5, GPT-4, and open-source models on 18 deployment tasks derived from Kaggle competitions, DS-Agent demonstrated substantially higher one-pass success rates than zero-shot and one-shot baselines.
+
+### MLAgentBench
+
+**[MLAgentBench](https://arxiv.org/abs/2310.03302)** (Huang et al., 2023/2024; arXiv:2310.03302) from Stanford's SNAP lab is a benchmark suite of end-to-end machine learning experimentation tasks. Given a dataset and a task description, an agent must autonomously develop or improve an ML model — writing code, running experiments, and iterating based on results.
+
+The benchmark covers tasks across diverse domains (image classification, NLP, tabular data) and evaluates agents on their ability to improve upon baseline performance. Benchmarked models include GPT-4-turbo, Claude v3 Opus, Gemini Pro, and Mixtral; Claude v3 Opus achieved the best success rate across tasks, though absolute performance remained modest, highlighting how difficult autonomous ML engineering remains. MLAgentBench was one of the first systems to evaluate agents on *open-ended* ML experimentation — not just asking "complete this task" but "improve this baseline as much as you can" — which is a closer analog to real research work.
+
+### AIDE
+
+**[AIDE](https://arxiv.org/abs/2502.13138)** (Wu et al., 2025; arXiv:2502.13138) — AI-Driven Exploration — takes a distinctive approach by framing ML engineering as a **code optimization problem** and the agent's trial-and-error process as a **tree search** over candidate solutions. Rather than discarding failed attempts, AIDE reuses and refines promising intermediate solutions, effectively trading compute for better performance.
+
+AIDE achieves state-of-the-art results on [OpenAI's MLE-bench](https://arxiv.org/abs/2410.07095) (arXiv:2410.07095), a benchmark of 75 Kaggle competitions. The best configuration — o1-preview combined with AIDE scaffolding — achieves at least a bronze medal level in **16.9% of competitions**, a striking result that suggests current agents are approaching amateur-to-intermediate human performance on structured ML tasks. AIDE also achieves top results on RE-Bench (ML research engineering) and the authors' own Kaggle evaluations.
+
+The tree-search framing has an important practical implication: compute scales performance. Unlike prompting strategies that are essentially fixed-cost, AIDE can be given more compute budget to explore a larger solution space, and performance improves accordingly. This suggests a path toward more capable agents that is as much about scaling compute during inference as improving the underlying model.
+
+### AutoML-Agent
+
+**[AutoML-Agent](https://arxiv.org/abs/2410.02958)** (Trirat et al., 2024; arXiv:2410.02958) is a multi-agent LLM framework for **full-pipeline AutoML**, handling everything from data retrieval to model deployment. Unlike prior LLM-based frameworks that assist with individual steps (preprocessing, model selection, etc.), AutoML-Agent coordinates multiple specialized sub-agents to cover the complete pipeline. Evaluated on seven downstream tasks across fourteen datasets, it achieves higher automation success rates than single-agent baselines across diverse domains.
+
+### InsightBench
+
+**[InsightBench](https://arxiv.org/abs/2407.06423)** (Sahu et al., 2024; arXiv:2407.06423) from ServiceNow evaluates agents on **multi-step business analytics insight generation** — a more realistic and demanding setting than single-query benchmarks. Rather than answering one question at a time, agents must perform end-to-end analysis: exploring a dataset, generating multiple insights, and producing a coherent analytical narrative.
+
+The benchmark introduces AgentPoirot as a baseline agent and shows it outperforms Pandas Agent and other query-focused approaches. The benchmark is publicly available at [github.com/ServiceNow/insight-bench](https://github.com/ServiceNow/insight-bench).
+
+### InfiAgent-DABench
+
+**[InfiAgent-DABench](https://arxiv.org/abs/2401.05507)** (Hu et al., 2024; arXiv:2401.05507) was among the first benchmarks specifically designed to evaluate LLM-based agents on data analysis tasks. It contains **311 data analysis questions** derived from **55 CSV files**, using a closed-form answer format that enables automated evaluation. The benchmark is notable for requiring agents to interact with an execution environment end-to-end, rather than simply generating code.
+
+### Spider2-V
+
+**[Spider2-V](https://arxiv.org/abs/2407.10956)** (Cao et al., 2024; NeurIPS 2024 Datasets and Benchmarks Track; arXiv:2407.10956) is a multimodal agent benchmark covering professional data science and engineering workflows in full desktop environments. It features **494 real-world tasks** in authentic computer environments, incorporating **20 enterprise-level applications** — including BigQuery, dbt, Airflow, Jupyter, and Snowflake.
+
+Critically, Spider2-V evaluates agents on GUI control in addition to code generation: agents must navigate real software interfaces, not just produce text or code. Results reveal significant gaps: even with step-by-step guidance, agents underperform severely on knowledge-intensive GUI actions (16.2% task completion) and tasks requiring cloud-hosted workspace access (10.6%). This benchmark underscores that real-world data workflows are far more complex than controlled code generation tasks.
+
+---
+
+## ML Engineering Agents
+
+Beyond data analysis, a growing body of work focuses on agents that conduct **machine learning engineering**: training models, tuning hyperparameters, comparing architectures, and managing the full experimental lifecycle. This is sometimes called "AI for ML" or "agentic AutoML."
+
+### Kaggle Competition Agents
+
+The Kaggle arena provides a natural benchmark for ML engineering agents: well-defined tasks, real data, objective leaderboard rankings, and a human comparison baseline of hundreds of thousands of competitors. [MLE-bench](https://arxiv.org/abs/2410.07095) (Chan et al., 2024; arXiv:2410.07095), developed by OpenAI, formalizes this into a **75-competition benchmark** spanning diverse ML tasks — image classification, tabular regression, NLP, and time series forecasting.
+
+The AIDE-based agent (o1-preview + AIDE scaffolding) achieving bronze-level performance in ~17% of competitions represents a meaningful milestone. It demonstrates that current agents can, on a subset of tasks, produce solutions competitive with the bottom quartile of human Kaggle participants — though the gap to expert performance remains enormous.
+
+[DS-Agent's](https://arxiv.org/abs/2402.17453) case-based retrieval from Kaggle notebooks reflects the same intuition: competition notebooks are a rich repository of expert solutions that agents can learn from, paralleling how junior data scientists develop their skills by reading and adapting others' work.
+
+### Hyperparameter Optimization and Architecture Search
+
+Traditional **AutoML** tools (Auto-sklearn, FLAML, Optuna, NAS systems) automate hyperparameter search but require the user to define the search space and pipeline structure. LLM agents add a new capability: the ability to *reason about* why a model is underperforming and propose changes to the architecture or feature engineering strategy rather than just tuning existing knobs.
+
+AIDE's tree-search formulation is a direct embodiment of this: the agent doesn't just vary hyperparameters within a fixed space, it edits code and explores fundamentally different approaches (e.g., switching from gradient boosting to a neural network, or adding feature interactions). This represents a step toward the kind of strategic experimentation that expert data scientists perform.
+
+[AutoML-Agent](https://arxiv.org/abs/2410.02958) exemplifies a more structured version of this — coordinating retrieval, preprocessing, feature engineering, model selection, and evaluation through a team of specialized sub-agents, each responsible for one part of the pipeline.
+
+### Experiment Management and Reporting
+
+Tracking which runs used which configurations, comparing results across multiple experiments, and writing up findings are repetitive but cognitively demanding tasks. Agents connected to experiment tracking tools like [Weights & Biases](https://wandb.ai/) or [MLflow](https://mlflow.org/) can potentially automate large portions of this workflow: querying run history, identifying best configurations, generating comparison tables, and drafting experiment reports.
+
+This remains an area where production deployment is nascent — existing tools offer "AI assistant" features for interpreting results, but fully autonomous experiment management agents are not yet standard practice.
+
+---
+
+## Visualization & Reporting Agents
+
+### LIDA
+
+**[LIDA](https://arxiv.org/abs/2303.02927)** (Dibia, 2023; ACL 2023; arXiv:2303.02927) from Microsoft Research is an LLM-based system for automatic generation of visualizations and infographics. It operates as a four-module pipeline:
+
+1. **Summarizer** — converts a dataset into a compact natural language summary
+2. **Goal Explorer** — enumerates plausible visualization goals given the data summary
+3. **VizGenerator** — generates, refines, executes, and filters visualization code
+4. **Infographer** — produces stylized, data-faithful graphics using image generation models
+
+LIDA is **grammar-agnostic**: the same pipeline generates matplotlib, seaborn, altair, or D3.js code depending on the target library. It was accepted at ACL 2023 (System Demonstrations) and is open-source at [github.com/microsoft/lida](https://github.com/microsoft/lida). In internal evaluations, LIDA achieved an error rate of under 3.5% on over 2,200 visualizations generated, compared to a baseline error rate above 10% *(unverified: from GitHub README)*.
+
+### ChartQA and Chart Understanding
+
+**[ChartQA](https://arxiv.org/abs/2203.10244)** (Masry et al., 2022; arXiv:2203.10244) addresses the complementary problem of *reading* charts rather than generating them — given a chart image, answer questions about it. This is relevant for data agents that encounter existing visualizations (e.g., in PDFs or dashboards) and need to extract information. Modern multimodal LLMs (GPT-4V, Gemini, Claude) have dramatically improved chart understanding, enabling agents to reason about visual data representations in addition to tabular data.
+
+### NL-to-Visualization Pipelines
+
+A common agent architecture for reporting chains natural language → SQL → data retrieval → chart code → rendered visualization, all within a single agent loop. This allows business users to ask questions like "show me revenue by region for Q3" against a connected database and receive a chart. The pipeline composition requires robust text-to-SQL (see next section), reliable code execution, and some understanding of visualization best practices.
+
+The main challenges in these pipelines are *semantic alignment* (the chart should answer the question the user actually asked, not a literal interpretation) and *visualization appropriateness* (bar chart vs. line chart vs. scatter plot — not all chart types are equally informative for a given data shape).
+
+**Narrative data stories** — where an agent produces not just a chart but a written interpretation of it — are an emerging capability. Rather than simply rendering a plot, the agent identifies the key trend, contextualizes it, and writes a few sentences of explanation. Products like Tableau Pulse and Google's "Insights" feature in Looker take this approach in limited production form. The full realization of automated analyst narratives raises significant concerns about hallucinated interpretations (see Open Problems).
+
+---
+
+## NL-to-SQL & Database Agents
+
+Natural language to SQL is one of the most practically important capabilities underlying data science agents. It allows non-technical users to query databases without knowing SQL syntax and enables agents to retrieve structured data on demand.
+
+### Spider Benchmark
+
+**[Spider](https://arxiv.org/abs/1809.08887)** (Yu et al., 2018; arXiv:1809.08887) from Yale remains the standard NL-to-SQL benchmark. It contains **10,181 questions** and **5,693 unique SQL queries** across **200 databases** covering multiple tables and diverse domains. Spider's cross-domain structure — models must generalize to databases they haven't seen during training — made it a genuine test of systematic SQL understanding rather than pattern matching.
+
+### BIRD Benchmark
+
+**[BIRD](https://arxiv.org/abs/2305.03111)** (Li et al., 2023; arXiv:2305.03111) — Big Bench for Large-Scale Database Grounded Text-to-SQL — was developed to address the gap between controlled benchmarks and real-world complexity. It contains **12,751 text-to-SQL pairs** across **95 databases** totaling **33.4 GB** spanning **37 professional domains**. BIRD emphasizes database *content* (not just schema structure): correct SQL requires understanding actual data values, external domain knowledge, and SQL execution efficiency.
+
+At time of publication, the best models achieved around 40% execution accuracy on BIRD, compared to human performance of ~93% — a sobering reminder of the gap between benchmark performance and production deployment. More recent models have improved substantially, but the benchmark remains challenging.
+
+### DIN-SQL
+
+**[DIN-SQL](https://arxiv.org/abs/2304.11015)** (Pourreza & Rafiei, 2023; arXiv:2304.11015) — Decomposed In-Context Learning for Text-to-SQL — improved NL-to-SQL performance by breaking the translation into manageable sub-problems: schema linking, query classification, sub-query decomposition, and self-correction. By feeding solutions to sub-problems back into context, DIN-SQL substantially improved performance on Spider and related benchmarks over monolithic prompting approaches.
+
+### SQLCoder
+
+**[SQLCoder](https://github.com/defog-ai/sqlcoder)** (Defog AI, 2023) is an open-source, fine-tuned model specifically for text-to-SQL tasks. The original 15B-parameter model outperformed GPT-3.5-turbo on generic SQL generation at launch, and subsequent versions (SQLCoder2, SQLCoder-7B) extended coverage to smaller form factors. SQLCoder demonstrates that fine-tuning on domain-specific data remains an effective approach, complementing general-purpose LLM prompting strategies.
+
+### Beyond SELECT: Agentic Database Interaction
+
+Most NL-to-SQL work focuses on read-only SELECT queries. But data science pipelines often need more: inserting cleaned data into staging tables, updating schema definitions, creating materialized views, or modifying data quality flags. Full-featured database agents that safely handle DML (INSERT, UPDATE, DELETE) and DDL (CREATE, ALTER, DROP) operations require more careful design — especially permission scoping, rollback capability, and user confirmation for destructive operations.
+
+**Spider 2.0** — the enterprise text-to-SQL successor to Spider — addresses part of this gap. [Spider 2.0](https://arxiv.org/abs/2411.07763) (Lei et al., 2024; arXiv:2411.07763) is an evaluation framework of **632 real-world workflow problems** from enterprise analytics, including complex multi-step data transformations, not just single-query SQL. It evaluates complete data workflows involving tools like BigQuery, dbt, and Python, capturing the reality that professional data work is a pipeline of operations rather than a single query. This remains largely an open engineering challenge for the broader community.
+
+---
+
+## Production Data Pipelines
+
+The most mature deployments of data science agents are tools that assist with **data engineering workflows** — the infrastructure that feeds analytical systems.
+
+### dbt and Pipeline Agents
+
+**dbt** (data build tool) is the dominant framework for transforming data in modern analytics stacks. **[dbt Copilot](https://www.getdbt.com/blog/dbt-copilot)** (dbt Labs, 2023) integrates LLM assistance directly into the dbt workflow, helping analysts write SQL transformations, generate documentation, and create tests from natural language descriptions. This represents a commercially deployed, production-grade data agent integrated into an existing workflow — rather than a research system that replaces it.
+
+dbt Copilot is representative of a broader trend: rather than building standalone agent systems, tooling companies are embedding LLM capabilities into existing workflow tools where users already spend their time. This reduces adoption friction and keeps the agent in a context where its outputs can be immediately reviewed and tested.
+
+Similar capabilities are emerging in platforms like Databricks (with its AI-assisted notebook features), Snowflake Cortex (conversational SQL and data exploration), and Google BigQuery's Gemini integration. These are production systems handling enterprise-scale data pipelines — a meaningful signal about the maturity of the technology.
+
+### Automated Data Quality
+
+Data quality checking — validating that columns have expected distributions, detecting schema drift, identifying anomalous values — is a high-value but tedious task. LLM agents can generate **data quality rules** from natural language descriptions, suggest anomaly thresholds based on historical patterns, and explain detected anomalies in business terms. Tools like [Great Expectations](https://greatexpectations.io/) provide the execution framework; agents can increasingly generate the expectations themselves.
+
+### Schema Inference and Documentation
+
+An underappreciated capability: LLM agents can **infer intent from data**. Given a table with column names like `cust_acct_type_cd` and sample values, an agent can produce a human-readable description, suggest display names, and write documentation — tasks that traditionally required significant manual effort from data engineers. This pairs well with data catalog tools.
+
+### ETL Automation
+
+Full ETL automation — extracting data from heterogeneous sources, transforming it to match target schemas, and loading it into warehouses — remains aspirational. Individual steps can be assisted by agents (e.g., generating transformation logic, writing connectors, debugging failed jobs), but orchestrating an entire ETL pipeline autonomously, with appropriate error handling and monitoring, requires capabilities that current agents don't reliably provide at production scale.
+
+Agents can be particularly effective at **one-time migration tasks**: given a legacy schema and a target schema, generate the transformation logic, identify ambiguous mappings, and flag fields that require domain decisions. This is more tractable than continuous ETL management because the scope is bounded and human review before deployment is standard practice.
+
+### Agents in Notebooks
+
+Jupyter notebooks are the primary working environment for data scientists. Several systems embed agents directly into notebook workflows — generating cells based on natural language instructions, explaining existing code, suggesting next steps, or debugging failing cells. [GitHub Copilot](https://github.com/features/copilot) in JupyterLab, Google's Gemini in Colab, and similar tools represent the production frontier of this approach. These are "copilot" systems rather than fully autonomous agents — they suggest rather than execute — but they reduce the friction of translating analytical intent into working code substantially.
+
+---
+
+## Open Problems
+
+### Correctness Verification
+
+How do you know a statistical analysis produced by an agent is correct? Unlike code that either passes tests or crashes, a wrong statistical analysis looks exactly like a right one. Agents can produce plausible-sounding summaries of data that misstate the actual figures, apply incorrect statistical tests, or fail to account for confounders. Verification requires either human review (which partially defeats the purpose) or automated statistical validity checking (an open research problem).
+
+One partial mitigation is **code-level verification**: the agent produces Python or SQL code, which can be independently reviewed and re-executed. If the code is correct and the data is correct, the result should be correct. This is the implicit contract that makes code-generating agents safer than agents that state facts directly. But even correct code can implement the wrong statistical test — and detecting that requires domain expertise, not just code review.
+
+### Large Dataset Handling
+
+Context windows, however large, are not databases. Most agents operating on data load a sample or summary into context. For datasets with millions of rows, this means the agent's "understanding" of the data is necessarily incomplete. Techniques like data summarization (LIDA's Summarizer module), SQL-based aggregation before loading, and sketch-based summaries help, but the fundamental limitation — that LLMs cannot currently reason over data at database scale — remains.
+
+The practical workaround is **tool use**: an agent doesn't need to see all the data if it can write SQL to query it, call a database for aggregations, or invoke a statistical function that summarizes a distribution. The agent reasons about the data through operations, not by holding it in context. This is how human analysts work too — no one loads a 10GB table into their head; they formulate queries that extract the relevant slice. Making this work reliably requires agents that are good at understanding what they need to know before committing to a query, and that recognize when their query returned an uninformative result.
+
+### Reproducibility
+
+Agent-generated analyses are rarely reproducible in the scientific sense. The same prompt on the same data may produce different code on different runs (due to temperature), and intermediate steps are often not logged in a way that supports replication. For scientific or regulatory contexts that require audit trails, this is a serious limitation. Emerging approaches include recording the full agent trace and generated code as first-class artifacts, setting temperature to zero to reduce stochasticity, and pinning model versions. But agent pipelines are not yet designed with reproducibility as a first-class concern. This is in contrast to traditional data pipelines, where determinism is a default property.
+
+### Hallucinated Statistics
+
+Perhaps the most dangerous failure mode: an agent that confidently reports a statistic that is simply wrong. Unlike hallucinated code (which fails at runtime), a hallucinated correlation coefficient or p-value passes silently. This is compounded by the tendency of LLMs to hedge less when operating in "analyst mode" — the confident, authoritative tone expected of a data analyst may actively suppress appropriate uncertainty signals.
+
+This problem is particularly acute for **derived statistics**: agents may correctly load a dataset and correctly write code, but interpret the output incorrectly (e.g., misidentifying which column corresponds to which variable). The agent "did the analysis" but the answer is wrong. Testing against known ground-truth statistics is the safest mitigation, but it requires having them — which somewhat defeats the purpose of autonomous analysis.
+
+### The Analyst in the Loop
+
+When should the agent ask for human input, and when should it proceed autonomously? Current agents tend to err in both directions: sometimes halting to ask unnecessary clarifying questions, sometimes forging ahead with incorrect assumptions. The ideal is an agent that knows what it doesn't know — that can recognize when a decision requires domain expertise it lacks, and surface that decision to the human at the right moment. This requires well-calibrated uncertainty, which remains an active research area.
+
+The practical implication: data science agents are best deployed in **human-in-the-loop** configurations where the agent performs the tedious steps (cleaning, transformation, initial modeling) and surfaces decisions and findings for human review. Fully autonomous data science agents — that take raw data as input and produce published insights without human review — are not reliably safe for high-stakes domains.
+
+### Evaluation Difficulty
+
+A challenge cutting across all of data science: **how do you evaluate a data analysis?** Code correctness has unit tests. Text quality has BLEU or human preference ratings. But the quality of an EDA walkthrough, or the appropriateness of a chosen visualization, or the relevance of a discovered insight, is much harder to quantify. Benchmarks like InsightBench and InfiAgent-DABench use closed-form answer formats (specific numerical values) to enable automation, but this selects for a narrow slice of data analysis tasks. The broader challenge of evaluating judgment-intensive analytical work remains open.
+
+---
+
+## References
+
+### Papers
+
+- Hong, S. et al. (2024). **Data Interpreter: An LLM Agent For Data Science.** arXiv:2402.18679. <https://arxiv.org/abs/2402.18679>
+- Guo, S. et al. (2024). **DS-Agent: Automated Data Science by Empowering Large Language Models with Case-Based Reasoning.** ICML 2024. arXiv:2402.17453. <https://arxiv.org/abs/2402.17453>
+- Huang, Q. et al. (2023/2024). **MLAgentBench: Evaluating Language Agents on Machine Learning Experimentation.** arXiv:2310.03302. <https://arxiv.org/abs/2310.03302>
+- Wu, Y. et al. (2025). **AIDE: AI-Driven Exploration in the Space of Code.** arXiv:2502.13138. <https://arxiv.org/abs/2502.13138>
+- Chan, J. et al. (2024). **MLE-bench: Evaluating Machine Learning Agents on Machine Learning Engineering.** arXiv:2410.07095. <https://arxiv.org/abs/2410.07095>
+- Trirat, P., Jeong, W., & Hwang, S.J. (2024). **AutoML-Agent: A Multi-Agent LLM Framework for Full-Pipeline AutoML.** arXiv:2410.02958. <https://arxiv.org/abs/2410.02958>
+- Sahu, G. et al. (2024). **InsightBench: Evaluating Business Analytics Agents Through Multi-Step Insight Generation.** arXiv:2407.06423. <https://arxiv.org/abs/2407.06423>
+- Hu, X. et al. (2024). **InfiAgent-DABench: Evaluating Agents on Data Analysis Tasks.** arXiv:2401.05507. <https://arxiv.org/abs/2401.05507>
+- Cao, R. et al. (2024). **Spider2-V: How Far Are Multimodal Agents From Automating Data Science and Engineering Workflows?** NeurIPS 2024. arXiv:2407.10956. <https://arxiv.org/abs/2407.10956>
+- Dibia, V. (2023). **LIDA: A Tool for Automatic Generation of Grammar-Agnostic Visualizations and Infographics using Large Language Models.** ACL 2023. arXiv:2303.02927. <https://arxiv.org/abs/2303.02927>
+- Pourreza, M. & Rafiei, D. (2023). **DIN-SQL: Decomposed In-Context Learning of Text-to-SQL with Self-Correction.** NeurIPS 2023. arXiv:2304.11015. <https://arxiv.org/abs/2304.11015>
+- Yu, T. et al. (2018). **Spider: A Large-Scale Human-Labeled Dataset for Complex and Cross-Domain Semantic Parsing and Text-to-SQL Task.** EMNLP 2018. arXiv:1809.08887. <https://arxiv.org/abs/1809.08887>
+- Li, J. et al. (2023). **Can LLM Already Serve as A Database Interface? A BIg Bench for Large-Scale Database Grounded Text-to-SQLs.** NeurIPS 2023. arXiv:2305.03111. <https://arxiv.org/abs/2305.03111>
+- Lei, F. et al. (2024). **Spider 2.0: Evaluating Language Models on Real-World Enterprise Text-to-SQL Workflows.** arXiv:2411.07763. <https://arxiv.org/abs/2411.07763>
+- Masry, A. et al. (2022). **ChartQA: A Benchmark for Question Answering about Charts with Visual and Logical Reasoning.** ACL 2022 Findings. arXiv:2203.10244. <https://arxiv.org/abs/2203.10244>
+
+### Blog Posts & Resources
+
+- OpenAI. (2023). **Data analysis with ChatGPT.** <https://help.openai.com/en/articles/8437071-data-analysis-with-chatgpt>
+- Defog AI. (2023). **Open-sourcing SQLCoder: a state-of-the-art LLM for SQL generation.** <https://defog.ai/blog/open-sourcing-sqlcoder>
+- dbt Labs. (2023). **dbt Copilot: AI-powered data transformation.** <https://www.getdbt.com/blog/dbt-copilot>
+- Microsoft Research. **LIDA: Automated Visualizations with LLMs.** <https://microsoft.github.io/lida/>
+- Yale LILY Lab. **Spider: Yale Semantic Parsing and Text-to-SQL Challenge.** <https://yale-lily.github.io/spider>
+- BIRD Benchmark. <https://bird-bench.github.io/>
+- New York Times. (2023). **What to Know About ChatGPT's New Code Interpreter Feature.** <https://www.nytimes.com/2023/07/11/technology/what-to-know-chatgpt-code-interpreter.html>
+- Spider2-V Project Page. <https://spider2-v.github.io/>
+
+### Code & Projects
+
+- **Data Interpreter** (MetaGPT): <https://github.com/geekan/MetaGPT> (part of MetaGPT framework)
+- **DS-Agent** (official): <https://github.com/guosyjlu/DS-Agent>
+- **MLAgentBench** (Stanford SNAP): <https://github.com/snap-stanford/MLAgentBench>
+- **MLE-bench** (OpenAI): <https://github.com/openai/mle-bench>
+- **LIDA** (Microsoft): <https://github.com/microsoft/lida>
+- **InfiAgent-DABench**: <https://infiagent.github.io/>
+- **InsightBench** (ServiceNow): <https://github.com/ServiceNow/insight-bench>
+- **Spider2-V**: <https://github.com/xlang-ai/Spider2-V>
+- **Spider 2.0**: <https://github.com/xlang-ai/Spider2>
+- **SQLCoder** (Defog): <https://github.com/defog-ai/sqlcoder>
+- **Great Expectations** (data quality framework): <https://greatexpectations.io/>
+
+---
+
+*Back to [Topics →](topics.qmd) · See also: [Coding Agents →](coding-agents.qmd) · [Science & Research Agents →](science-agents.qmd) · [Economics →](economics.qmd)*
