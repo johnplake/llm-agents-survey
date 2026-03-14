@@ -28,14 +28,6 @@ Prompt injection, trust hierarchies, sandboxing, reversibility, the transparency
 
 ::: {.survey-card}
 ::: {.card-icon}
-🔧
-:::
-### [Infrastructure & Protocols](infrastructure.qmd)
-MCP, A2A, ACP, OpenAI Agents SDK — the protocols and frameworks that connect agents to tools and each other. Plus tool registries, security considerations, and deployment patterns.
-:::
-
-::: {.survey-card}
-::: {.card-icon}
 🤝
 :::
 ### [Human-Agent Interaction & Trust](human-agent.qmd)
@@ -48,14 +40,6 @@ How humans work with autonomous agents — trust calibration, delegation pattern
 :::
 ### [Agent Economics](economics.qmd)
 Cost per task, token efficiency, budget-constrained execution, model routing & cascading (FrugalGPT, RouteLLM), prompt compression, and enterprise ROI — the economics of making agents affordable at scale.
-:::
-
-::: {.survey-card}
-::: {.card-icon}
-🔍
-:::
-### [Observability & Robustness](observability.qmd)
-Making agent behavior interpretable, debuggable, and reliable — tracing infrastructure (OpenTelemetry, Langfuse, LangSmith), failure analysis, chain-of-thought faithfulness, guardrails, and production monitoring.
 :::
 
 ::: {.survey-card}
@@ -84,14 +68,6 @@ Legal liability, the EU AI Act, US and UK frameworks, industry self-governance (
 
 ::: {.survey-card}
 ::: {.card-icon}
-🎓
-:::
-### [Agent Training & RL](agent-training.qmd)
-How agents learn from experience — RL for agents (GRPO, WebRL, Agent Q), trajectory learning (AgentTrek, SWE-smith), tool use training (Toolformer, Gorilla, ToolBench), test-time compute, and small model agents.
-:::
-
-::: {.survey-card}
-::: {.card-icon}
 🪞
 :::
 ### [Personalization & Digital Twins](personalization.qmd)
@@ -106,4 +82,4 @@ These topics are connected. Evaluation shapes what safety problems we can measur
 
 Each page collects primary sources, key papers, and synthesis — use them as reference material rather than introductions.
 
-*Looking for agents by application area? See [By Domain →](coding-agents.qmd)*
+*Looking for agents by application area? See [By Domain →](by-domain.qmd) · For technical architecture deep dives, see [Deep Dives →](reasoning.qmd)*

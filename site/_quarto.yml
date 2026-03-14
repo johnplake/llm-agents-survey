@@ -53,6 +53,12 @@ website:
             text: Multi-Agent Systems
           - href: memory-tools.qmd
             text: Memory, Tools & Actions
+          - href: agent-training.qmd
+            text: Agent Training & RL
+          - href: infrastructure.qmd
+            text: Infrastructure & Protocols
+          - href: observability.qmd
+            text: Observability & Robustness
       - text: "Topics"
         menu:
           - href: topics.qmd
@@ -61,22 +67,16 @@ website:
             text: Evaluation & Benchmarks
           - href: safety.qmd
             text: Safety & Alignment
-          - href: infrastructure.qmd
-            text: Infrastructure & Protocols
           - href: human-agent.qmd
             text: Human-Agent Interaction
           - href: economics.qmd
             text: Agent Economics
-          - href: observability.qmd
-            text: Observability & Robustness
           - href: long-horizon.qmd
             text: Long-Horizon Autonomy
           - href: agent-societies.qmd
             text: Agent Societies & Simulation
           - href: governance.qmd
             text: Governance & Regulation
-          - href: agent-training.qmd
-            text: Agent Training & RL
           - href: personalization.qmd
             text: Personalization & Digital Twins
       - text: "By Domain"
