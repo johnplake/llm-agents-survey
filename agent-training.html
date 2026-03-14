@@ -566,7 +566,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="skyrl-agent-scalable-multi-turn-rl" class="level3">
 <h3 class="anchored" data-anchor-id="skyrl-agent-scalable-multi-turn-rl">SkyRL-Agent: Scalable Multi-Turn RL</h3>
-<p><a href="https://arxiv.org/abs/2511.16108"><strong>SkyRL-Agent</strong></a> (Cao et al., 2025) is an open framework for scalable RL training of multi-turn LLM agents. It provides a unified tool interface, efficient rollout scheduling, and dynamic trajectory construction—addressing the engineering bottleneck that makes RL for agents much harder than RL for single-turn reasoning. SkyRL-Agent trains primarily on SWE (software engineering) tasks but demonstrates generalization to Terminal-Bench, BrowseComp-Plus, and WebArena.</p>
+<p><a href="https://arxiv.org/abs/2511.16108"><strong>SkyRL-Agent</strong></a> (Cao et al., 2025) is an open framework for efficient, multi-turn, long-horizon agent training and evaluation. It provides efficient asynchronous dispatching, lightweight tool integration, and flexible backend interoperability—addressing the engineering bottleneck that makes RL for agents much harder than RL for single-turn reasoning. Using SkyRL-Agent, the authors train SA-SWE-32B from Qwen3-32B (24.4% Pass@1 baseline) purely with RL, reaching 39.4% Pass@1 on SWE-Bench Verified at more than 2× cost reduction compared to prior models of similar performance. Despite training solely on SWE tasks, the model generalizes to Terminal-Bench, BrowseComp-Plus, and WebArena.</p>
 <hr>
 </section>
 </section>
@@ -622,7 +622,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="gorilla-massive-api-coverage" class="level3">
 <h3 class="anchored" data-anchor-id="gorilla-massive-api-coverage">Gorilla: Massive API Coverage</h3>
-<p><a href="https://arxiv.org/abs/2305.15334"><strong>Gorilla</strong></a> (Patil et al., UC Berkeley, 2023) pushed in a different direction: rather than teaching tool use self-supervisedly, it fine-tuned specifically for API call generation across thousands of real-world APIs. Gorilla was trained on a large corpus of API documentation and paired API calls, and integrated a retrieval system to handle frequently updated API documentation. The project has since expanded into the <a href="https://gorilla.cs.berkeley.edu/">Gorilla Execution Engine (GoEX)</a>—a runtime for LLM-generated API calls with “undo” and “damage confinement” abstractions for safe execution.</p>
+<p><a href="https://arxiv.org/abs/2305.15334"><strong>Gorilla</strong></a> (Patil et al., UC Berkeley, 2023) pushed in a different direction: rather than teaching tool use self-supervisedly, it fine-tuned specifically for API call generation across ~1,600 ML model APIs from HuggingFace, TorchHub, and TensorHub (compiled as the APIBench dataset). Gorilla was trained on a large corpus of API documentation and paired API calls, and integrated a retrieval system to handle frequently updated API documentation. The project has since expanded into the <a href="https://gorilla.cs.berkeley.edu/">Gorilla Execution Engine (GoEX)</a>—a runtime for LLM-generated API calls with “undo” and “damage confinement” abstractions for safe execution.</p>
 </section>
 <section id="toolbench-toolllm-real-world-tool-mastery" class="level3">
 <h3 class="anchored" data-anchor-id="toolbench-toolllm-real-world-tool-mastery">ToolBench / ToolLLM: Real-World Tool Mastery</h3>
@@ -689,7 +689,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="the-cost-argument">The Cost Argument</h3>
 <p>Large prompted models (GPT-4, Claude 3.5, Gemini 1.5 Pro) are competent at agent tasks—but they cost orders of magnitude more per query than a self-hosted 7B or 13B model. If a task-specific fine-tune of a small model can match a large prompted model, the economics favor deployment of the smaller model for high-volume agent workloads.</p>
 <p>Consider the math: a GPT-4-class model costs roughly $10–30 per million output tokens at retail API pricing. A self-hosted 7B model running on a single consumer GPU costs $0.10–0.50 per million tokens at amortized hardware cost. For an agent that executes 1,000 multi-step tasks per day—each generating hundreds of tokens of intermediate reasoning—the cost difference compounds rapidly. This is why many production deployments use a <strong>cascade architecture</strong>: small fine-tuned models handle routine tasks while large models handle edge cases and ambiguous situations.</p>
-<p>The evidence is accumulating. <a href="https://arxiv.org/abs/2512.15943"><strong>“Small Language Models for Efficient Agentic Tool Calling”</strong></a> (2024) demonstrated that a fine-tuned small model can achieve <strong>77.55% pass rate on ToolBench evaluation</strong>—significantly outperforming ChatGPT-CoT (26.00%) and ToolLLaMA-DFS (30.18%). The fine-tuned model was dramatically cheaper per inference call.</p>
+<p>The evidence is accumulating. <a href="https://arxiv.org/abs/2512.15943"><strong>“Small Language Models for Efficient Agentic Tool Calling”</strong></a> (2025) demonstrated that a fine-tuned small model can achieve <strong>77.55% pass rate on ToolBench evaluation</strong>—significantly outperforming ChatGPT-CoT (26.00%) and ToolLLaMA-DFS (30.18%). The fine-tuned model was dramatically cheaper per inference call.</p>
 </section>
 <section id="tool-use-fine-tuning-at-small-scale" class="level3">
 <h3 class="anchored" data-anchor-id="tool-use-fine-tuning-at-small-scale">Tool Use Fine-Tuning at Small Scale</h3>
@@ -767,9 +767,10 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>DeepSeek-R1 (DeepSeek-AI, 2025)</strong> — <a href="https://arxiv.org/abs/2501.12948">arXiv:2501.12948</a> — RL for reasoning; GRPO; open-source.</li>
 <li><strong>s1: Simple Test-Time Scaling (Muennighoff et al., 2025)</strong> — <a href="https://arxiv.org/abs/2501.19393">arXiv:2501.19393</a> — budget forcing and the 1,000-example recipe.</li>
 <li><strong>SWE-smith (Yang et al., 2025)</strong> — <a href="https://arxiv.org/abs/2504.21798">arXiv:2504.21798</a> — 50k SWE trajectories from 128 repos (NeurIPS 2025 Spotlight).</li>
-<li><strong>Small LMs for Agentic Tool Calling (2024)</strong> — <a href="https://arxiv.org/abs/2512.15943">arXiv:2512.15943</a> — fine-tuned SLM outperforms ChatGPT on ToolBench.</li>
+<li><strong>Small LMs for Agentic Tool Calling (2025)</strong> — <a href="https://arxiv.org/abs/2512.15943">arXiv:2512.15943</a> — fine-tuned SLM outperforms ChatGPT on ToolBench (AAAI 2026 Workshop).</li>
 <li><strong>SkyRL-Agent (Cao et al., 2025)</strong> — <a href="https://arxiv.org/abs/2511.16108">arXiv:2511.16108</a> — scalable RL training framework for multi-turn agents.</li>
 <li><strong>PRM Survey (2025)</strong> — <a href="https://arxiv.org/abs/2510.08049">arXiv:2510.08049</a> — comprehensive survey of process reward models.</li>
+<li><strong>Agentic RL Survey (Zhang et al., 2025)</strong> — <a href="https://arxiv.org/abs/2509.02547">arXiv:2509.02547</a> — “The Landscape of Agentic Reinforcement Learning for LLMs”; synthesizes 500+ works; published in Transactions on Machine Learning Research (TMLR).</li>
 </ul>
 </section>
 <section id="blog-posts-resources" class="level3">
@@ -781,6 +782,7 @@ ul.task-list li input[type="checkbox"] {
 <li><a href="https://swesmith.com">SWE-smith Project Site</a> — data, models, and trajectories.</li>
 <li><a href="https://agenttrek.github.io/">AgentTrek Project Page</a> — trajectory synthesis demo and datasets.</li>
 <li><a href="https://arxiv.org/abs/2509.16679">RL Meets LLMs Survey (2025)</a> — comprehensive survey of RL across the LLM lifecycle.</li>
+<li><a href="https://arxiv.org/abs/2509.02547">Agentic RL for LLMs Survey (Zhang et al., TMLR 2025+)</a> — “The Landscape of Agentic Reinforcement Learning for LLMs”: synthesizes 500+ works; specifically contrasts LLM-RL (single-step MDPs) with Agentic RL (temporally extended POMDPs); covers planning, tool use, memory, reasoning, self-improvement, and perception.</li>
 </ul>
 </section>
 <section id="code-projects" class="level3">
@@ -791,7 +793,7 @@ ul.task-list li input[type="checkbox"] {
 <li><a href="https://github.com/simplescaling/s1"><strong>simplescaling/s1</strong></a> — s1-32B, budget forcing, and the s1K dataset.</li>
 <li><a href="https://github.com/SWE-bench/SWE-smith"><strong>SWE-bench/SWE-smith</strong></a> — SWE-smith pipeline, task instances, and trajectories.</li>
 <li><a href="https://github.com/QwenLM/Qwen-Agent"><strong>QwenLM/Qwen-Agent</strong></a> — Qwen models with tool use and agent fine-tuning.</li>
-<li><a href="https://huggingface.co/Nexusflow/NexusRaven-13B"><strong>Nexusflow/NexusRaven-13B</strong></a> — function calling model on HuggingFace.</li>
+<li><a href="https://huggingface.co/Nexusflow/NexusRaven-V2-13B"><strong>Nexusflow/NexusRaven-V2-13B</strong></a> — function calling model on HuggingFace (surpasses GPT-4 by 7% on human-generated function calling benchmarks).</li>
 <li><a href="https://huggingface.co/microsoft/Phi-3-mini-4k-instruct"><strong>microsoft/Phi-3-mini-4k-instruct</strong></a> — small model with strong instruction following for agent tasks.</li>
 </ul>
 <hr>

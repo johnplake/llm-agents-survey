@@ -482,7 +482,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>AI alignment</strong>: studying many-agent societies reveals how AI systems interact at scale, with implications for safety and collective behavior governance.</li>
 <li><strong>Synthetic data generation</strong>: simulated social interactions produce conversational data, behavioral traces, and interaction logs that can train or evaluate other AI systems.</li>
 </ul>
-<p>While related to <a href="./multiagent.html">multi-agent systems</a>, the distinctive emphasis here is on <em>social dynamics</em> — norm formation, cultural transmission, cooperation and defection — and on <em>simulation as a research method</em> for understanding complex systems.</p>
+<p>While related to <a href="./multiagent.html">multi-agent systems</a>, the distinctive emphasis here is on <em>social dynamics</em> — norm formation, cultural transmission, cooperation and defection — and on <em>simulation as a research method</em> for understanding complex systems. For a comprehensive survey of the field, see Mou et al.&nbsp;(2024), <a href="https://arxiv.org/abs/2412.03563"><strong>From Individual to Society: A Survey on Social Simulation Driven by Large Language Model-based Agents</strong></a>.</p>
 <hr>
 </section>
 </section>
@@ -505,7 +505,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="metagpt-the-software-company" class="level3">
 <h3 class="anchored" data-anchor-id="metagpt-the-software-company">MetaGPT: The Software Company</h3>
-<p><a href="https://arxiv.org/abs/2308.00352"><strong>MetaGPT: Meta Programming for a Multi-Agent Collaborative Framework</strong></a> (Hong, Zhuge, Chen et al., 2023) simulates a <em>software company</em> populated by specialized LLM agents — a product manager, architect, project manager, engineer, and QA engineer. Each role maps to a real organizational function, and interaction is structured by <strong>Standardized Operating Procedures (SOPs)</strong> encoded into prompt sequences. MetaGPT outperforms prior chat-based multi-agent systems on collaborative software engineering benchmarks by reducing cascading hallucinations through structured inter-agent verification. Beyond its engineering utility, MetaGPT illustrates how organizational structure and division of labor can be faithfully encoded in agent-based systems. Framework: <a href="https://github.com/FoundationAgents/MetaGPT">github.com/FoundationAgents/MetaGPT</a>.</p>
+<p><a href="https://arxiv.org/abs/2308.00352"><strong>MetaGPT: Meta Programming for a Multi-Agent Collaborative Framework</strong></a> (Hong, Zhuge, Chen et al., ICLR 2024) simulates a <em>software company</em> populated by specialized LLM agents — a product manager, architect, project manager, engineer, and QA engineer. Each role maps to a real organizational function, and interaction is structured by <strong>Standardized Operating Procedures (SOPs)</strong> encoded into prompt sequences. MetaGPT outperforms prior chat-based multi-agent systems on collaborative software engineering benchmarks by reducing cascading hallucinations through structured inter-agent verification. Beyond its engineering utility, MetaGPT illustrates how organizational structure and division of labor can be faithfully encoded in agent-based systems. Framework: <a href="https://github.com/FoundationAgents/MetaGPT">github.com/FoundationAgents/MetaGPT</a>.</p>
 </section>
 <section id="chatdev-communication-as-the-unifying-substrate" class="level3">
 <h3 class="anchored" data-anchor-id="chatdev-communication-as-the-unifying-substrate">ChatDev: Communication as the Unifying Substrate</h3>
@@ -549,7 +549,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="game-theoretic-interactions" class="level3">
 <h3 class="anchored" data-anchor-id="game-theoretic-interactions">Game-Theoretic Interactions</h3>
-<p>Researchers have extensively studied LLM agents through formal game theory: prisoner’s dilemmas, iterated normal-form games, extensive-form games, and Markov social dilemma games. A consistent finding is that LLM strategic behavior is culturally and linguistically inflected — agents prompted in different languages or personas display distinct cooperative or competitive tendencies, consistent with the cultural associations in their training data. This creates both opportunities (agents as models of culturally-diverse populations) and hazards (apparent diversity masking shared model biases).</p>
+<p>Researchers have extensively studied LLM agents through formal game theory: prisoner’s dilemmas, iterated normal-form games, extensive-form games, and Markov social dilemma games. A consistent finding is that LLM strategic behavior is culturally and linguistically inflected — agents prompted in different languages or personas display distinct cooperative or competitive tendencies, consistent with the cultural associations in their training data (Huynh et al., 2025; <a href="https://arxiv.org/abs/2512.07462">arXiv:2512.07462</a>). This creates both opportunities (agents as models of culturally-diverse populations) and hazards (apparent diversity masking shared model biases).</p>
 <hr>
 </section>
 </section>
@@ -566,7 +566,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="trading-and-market-dynamics" class="level3">
 <h3 class="anchored" data-anchor-id="trading-and-market-dynamics">Trading and Market Dynamics</h3>
-<p>Beyond macro models, LLM agents are being studied in financial market simulations. Research exploring <em>homo silicus</em> — LLMs as computational models of human economic behavior — has found that LLMs replicate classic behavioral economics findings in experimental auction settings (anchoring effects, loss aversion, herding). LLM-based trading simulations probe whether agents exhibit rational expectations, respond to information asymmetries, and generate realistic price discovery. Results both validate and challenge standard economic theory, suggesting that LLM agents capture some aspects of human economic irrationality that classical models miss, while introducing new failure modes rooted in training data biases.</p>
+<p>Beyond macro models, LLM agents are being studied in financial market simulations. Research exploring <em>homo silicus</em> — LLMs as implicit computational models of humans that can be given endowments, preferences, and information to explore behavior via simulation (Horton, 2023; <a href="https://arxiv.org/abs/2301.07543">arXiv:2301.07543</a>) — has found that LLMs replicate classic behavioral economics findings in experimental settings (anchoring effects, loss aversion, herding). LLM-based trading simulations probe whether agents exhibit rational expectations, respond to information asymmetries, and generate realistic price discovery. Results both validate and challenge standard economic theory, suggesting that LLM agents capture some aspects of human economic irrationality that classical models miss, while introducing new failure modes rooted in training data biases.</p>
 <hr>
 </section>
 </section>
@@ -619,7 +619,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="social-science-methodology" class="level3">
 <h3 class="anchored" data-anchor-id="social-science-methodology">Social Science Methodology</h3>
 <p>LLM agent societies are increasingly proposed as a <em>new research method</em> for social scientists — a complement to surveys, experiments, and observational data. The case is that LLM-based simulations can generate hypotheses, run controlled counterfactuals, and probe mechanisms at scales and speeds that human-participant research cannot match.</p>
-<p>A 2025 position paper, <a href="https://arxiv.org/abs/2504.02234"><strong>LLM Social Simulations Are a Promising Research Method</strong></a>, argues that simulations should be evaluated not for perfect human fidelity but for their ability to surface theoretically relevant variation — much as mathematical models are evaluated for tractability and insight rather than literal truth. Under this framing, the homogeneity of LLM agents is a <em>manageable limitation</em> rather than a fatal flaw, provided researchers acknowledge it and triangulate findings with other methods.</p>
+<p>A 2025 position paper, <a href="https://arxiv.org/abs/2504.02234"><strong>LLM Social Simulations Are a Promising Research Method</strong></a> (Anthis, Liu, Richardson et al., ICML 2025), argues that the promise of LLM social simulations can be achieved by addressing five tractable challenges — including context-rich prompting and fine-tuning with social science datasets — and that simulations are already viable for pilot and exploratory studies. The paper characterizes the homogeneity of LLM agents as a <em>manageable limitation</em> rather than a fatal flaw, provided researchers develop conceptual models and iterative evaluation frameworks to triangulate findings with other methods.</p>
 </section>
 <section id="policy-testing-and-scenario-planning" class="level3">
 <h3 class="anchored" data-anchor-id="policy-testing-and-scenario-planning">Policy Testing and Scenario Planning</h3>
@@ -652,7 +652,9 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="scalability-costs" class="level3">
 <h3 class="anchored" data-anchor-id="scalability-costs">Scalability Costs</h3>
-<p>Running 25 agents in Smallville is a research project. Running 1000 agents — as in Project Sid — requires significant compute infrastructure. The PIANO architecture was built specifically to address real-time multi-agent orchestration at scale. As simulations grow toward the millions of agents needed for realistic social phenomena, cost becomes a fundamental constraint. Future work will likely require new architectures: smaller specialized models, caching strategies, or hybrid designs where most agents use lightweight heuristics and LLM calls are reserved for critical decision points.</p>
+<p>Running 25 agents in Smallville is a research project. Running 1000 agents — as in Project Sid — requires significant compute infrastructure. The PIANO architecture was built specifically to address real-time multi-agent orchestration at scale.</p>
+<p>The most ambitious scaling effort to date is <a href="https://arxiv.org/abs/2411.11581"><strong>Open Agent Social Interaction Simulations with One Million Agents</strong></a> (Yang et al., 2024), which demonstrates LLM-based social simulations at the scale of <strong>one million agents</strong> using a hierarchical architecture — several orders of magnitude beyond Smallville. This scale enables study of large-scale social phenomena (information diffusion, opinion dynamics, collective behavior) that are simply invisible at 25- or 1000-agent scales.</p>
+<p>As simulations grow toward the millions of agents needed for realistic social phenomena, cost becomes a fundamental constraint. Future work will likely require new architectures: smaller specialized models, caching strategies, or hybrid designs where most agents use lightweight heuristics and LLM calls are reserved for critical decision points.</p>
 </section>
 <section id="evaluation-of-emergent-phenomena" class="level3">
 <h3 class="anchored" data-anchor-id="evaluation-of-emergent-phenomena">Evaluation of Emergent Phenomena</h3>
@@ -671,17 +673,21 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>Park, J. S., O’Brien, J., Cai, C. J., Morris, M. R., Liang, P., &amp; Bernstein, M. S. (2023). <a href="https://arxiv.org/abs/2304.03442">Generative Agents: Interactive Simulacra of Human Behavior</a>. arXiv:2304.03442.</li>
 <li>Li, G., Hammoud, H. A. A. K., Itani, H., Khizbullin, D., &amp; Ghanem, B. (2023). <a href="https://arxiv.org/abs/2303.17760">CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society</a>. NeurIPS 2023. arXiv:2303.17760.</li>
-<li>Hong, S., Zhuge, M., Chen, J., et al.&nbsp;(2023). <a href="https://arxiv.org/abs/2308.00352">MetaGPT: Meta Programming for a Multi-Agent Collaborative Framework</a>. arXiv:2308.00352.</li>
+<li>Hong, S., Zhuge, M., Chen, J., et al.&nbsp;(2023). <a href="https://arxiv.org/abs/2308.00352">MetaGPT: Meta Programming for a Multi-Agent Collaborative Framework</a>. ICLR 2024. arXiv:2308.00352.</li>
 <li>Qian, C., Liu, W., Liu, H., et al.&nbsp;(2023). <a href="https://arxiv.org/abs/2307.07924">Communicative Agents for Software Development (ChatDev)</a>. ACL 2024. arXiv:2307.07924.</li>
 <li>Vezhnevets, A. S., Agapiou, J. P., Aharon, A., et al.&nbsp;(2023). <a href="https://arxiv.org/abs/2312.03664">Generative agent-based modeling with actions grounded in physical, social, or digital space using Concordia</a>. arXiv:2312.03664.</li>
 <li>Lin, J., Zhao, H., Zhang, A., Wu, Y., Ping, H., &amp; Chen, Q. (2023). <a href="https://arxiv.org/abs/2308.04026">AgentSims: An Open-Source Sandbox for Large Language Model Evaluation</a>. arXiv:2308.04026.</li>
 <li>Altera.AL (2024). <a href="https://arxiv.org/abs/2411.00114">Project Sid: Many-agent simulations toward AI civilization</a>. arXiv:2411.00114.</li>
+<li>Yang, Z., Zhang, Z., Zheng, Z., et al.&nbsp;(2024). <a href="https://arxiv.org/abs/2411.11581">Open Agent Social Interaction Simulations with One Million Agents</a>. arXiv:2411.11581. <em>(Hierarchical architecture enabling million-agent social simulation; studies information diffusion and opinion dynamics at societal scale)</em></li>
 <li>Wang, G., Xie, Y., Jiang, Y., et al.&nbsp;(2023). <a href="https://arxiv.org/abs/2305.16291">Voyager: An Open-Ended Embodied Agent with Large Language Models</a>. arXiv:2305.16291.</li>
 <li>Lan, X., et al.&nbsp;(2023). <a href="https://arxiv.org/abs/2307.14984">S³: Social-network Simulation System with Large Language Model-Empowered Agents</a>. arXiv:2307.14984.</li>
 <li>Horiguchi, I., et al.&nbsp;(2024). <a href="https://arxiv.org/abs/2409.00993">Evolution of Social Norms in LLM Agents using Natural Language</a>. arXiv:2409.00993.</li>
 <li>Hughes, E., et al.&nbsp;(2024). <a href="https://arxiv.org/abs/2412.10270">Cultural Evolution of Cooperation among LLM Agents</a>. arXiv:2412.10270.</li>
 <li>Li, N., et al.&nbsp;(2024). <a href="https://arxiv.org/abs/2310.10436">EconAgent: Large Language Model-Empowered Agents for Simulating Macroeconomic Activities</a>. ACL 2024. arXiv:2310.10436.</li>
-<li>(2025). <a href="https://arxiv.org/abs/2504.02234">LLM Social Simulations Are a Promising Research Method</a>. arXiv:2504.02234.</li>
+<li>Horton, J. J. (2023). <a href="https://arxiv.org/abs/2301.07543">Large Language Models as Simulated Economic Agents: What Can We Learn from Homo Silicus?</a>. arXiv:2301.07543.</li>
+<li>Huynh, T.-K., et al.&nbsp;(2025). <a href="https://arxiv.org/abs/2512.07462">Understanding LLM Agent Behaviours via Game Theory: Strategy Recognition, Biases and Multi-Agent Dynamics</a>. arXiv:2512.07462.</li>
+<li>Mou, X., Ding, X., He, Q., et al.&nbsp;(2024). <a href="https://arxiv.org/abs/2412.03563">From Individual to Society: A Survey on Social Simulation Driven by Large Language Model-based Agents</a>. arXiv:2412.03563.</li>
+<li>Anthis, J. R., Liu, R., Richardson, S. M., et al.&nbsp;(2025). <a href="https://arxiv.org/abs/2504.02234">LLM Social Simulations Are a Promising Research Method</a>. ICML 2025. arXiv:2504.02234.</li>
 </ul>
 </section>
 <section id="blog-posts-resources" class="level3">
