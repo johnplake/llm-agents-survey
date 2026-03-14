@@ -49,13 +49,15 @@ Radiology is a particularly active area for domain agents, combining vision (int
 
 ### Clinical Trials and Drug Discovery
 
-LLM agents are being applied to the complex, multi-step workflow of clinical trial management. [**AutoCT**](https://arxiv.org/abs/2506.04293) (Liu et al., 2025) automates interpretable clinical trial outcome prediction by combining LLM reasoning with classical machine learning, addressing the interpretability requirements that clinical trial decision-making demands. [**ClinicalReTrial**](https://arxiv.org/pdf/2601.00290) (2025) explores self-evolving agents for clinical trial protocol design.
+LLM agents are being applied to the complex, multi-step workflow of clinical trial management. [**AutoCT**](https://arxiv.org/abs/2506.04293) (Liu et al., 2025) automates interpretable clinical trial outcome prediction by combining LLM reasoning with classical machine learning, addressing the interpretability requirements that clinical trial decision-making demands. [**ClinicalReTrial**](https://arxiv.org/abs/2601.00290) (Wu et al., 2026) proposes a self-evolving agent framework for clinical trial protocol redesign, casting trial reasoning as an iterative optimization problem with hierarchical memory. It improved 83.3% of trial protocols with a mean success probability gain of 5.7%.
 
-Drug discovery is among the richest application areas for agentic AI. A [comprehensive survey of AI agents in drug discovery](https://arxiv.org/abs/2510.27130) (2025) shows how agents autonomously reason through complicated multi-step research workflows spanning target identification, lead optimization, and toxicity prediction — tasks that require integrating diverse data types and computational tools. A [modular LLM agent framework for drug discovery](https://arxiv.org/abs/2507.02925) (2025) automates key tasks across the early-stage computational pipeline, combining LLM reasoning with tools including AlphaFold wrappers for structure prediction and structural databases.
+Drug discovery is among the richest application areas for agentic AI. A [comprehensive survey of AI agents in drug discovery](https://arxiv.org/abs/2510.27130) (Seal et al., 2025) shows how agents autonomously reason through complicated multi-step research workflows — spanning literature synthesis, toxicity prediction, automated protocol generation, small-molecule synthesis, and drug repurposing — that require integrating diverse data types and computational tools. A [modular LLM agent framework for drug discovery](https://arxiv.org/abs/2507.02925) (2025) automates key tasks across the early-stage computational pipeline, combining LLM reasoning with specialized tools including Boltz-2 for 3D protein-ligand structure generation, ADMET property predictors, and molecular generation modules.
 
 ### Clinical Agents in Practice: A Systematic View
 
 A [systematic review of AI agents in clinical medicine](https://pmc.ncbi.nlm.nih.gov/articles/PMC12407621/) (2025) identified 20 peer-reviewed studies (published 2024–2025) describing LLM agent implementations for clinical tasks, covering applications including clinical case reasoning, diagnostic support, treatment planning, and care coordination. The review found that agentic frameworks — which involve multi-step planning and tool use — consistently outperformed single-pass LLM prompting on complex clinical tasks, while noting that the field lacks standardized evaluation protocols.
+
+A comprehensive [survey of LLM-based agents in medicine](https://arxiv.org/abs/2502.11211) (Wang et al., ACL 2025 Findings) provides a structured taxonomy of medical agent architectures, examining clinical planning mechanisms, medical reasoning frameworks, and external capacity enhancement (tool use, RAG, code execution). The survey covers major application scenarios — clinical decision support, medical documentation, training simulations, and healthcare service optimization — and identifies hallucination management and multimodal integration as the dominant open challenges. Notably, no production medical agent system reviewed achieved consistent hallucination-free performance, reinforcing the importance of physician-in-the-loop design.
 
 ### Safety and Regulatory Considerations
 
@@ -81,11 +83,11 @@ Stanford HAI's associated research into deployed legal AI tools found that [lega
 
 **Westlaw AI** and **LexisNexis AI** embed LLM agents into legal research workflows, providing case law retrieval with citation verification designed to reduce hallucinated references. These systems combine RAG over curated legal databases with heuristic checks to flag low-confidence citations. The approach reflects a broader industry consensus: purely generative legal reasoning is not safe; grounding in verified case law and statutes is essential.
 
-LLM agents are also being applied to **contract analysis and M&A due diligence**. [Research on legal NLP for due diligence](https://arxiv.org/abs/2505.21281) (2025) reviews how multi-agent and single-agent LLMs are being applied to contract review tasks. [**ContractEval**](https://arxiv.org/abs/2508.03080) (2025) introduces a benchmark for clause-level legal risk identification in commercial contracts, finding that larger model size does not always guarantee better performance and that fine-tuning on domain-specific contract data remains important.
+LLM agents are also being applied to **contract analysis and M&A due diligence**. [**ContractEval**](https://arxiv.org/abs/2508.03080) (2025) introduces a benchmark for clause-level legal risk identification in commercial contracts using the CUAD dataset, evaluating 4 proprietary and 15 open-source LLMs. Key findings include: proprietary models outperform open-source counterparts on correctness; reasoning ("thinking") mode improves output quality but can reduce factual correctness by over-complicating simpler clause tasks; and most LLMs perform at roughly the level of a junior legal assistant, with open-source models requiring targeted domain fine-tuning to close the gap with proprietary systems.
 
 ### Challenges Specific to Legal Agents
 
-**Hallucinated citations** are the defining failure mode of legal LLMs. Several high-profile incidents involving attorneys submitting AI-generated briefs with fabricated case citations — including the widely reported *Mata v. Avianca* case in 2023 — have driven courts to require disclosure of AI use. As of May 2024, more than 25 federal judges had issued standing orders instructing attorneys to disclose or monitor AI use in their courtrooms.
+**Hallucinated citations** are the defining failure mode of legal LLMs. Several high-profile incidents involving attorneys submitting AI-generated briefs with fabricated case citations — including the widely reported *Mata v. Avianca* case (S.D.N.Y. 2023), in which attorneys were sanctioned for submitting ChatGPT-generated briefs citing non-existent cases — have driven courts to require disclosure of AI use. By mid-2024, dozens of federal judges had issued standing orders instructing attorneys to disclose or certify their AI use in court filings.
 
 **Jurisdictional variation** compounds this: legal rules differ dramatically across US states, federal circuits, and international systems. A rule of contract formation in California may not hold in New York; a GDPR compliance requirement in the EU has no direct US equivalent. This makes it difficult for a single model to generalize across jurisdictions without explicit grounding.
 
@@ -103,9 +105,9 @@ LLM agents are also being applied to **contract analysis and M&A due diligence**
 
 ### Benchmarking Financial QA
 
-[**FinanceBench**](https://arxiv.org/abs/2311.11944) (Islam et al., 2023) is a benchmark comprising **10,231 questions** about publicly traded companies, derived from SEC filings, with corresponding answers and evidence strings. Questions require numerical reasoning over financial statements such as income statements, balance sheets, and cash flow reports. FinanceBench revealed that even state-of-the-art LLMs frequently make arithmetic errors or hallucinate financial figures — a serious concern in advisory contexts. Retrieval-augmented systems substantially outperform pure generation on this benchmark, reinforcing the importance of grounding.
+[**FinanceBench**](https://arxiv.org/abs/2311.11944) (Islam et al., 2023) is a benchmark comprising **10,231 questions** about publicly traded companies, derived from SEC filings, with corresponding answers and evidence strings. Questions require numerical reasoning over financial statements such as income statements, balance sheets, and cash flow reports. FinanceBench revealed that even state-of-the-art LLMs frequently make arithmetic errors or hallucinate financial figures — GPT-4-Turbo used with a retrieval system incorrectly answered or refused to answer 81% of questions, a serious concern in advisory contexts. Retrieval-augmented systems substantially outperform pure generation on this benchmark, reinforcing the importance of grounding.
 
-[**FinanceQA**](https://arxiv.org/abs/2501.18062) (2025) extends the financial QA landscape with a focus on evaluating LLMs' financial analysis reasoning capabilities, including multi-hop reasoning over multiple financial documents — a requirement for realistic analyst tasks.
+[**FinanceQA**](https://arxiv.org/abs/2501.18062) (2025) extends the financial QA landscape with a testing suite that evaluates LLMs' performance on complex numerical financial analysis tasks mirroring real-world investment work at hedge funds, private equity firms, and investment banks. Current models fail approximately 60% of these realistic tasks, with primary challenges including spreading financial metrics, adhering to accounting conventions, and performing analysis under incomplete information in multi-step tasks requiring assumption generation.
 
 ### Trading and Portfolio Management Agents
 
@@ -153,11 +155,11 @@ An important distinction in enterprise deployments is between *copilot* systems 
 
 ### Chemistry
 
-[**ChemCrow**](https://arxiv.org/abs/2304.05376) (Bran et al., 2023; published in *Nature Machine Intelligence*, 2024) is the landmark demonstration of chemistry-specialized agents. By equipping GPT-4 with **18 expert-designed tools** — including RDKit for cheminformatics, web and literature search, reaction planning software, and safety checkers — ChemCrow successfully handled tasks across organic synthesis, drug discovery, and materials design that LLMs alone could not perform reliably. The agent autonomously planned and executed the syntheses of an insect repellent and three organocatalysts, demonstrating end-to-end agentic capability in a real scientific domain. ChemCrow is open-source and available on [GitHub](https://github.com/ur-whitelab/chemcrow-public).
+[**ChemCrow**](https://arxiv.org/abs/2304.05376) (Bran et al., 2023; published in *Nature Machine Intelligence*, 2024) is the landmark demonstration of chemistry-specialized agents. By equipping GPT-4 with **18 expert-designed tools** — including RDKit for cheminformatics, web and literature search, reaction planning software, and safety checkers — ChemCrow successfully handled tasks across organic synthesis, drug discovery, and materials design that LLMs alone could not perform reliably. The agent autonomously planned and executed the syntheses of an insect repellent and three organocatalysts, and guided the discovery of a novel chromophore, demonstrating end-to-end agentic capability in a real scientific domain. ChemCrow is open-source and available on [GitHub](https://github.com/ur-whitelab/chemcrow-public).
 
 ### Mathematics
 
-[**MathAgent**](https://arxiv.org/abs/2312.08926) (Hu et al., 2023) explored LLM-based agents for complex mathematical reasoning by defining pools of actions that decompose proofs and calculations into logical subproblems. Experiments on the miniF2F and MATH benchmarks showed improvements over GPT-4 baselines, demonstrating that structuring LLM reasoning as agent actions yields gains on hard mathematical problems. More recently, [**AgentMath**](https://arxiv.org/abs/2512.20745) (2024) integrates LLM reasoning with code execution for precise symbolic computation and arithmetic, delegating calculation to a Python interpreter rather than relying on the LLM's notoriously unreliable arithmetic.
+Early work on LLM-based mathematical agents explored defining pools of actions that decompose proofs and calculations into logical subproblems (e.g., the PRER framework — Planner-Reasoner-Executor-Reflector), with experiments on miniF2F and MATH showing improvements over GPT-4 baselines. More recently, [**AgentMath**](https://arxiv.org/abs/2512.20745) (2025; accepted ICLR 2026) integrates LLM reasoning with code execution for precise symbolic computation and arithmetic, delegating calculations to code interpreters rather than relying on the LLM's notoriously unreliable arithmetic. AgentMath achieves state-of-the-art performance on AIME24, AIME25, and HMMT25, surpassing OpenAI-o3-mini and Claude-Opus-4.0-Thinking.
 
 ### Materials Science and Physics
 
@@ -258,10 +260,11 @@ The trajectory of domain-specific agents mirrors the historical trajectory of pr
 - Li, X. et al. (2024). [KARGEN: Knowledge-enhanced Automated Radiology Report Generation](https://arxiv.org/abs/2409.05370). arXiv:2409.05370.
 - Liu, F. et al. (2025). [AutoCT: Automating Interpretable Clinical Trial Prediction with LLM Agents](https://arxiv.org/abs/2506.04293). arXiv:2506.04293.
 - Bran, A.M. et al. (2023/2024). [ChemCrow: Augmenting large-language models with chemistry tools](https://arxiv.org/abs/2304.05376). *Nature Machine Intelligence*, 2024.
-- [AI Agents in Drug Discovery](https://arxiv.org/abs/2510.27130) (2025). arXiv:2510.27130.
-- [Large Language Model Agent for Modular Task Execution in Drug Discovery](https://arxiv.org/abs/2507.02925) (2025). arXiv:2507.02925.
+- Seal, S. et al. (2025). [AI Agents in Drug Discovery](https://arxiv.org/abs/2510.27130). arXiv:2510.27130.
+- Ock, J. et al. (2025). [Large Language Model Agent for Modular Task Execution in Drug Discovery](https://arxiv.org/abs/2507.02925). arXiv:2507.02925.
+- Wu, K. et al. (2026). [ClinicalReTrial: A Self-Evolving AI Agent for Clinical Trial Protocol Optimization](https://arxiv.org/abs/2601.00290). arXiv:2601.00290.
 - Guha, N. et al. (2023). [LegalBench: A Collaboratively Built Benchmark for Measuring Legal Reasoning in Large Language Models](https://arxiv.org/abs/2308.11462). NeurIPS 2023.
-- [ContractEval: Benchmarking LLMs for Clause-Level Legal Risk Identification](https://arxiv.org/abs/2508.03080) (2025). arXiv:2508.03080.
+- Liu, S. et al. (2025). [ContractEval: Benchmarking LLMs for Clause-Level Legal Risk Identification in Commercial Contracts](https://arxiv.org/abs/2508.03080). arXiv:2508.03080.
 - Wu, S. et al. (2023). [BloombergGPT: A Large Language Model for Finance](https://arxiv.org/abs/2303.17564). arXiv:2303.17564.
 - Yang, H. et al. (2023). [FinGPT: Open-Source Financial Large Language Models](https://arxiv.org/abs/2306.06031). arXiv:2306.06031.
 - Islam, P. et al. (2023). [FinanceBench: A New Benchmark for Financial Question Answering](https://arxiv.org/abs/2311.11944). arXiv:2311.11944.
@@ -269,9 +272,10 @@ The trajectory of domain-specific agents mirrors the historical trajectory of pr
 - Xiao, Y. et al. (2024). [TradingAgents: Multi-Agents LLM Financial Trading Framework](https://arxiv.org/abs/2412.20138). arXiv:2412.20138.
 - [Large Language Model Agent in Financial Trading: A Survey](https://arxiv.org/abs/2408.06361) (2024). arXiv:2408.06361.
 - [FinanceQA: A Benchmark for Evaluating Financial Analysis Capabilities](https://arxiv.org/abs/2501.18062) (2025). arXiv:2501.18062.
-- Hu, S. et al. (2023). [Modeling Complex Mathematical Reasoning via Large Language Model based MathAgent](https://arxiv.org/abs/2312.08926). arXiv:2312.08926.
-- [AgentMath: Empowering Mathematical Reasoning via Tool-Augmented Agent](https://arxiv.org/abs/2512.20745) (2024). arXiv:2512.20745.
+- Hu, S. et al. (2023). [Modeling Complex Mathematical Reasoning via Large Language Model based MathAgent](https://arxiv.org/abs/2312.08926). arXiv:2312.08926. *(Note: paper subsequently withdrawn by authors due to methodological concerns; see arXiv for details.)*
+- [AgentMath: Empowering Mathematical Reasoning via Tool-Augmented Agent](https://arxiv.org/abs/2512.20745) (2025). ICLR 2026. arXiv:2512.20745.
 - [AI Agents in Clinical Medicine: A Systematic Review](https://pmc.ncbi.nlm.nih.gov/articles/PMC12407621/) (2025). PMC12407621.
+- Wang, W. et al. (2025). [A Survey of LLM-based Agents in Medicine: How far are we from Baymax?](https://arxiv.org/abs/2502.11211). ACL 2025 Findings. arXiv:2502.11211.
 
 ### Blog Posts & Resources
 

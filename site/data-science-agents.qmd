@@ -62,7 +62,7 @@ DS-Agent operates in two stages: a **development stage** (using retrieved cases 
 
 **[MLAgentBench](https://arxiv.org/abs/2310.03302)** (Huang et al., 2023/2024; arXiv:2310.03302) from Stanford's SNAP lab is a benchmark suite of end-to-end machine learning experimentation tasks. Given a dataset and a task description, an agent must autonomously develop or improve an ML model — writing code, running experiments, and iterating based on results.
 
-The benchmark covers tasks across diverse domains (image classification, NLP, tabular data) and evaluates agents on their ability to improve upon baseline performance. Benchmarked models include GPT-4-turbo, Claude v3 Opus, Gemini Pro, and Mixtral; Claude v3 Opus achieved the best success rate across tasks, though absolute performance remained modest, highlighting how difficult autonomous ML engineering remains. MLAgentBench was one of the first systems to evaluate agents on *open-ended* ML experimentation — not just asking "complete this task" but "improve this baseline as much as you can" — which is a closer analog to real research work.
+The benchmark covers tasks across diverse domains (image classification, NLP, tabular data) and evaluates agents on their ability to improve upon baseline performance. Benchmarked models include Claude v1.0, Claude v2.1, Claude v3 Opus, GPT-4, GPT-4-turbo, Gemini Pro, and Mixtral; Claude v3 Opus achieved the best success rate across tasks (37.5% average), though absolute performance varied widely — from 100% on well-established datasets to 0% on recent Kaggle challenges — highlighting how difficult autonomous ML engineering remains. MLAgentBench was one of the first systems to evaluate agents on *open-ended* ML experimentation — not just asking "complete this task" but "improve this baseline as much as you can" — which is a closer analog to real research work.
 
 ### AIDE
 
@@ -74,23 +74,27 @@ The tree-search framing has an important practical implication: compute scales p
 
 ### AutoML-Agent
 
-**[AutoML-Agent](https://arxiv.org/abs/2410.02958)** (Trirat et al., 2024; arXiv:2410.02958) is a multi-agent LLM framework for **full-pipeline AutoML**, handling everything from data retrieval to model deployment. Unlike prior LLM-based frameworks that assist with individual steps (preprocessing, model selection, etc.), AutoML-Agent coordinates multiple specialized sub-agents to cover the complete pipeline. Evaluated on seven downstream tasks across fourteen datasets, it achieves higher automation success rates than single-agent baselines across diverse domains.
+**[AutoML-Agent](https://arxiv.org/abs/2410.02958)** (Trirat et al., 2024; ICML 2025; arXiv:2410.02958) is a multi-agent LLM framework for **full-pipeline AutoML**, handling everything from data retrieval to model deployment. Unlike prior LLM-based frameworks that assist with individual steps (preprocessing, model selection, etc.), AutoML-Agent coordinates multiple specialized sub-agents to cover the complete pipeline. Evaluated on seven downstream tasks across fourteen datasets, it achieves higher automation success rates than single-agent baselines across diverse domains.
 
 ### InsightBench
 
-**[InsightBench](https://arxiv.org/abs/2407.06423)** (Sahu et al., 2024; arXiv:2407.06423) from ServiceNow evaluates agents on **multi-step business analytics insight generation** — a more realistic and demanding setting than single-query benchmarks. Rather than answering one question at a time, agents must perform end-to-end analysis: exploring a dataset, generating multiple insights, and producing a coherent analytical narrative.
+**[InsightBench](https://arxiv.org/abs/2407.06423)** (Sahu et al., 2024; ICLR 2025; arXiv:2407.06423) from ServiceNow evaluates agents on **multi-step business analytics insight generation** — a more realistic and demanding setting than single-query benchmarks. Rather than answering one question at a time, agents must perform end-to-end analysis: exploring a dataset, generating multiple insights, and producing a coherent analytical narrative.
 
 The benchmark introduces AgentPoirot as a baseline agent and shows it outperforms Pandas Agent and other query-focused approaches. The benchmark is publicly available at [github.com/ServiceNow/insight-bench](https://github.com/ServiceNow/insight-bench).
 
 ### InfiAgent-DABench
 
-**[InfiAgent-DABench](https://arxiv.org/abs/2401.05507)** (Hu et al., 2024; arXiv:2401.05507) was among the first benchmarks specifically designed to evaluate LLM-based agents on data analysis tasks. It contains **311 data analysis questions** derived from **55 CSV files**, using a closed-form answer format that enables automated evaluation. The benchmark is notable for requiring agents to interact with an execution environment end-to-end, rather than simply generating code.
+**[InfiAgent-DABench](https://arxiv.org/abs/2401.05507)** (Hu et al., 2024; arXiv:2401.05507) was among the first benchmarks specifically designed to evaluate LLM-based agents on data analysis tasks. It contains **257 data analysis questions** derived from **52 CSV files**, using a closed-form answer format that enables automated evaluation. The benchmark is notable for requiring agents to interact with an execution environment end-to-end, rather than simply generating code.
+
+### DataSciBench
+
+**[DataSciBench](https://arxiv.org/abs/2502.13897)** (Zhang et al., 2025; arXiv:2502.13897) from Tsinghua University addresses a key limitation of prior benchmarks: their reliance on single tasks, easily obtainable ground truth, and simple evaluation metrics. DataSciBench collects a diverse set of natural, challenging prompts with uncertain ground truth and proposes a **Task-Function-Code (TFC) framework** to evaluate code execution outcomes against precisely defined metrics. Evaluated across 6 API-based models, 8 open-source general models, and 9 open-source code-generation models, it finds that API-based models consistently outperform open-source alternatives, with Deepseek-Coder-33B-Instruct leading among open-source models.
 
 ### Spider2-V
 
 **[Spider2-V](https://arxiv.org/abs/2407.10956)** (Cao et al., 2024; NeurIPS 2024 Datasets and Benchmarks Track; arXiv:2407.10956) is a multimodal agent benchmark covering professional data science and engineering workflows in full desktop environments. It features **494 real-world tasks** in authentic computer environments, incorporating **20 enterprise-level applications** — including BigQuery, dbt, Airflow, Jupyter, and Snowflake.
 
-Critically, Spider2-V evaluates agents on GUI control in addition to code generation: agents must navigate real software interfaces, not just produce text or code. Results reveal significant gaps: even with step-by-step guidance, agents underperform severely on knowledge-intensive GUI actions (16.2% task completion) and tasks requiring cloud-hosted workspace access (10.6%). This benchmark underscores that real-world data workflows are far more complex than controlled code generation tasks.
+Critically, Spider2-V evaluates agents on GUI control in addition to code generation: agents must navigate real software interfaces, not just produce text or code. Results reveal significant gaps: state-of-the-art LLM/VLM agents succeed on only **14.0%** of tasks overall, and even with step-by-step guidance they underperform severely on knowledge-intensive GUI actions (16.2% task completion) and tasks requiring cloud-hosted workspace access (10.6%). This benchmark underscores that real-world data workflows are far more complex than controlled code generation tasks.
 
 ---
 
@@ -100,7 +104,7 @@ Beyond data analysis, a growing body of work focuses on agents that conduct **ma
 
 ### Kaggle Competition Agents
 
-The Kaggle arena provides a natural benchmark for ML engineering agents: well-defined tasks, real data, objective leaderboard rankings, and a human comparison baseline of hundreds of thousands of competitors. [MLE-bench](https://arxiv.org/abs/2410.07095) (Chan et al., 2024; arXiv:2410.07095), developed by OpenAI, formalizes this into a **75-competition benchmark** spanning diverse ML tasks — image classification, tabular regression, NLP, and time series forecasting.
+The Kaggle arena provides a natural benchmark for ML engineering agents: well-defined tasks, real data, objective leaderboard rankings, and a human comparison baseline of hundreds of thousands of competitors. [MLE-bench](https://arxiv.org/abs/2410.07095) (Chan et al., 2024; ICLR 2025; arXiv:2410.07095), developed by OpenAI, formalizes this into a **75-competition benchmark** spanning diverse ML tasks — image classification, tabular regression, NLP, and time series forecasting.
 
 The AIDE-based agent (o1-preview + AIDE scaffolding) achieving bronze-level performance in ~17% of competitions represents a meaningful milestone. It demonstrates that current agents can, on a subset of tasks, produce solutions competitive with the bottom quartile of human Kaggle participants — though the gap to expert performance remains enormous.
 
@@ -167,6 +171,10 @@ At time of publication, the best models achieved around 40% execution accuracy o
 
 **[DIN-SQL](https://arxiv.org/abs/2304.11015)** (Pourreza & Rafiei, 2023; arXiv:2304.11015) — Decomposed In-Context Learning for Text-to-SQL — improved NL-to-SQL performance by breaking the translation into manageable sub-problems: schema linking, query classification, sub-query decomposition, and self-correction. By feeding solutions to sub-problems back into context, DIN-SQL substantially improved performance on Spider and related benchmarks over monolithic prompting approaches.
 
+### DAIL-SQL
+
+**[DAIL-SQL](https://arxiv.org/abs/2308.15363)** (Gao et al., 2023; PVLDB 2024; arXiv:2308.15363) pushed Spider performance to **86.6% execution accuracy** using prompt engineering with GPT-4. Rather than fine-tuning, DAIL-SQL conducts a systematic comparison of question representation, example selection, and example organization strategies, combining the best of each into an integrated prompt pipeline. At the time of publication, it set a new SOTA on Spider with an in-context learning-only approach and demonstrated that well-engineered prompts can match or exceed fine-tuned baselines on text-to-SQL.
+
 ### SQLCoder
 
 **[SQLCoder](https://github.com/defog-ai/sqlcoder)** (Defog AI, 2023) is an open-source, fine-tuned model specifically for text-to-SQL tasks. The original 15B-parameter model outperformed GPT-3.5-turbo on generic SQL generation at launch, and subsequent versions (SQLCoder2, SQLCoder-7B) extended coverage to smaller form factors. SQLCoder demonstrates that fine-tuning on domain-specific data remains an effective approach, complementing general-purpose LLM prompting strategies.
@@ -175,7 +183,7 @@ At time of publication, the best models achieved around 40% execution accuracy o
 
 Most NL-to-SQL work focuses on read-only SELECT queries. But data science pipelines often need more: inserting cleaned data into staging tables, updating schema definitions, creating materialized views, or modifying data quality flags. Full-featured database agents that safely handle DML (INSERT, UPDATE, DELETE) and DDL (CREATE, ALTER, DROP) operations require more careful design — especially permission scoping, rollback capability, and user confirmation for destructive operations.
 
-**Spider 2.0** — the enterprise text-to-SQL successor to Spider — addresses part of this gap. [Spider 2.0](https://arxiv.org/abs/2411.07763) (Lei et al., 2024; arXiv:2411.07763) is an evaluation framework of **632 real-world workflow problems** from enterprise analytics, including complex multi-step data transformations, not just single-query SQL. It evaluates complete data workflows involving tools like BigQuery, dbt, and Python, capturing the reality that professional data work is a pipeline of operations rather than a single query. This remains largely an open engineering challenge for the broader community.
+**Spider 2.0** — the enterprise text-to-SQL successor to Spider — addresses part of this gap. [Spider 2.0](https://arxiv.org/abs/2411.07763) (Lei et al., 2024; ICLR 2025 Oral; arXiv:2411.07763) is an evaluation framework of **632 real-world workflow problems** from enterprise analytics, including complex multi-step data transformations, not just single-query SQL. It evaluates complete data workflows involving tools like BigQuery, dbt, and Python, capturing the reality that professional data work is a pipeline of operations rather than a single query. Even the best agent (o1-preview) solves only 21.3% of tasks, compared to 91.2% on Spider 1.0 and 73.0% on BIRD — underscoring the steep jump from benchmark SQL to production enterprise workflows. This remains largely an open engineering challenge for the broader community.
 
 ---
 
@@ -255,17 +263,19 @@ A challenge cutting across all of data science: **how do you evaluate a data ana
 - Guo, S. et al. (2024). **DS-Agent: Automated Data Science by Empowering Large Language Models with Case-Based Reasoning.** ICML 2024. arXiv:2402.17453. <https://arxiv.org/abs/2402.17453>
 - Huang, Q. et al. (2023/2024). **MLAgentBench: Evaluating Language Agents on Machine Learning Experimentation.** arXiv:2310.03302. <https://arxiv.org/abs/2310.03302>
 - Wu, Y. et al. (2025). **AIDE: AI-Driven Exploration in the Space of Code.** arXiv:2502.13138. <https://arxiv.org/abs/2502.13138>
-- Chan, J. et al. (2024). **MLE-bench: Evaluating Machine Learning Agents on Machine Learning Engineering.** arXiv:2410.07095. <https://arxiv.org/abs/2410.07095>
-- Trirat, P., Jeong, W., & Hwang, S.J. (2024). **AutoML-Agent: A Multi-Agent LLM Framework for Full-Pipeline AutoML.** arXiv:2410.02958. <https://arxiv.org/abs/2410.02958>
-- Sahu, G. et al. (2024). **InsightBench: Evaluating Business Analytics Agents Through Multi-Step Insight Generation.** arXiv:2407.06423. <https://arxiv.org/abs/2407.06423>
+- Chan, J. et al. (2024). **MLE-bench: Evaluating Machine Learning Agents on Machine Learning Engineering.** ICLR 2025. arXiv:2410.07095. <https://arxiv.org/abs/2410.07095>
+- Trirat, P., Jeong, W., & Hwang, S.J. (2024). **AutoML-Agent: A Multi-Agent LLM Framework for Full-Pipeline AutoML.** ICML 2025. arXiv:2410.02958. <https://arxiv.org/abs/2410.02958>
+- Sahu, G. et al. (2024). **InsightBench: Evaluating Business Analytics Agents Through Multi-Step Insight Generation.** ICLR 2025. arXiv:2407.06423. <https://arxiv.org/abs/2407.06423>
 - Hu, X. et al. (2024). **InfiAgent-DABench: Evaluating Agents on Data Analysis Tasks.** arXiv:2401.05507. <https://arxiv.org/abs/2401.05507>
 - Cao, R. et al. (2024). **Spider2-V: How Far Are Multimodal Agents From Automating Data Science and Engineering Workflows?** NeurIPS 2024. arXiv:2407.10956. <https://arxiv.org/abs/2407.10956>
 - Dibia, V. (2023). **LIDA: A Tool for Automatic Generation of Grammar-Agnostic Visualizations and Infographics using Large Language Models.** ACL 2023. arXiv:2303.02927. <https://arxiv.org/abs/2303.02927>
 - Pourreza, M. & Rafiei, D. (2023). **DIN-SQL: Decomposed In-Context Learning of Text-to-SQL with Self-Correction.** NeurIPS 2023. arXiv:2304.11015. <https://arxiv.org/abs/2304.11015>
 - Yu, T. et al. (2018). **Spider: A Large-Scale Human-Labeled Dataset for Complex and Cross-Domain Semantic Parsing and Text-to-SQL Task.** EMNLP 2018. arXiv:1809.08887. <https://arxiv.org/abs/1809.08887>
 - Li, J. et al. (2023). **Can LLM Already Serve as A Database Interface? A BIg Bench for Large-Scale Database Grounded Text-to-SQLs.** NeurIPS 2023. arXiv:2305.03111. <https://arxiv.org/abs/2305.03111>
-- Lei, F. et al. (2024). **Spider 2.0: Evaluating Language Models on Real-World Enterprise Text-to-SQL Workflows.** arXiv:2411.07763. <https://arxiv.org/abs/2411.07763>
+- Lei, F. et al. (2024). **Spider 2.0: Evaluating Language Models on Real-World Enterprise Text-to-SQL Workflows.** ICLR 2025 (Oral). arXiv:2411.07763. <https://arxiv.org/abs/2411.07763>
 - Masry, A. et al. (2022). **ChartQA: A Benchmark for Question Answering about Charts with Visual and Logical Reasoning.** ACL 2022 Findings. arXiv:2203.10244. <https://arxiv.org/abs/2203.10244>
+- Gao, D. et al. (2023). **Text-to-SQL Empowered by Large Language Models: A Benchmark Evaluation (DAIL-SQL).** PVLDB Vol. 17, 2024. arXiv:2308.15363. <https://arxiv.org/abs/2308.15363>
+- Zhang, D. et al. (2025). **DataSciBench: An LLM Agent Benchmark for Data Science.** arXiv:2502.13897. <https://arxiv.org/abs/2502.13897>
 
 ### Blog Posts & Resources
 
@@ -290,6 +300,8 @@ A challenge cutting across all of data science: **how do you evaluate a data ana
 - **Spider2-V**: <https://github.com/xlang-ai/Spider2-V>
 - **Spider 2.0**: <https://github.com/xlang-ai/Spider2>
 - **SQLCoder** (Defog): <https://github.com/defog-ai/sqlcoder>
+- **DAIL-SQL**: <https://github.com/BeachWang/DAIL-SQL>
+- **DataSciBench** (THUDM): <https://github.com/THUDM/DataSciBench>
 - **Great Expectations** (data quality framework): <https://greatexpectations.io/>
 
 ---

@@ -1,12 +1,12 @@
 ---
 title: "Topics"
-subtitle: "Deep dives into cross-cutting themes in LLM agent research"
+subtitle: "Cross-cutting themes in LLM agent research"
 format:
   html:
     toc: false
 ---
 
-Three important themes run across the entire LLM agent field but don't fit neatly into any single architectural category. This section gives them their own space.
+These themes run across the entire LLM agent field — they apply regardless of what kind of agent you're building or what domain it operates in.
 
 ::: {.card-grid}
 
@@ -24,22 +24,6 @@ How do we measure agent capability? SWE-bench, WebArena, GAIA, OSWorld, AgentBen
 :::
 ### [Safety & Alignment](safety.qmd)
 Prompt injection, trust hierarchies, sandboxing, reversibility, the transparency gap, and what responsible agent deployment looks like in practice.
-:::
-
-::: {.survey-card}
-::: {.card-icon}
-🔬
-:::
-### [Science & Research Agents](science-agents.qmd)
-FutureHouse Platform, Google AI Co-Scientist, PaperCoder, SkyRL, METR, and the frontier of agents built specifically for scientific discovery.
-:::
-
-::: {.survey-card}
-::: {.card-icon}
-🪞
-:::
-### [Personalization & Digital Twins](personalization.qmd)
-How agents learn about users, adopt personas, and represent identities — plus digital twins, evaluation benchmarks (LaMP, PersonaGym), and adversarial attacks including DAN jailbreaks, memory poisoning, and system prompt leakage.
 :::
 
 ::: {.survey-card}
@@ -64,14 +48,6 @@ How humans work with autonomous agents — trust calibration, delegation pattern
 :::
 ### [Agent Economics](economics.qmd)
 Cost per task, token efficiency, budget-constrained execution, model routing & cascading (FrugalGPT, RouteLLM), prompt compression, and enterprise ROI — the economics of making agents affordable at scale.
-:::
-
-::: {.survey-card}
-::: {.card-icon}
-💻
-:::
-### [Coding Agents](coding-agents.qmd)
-From autocomplete to autonomous software engineering — SWE-agent, Devin, Claude Code, Cursor, OpenHands, benchmarks (SWE-bench, HumanEval, LiveCodeBench), agent-computer interfaces, and the architecture of edit-test-debug loops.
 :::
 
 ::: {.survey-card}
@@ -116,24 +92,18 @@ How agents learn from experience — RL for agents (GRPO, WebRL, Agent Q), traje
 
 ::: {.survey-card}
 ::: {.card-icon}
-🏥
+🪞
 :::
-### [Domain-Specific Agents](domain-agents.qmd)
-AI agents built for professional domains — medical (Med-PaLM, MedAgents, radiology), legal (LegalBench, Harvey, hallucinated citations), financial (BloombergGPT, FinanceBench, trading agents), customer service, chemistry, and the cross-cutting challenge of high-stakes hallucination.
-:::
-
-::: {.survey-card}
-::: {.card-icon}
-📊
-:::
-### [Data Science & Analytics Agents](data-science-agents.qmd)
-Agents that explore, analyze, and model data — Code Interpreter, Data Interpreter, DS-Agent, AIDE (Kaggle bronze medals), MLAgentBench, LIDA visualization, NL-to-SQL (Spider, BIRD), and the distinct challenges of data correctness over code correctness.
+### [Personalization & Digital Twins](personalization.qmd)
+How agents learn about users, adopt personas, and represent identities — plus digital twins, evaluation benchmarks (LaMP, PersonaGym), and adversarial attacks including DAN jailbreaks, memory poisoning, and system prompt leakage.
 :::
 
 :::
 
 ---
 
-These topics are connected. Evaluation shapes what safety problems we can measure. Safety constrains what autonomy levels are responsible. Scientific agents push the boundary of what evaluation even means — when the "correct" answer is a novel hypothesis, how do you grade it?
+These topics are connected. Evaluation shapes what safety problems we can measure. Safety constrains what autonomy levels are responsible. Governance determines what deployment looks like in practice.
 
 Each page collects primary sources, key papers, and synthesis — use them as reference material rather than introductions.
+
+*Looking for agents by application area? See [By Domain →](coding-agents.qmd)*

@@ -1,0 +1,49 @@
+---
+title: "By Domain"
+subtitle: "LLM agents built for specific application areas and industries"
+format:
+  html:
+    toc: false
+---
+
+These pages cover agents designed for particular domains — where the combination of LLM reasoning with domain-specific knowledge, tools, and evaluation criteria creates distinct research challenges.
+
+::: {.card-grid}
+
+::: {.survey-card}
+::: {.card-icon}
+💻
+:::
+### [Coding Agents](coding-agents.qmd)
+From autocomplete to autonomous software engineering — SWE-agent, Devin, Claude Code, Cursor, OpenHands, benchmarks (SWE-bench, HumanEval, LiveCodeBench), agent-computer interfaces, and the architecture of edit-test-debug loops.
+:::
+
+::: {.survey-card}
+::: {.card-icon}
+🔬
+:::
+### [Science & Research Agents](science-agents.qmd)
+FutureHouse Platform, Google AI Co-Scientist, PaperCoder, SkyRL, METR, and the frontier of agents built specifically for scientific discovery.
+:::
+
+::: {.survey-card}
+::: {.card-icon}
+📊
+:::
+### [Data Science & Analytics Agents](data-science-agents.qmd)
+Agents that explore, analyze, and model data — Code Interpreter, Data Interpreter, DS-Agent, AIDE (Kaggle bronze medals), MLAgentBench, LIDA visualization, NL-to-SQL (Spider, BIRD), and the distinct challenges of data correctness over code correctness.
+:::
+
+::: {.survey-card}
+::: {.card-icon}
+🏥
+:::
+### [Domain-Specific Agents](domain-agents.qmd)
+AI agents built for professional domains — medical (Med-PaLM, MedAgents, radiology), legal (LegalBench, Harvey, hallucinated citations), financial (BloombergGPT, FinanceBench, trading agents), customer service, chemistry, and the cross-cutting challenge of high-stakes hallucination.
+:::
+
+:::
+
+---
+
+*Looking for cross-cutting themes? See [Topics →](topics.qmd)*

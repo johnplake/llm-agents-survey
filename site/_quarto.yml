@@ -11,6 +11,7 @@ project:
     - memory-tools.qmd
     - recent.qmd
     - topics.qmd
+    - by-domain.qmd
     - evaluation.qmd
     - safety.qmd
     - science-agents.qmd
@@ -60,18 +61,12 @@ website:
             text: Evaluation & Benchmarks
           - href: safety.qmd
             text: Safety & Alignment
-          - href: science-agents.qmd
-            text: Science & Research Agents
-          - href: personalization.qmd
-            text: Personalization & Digital Twins
           - href: infrastructure.qmd
             text: Infrastructure & Protocols
           - href: human-agent.qmd
             text: Human-Agent Interaction
           - href: economics.qmd
             text: Agent Economics
-          - href: coding-agents.qmd
-            text: Coding Agents
           - href: observability.qmd
             text: Observability & Robustness
           - href: long-horizon.qmd
@@ -82,10 +77,20 @@ website:
             text: Governance & Regulation
           - href: agent-training.qmd
             text: Agent Training & RL
-          - href: domain-agents.qmd
-            text: Domain-Specific Agents
+          - href: personalization.qmd
+            text: Personalization & Digital Twins
+      - text: "By Domain"
+        menu:
+          - href: by-domain.qmd
+            text: By Domain Overview
+          - href: coding-agents.qmd
+            text: Coding Agents
+          - href: science-agents.qmd
+            text: Science & Research Agents
           - href: data-science-agents.qmd
             text: Data Science & Analytics Agents
+          - href: domain-agents.qmd
+            text: Domain-Specific Agents
       - href: community.qmd
         text: Community
       - href: resources.qmd
