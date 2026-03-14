@@ -1,0 +1,304 @@
+---
+title: "Agentic RAG"
+subtitle: "Retrieval-augmented generation as an active, multi-step agent capability"
+---
+
+## Overview
+
+Classical Retrieval-Augmented Generation (RAG), introduced by [Lewis et al. (2020)](https://arxiv.org/abs/2005.11401) at NeurIPS 2020, follows a deceptively simple pipeline: given a query, retrieve the *k* most relevant passages from an external corpus, prepend them to the prompt, and generate an answer in a single pass. This one-shot retrieve-then-generate pattern dramatically reduced hallucination on knowledge-intensive tasks and remains the backbone of many production systems today.
+
+But one-shot retrieval has a hard ceiling. Complex questions — "How did the fiscal policies of post-war Japan compare to those of post-war Germany, and what do macroeconomists attribute the difference in outcomes to?" — require synthesizing information from *multiple* sources, chaining intermediate conclusions, and deciding mid-generation that you need *more* evidence. A single retrieval step can't do this.
+
+**Agentic RAG** flips the model: rather than treating retrieval as a fixed preprocessing step, the agent *treats retrieval as a tool it can invoke at will*. The agent decides **when** to retrieve (not just once, but repeatedly), **what** to query for (reformulating queries based on partial answers), **how many** sources to consult (stopping when it judges it has enough), and **whether** retrieved content is trustworthy enough to use. Retrieval becomes a first-class action in the agent's action space — not a hardwired prologue.
+
+This matters because:
+
+- **Multi-hop reasoning** requires chaining facts across documents; each hop may demand a fresh retrieval.
+- **Long-horizon synthesis** benefits from iterative refinement — generating a partial answer, identifying gaps, and querying again.
+- **Quality control** is possible when the agent can evaluate retrieved documents and fall back to broader search when local corpora fail.
+- **Dynamic knowledge** is better handled when the agent can decide that a question requires up-to-date web search rather than a potentially stale vector index.
+
+The [Agentic RAG survey (Singh et al., 2025)](https://arxiv.org/abs/2501.09136) provides a comprehensive taxonomy of these paradigms, tracing the evolution from static retrieval pipelines to fully autonomous multi-agent retrieval systems.
+
+::: {.callout-note}
+**The core intuition**: in classical RAG, retrieval is a *function* called once before generation; in agentic RAG, retrieval is a *tool* that can be called many times, at any point, with dynamically constructed queries — and the agent decides whether the result is good enough or whether to try again.
+:::
+
+---
+
+## From RAG to Agentic RAG
+
+The progression from naive RAG to agentic RAG is well-characterized in the [RAG survey by Gao et al. (2024)](https://arxiv.org/abs/2312.10997), which identifies three major paradigms:
+
+### Naive RAG
+The original pipeline: chunk documents, embed chunks, store in a vector index, retrieve top-*k* by cosine similarity, generate. Fast and simple; brittle on complex queries and highly sensitive to chunking quality and embedding model choice. Context stuffed indiscriminately — retrieved passages may be irrelevant, redundant, or contradictory.
+
+### Advanced RAG
+Improvements to the retrieve-then-generate pattern without changing its fundamental structure. Key techniques include:
+
+- **Pre-retrieval enhancements**: query rewriting, decomposition, HyDE (see below)
+- **Post-retrieval enhancements**: reranking retrieved passages (e.g., with a cross-encoder), context compression, filtering irrelevant chunks before they reach the LLM
+- **Hybrid search**: combining BM25 sparse retrieval with dense (neural) retrieval for better recall
+
+Advanced RAG improves quality substantially but still commits to a retrieve → rerank → generate pipeline with no iteration.
+
+### Modular RAG
+[Gao et al. (2024)](https://arxiv.org/abs/2407.21059) propose treating RAG as a **LEGO-like reconfigurable system** of pluggable modules — routing, scheduling, fusion, reranking, memory, generation. Components can be composed in different orders and with conditional logic, allowing retrieval loops, multi-source fusion, and adaptive routing. Modular RAG is the architectural substrate on which Agentic RAG runs.
+
+### Agentic RAG
+The agent gains *autonomy* over the retrieval loop. It can issue multiple retrieval calls, reformulate queries mid-generation, use external web search as a fallback, and self-critique its outputs. The [Agentic RAG Survey](https://arxiv.org/abs/2501.09136) categorizes architectures ranging from single-agent iterative retrieval to multi-agent pipelines where a dedicated retrieval agent, an analysis agent, and a synthesis agent collaborate.
+
+---
+
+## Core Agentic RAG Techniques
+
+### Query Decomposition and Reformulation
+
+Naive RAG sends the user's raw question directly to the retrieval engine — often a poor query for semantic search. Agentic systems pre-process queries before retrieval:
+
+**Query Decomposition**: Complex questions are broken into sub-questions, each answered independently and then synthesized. This is the foundation of multi-hop reasoning pipelines. Many implementations follow a *decompose-then-aggregate* pattern.
+
+**[HyDE — Hypothetical Document Embeddings](https://arxiv.org/abs/2212.10496)** ([Gao et al., 2022](https://arxiv.org/abs/2212.10496)): Rather than embedding the query directly, the LLM generates a *hypothetical answer* to the question — a plausible document that *would* contain the answer — and uses *that* as the retrieval query. Because hypothetical answers are stylistically closer to real documents than raw questions, cosine similarity in embedding space works better. HyDE achieves effective zero-shot dense retrieval without task-specific training.
+
+**[Step-Back Prompting](https://arxiv.org/abs/2310.06117)** (Zheng et al., Google DeepMind, ICLR 2024): Before retrieving on the specific question, the LLM first generates a more *abstract*, high-level version of the question ("step back" to first principles), retrieves on that, and then reasons from the general to the specific. This improves retrieval recall for questions that require background knowledge rather than direct lookup.
+
+**Multi-Query Retrieval**: A single question is rewritten into *n* different phrasings, each triggering its own retrieval, with results merged before generation. Implemented in LangChain, LlamaIndex, and other frameworks as a simple robustness technique.
+
+**RAG Fusion** extends multi-query retrieval by applying Reciprocal Rank Fusion (RRF) across the result sets of multiple query variants, producing a unified, re-ranked set of passages that is more robust than any single query could generate alone.
+
+---
+
+### Iterative Retrieval
+
+The core architectural shift of agentic RAG: retrieval is not a one-time event but a loop.
+
+**[ITER-RETGEN](https://arxiv.org/abs/2305.15294)** (Shao et al., 2023, EMNLP Findings): Synergizes retrieval and generation in an iterative cycle. The model's *response* to the current state serves as the query for the next retrieval round — what the model generated reveals what additional knowledge it needs. Crucially, all retrieved knowledge is processed as a whole rather than token-by-token, preserving generation flexibility.
+
+**[FLARE — Forward-Looking Active REtrieval](https://arxiv.org/abs/2305.06983)** (Jiang et al., 2023, EMNLP 2023): Addresses long-form generation where information needs evolve *during* generation. FLARE monitors token-level generation confidence; when the model is about to produce a low-confidence token, it pauses, uses the predicted upcoming sentence as a query, retrieves relevant documents, and regenerates that segment. Active retrieval based on uncertainty — the agent decides *when* it doesn't know enough.
+
+**[Self-RAG](https://arxiv.org/abs/2310.11511)** (Asai et al., 2023): Trains a single LLM to generate special *reflection tokens* that control retrieval and self-critique. The model decides whether to retrieve at all (token `[Retrieve]`), evaluates the relevance of retrieved passages (`[IsREL]`), assesses whether its output is supported by the evidence (`[IsSUP]`), and judges whether its response is useful (`[IsUSE]`). Self-RAG outperforms ChatGPT and retrieval-augmented Llama 2 on open-domain QA, reasoning, and fact verification tasks, and improves citation accuracy for long-form generation — all from a single 7B or 13B parameter model.
+
+---
+
+### Multi-Hop Reasoning
+
+Some questions require chaining multiple retrieved facts: "Who was the mentor of the scientist who discovered the structure of DNA?" requires first retrieving Watson or Crick's mentor, then connecting that to the discovery. Each hop conditions on the previous.
+
+**[IRCoT — Interleaving Retrieval with Chain-of-Thought](https://arxiv.org/abs/2212.10509)** (Trivedi et al., 2022, ACL 2023): Interleaves retrieval with CoT reasoning steps. Each sentence of a CoT reasoning chain can trigger a new retrieval, which in turn informs the next reasoning step. Applied to GPT-3, IRCoT improves retrieval by up to 21 points and downstream QA by up to 15 points on four multi-hop benchmarks: [HotpotQA](https://hotpotqa.github.io/), [2WikiMultihopQA](https://huggingface.co/datasets/wiki_hop), [MuSiQue](https://arxiv.org/abs/2108.00573), and IIRC. Gains hold even for smaller models like Flan-T5-large.
+
+**[CoRAG — Chain-of-Retrieval Augmented Generation](https://arxiv.org/abs/2501.14342)** (Wang et al., 2025, ICLR 2025): Trains LLMs to perform multi-step, *chain-of-retrieval* reasoning — the model iteratively retrieves evidence, reasons over it, and decides what to retrieve next before generating a final answer. Unlike ITER-RETGEN (which uses the previous output as the next query), CoRAG learns an explicit retrieval chain via rejection-sampling-based fine-tuning. Supports greedy, best-of-N, and tree-search decoding strategies to control test-time compute and retrieval frequency. Sets strong results on multi-hop knowledge-intensive benchmarks.
+
+**[ReAct](https://arxiv.org/abs/2210.03629)** (Yao et al., 2022) applied to retrieval: The Reason + Act framework enables agents to interleave search actions with chain-of-thought reasoning traces, making the retrieval and reasoning process explicit and debuggable.
+
+**Benchmarks for multi-hop evaluation**:
+
+- **[HotpotQA](https://hotpotqa.github.io/)** — 113,000 Wikipedia-based questions requiring multi-hop reasoning and supporting fact identification ([Yang et al., 2018](https://arxiv.org/abs/1809.09600))
+- **[MuSiQue](https://arxiv.org/abs/2108.00573)** — Multi-hop questions constructed to prevent shortcut reasoning, requiring 2–4 hops
+- **[2WikiMultihopQA](https://arxiv.org/abs/2011.01060)** — Cross-document reasoning with supporting evidence pairs
+
+---
+
+### Corrective RAG (CRAG)
+
+What happens when retrieved documents are simply *wrong* or *irrelevant*? Standard RAG pipelines use them anyway. [CRAG](https://arxiv.org/abs/2401.15884) (Yan et al., 2024) introduces a **retrieval evaluator** that scores the overall quality of retrieved documents and triggers different downstream actions:
+
+- **Correct**: Retrieved docs are relevant → refine and use them
+- **Ambiguous**: Low confidence → supplement with large-scale web search
+- **Incorrect**: Retrieved docs are irrelevant → discard and query the web
+
+A *decompose-then-recompose* algorithm then selectively extracts key information and filters noise from the (potentially web-augmented) documents. CRAG is plug-and-play: it wraps any existing RAG pipeline without requiring architectural changes. Experiments across four short- and long-form generation benchmarks show significant improvement over standard RAG baselines.
+
+---
+
+### Graph RAG
+
+Vector retrieval finds semantically similar *chunks*, but fails at questions requiring global understanding of a corpus — "What are the main themes in this 200-document archive?" No individual chunk contains that answer. Graph-based approaches build *structured knowledge representations* over the corpus.
+
+**[GraphRAG (Microsoft)](https://arxiv.org/abs/2404.16130)** (Edge et al., 2024): Uses an LLM to extract entities and relationships from the corpus, constructs a knowledge graph, partitions the graph into a hierarchy of *community clusters*, and generates LLM-written *community summaries* at each level. At query time, community summaries are retrieved and used to answer global sensemaking questions. For queries over million-token-scale corpora, GraphRAG substantially improves comprehensiveness and diversity of answers versus flat RAG. Open-source implementation available at [github.com/microsoft/graphrag](https://github.com/microsoft/graphrag).
+
+**[LightRAG](https://arxiv.org/abs/2410.05779)** (Guo et al., 2024): A simpler, faster graph-RAG approach that incorporates graph structure into text indexing using a *dual-level retrieval* system — low-level retrieval over raw text chunks and high-level retrieval over graph-based knowledge (entities and relationships). Reduces the indexing overhead of community-based traversal while maintaining structured retrieval.
+
+**[RAPTOR](https://arxiv.org/abs/2401.18059)** (Sarthi et al., 2024, Stanford): Recursive Abstractive Processing for Tree-Organized Retrieval. Recursively clusters text chunks, summarizes each cluster with an LLM, clusters the summaries, summarizes again, and builds a tree from bottom up. At inference time, retrieval draws from both leaf nodes (original chunks) and internal nodes (summaries of varying abstraction levels), enabling answers that require both specific facts and high-level synthesis. Coupled with GPT-4, RAPTOR improves the best performance on the QuALITY benchmark by 20% in absolute accuracy.
+
+---
+
+## Retrieval Infrastructure for Agents
+
+Agentic RAG systems are only as good as the retrieval layer underneath them. Practitioners have converged on a set of infrastructure patterns:
+
+### Vector Databases
+
+Production agentic systems typically use dedicated vector stores that support fast approximate nearest-neighbor (ANN) search:
+
+- **[Pinecone](https://www.pinecone.io/)** — Managed, cloud-native; popular for prototyping and production; supports metadata filtering
+- **[Weaviate](https://weaviate.io/)** — Open-source + managed; supports hybrid (vector + BM25) search natively
+- **[Qdrant](https://qdrant.tech/)** — Open-source Rust-based; strong filtering and payload indexing
+- **[pgvector](https://github.com/pgvector/pgvector)** — PostgreSQL extension; preferred when teams want to keep retrieval in their existing database
+
+### Hybrid Search
+
+Neither pure dense (embedding-based) nor pure sparse (BM25/TF-IDF) retrieval dominates across all query types. Dense retrieval generalizes semantically; sparse retrieval handles rare terms, names, and keywords that don't embed well. **Hybrid search** combines both, typically via Reciprocal Rank Fusion (RRF) or a learned combiner. Most production agent frameworks default to hybrid search.
+
+### Chunking Strategies
+
+How documents are split determines what the retrieval system can find:
+
+- **Fixed-size chunking**: Simple but ignores semantic boundaries; risks splitting context mid-sentence
+- **Semantic chunking**: Splits on meaning boundaries (paragraphs, sections, semantic similarity drop)
+- **Hierarchical chunking**: Small chunks for high-precision retrieval, parent chunks for broader context; used in RAPTOR and many LlamaIndex pipelines
+- **Late chunking** / **Contextual chunk enrichment**: Encode full-document context before chunking to avoid information loss at boundaries
+
+### Embedding Models
+
+Leading embedding models for RAG retrieval include OpenAI's `text-embedding-3-large`, Cohere's `embed-v3`, and open-source models like [BGE](https://arxiv.org/abs/2309.07597) (BAAI) and [E5](https://arxiv.org/abs/2212.03533). Rerankers (cross-encoders) such as Cohere Rerank or BGE-Reranker are commonly layered on top of retrieval to re-score retrieved chunks before passing them to the LLM.
+
+---
+
+## Agentic RAG Architectures
+
+### Modular RAG as a Foundation
+
+[Modular RAG](https://arxiv.org/abs/2407.21059) (Gao et al., 2024) provides the conceptual framework: decompose RAG pipelines into independent, composable modules (indexing, routing, pre-retrieval, retrieval, post-retrieval, generation) connected by conditional logic. Agentic behavior emerges when the routing/scheduling layer gains LLM-driven decision-making.
+
+### Single-Agent Iterative RAG
+
+The simplest agentic architecture: one LLM acts as both planner and retriever. Given a query, it plans sub-queries, executes retrieval, evaluates results, decides whether to retrieve again, and synthesizes a final answer. Frameworks like [LangChain](https://www.langchain.com/), [LlamaIndex](https://www.llamaindex.ai/), and [Haystack](https://haystack.deepset.ai/) all support this pattern out of the box.
+
+### Multi-Agent RAG
+
+Separation of concerns across specialized agents:
+
+- **Retrieval agent**: Responsible for query formulation, source selection, and fetching
+- **Analysis agent**: Evaluates retrieved content for relevance and credibility
+- **Synthesis agent**: Produces the final answer, grounded in retrieved evidence
+
+Multi-agent RAG improves modularity and allows each sub-agent to be fine-tuned or prompted for its specific role. The [Agentic RAG Survey (Singh et al., 2025)](https://arxiv.org/abs/2501.09136) provides a taxonomy of single-agent, multi-agent, and hierarchical architectures.
+
+### RAG vs. Long-Context LLMs
+
+Modern LLMs like Gemini 1.5 (up to 1 million tokens) and GPT-4 Turbo (128K tokens) support increasingly long context windows. Why not just load everything and skip retrieval? [Li et al. (2024)](https://arxiv.org/abs/2407.16833) systematically compare RAG and Long-Context (LC) approaches across public benchmarks with three state-of-the-art LLMs. Their findings:
+
+- When sufficiently resourced, **long-context LLMs consistently outperform RAG** on average
+- **RAG's significantly lower cost** remains its key advantage — filling a million-token context is expensive
+- They propose **Self-Route**: a simple model self-reflection mechanism that routes each query to RAG or LC based on whether the model believes RAG can answer it. Self-Route substantially reduces cost while maintaining LC-level performance.
+
+The upshot: long context and RAG are complementary; the right choice depends on corpus size, query type, and budget.
+
+---
+
+## Evaluation
+
+Evaluating RAG pipelines requires measuring multiple failure modes separately: retrieval might fail (irrelevant context), generation might fail (hallucinating beyond context), or the pipeline might fail end-to-end. Standard RAG evaluation decomposes into:
+
+| Dimension | Definition |
+|-----------|------------|
+| **Context Relevance** | Are retrieved passages actually relevant to the query? |
+| **Answer Faithfulness** | Is the generated answer grounded in the retrieved context? |
+| **Answer Relevance** | Does the answer actually address the question? |
+| **Context Recall** | Does the retrieved context contain the information needed? |
+
+### [RAGAS](https://arxiv.org/abs/2309.15217)
+
+**Retrieval Augmented Generation Assessment** (Es et al., EACL 2024) is a widely-used reference-free framework that evaluates RAG pipelines across all four dimensions above without requiring human-annotated ground truth. Metrics are computed using an LLM judge. RAGAS enables fast evaluation cycles during RAG pipeline iteration and is implemented as an open-source Python library at [github.com/explodinggradients/ragas](https://github.com/explodinggradients/ragas).
+
+### [ARES](https://arxiv.org/abs/2311.09476)
+
+**Automated RAG Evaluation System** (Saad-Falcon et al., Stanford, NAACL 2024): Generates *synthetic training data* to fine-tune lightweight LLM judges specifically for each RAG pipeline's domain. ARES provides prediction-powered confidence intervals, minimizes the need for human labeling, and claims substantially better evaluation precision than RAGAS — particularly on domain-specific corpora. Open-source at [github.com/stanford-futuredata/ARES](https://github.com/stanford-futuredata/ARES).
+
+### Multi-Hop Benchmarks
+
+For agentic RAG specifically, end-to-end accuracy on multi-hop benchmarks provides the most direct signal: HotpotQA, MuSiQue, 2WikiMultihopQA (described above). More recently, [FRAMES](https://arxiv.org/abs/2409.12941) (Google DeepMind, 2024) provides a factuality and retrieval benchmark specifically designed to evaluate multi-step retrieval pipelines across 824 challenging questions requiring synthesis from multiple Wikipedia articles.
+
+### Tracing and Observability
+
+Evaluating agentic RAG systems requires more than final-answer metrics. Practitioners also need **trace-level observability**: which queries were issued, which documents were retrieved and discarded, which retrieval calls triggered rethinking, and how the agent's intermediate reasoning evolved. Tools like [LangSmith](https://smith.langchain.com/), [Arize Phoenix](https://github.com/Arize-ai/phoenix), and [LlamaTrace](https://www.llamaindex.ai/blog/introducing-llamatrace-full-stack-observability-for-llm-applications) provide this visibility, making it possible to diagnose *why* an agent retrieved the wrong information rather than just *whether* the final answer was correct.
+
+---
+
+## Open Problems
+
+### Retrieval Quality Remains the Bottleneck
+
+Even the most sophisticated agentic loop can't reason its way past bad retrieval. Poor chunking, weak embeddings, and under-indexed corpora cause retrieval failures that no amount of self-reflection can fix. Improving the *indexing* layer — better chunk boundaries, richer metadata, hybrid indices — often yields more practical gains than architectural complexity in the agent loop.
+
+### Multi-Hop Reasoning Breaks Down at Scale
+
+IRCoT and similar methods work well for 2–4 hop questions. Longer chains (5+ hops) suffer from error accumulation: each retrieval step introduces noise, and mistakes compound. The retrieval signal also degrades as intermediate queries become increasingly abstract. There is no robust solution to long-chain multi-hop retrieval as of early 2025.
+
+### Cost: Iterative Retrieval Multiplies API Calls
+
+A single user query in an agentic RAG pipeline may trigger 5–20 retrieval calls, each potentially involving embedding lookups, vector database queries, and LLM inference. This can increase per-query cost by 10–50× compared to naive RAG. Cost-aware routing (like Self-Route) and early stopping heuristics partially address this, but the tension between answer quality and cost is fundamental.
+
+### Knowledge Staleness
+
+Vector indices are snapshots. Documents indexed last month don't reflect this week's events. CRAG's web search fallback is one mitigation; agentic systems that maintain real-time search tool access are another. But integrating dynamic retrieval with indexed corpora — and reconciling potential conflicts — remains an open engineering and research challenge.
+
+### Attribution and Citation
+
+Tracing *which* retrieved passage supported *which* part of an answer is harder than it looks, especially when multiple passages are synthesized. Self-RAG's `[IsSUP]` tokens are a step toward automatic attribution, and RAGAS measures faithfulness at a coarse level. But fine-grained, verifiable citation — the kind that would satisfy a researcher or journalist — is not yet a solved problem.
+
+### Agent Reliability and Termination
+
+Agentic RAG loops can spiral: the agent retrieves, finds partial information, reformulates and retrieves again, finds more partial information, and never converges. Designing reliable termination conditions — "I have enough information" — is non-trivial. Hallucinated confidence can cause premature stopping; excessive caution causes infinite loops and cost blowup.
+
+### Conflicting Retrieved Evidence
+
+When multiple retrieved documents contradict each other — as often happens with rapidly evolving topics, contested facts, or documents from different time periods — the LLM must decide which source to trust. Most current systems have no principled way to handle this: they either hallucinate a compromise, defer to the most recent document, or silently pick one. Research on **source credibility weighting**, **conflict detection**, and **uncertainty-aware generation** remains nascent.
+
+### Security: Prompt Injection via Retrieved Content
+
+Agentic RAG systems face a unique attack surface: **indirect prompt injection through retrieved documents**. A malicious document in the retrieval corpus can contain instructions designed to hijack the agent's behavior — redirecting it to return false information, exfiltrate context, or take unauthorized actions. As agentic RAG systems gain broader tool access (web search, code execution, external APIs), this threat becomes security-critical. Defenses are an active area of research ([Greshake et al., 2023](https://arxiv.org/abs/2302.12173)).
+
+---
+
+## References
+
+### Papers
+
+- [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401) — Lewis et al., NeurIPS 2020. The original RAG paper.
+- [REALM: Retrieval-Augmented Language Model Pre-Training](https://arxiv.org/abs/2002.08909) — Guu et al., ICML 2020. Pre-retrieval grounding for language models.
+- [Retrieval-Augmented Generation for Large Language Models: A Survey](https://arxiv.org/abs/2312.10997) — Gao et al., 2024. Naive → Advanced → Modular RAG taxonomy.
+- [Modular RAG: Transforming RAG Systems into LEGO-like Reconfigurable Frameworks](https://arxiv.org/abs/2407.21059) — Gao et al., 2024.
+- [Agentic Retrieval-Augmented Generation: A Survey on Agentic RAG](https://arxiv.org/abs/2501.09136) — Singh, Ehtesham et al., January 2025.
+- [Precise Zero-Shot Dense Retrieval without Relevance Labels (HyDE)](https://arxiv.org/abs/2212.10496) — Gao et al., 2022.
+- [Take a Step Back: Evoking Reasoning via Abstraction in Large Language Models](https://arxiv.org/abs/2310.06117) — Zheng et al., Google DeepMind, ICLR 2024.
+- [Enhancing Retrieval-Augmented Large Language Models with Iterative Retrieval-Generation Synergy (ITER-RETGEN)](https://arxiv.org/abs/2305.15294) — Shao et al., EMNLP Findings 2023.
+- [Active Retrieval Augmented Generation (FLARE)](https://arxiv.org/abs/2305.06983) — Jiang et al., EMNLP 2023.
+- [Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection](https://arxiv.org/abs/2310.11511) — Asai et al., October 2023.
+- [Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions (IRCoT)](https://arxiv.org/abs/2212.10509) — Trivedi et al., ACL 2023.
+- [Corrective Retrieval Augmented Generation (CRAG)](https://arxiv.org/abs/2401.15884) — Yan et al., January 2024.
+- [Chain-of-Retrieval Augmented Generation (CoRAG)](https://arxiv.org/abs/2501.14342) — Wang et al., ICLR 2025.
+- [From Local to Global: A Graph RAG Approach to Query-Focused Summarization (GraphRAG)](https://arxiv.org/abs/2404.16130) — Edge et al., Microsoft Research, April 2024.
+- [RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval](https://arxiv.org/abs/2401.18059) — Sarthi et al., Stanford, January 2024.
+- [LightRAG: Simple and Fast Retrieval-Augmented Generation](https://arxiv.org/abs/2410.05779) — Guo et al., October 2024.
+- [Retrieval Augmented Generation or Long-Context LLMs? A Comprehensive Study and Hybrid Approach (Self-Route)](https://arxiv.org/abs/2407.16833) — Li et al., EMNLP Industry Track 2024.
+- [RAGAS: Automated Evaluation of Retrieval Augmented Generation](https://arxiv.org/abs/2309.15217) — Es et al., EACL 2024.
+- [ARES: An Automated Evaluation Framework for Retrieval-Augmented Generation Systems](https://arxiv.org/abs/2311.09476) — Saad-Falcon et al., Stanford, NAACL 2024.
+- [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629) — Yao et al., ICLR 2023.
+- [HotpotQA: A Dataset for Diverse, Explainable Multi-hop Question Answering](https://arxiv.org/abs/1809.09600) — Yang et al., EMNLP 2018.
+
+### Blog Posts & Resources
+
+- [Microsoft Research: GraphRAG — New tool for complex document analysis](https://www.microsoft.com/en-us/research/blog/graphragunlocking-llm-discovery-on-narrative-private-data/) — Microsoft Research Blog.
+- [LightRAG project page](https://lightrag.github.io/) — Guo et al., 2024.
+- [RAGAS documentation](https://docs.ragas.io/) — Reference-free RAG evaluation.
+- [LangChain RAG How-To guides](https://python.langchain.com/docs/how_to/#qa-with-rag) — Practical implementations of query decomposition, HyDE, multi-query retrieval.
+- [LlamaIndex documentation on Agentic RAG](https://docs.llamaindex.ai/en/stable/use_cases/agents/) — Multi-step query engines and agent frameworks.
+- [Pinecone: What is Agentic RAG?](https://www.pinecone.io/learn/agentic-rag/) — Practitioner-oriented overview.
+- [Weaviate: Introduction to Agentic RAG](https://weaviate.io/blog/agentic-rag) — Overview of patterns, architectures, and design decisions for agentic retrieval.
+- [Anthropic: Building effective agents](https://www.anthropic.com/research/building-effective-agents) — Practical guidance on agent patterns including tool-based retrieval.
+
+### Code & Projects
+
+- [github.com/microsoft/graphrag](https://github.com/microsoft/graphrag) — Microsoft GraphRAG open-source implementation
+- [github.com/explodinggradients/ragas](https://github.com/explodinggradients/ragas) — RAGAS evaluation framework
+- [github.com/stanford-futuredata/ARES](https://github.com/stanford-futuredata/ARES) — ARES evaluation system
+- [github.com/jzbjyb/FLARE](https://github.com/jzbjyb/FLARE) — FLARE active retrieval code and datasets
+- [github.com/stonybrooknlp/ircot](https://github.com/stonybrooknlp/ircot) — IRCoT code, data, and prompts
+- [github.com/ContextualAI/gritlm](https://github.com/ContextualAI/gritlm) — GritLM: unified embedding and generation model
+- [pgvector](https://github.com/pgvector/pgvector) — Open-source vector similarity extension for PostgreSQL
+- [Qdrant](https://github.com/qdrant/qdrant) — Open-source vector search engine
+
+---
+
+*Back to [Deep Dives →](reasoning.qmd) · See also: [Memory, Tools & Actions →](memory-tools.qmd) · [Reasoning & Planning →](reasoning.qmd) · [Long-Horizon Autonomy →](long-horizon.qmd)*
