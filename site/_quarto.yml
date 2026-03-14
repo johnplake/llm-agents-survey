@@ -27,6 +27,9 @@ project:
     - agent-training.qmd
     - composition-patterns.qmd
     - agentic-rag.qmd
+    - philosophy-agents.qmd
+    - cybernetics-agents.qmd
+    - cognitive-architectures.qmd
     - domain-agents.qmd
     - data-science-agents.qmd
     - community.qmd
@@ -85,6 +88,12 @@ website:
             text: Governance & Regulation
           - href: personalization.qmd
             text: Personalization & Digital Twins
+          - href: philosophy-agents.qmd
+            text: Agents and Philosophy
+          - href: cybernetics-agents.qmd
+            text: Agents and Cybernetics
+          - href: cognitive-architectures.qmd
+            text: Cognitive Architectures
       - text: "By Domain"
         menu:
           - href: by-domain.qmd

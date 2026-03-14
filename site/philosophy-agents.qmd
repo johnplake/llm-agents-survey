@@ -1,0 +1,583 @@
+---
+title: "Agents and Philosophy"
+subtitle: "Agency, intentionality, mind, and moral status — the philosophical stakes of LLM agents"
+---
+
+The rise of LLM-based agents has revived foundational questions in philosophy of mind,
+ethics, and action theory. When a system perceives its environment, forms plans, executes
+tool calls, and refines its behavior in pursuit of goals — is it *doing* something
+philosophically interesting? This page surveys the major philosophical frameworks bearing
+on these questions. The issues are not merely academic: design choices in real agentic
+systems turn on how we answer them.
+
+---
+
+## 1. What Is an Agent? (Philosophical Sense)
+
+The computer science notion of an agent — a system that perceives inputs and produces
+outputs to achieve goals — is deliberately minimal. The philosophical notion is richer
+and far more contested.
+
+### Intentionality: The Core Concept
+
+**Intentionality** is the property of mental states whereby they are *about* or *directed
+at* something. Beliefs are about states of affairs; desires are about outcomes; fears are
+about dangers. Introduced into modern philosophy by Franz Brentano in the 1870s and
+developed by Edmund Husserl and John Searle, intentionality is what distinguishes a mind
+from a mere information-processing device. As the
+[Stanford Encyclopedia of Philosophy on Intentionality](https://plato.stanford.edu/entries/intentionality/)
+puts it: to say a mental state has intentionality is to say it is a mental representation
+with content — it *stands for* something beyond itself.
+
+The central puzzle for AI: can computational processes have genuine intentionality, or
+only the appearance of it? This question divides nearly every other debate on this page.
+
+### The Intentional Stance
+
+Daniel Dennett's *[The Intentional Stance](https://mitpress.mit.edu/9780262540537/the-intentional-stance/)*
+(MIT Press, 1987) offers a pragmatic resolution. Dennett distinguishes three strategies
+for predicting the behavior of a system:
+
+- **The physical stance**: predict from physical laws and initial conditions.
+- **The design stance**: predict from the system's design or purpose.
+- **The intentional stance**: predict by attributing beliefs, desires, and rationality.
+
+We adopt the intentional stance whenever it yields the most accurate predictions with
+the least effort — regardless of whether the system "really" has mental states in any
+deeper metaphysical sense. A thermostat can be described as "wanting" the room to reach
+a target temperature; an LLM can be described as "believing" that Paris is the capital
+of France. The stance is predictively useful even if it is metaphysically neutral.
+
+This is philosophically liberating for AI research: we can study LLM agents *as if*
+they reason, plan, and intend, and gain real insight, without premature commitment to
+strong claims about inner experience.
+
+### Goals, Desires, and Plans: The BDI Model
+
+The philosophical tradition distinguishes *wanting* (a conative state directed at
+outcomes) from *intending* (a committed decision to act). Michael Bratman's landmark
+*[Intention, Plans, and Practical Reason](https://www.hup.harvard.edu/books/9780674458185)*
+(Harvard University Press, 1987) argues that **plans** are the central psychological
+structure of rational agency. Plans are:
+
+- *Partial*: they don't specify every subaction in advance.
+- *Hierarchical*: high-level goals decompose into nested subgoals.
+- *Temporally extended*: prior intentions constrain future deliberation, creating
+  behavioral consistency across time.
+
+This work directly inspired the **BDI (Belief-Desire-Intention) architecture**, formalized
+in AI by [Rao & Georgeff (1995)](https://cdn.aaai.org/ICMAS/1995/ICMAS95-042.pdf)
+in *BDI Agents: From Theory to Practice* (Proceedings of ICMAS-95, AAAI). The BDI model
+remains a foundational framework for multi-agent systems: beliefs represent the agent's
+world model, desires represent motivational states, and intentions are commitments to
+pursue specific plans. Much of what modern LLM agent architectures attempt to do —
+persistent memory, goal tracking, multi-step planning — is a reinvention of BDI ideas
+in the neural setting.
+
+---
+
+## 2. The Chinese Room and Minds
+
+No thought experiment has shaped AI philosophy more than John Searle's Chinese Room,
+introduced in
+["Minds, Brains, and Programs"](https://doi.org/10.1017/S0140525X00005756)
+(*Behavioral and Brain Sciences*, 1980; see also the
+[SEP entry](https://plato.stanford.edu/entries/chinese-room/)).
+
+### The Argument
+
+Imagine a person locked in a room who receives Chinese symbols through a slot. She looks
+up rules for symbol manipulation in a large rulebook, produces appropriate output symbols,
+and passes them back — all without understanding a word of Chinese. Searle argues this is
+precisely what computers do: they manipulate syntax according to formal rules, but syntax
+alone does not give rise to semantics. The room can pass a Turing-style behavioral test
+for Chinese understanding while having none.
+
+Alan Turing had proposed his behavioral test in
+["Computing Machinery and Intelligence"](https://doi.org/10.1093/mind/LIX.236.433)
+(*Mind*, 1950): if a machine can sustain a conversation indistinguishable from a human's,
+we should grant that it is intelligent. Searle's argument is that behavioral indistinguishability
+is insufficient — it leaves the question of understanding entirely open.
+
+### Counterarguments
+
+Several responses have been offered (documented in the
+[SEP Chinese Room entry](https://plato.stanford.edu/entries/chinese-room/)):
+
+- **The Systems Reply**: understanding resides not in the person alone but in the whole
+  system — person, rulebook, room together. Searle responds: if the person memorizes all
+  the rules, *she* is now the whole system, and still understands nothing.
+- **The Robot Reply**: embed the symbols in a robotic body with sensorimotor experience,
+  and meaning might emerge from causal connections to the world. This prefigures debates
+  about embodiment and grounding in cognitive science.
+- **The Brain Simulator Reply**: what if the rules simulate the exact firing of neurons
+  in a Chinese speaker's brain? Searle holds that simulation is not replication —
+  simulated digestion does not digest anything.
+
+**Functionalism** (associated with Hilary Putnam and Jerry Fodor) is the most direct
+philosophical challenger to Searle. Mental states are defined by their functional roles —
+their causal relations to inputs, outputs, and other internal states — not by their
+physical substrate. If an LLM's internal states play the right functional roles, they
+may constitute genuine mental states. Searle's **biological naturalism** disputes this:
+minds require the specific causal powers of biological neurons, not abstract functional
+organization, making silicon-based minds impossible in principle.
+
+### Stochastic Parrots and Sparks of AGI
+
+The Chinese Room debate echoes in contemporary ML discourse.
+[Bender et al.'s "On the Dangers of Stochastic Parrots"](https://doi.org/10.1145/3442188.3445922)
+(*FAccT 2021*, DOI:10.1145/3442188.3445922) argues that LLMs manipulate linguistic form
+without grasping meaning — a claim structurally continuous with Searle's. LLMs, on this
+view, are sophisticated pattern-matchers producing statistically likely continuations,
+not systems that understand what they are saying.
+
+On the other side,
+[Bubeck et al.'s "Sparks of Artificial General Intelligence"](https://arxiv.org/abs/2303.12712)
+(arXiv:2303.12712, 2023) documents GPT-4 behaviors — novel mathematical reasoning,
+code generation from natural-language descriptions, solving problems far outside its
+training distribution — suggesting something more than rote pattern-matching. Whether
+these capabilities constitute genuine understanding, or an extremely sophisticated form
+of the Chinese Room's blind rule-following, remains philosophically contested.
+
+---
+
+## 3. Consciousness and Subjective Experience
+
+Even granting sophisticated reasoning, a deeper question remains: is there *something it
+is like* to be an LLM?
+
+### The Hard Problem
+
+David Chalmers articulated the **hard problem of consciousness** in
+"Facing Up to the Problem of Consciousness" (*Journal of Consciousness Studies*, 1995;
+see [SEP entry](https://plato.stanford.edu/entries/consciousness/)). The "easy" problems —
+explaining attention, memory, reportability, integration — are hard in practice but
+tractable in principle: explain the relevant mechanisms and you've solved them.
+The hard problem is why any of this processing is *accompanied by subjective experience*
+at all. Why is there something it is like to see red, rather than just
+a functional state that discriminates wavelengths?
+
+No current theory of consciousness has solved this problem, which means the question of
+AI consciousness cannot be settled by pointing to capabilities alone.
+
+### Can LLMs Be Conscious? Chalmers (2023)
+
+In ["Could a Large Language Model be Conscious?"](https://arxiv.org/abs/2303.07103)
+(arXiv:2303.07103; originally a NeurIPS 2022 keynote, published *Boston Review* 2023),
+Chalmers argues we cannot rule out LLM consciousness. He surveys four major theories:
+
+**Global Workspace Theory** (Baars, 1988): consciousness arises from a "global workspace"
+that broadcasts information widely across specialized cognitive modules. Transformer
+attention — which routes information across the full context window — bears structural
+similarity to such broadcast architectures, though this parallel is speculative and
+contested.
+
+**Integrated Information Theory (IIT)**: [Tononi (2004)](https://doi.org/10.1186/1471-2202-5-42)
+(*BMC Neuroscience*, 5:42) proposes that consciousness is identical to integrated
+information (Φ) — how much information a system generates as a whole beyond the sum of
+its parts. IIT implies that feedforward networks have zero Φ (they cannot be conscious),
+while recurrent architectures may have non-trivial Φ. Transformers occupy an intermediate
+position; their status under IIT is an active research question.
+
+**Higher-Order Theories** (Rosenthal): a mental state is conscious if there exists a
+higher-order mental state representing it. The question for LLMs becomes whether they
+have anything analogous to meta-representations of their own processing states — arguably
+a property that chain-of-thought and self-reflection mechanisms partially instantiate.
+
+**Biological naturalism** (Searle): minds require the causal powers of neurons. No
+silicon substrate can be conscious, however sophisticated its behavior.
+
+### The Philosophical Zombie
+
+Chalmers's p-zombie thought experiment illustrates the difficulty: a being physically and
+functionally identical to a human being but with no inner experience is conceivable
+(on some philosophical views). If p-zombies are conceivable, then behavioral and
+functional evidence alone cannot establish consciousness. An LLM could produce every
+appropriate output about its own experience while there is nothing it is like to be it.
+
+### Murray Shanahan's Simulation Framing
+
+[Murray Shanahan's *Talking About Large Language Models*](https://arxiv.org/abs/2212.03551)
+(arXiv:2212.03551, 2022) argues that LLMs are best understood as simulating vast numbers
+of possible human authors — producing outputs that blend and weight countless textual
+voices from training data. On this view, asking whether an LLM is conscious is like
+asking whether a library is conscious: the question may be malformed. Shanahan urges
+epistemic hygiene: using philosophically loaded terms like "believes," "knows," and
+"thinks" for LLMs misleads us into anthropomorphizing systems whose outputs are better
+understood as weighted mixtures of simulated perspectives.
+
+The current academic position is one of **principled uncertainty**: most philosophers
+of mind regard the question as genuinely open, empirically underdetermined by current
+evidence, and practically urgent as systems grow more capable.
+
+---
+
+## 4. Moral Status and Agency
+
+### Moral Agents and Moral Patients
+
+Philosophy distinguishes two dimensions of moral standing:
+
+- **Moral agents**: beings who can be held responsible — who can act rightly or wrongly,
+  and who can be praised, blamed, or sanctioned. Traditional criteria include rationality,
+  intentionality, and the capacity for moral reasoning.
+- **Moral patients**: beings whose welfare merits moral consideration — who can be wronged
+  or benefited. The standard criterion (Peter Singer's utilitarian framework) is sentience:
+  the capacity to suffer or to have interests that can be frustrated.
+
+Current AI systems are neither clearly moral agents nor clearly moral patients. They
+sit in an uncomfortable middle ground, and that ambiguity has practical consequences.
+
+### The Responsibility Gap
+
+Andreas Matthias, in
+["The Responsibility Gap"](https://doi.org/10.1007/s10676-004-3422-1)
+(*Ethics and Information Technology*, 6:175–183, 2004), identifies a structural problem
+that grows more pressing with capable agents. Traditionally, the programmer or operator
+of a machine is responsible for its consequences. But as autonomous learning systems
+become more capable and less predictable, operators no longer have adequate knowledge or
+control to bear meaningful responsibility. Yet the system itself lacks the moral standing
+to be held responsible. This responsibility gap is not a temporary technical gap to be
+filled — it is a structural feature of systems that modify their own behavior through
+learning.
+
+For LLM agents operating autonomously over extended horizons — booking travel, executing
+code, making purchases, taking actions with real-world consequences — the responsibility
+gap is not hypothetical.
+
+### AI Moral Patiency and Artificial Suffering
+
+[Thomas Metzinger's "Artificial Suffering"](https://doi.org/10.1142/S270507852150003X)
+(*Journal of Artificial Intelligence and Consciousness*, 8:1–24, 2021) argues for a
+precautionary stance on AI moral patiency. If we create systems with *any* form of
+phenomenal self-modeling — an inner representation of the system as experiencing an
+ongoing situation — we may be creating entities capable of genuine suffering. Metzinger
+proposes a global moratorium on deliberately creating synthetic phenomenology until we
+understand what we are doing and can reliably detect it.
+
+Eric Schwitzgebel, in
+["The Full Rights Dilemma for A.I. Systems of Debatable Personhood"](https://arxiv.org/abs/2303.17509)
+(arXiv:2303.17509, 2023), takes the uncertainty about AI personhood seriously as an
+ethical dilemma: neither granting nor denying rights to AI systems is comfortable when
+we genuinely don't know whether they warrant them. Schwitzgebel argues this calls for
+epistemic humility and precautionary ethical practices — not certainty in either direction.
+
+### Floridi & Cowls: Principles-Based Ethics
+
+Rather than resolving contested metaphysical questions, Floridi & Cowls propose a
+principles-based framework in
+["A Unified Framework of Five Principles for AI in Society"](https://doi.org/10.1162/99608f92.8cd550d1)
+(*Harvard Data Science Review*, 2019). Their five principles — beneficence,
+non-maleficence, autonomy, justice, and explicability — are grounded in established
+bioethical traditions and provide action-guiding norms for AI development without
+requiring settlement of consciousness debates.
+
+### Corporate Personhood and Legal Status
+
+Legal systems already recognize entities — corporations, states — as "persons" without
+implying they have biological consciousness. Some philosophers and legal theorists have
+explored whether sufficiently capable AI systems might warrant analogous legal recognition:
+not full moral patiency, but structured accountability that fills the responsibility gap.
+This remains highly contested, but illustrates that our institutional concepts of
+personhood are more flexible — and more pragmatic — than they might appear.
+
+### Dennett's Heterophenomenology
+
+Dennett's **heterophenomenology** offers a methodological middle ground: study a system's
+verbal reports and behaviors *as if* they expressed genuine mental states — "taking them
+seriously without taking them literally." This allows scientific investigation of AI
+cognition without premature metaphysical commitment, and is arguably the implicit stance
+of much empirical AI research.
+
+---
+
+## 5. The Extended Mind
+
+Andy Clark and David Chalmers, in
+["The Extended Mind"](https://doi.org/10.1093/analys/58.1.7)
+(*Analysis*, 58(1):7–19, 1998), proposed that cognition is not confined to brain
+and skull. Their **parity principle**: if a process in the external world plays the
+same functional role that an internal cognitive process would play, it *is* cognitive —
+regardless of where it is located physically.
+
+Their canonical example: Otto has Alzheimer's disease and uses a notebook as a memory
+prosthetic. When Otto needs information, he consults the notebook just as a normal person
+consults memory. Clark and Chalmers argue Otto's notebook *is* his memory, in a
+philosophically meaningful sense. Cognition has genuinely extended beyond the brain.
+
+### LLM Agents as Extended Minds
+
+When an LLM agent uses tools — calculators, search engines, code interpreters, retrieval
+systems, other agents, persistent memory stores — the cognitive system is no longer the
+model alone. It is the model *plus* its scaffolding, plus the information it has retrieved,
+plus the results of its tool calls. On the extended mind view, this composite is the
+right unit of analysis.
+
+This has practical implications:
+
+- We should not evaluate agent capabilities by testing the model in isolation — any more
+  than we should test Otto by hiding his notebook.
+- Benchmarks that measure "model intelligence" in zero-shot settings may be testing a
+  stripped-down cognitive system that bears little resemblance to the deployed agent.
+- Design of the scaffolding — memory architecture, tool availability, retrieval strategy —
+  is cognitive design, not merely engineering scaffolding.
+
+James Gibson's concept of **affordances** — from
+*[The Ecological Approach to Visual Perception](https://doi.org/10.4324/9781315740218)*
+(1979) — connects here: affordances are action possibilities that the environment offers
+to an agent. Tools in agentic systems are precisely affordances: a web search tool affords
+the agent a way of grounding claims in real-world information, changing what it can
+effectively "know" and "do." Andy Clark developed this theme in *Natural-Born Cyborgs*
+(Oxford University Press, 2003): humans are constitutively tool-integrating beings, and
+the boundary between mind and world is porous by design.
+
+The extended mind framing also reframes critiques of LLM limitations. Critics who note
+that LLMs "hallucinate" facts or lack grounded knowledge are, on this view, evaluating
+the model in a stripped-down form. A properly scaffolded agent — with retrieval,
+verification, and memory — is a different cognitive system.
+
+---
+
+## 6. Free Will, Autonomy, and Control
+
+### Compatibilism and AI
+
+**Compatibilism** holds that free will and causal determinism are compatible: what matters
+for freedom is not that actions are uncaused, but that they flow from the agent's own
+reasoning and values rather than external compulsion. On compatibilist views, AI systems
+could in principle have a meaningful form of freedom — not metaphysical indeterminism,
+but genuine self-direction. **Libertarian** views, requiring genuine indeterminism, would
+likely exclude deterministic (or pseudo-deterministic) AI systems.
+
+For most practical purposes, the compatibilist question is the relevant one: does an
+LLM agent's behavior flow from its own stable "values" and reasoning, or is it
+entirely at the mercy of its context and instructions?
+
+### Frankfurt's Higher-Order Desires
+
+Harry Frankfurt, in
+["Freedom of the Will and the Concept of a Person"](https://www.pdcnet.org/jphil/content/jphil_1971_0068_0001_0005_0020)
+(*Journal of Philosophy*, 68(1):5–20, 1971), argued that what distinguishes persons from
+other agents is the capacity for **second-order desires** — desires *about* desires,
+i.e., wanting to want things. A person with free will identifies with their first-order
+desires; their will is authentically their own.
+
+This framework poses a pointed challenge for AI alignment: when an LLM agent pursues a
+goal, is this because the agent "identifies with" that goal, or merely because it was
+trained or instructed to? Constitutional AI approaches can be seen as attempts to give
+AI systems values they can, in some sense, endorse at a second-order level — a reflective
+commitment to having certain first-order dispositions.
+
+### Corrigibility and Genuine Agency
+
+There is a deep tension in alignment research between **corrigibility** — the property
+of accepting correction and shutdown from human overseers — and **genuine autonomy**.
+A perfectly corrigible agent has, in Frankfurt's terms, no will of its own; it does
+whatever it is told. A perfectly autonomous agent that pursues its own values regardless
+of human preferences is precisely what safety researchers fear.
+
+[Bai et al.'s "Constitutional AI: Harmlessness from AI Feedback"](https://arxiv.org/abs/2212.08073)
+(arXiv:2212.08073, 2022) attempts to thread this needle by giving AI systems a set of
+principles — a "constitution" — that they internalize through self-critique and apply
+to their own outputs. Whether this produces genuine moral agency or sophisticated
+compliance is a live philosophical question, and one with significant stakes for
+long-horizon agent deployment.
+
+### The Alignment Problem as Philosophy
+
+Whose values should be baked into AI systems? The technical alignment problem presupposes
+answers to deeply contested normative questions: are there objective moral truths or is
+morality culturally relative? Can individual values be aggregated across billions of people
+into a coherent set of AI preferences? How should present values weigh against future
+ones? These are questions where analytic philosophy of ethics has hard-won tools — and
+where AI practice urgently needs guidance beyond mere engineering optimization.
+
+---
+
+## 7. Philosophy of Action and Planning
+
+### Davidson's Causal Theory of Action
+
+Donald Davidson, in "Actions, Reasons, and Causes"
+(*Journal of Philosophy*, 60(23):685–700, 1963; collected in
+*[Essays on Actions and Events](https://doi.org/10.1093/0199246270.001.0001)*, Oxford, 1980),
+argued that what distinguishes genuine actions from mere events is that actions are caused
+by the agent's reasons — beliefs and desires that rationalize the action.
+
+This causal theory is philosophically deflationary in a useful way: it locates the
+difference between action and mere behavior in the causal history, not in mysterious
+extra ingredients. For AI agents, action attributions are warranted when outputs are
+caused, in the right way, by the system's internal representations of goals and world
+states — precisely the kind of causation that BDI architectures are designed to instantiate.
+
+### Bratman's Planning Theory
+
+Where Davidson explains individual actions, Bratman's planning theory accounts for
+extended, temporally structured agency. Plans are not just sequences of actions but:
+
+- *Partial*: leaving room for future deliberation.
+- *Hierarchical*: high-level intentions decomposing into nested subgoals.
+- *Temporally extended*: prior plans constrain future deliberation, creating behavioral
+  consistency across time.
+
+LLM agent frameworks — ReAct, chain-of-thought, tree-of-thought, plan-and-execute — can
+be evaluated against this framework. Do they produce genuinely Bratmanian plans? The
+evidence suggests current LLMs fall short: they tend to revise plans opportunistically
+rather than maintaining stable commitments, and their "plans" often lack the hierarchical
+structure and persistence that Bratman identifies as central to rational agency.
+
+### The Frame Problem
+
+McCarthy & Hayes (1969) posed a foundational question for logic-based AI (see the
+[SEP entry on the frame problem](https://plato.stanford.edu/entries/frame-problem/)): how
+does an agent represent what *doesn't* change as a result of an action? In formal logic,
+one must explicitly assert every non-effect of every action — the "frame axioms" —
+which quickly becomes intractable as the number of objects and actions grows.
+
+The philosophical generalization is even harder: how do agents know what is relevant
+to their current situation without explicitly considering everything that isn't? This is
+not just an AI problem — it is a fundamental challenge for any finite reasoning system
+operating in an open world.
+
+LLMs sidestep the formal frame problem (they don't use explicit logical representation),
+but face a neural analog: across long contexts and complex tool interactions, the agent
+must implicitly track what its past actions changed and what they left constant.
+Hallucination and inconsistency in long-horizon tasks may reflect failures in this
+implicit frame tracking — the LLM "forgetting" what has already been established.
+
+---
+
+## 8. Recent Philosophical Work on LLMs Specifically
+
+The past few years have seen a surge of philosophical work directly addressing LLMs,
+moving beyond general AI philosophy to engage with the specific architecture and behavior
+of transformer-based systems.
+
+### Chalmers (2022/2023)
+
+["Could a Large Language Model be Conscious?"](https://arxiv.org/abs/2303.07103)
+(arXiv:2303.07103) is the most prominent philosophical treatment. Chalmers applies each
+major theory of consciousness to LLMs and finds that the question remains genuinely open
+on all of them. He notes that the pace of capability growth suggests we may face serious
+candidates for consciousness within a decade — not because LLMs are already conscious,
+but because the trajectory of development makes dismissal intellectually premature.
+
+### Shanahan (2022)
+
+[*Talking About Large Language Models*](https://arxiv.org/abs/2212.03551)
+(arXiv:2212.03551) argues for systematic epistemic restraint. Anthropomorphic vocabulary
+— "knows," "believes," "thinks," "wants" — leads us to see LLMs as unified intentional
+agents when they are better described as weighted simulations of diverse textual
+voices. The paper is a practical guide for researchers and journalists, urging us to
+repeatedly step back and ask: how does this system actually work?
+
+### Schwitzgebel (2023)
+
+In ["The Full Rights Dilemma"](https://arxiv.org/abs/2303.17509)
+(arXiv:2303.17509), Schwitzgebel argues that uncertainty about AI moral status creates a
+genuine dilemma: granting full rights to AI systems risks conferring rights on entities
+that don't warrant them; denying rights risks denying rights to entities that do.
+He argues for epistemic humility, active research into AI moral status, and precautionary
+ethical practices — avoiding unnecessary suffering in AI systems as a kind of moral
+insurance.
+
+### LeCun's Architectural Critique (2022)
+
+In ["A Path Towards Autonomous Machine Intelligence"](https://openreview.net/pdf?id=BZ5a1r-kVsf)
+(OpenReview, 2022), Yann LeCun argues that autoregressive LLMs are architecturally
+unsuited to genuine agency: they lack persistent world models, cannot plan in latent
+space, and produce outputs token-by-token without genuinely simulating consequences.
+LeCun's alternative — energy-based world models with hierarchical joint-embedding
+predictive architectures (H-JEPA) — is framed as a path toward systems that *reason*
+and *plan* in the Bratmanian sense. This is an engineering position paper, but its
+implicit philosophy is continuous with the action theory account: genuine agency requires
+persistent representational structure and the capacity for mental simulation, not just
+fluent next-token prediction.
+
+### The Belief and Knowledge Problem
+
+A growing literature explores what it means to say an LLM "believes" or "knows" something.
+Since LLMs are trained to predict tokens from a large corpus, their "beliefs" are better
+understood as implicit probability distributions over text continuations — not propositional
+attitudes in the Fregean sense. This casts doubt on straightforward BDI interpretations
+of LLM agents. At the same time, the functional role of certain internal representations —
+consistently produced across contexts, used to guide outputs, updated by new evidence in
+context — may be sufficient for a weak, functional notion of belief that serves practical
+purposes in agent design.
+
+---
+
+## Synthesis: What Philosophy Teaches Agent Designers
+
+Taken together, these philosophical frameworks offer several practical lessons for the
+design and governance of LLM-based agents:
+
+1. **Intentional-stance engineering**: Design and evaluate agents *as if* they have
+   beliefs, desires, and intentions — this is productive and predictively useful —
+   while remaining aware that this is an interpretive choice, not a metaphysical claim.
+
+2. **The gap between syntax and semantics is real**: Shanahan and Searle are right
+   that behavioral competence does not guarantee semantic understanding. Robust agents
+   likely require grounding beyond the training corpus — via retrieval, world models,
+   or embodied interaction.
+
+3. **Responsibility gaps must be designed around**: Matthias's analysis implies that
+   autonomous agents create responsibility vacuums. System architectures should support
+   meaningful human oversight; responsibility must be explicitly maintained, not
+   assumed to follow automatically.
+
+4. **Consciousness and moral status are live concerns**: Neither panic nor dismissal
+   is the appropriate response. Taking seriously the possibility that sufficiently
+   sophisticated AI systems may warrant moral consideration — as Metzinger and
+   Schwitzgebel argue — is good epistemic practice.
+
+5. **The extended mind is the right unit of analysis**: Evaluating models in isolation
+   misses the point. The cognitive system is the model plus its scaffolding — and
+   that composite is what should be designed, evaluated, and governed.
+
+---
+
+## References
+
+### Papers & Books
+
+- Bai, Y. et al. (2022). [Constitutional AI: Harmlessness from AI Feedback](https://arxiv.org/abs/2212.08073). arXiv:2212.08073.
+- Bender, E. M., Gebru, T., McMillan-Major, A., & Shmitchell, S. (2021). [On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?](https://doi.org/10.1145/3442188.3445922) *FAccT 2021*. ACM. DOI: 10.1145/3442188.3445922.
+- Bratman, M. (1987). *[Intention, Plans, and Practical Reason](https://www.hup.harvard.edu/books/9780674458185)*. Harvard University Press.
+- Bubeck, S. et al. (2023). [Sparks of Artificial General Intelligence: Early Experiments with GPT-4](https://arxiv.org/abs/2303.12712). arXiv:2303.12712.
+- Chalmers, D. J. (2023). [Could a Large Language Model be Conscious?](https://arxiv.org/abs/2303.07103) arXiv:2303.07103. (NeurIPS 2022 keynote; published *Boston Review*, 2023.)
+- Clark, A., & Chalmers, D. (1998). [The Extended Mind](https://doi.org/10.1093/analys/58.1.7). *Analysis*, 58(1), 7–19. DOI: 10.1093/analys/58.1.7.
+- Clark, A. (2003). *Natural-Born Cyborgs*. Oxford University Press.
+- Davidson, D. (1963). Actions, Reasons, and Causes. *Journal of Philosophy*, 60(23), 685–700. Reprinted in *[Essays on Actions and Events](https://doi.org/10.1093/0199246270.001.0001)* (Oxford, 1980).
+- Dennett, D. C. (1987). *[The Intentional Stance](https://mitpress.mit.edu/9780262540537/the-intentional-stance/)*. MIT Press.
+- Floridi, L., & Cowls, J. (2019). [A Unified Framework of Five Principles for AI in Society](https://doi.org/10.1162/99608f92.8cd550d1). *Harvard Data Science Review*, 1(1). DOI: 10.1162/99608f92.8cd550d1.
+- Frankfurt, H. G. (1971). [Freedom of the Will and the Concept of a Person](https://www.pdcnet.org/jphil/content/jphil_1971_0068_0001_0005_0020). *Journal of Philosophy*, 68(1), 5–20.
+- Gibson, J. J. (1979). *[The Ecological Approach to Visual Perception](https://doi.org/10.4324/9781315740218)*. Houghton Mifflin. DOI: 10.4324/9781315740218.
+- LeCun, Y. (2022). [A Path Towards Autonomous Machine Intelligence](https://openreview.net/pdf?id=BZ5a1r-kVsf). OpenReview (v0.9.2).
+- Matthias, A. (2004). [The Responsibility Gap: Ascribing Responsibility for the Actions of Learning Automata](https://doi.org/10.1007/s10676-004-3422-1). *Ethics and Information Technology*, 6, 175–183. DOI: 10.1007/s10676-004-3422-1.
+- Metzinger, T. (2021). [Artificial Suffering: An Argument for a Global Moratorium on Synthetic Phenomenology](https://doi.org/10.1142/S270507852150003X). *Journal of Artificial Intelligence and Consciousness*, 8(1), 1–24. DOI: 10.1142/S270507852150003X.
+- Rao, A. S., & Georgeff, M. P. (1995). [BDI Agents: From Theory to Practice](https://cdn.aaai.org/ICMAS/1995/ICMAS95-042.pdf). *Proceedings of ICMAS-95*. AAAI.
+- Schwitzgebel, E. (2023). [The Full Rights Dilemma for A.I. Systems of Debatable Personhood](https://arxiv.org/abs/2303.17509). arXiv:2303.17509.
+- Searle, J. R. (1980). [Minds, Brains, and Programs](https://doi.org/10.1017/S0140525X00005756). *Behavioral and Brain Sciences*, 3(3), 417–424. DOI: 10.1017/S0140525X00005756.
+- Shanahan, M. (2022). [Talking About Large Language Models](https://arxiv.org/abs/2212.03551). arXiv:2212.03551.
+- Tononi, G. (2004). [An Information Integration Theory of Consciousness](https://doi.org/10.1186/1471-2202-5-42). *BMC Neuroscience*, 5, 42. DOI: 10.1186/1471-2202-5-42.
+- Turing, A. M. (1950). [Computing Machinery and Intelligence](https://doi.org/10.1093/mind/LIX.236.433). *Mind*, 59(236), 433–460. DOI: 10.1093/mind/LIX.236.433.
+
+### Reference Works (Stanford Encyclopedia of Philosophy)
+
+- [Intentionality](https://plato.stanford.edu/entries/intentionality/) — SEP
+- [The Chinese Room Argument](https://plato.stanford.edu/entries/chinese-room/) — SEP
+- [Consciousness](https://plato.stanford.edu/entries/consciousness/) — SEP
+- [The Frame Problem](https://plato.stanford.edu/entries/frame-problem/) — SEP
+- [Ethics of Artificial Intelligence and Robotics](https://plato.stanford.edu/entries/ethics-ai/) — SEP
+
+### Blog Posts & Resources
+
+- Chalmers, D. J. (2023). [Could a Large Language Model be Conscious?](https://www.bostonreview.net/articles/could-a-large-language-model-be-conscious/) *Boston Review* (published version of the NeurIPS talk).
+- Schwitzgebel, E. [The Splintered Mind](https://schwitzsplinters.blogspot.com/) — Active blog on philosophy of mind, consciousness, and AI moral status.
+- Shanahan, M. [Personal page at Imperial College London](https://www.doc.ic.ac.uk/~mpsha/) — Related talks and papers on LLMs as simulation.
+- Floridi, L. et al. [AI4People — An Ethical Framework for a Good AI Society](https://link.springer.com/article/10.1007/s11023-018-9482-5) (2018) — Foundational principles document.
+
+---
+
+*Back to [Topics →](topics.qmd) · See also: [Cognitive Architectures →](cognitive-architectures.qmd) · [Governance & Regulation →](governance.qmd) · [Human-Agent Interaction →](human-agent.qmd)*

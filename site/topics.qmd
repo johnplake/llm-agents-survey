@@ -74,6 +74,30 @@ Legal liability, the EU AI Act, US and UK frameworks, industry self-governance (
 How agents learn about users, adopt personas, and represent identities — plus digital twins, evaluation benchmarks (LaMP, PersonaGym), and adversarial attacks including DAN jailbreaks, memory poisoning, and system prompt leakage.
 :::
 
+::: {.survey-card}
+::: {.card-icon}
+🧠
+:::
+### [Cognitive Architectures](cognitive-architectures.qmd)
+SOAR, ACT-R, LIDA, Global Workspace Theory, BDI — the cognitive science foundations being rediscovered in LLM agent design. What decades of architecture research teaches us about memory, attention, and planning.
+:::
+
+::: {.survey-card}
+::: {.card-icon}
+🔄
+:::
+### [Agents and Cybernetics](cybernetics-agents.qmd)
+Norbert Wiener, feedback loops, Stafford Beer's Viable System Model, autopoiesis (Maturana & Varela), the free energy principle, and self-evolving agents — the cybernetic lineage of intelligent agents.
+:::
+
+::: {.survey-card}
+::: {.card-icon}
+🤔
+:::
+### [Agents and Philosophy](philosophy-agents.qmd)
+Intentionality, the Chinese Room, consciousness, moral status, the extended mind, free will, and the philosophy of action — the deep philosophical questions raised by LLM agents.
+:::
+
 :::
 
 ---

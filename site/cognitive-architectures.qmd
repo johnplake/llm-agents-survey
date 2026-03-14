@@ -1,0 +1,350 @@
+---
+title: "Cognitive Architectures"
+subtitle: "From SOAR and ACT-R to LLM agents — how cognitive science shapes agent design"
+---
+
+> *"The information-processing system must have a memory containing programs, data structures, and the results of its processing."*  
+> — Allen Newell & Herbert Simon, 1976
+
+## What Is a Cognitive Architecture?
+
+A **cognitive architecture** is a theory of the fixed computational structures and processes that underlie all intelligent cognition — implemented as runnable software. It is not a model of one task or one domain; it is a claim about what *every* mind (biological or artificial) must look like at the architectural level.
+
+The grand aspiration was stated by Allen Newell in his 1987 William James Lectures, published as [*Unified Theories of Cognition*](https://archive.org/details/unifiedtheorieso0000newe) (Harvard University Press, 1990). Newell argued that cognitive science had amassed hundreds of micro-theories — each explaining one phenomenon — but lacked a **unified** account. A cognitive architecture would be to psychology what mechanics is to physics: the deep invariant structure beneath surface diversity.
+
+The intellectual roots go back further. In their ACM Turing Award lecture, [Newell & Simon (1976)](https://dl.acm.org/doi/10.1145/360018.360022), "Computer Science as Empirical Inquiry: Symbols and Search," *Communications of the ACM*, 19(3), proposed the **Physical Symbol System Hypothesis (PSSH)**: any system capable of general intelligent action must manipulate symbolic expressions — that physical symbol systems are both necessary and sufficient for general intelligent action. This framing defined the classical AI project and set the stage for decades of debate with connectionists, embodied cognition theorists, and now large language model researchers.
+
+### Criteria for a cognitive architecture
+
+Newell proposed a set of criteria any candidate unified theory must satisfy — what he called the "level of cognitive bands." A cognitive architecture must account for:
+
+- **Real-time performance** (~10ms–1s per step)
+- **Adaptive behavior** (learning from experience)
+- **Vast, diverse knowledge** (not a fixed set of facts)
+- **Dynamic behavior under novelty** (handling situations never seen before)
+- **Language behavior** (understanding and producing natural language)
+- **Development** (acquiring competence over time)
+
+No single LLM agent system satisfies all six today. SOAR and ACT-R satisfy most of them in constrained domains. The criteria serve as a useful audit checklist for evaluating how mature any agent architecture is.
+
+### What cognitive architectures get right — and what they don't
+
+Cognitive architectures excel at:
+
+- **Mechanistic specificity.** They make testable predictions about reaction times, error rates, and learning curves — not just final answers.
+- **Memory differentiation.** They distinguish working memory, declarative memory, procedural memory, and episodic memory, each with different capacity and access properties.
+- **Unified scope.** A single architecture handles perception, reasoning, learning, and action.
+- **Empirical grounding.** Decades of behavioral experiments constrain and validate the architecture.
+
+LLM-based agents, by contrast, excel at **language fluency**, **broad world knowledge**, and **zero-shot generalization** — but struggle with fine-grained memory management, explicit failure detection, and reproducible behavioral dynamics. The revival of interest in cognitive architectures as LLMs hit their limits is no accident: every mature agent system eventually rediscovers problems that cognitive architects solved (or at least formalized) decades ago.
+
+---
+
+### Production Systems as Precursors
+
+Before the modern cognitive architectures, there were **production systems** — rule-based systems that represent knowledge as condition-action pairs and process them through a **recognize-act cycle**. Newell and Simon's early work on GPS (General Problem Solver) and EPAM pioneered this approach in the 1960s. The essential structure:
+
+1. Match left-hand sides of rules against working memory
+2. Resolve conflicts among multiple matching rules
+3. Fire the selected rule — update working memory
+4. Repeat
+
+Production systems are computationally universal, but they lack learning, structured memory, and explicit goal management. SOAR and ACT-R arose to address precisely these gaps.
+
+---
+
+## SOAR
+
+SOAR was developed by [John E. Laird, Allen Newell, and Paul S. Rosenbloom](https://www.sciencedirect.com/science/article/abs/pii/0004370287900506) and published in its canonical form in [*Artificial Intelligence*, Vol. 33 (1987)](https://dl.acm.org/doi/10.1016/0004-3702(87)90050-6), pp. 1–64. It has been actively developed for nearly four decades; the current system is documented at [soar.eecs.umich.edu](http://soar.eecs.umich.edu/).
+
+### Core design
+
+All cognition in SOAR takes place within **problem spaces**: the agent selects a problem space, a current *state*, and applicable *operators*, then applies an operator to generate a new state. This uniform formulation is SOAR's most elegant property — **every cognitive process, including learning and metacognition, uses the same problem-space mechanism**. There is no special metacognitive module; the agent thinks about thinking the same way it thinks about anything else.
+
+Memory in SOAR is layered:
+
+| Memory type | Contents |
+|---|---|
+| **Working memory** | Current activation: goal stack, perceived context |
+| **Procedural memory** | Production rules (IF condition THEN action) |
+| **Semantic memory** | General world knowledge |
+| **Episodic memory** | Records of past experience |
+
+### Chunking and impasse-driven subgoaling
+
+SOAR's learning mechanism is **chunking**: when an agent reaches an *impasse* — a state where no operator applies — it automatically creates a subgoal to resolve the impasse. The reasoning done inside that subgoal gets compiled into a new production rule (a *chunk*), so the same situation is handled faster next time. This is SOAR's unified theory of learning: all learning is chunking, and all chunking is triggered by impasse.
+
+The impasse-subgoal mechanism has a direct analog in LLM agent design. When a language model reaches uncertainty — a dead end in a reasoning chain, a tool failure, an ambiguous instruction — it must detect that impasse and spawn a sub-problem. Systems like ReAct and chain-of-thought prompting rediscover this structure informally; SOAR formalizes it as architecture.
+
+SOAR remains actively developed. The modern SOAR (version 9.x) includes **reinforcement learning**, **inductive learning from examples**, and interfaces for perception and action in robotics and game-playing agents. The architecture is one of the few AI systems that genuinely unifies problem-solving and learning in a single mechanism — a standard that current LLM agent frameworks have not yet matched.
+
+### SOAR + LLMs
+
+Recent work has begun integrating LLMs with SOAR as knowledge sources or rule generators. Yuan et al. (2025), in [*Natural Language to Generative Symbolic Rules for SOAR via LLMs*](https://arxiv.org/abs/2510.09355) (arXiv:2510.09355), propose a Generator-Critic framework that uses LLMs to write SOAR production rules from natural language, achieving over 86% success rate on benchmark tasks. This direction — using LLMs as a "front end" that populates a symbolic cognitive architecture — represents one of the most promising hybrid approaches.
+
+---
+
+## ACT-R
+
+ACT-R (**Adaptive Control of Thought — Rational**) was developed by [John R. Anderson](https://act-r.psy.cmu.edu/) at Carnegie Mellon University. Introduced in 1983 and significantly revised in 1993 and again as ACT-R 7, it has become one of the most empirically validated cognitive architectures in existence, fitting human reaction time data across hundreds of experiments.
+
+The canonical theoretical statement is [Anderson et al. (2004)](https://pubmed.ncbi.nlm.nih.gov/15482072/), "An Integrated Theory of the Mind," *Psychological Review*, 111(4), 1036–1060. DOI: [10.1037/0033-295X.111.4.1036](https://doi.org/10.1037/0033-295X.111.4.1036).
+
+### Two memory systems
+
+**Declarative memory** holds chunks of factual knowledge. Retrieval is probabilistic: the probability of retrieving a chunk depends on its **activation level**, which decays with time and strengthens with use. The **base-level activation** equation is:
+
+$$B_i = \ln\!\left(\sum_{j=1}^{n} t_j^{-d}\right)$$
+
+where $t_j$ is the time since the $j$-th presentation and $d$ is a decay parameter (~0.5 in humans). This single equation predicts the spacing effect (distributed practice beats massed practice), the recency effect (recent memories are more accessible), and the fan effect (more associations → slower retrieval). A vector store with cosine similarity cannot produce any of these effects because it has no notion of time or frequency.
+
+**Procedural memory** holds production rules of the form *IF (goal is X and buffer Y contains Z) THEN (do action A and update buffer B)*. Only one production fires per cognitive cycle (~50ms), creating a **serial bottleneck** that models human dual-task interference. This is not a limitation — it is a commitment to the view that *central cognition is serial*, even if peripheral processes (perception, motor control) run in parallel.
+
+### Buffers and modules
+
+ACT-R organizes cognition around **buffers** — limited-capacity communication channels between modules:
+
+| Buffer | Module |
+|---|---|
+| Goal | Goal tracking |
+| Retrieval | Declarative memory |
+| Visual | Perceptual system |
+| Manual | Motor system |
+| Imaginal | Problem representation |
+
+Each module operates in parallel; the central procedural system coordinates them via buffer reads and writes.
+
+### Connection to LLM agents
+
+The ACT-R / LLM analogy is remarkably tight:
+
+- **Declarative memory ↔ RAG / vector store** — but note: ACT-R's activation-based retrieval implements *spreading activation* and forgetting. A flat vector store does neither.
+- **Procedural memory ↔ tool/function calling** — IF the context matches some pattern THEN invoke this function.
+- **Buffers ↔ context window management** — the context window is ACT-R's goal and imaginal buffers; it is finite and must be managed actively.
+
+ACT-R's key lesson for LLM engineers: **spreading activation matters**. Retrieval in human memory is not nearest-neighbor search over frozen embeddings; it is dynamic, decay-sensitive, and associatively structured. Vector stores approximate the *form* of declarative memory while missing the *dynamics*.
+
+ACT-R has also been used extensively in **HCI and educational software** — the ACT-R group's Cognitive Tutors have successfully taught algebra to thousands of students by modeling exactly which knowledge components students have and have not mastered. This is "AI alignment" in a narrow sense: the system knows, at a fine grain, what the learner knows and doesn't know. Modern LLM tutors rarely achieve this precision.
+
+---
+
+## LIDA — Learning Intelligent Distribution Agent
+
+LIDA was developed by Stan Franklin and collaborators at the University of Memphis, beginning around 2006, as described in [Franklin & Patterson (2006)](https://link.springer.com/chapter/10.1007/978-3-642-22887-2_14) and elaborated in subsequent work. LIDA implements **Global Workspace Theory** (see below) as a computational cognitive cycle.
+
+### The cognitive cycle
+
+LIDA's cognitive cycle runs at roughly 200–500 ms per iteration:
+
+1. **Perception** — sensory stimuli activate nodes in a *Perceptual Associative Memory*
+2. **Understanding** — recognized structures are assembled into a *Current Situational Model*
+3. **Attention** — *codelets* (specialized agents) compete for access to the **Global Workspace**; the coalition with highest activation wins and broadcasts its content
+4. **Action selection** — the broadcast triggers selection of a behavior from a *Behavior Net*
+5. **Learning** — multiple forms of learning update various memories after each cycle
+
+The winner-take-all broadcast is the architecture's central metaphor: **consciousness as information made globally available**. Everything that can be acted upon must first win the competition for the global workspace.
+
+LIDA provides one of the clearest computational answers to the question *"what is consciousness for?"*: consciousness is the broadcast mechanism that integrates the outputs of otherwise encapsulated specialist processes. Without it, each module operates in isolation; the broadcast is what makes the system *coherent*. This has direct implications for LLM agent design: the context window (or some curated subset of it) functions as a global workspace, and the question of *what goes into context* is equivalent to the question of *what the agent is conscious of*.
+
+---
+
+## Global Workspace Theory
+
+Bernard Baars introduced **Global Workspace Theory (GWT)** in [*A Cognitive Theory of Consciousness*](https://books.google.com/books/about/A_Cognitive_Theory_of_Consciousness.html) (Cambridge University Press, 1988). The theater metaphor: the brain is a darkened stage; unconscious, specialized processors work in the wings; when one of them wins the spotlight of **attention**, its content is broadcast to the entire theater — all the other processors can now react to it.
+
+### Neural basis
+
+Stanislas Dehaene and Jean-Pierre Changeux developed the **Global Neuronal Workspace** model, grounding Baars's functional theory in cortical anatomy. In their landmark review, [Dehaene & Changeux (2011)](https://pubmed.ncbi.nlm.nih.gov/21521609/), "Experimental and Theoretical Approaches to Conscious Processing," *Neuron*, 70(2), 200–227, DOI: [10.1016/j.neuron.2011.03.018](https://doi.org/10.1016/j.neuron.2011.03.018), they identify the global workspace with a long-range network of prefrontal and parieto-temporal neurons that "ignite" when a percept crosses a threshold of attention.
+
+The **theater metaphor** remains useful for LLM agent design: think of the model's context window as the lit stage, and the various retrieval mechanisms, tool outputs, and memory stores as the wings. The agent's task is to *curate what is on stage*. Most current agents do this crudely — append everything and hope the model attends to the right parts. A GWT-inspired design would be more selective: only the current "winner" (the most attention-relevant content) occupies center stage, and everything else waits offstage until needed.
+
+### Connection to transformers
+
+Is the transformer attention mechanism a global workspace? The question is more than metaphorical. In [Goyal & Bengio (arXiv:2011.15091)](https://arxiv.org/abs/2011.15091), "Inductive Biases for Deep Learning of Higher-Level Cognition" (2020/2022), the authors argue explicitly that attention acts as a bottleneck broadcast: a sparse, competition-based mechanism that selects which representations are "globally available" to downstream computations. They propose that future AI systems should build in stronger GWT-like inductive biases — routing information through a learned global workspace rather than flooding every layer with every token.
+
+The connection is suggestive but imperfect. Transformer attention is not truly *winner-take-all* within a layer (it's softmax-weighted), and there is no hard bottleneck — all heads fire on all tokens. But the directional insight stands: **consciousness-like processing may require explicit bottlenecks and selective broadcast**, not just massive parallel computation.
+
+---
+
+## BDI — Belief, Desire, Intention
+
+BDI architectures descend from Michael Bratman's philosophical theory of practical reasoning, laid out in [*Intention, Plans, and Practical Reason*](https://books.google.com/books/about/Intention_Plans_and_Practical_Reason.html) (Harvard University Press, 1987). Bratman's insight: **intentions are not just desires weighted by belief**. Once an agent commits to a plan, that commitment persists and constrains future reasoning — it would be irrational to reconsider every intention at every step.
+
+Rao & Georgeff translated this philosophy into a formal logic and a computational architecture. [Rao & Georgeff (1995)](https://www.aaai.org/Library/ICMAS/1995/icmas95-038.php), "BDI Agents: From Theory to Practice," *Proceedings of ICMAS-1995*, pp. 312–319, defined the core BDI model that became the foundation of agent programming languages.
+
+### The three attitudes
+
+| Attitude | Computational analog |
+|---|---|
+| **Beliefs** | Context window + retrieved memory — what the agent currently knows |
+| **Desires** | System prompt goals — what the agent is trying to achieve |
+| **Intentions** | In-progress plans and pending tool calls — what the agent is committed to doing |
+
+The **commitment** mechanism is BDI's key insight: an agent should not abandon an intention unless it has reason to believe the goal is achieved, unachievable, or no longer relevant. This maps directly to the problem of *plan coherence* in LLM agents — a model that reconsiders its strategy with every token may thrash instead of making progress.
+
+BDI also distinguishes between an agent's **option generation** (what possible courses of action are available?) and **deliberation** (which option to commit to). Most LLM agents conflate these in a single "decide and act" prompt. Separating option generation (e.g., a planning pass) from commitment (e.g., a separate execution pass with memory of what was committed to) can significantly improve robustness.
+
+### BDI implementations
+
+BDI has been implemented in practical systems, notably [Jason](http://jason.sourceforge.net/) (an AgentSpeak(L) interpreter, implemented in Java) and Jadex. These systems provided the architecture for thousands of multi-agent simulation experiments but have not scaled to the rich language understanding that LLMs provide. The natural direction is hybridization: BDI as the planning and commitment layer, LLMs as the language-understanding and knowledge-retrieval layer.
+
+---
+
+## The Subsymbolic Challenge
+
+### A decades-old debate
+
+The classical cognitive architecture program assumed that intelligence is **symbolic** — that minds manipulate structured representations with combinatorial syntax, much like programs manipulate data structures. This view was challenged by [Rumelhart, McClelland & the PDP Research Group (1986)](https://direct.mit.edu/books/monograph/4424/Parallel-Distributed-Processing-Volume), *Parallel Distributed Processing: Explorations in the Microstructure of Cognition* (MIT Press, 2 vols.), who argued that cognition emerges from the interaction of many simple, interconnected units — no explicit symbols required.
+
+[Fodor & Pylyshyn (1988)](https://doi.org/10.1016/0010-0277(88)90031-5), "Connectionism and Cognitive Architecture: A Critical Analysis," *Cognition*, 28(1–2), 3–71, fired back: connectionist networks lack **systematicity** and **compositionality**. If a system can think *"John loves Mary,"* it should automatically be able to think *"Mary loves John"* — this follows from the combinatorial structure of symbols but not from pattern-matched associations.
+
+### LLMs and the unresolved tension
+
+Large language models are deeply subsymbolic: they are trained to predict tokens, not to manipulate explicit symbols. Yet they exhibit apparently systematic reasoning — few-shot generalization, mathematical reasoning, multi-step planning — that looks very symbolic. This is the central empirical puzzle of the current moment.
+
+**Chain-of-thought prompting** (Wei et al., 2022) can be read as symbolic scaffolding on a neural substrate: forcing the model to externalize intermediate representations in natural language, creating a scratchpad that acts like a symbolic working memory. Paul Smolensky's *tensor product representations* (mid-1980s/90s) anticipated this: subsymbolic systems can implement compositional structure if they are trained or structured appropriately.
+
+The debate has not been resolved. Gary Marcus, in [*Rebooting AI*](https://www.penguinrandomhouse.com/books/566677/rebooting-ai-by-gary-marcus-and-ernest-davis/) (Marcus & Davis, 2019, Pantheon), continues to argue that language models will hit a ceiling without explicit symbolic reasoning — and that ceiling is now visible in benchmarks requiring systematic generalization and causal reasoning.
+
+The broader point for agent design: **architecture is not neutral**. The choice between a purely neural agent and a hybrid neuro-symbolic one is not merely an implementation detail — it carries theoretical commitments about the nature of cognition. Cognitive architectures make those commitments explicit. LLM agent designers who ignore this literature are likely to rediscover its problems the hard way.
+
+---
+
+## Modern Hybrid Architectures
+
+The past three years have seen a wave of systems that — consciously or not — recapitulate cognitive architecture ideas inside LLM agent frameworks.
+
+### CoALA: Cognitive Architectures for Language Agents
+
+The canonical synthesis is [Sumers, Yao, Narasimhan & Griffiths (2023)](https://arxiv.org/abs/2309.02427), "Cognitive Architectures for Language Agents" (CoALA), arXiv:2309.02427, published in *Transactions on Machine Learning Research* (2024). CoALA proposes a unified framework organizing language agents along three dimensions:
+
+1. **Memory** — working, episodic, semantic, procedural (mirroring ACT-R and SOAR)
+2. **Action space** — internal actions (retrieval, reasoning, learning) vs. external actions (tool calls, environment interaction)
+3. **Decision procedure** — how the agent cycles through perception, planning, and execution
+
+CoALA retrospectively organizes a large body of LLM agent work and shows that almost every system independently rediscovers one or more components of classical cognitive architectures. It serves as a Rosetta Stone between the cognitive science and AI agent literatures.
+
+The CoALA **decision cycle** maps closely to the SOAR cycle: the agent perceives, retrieves relevant information from memory, generates candidate actions, selects an action, executes it, and updates memory. The key contribution is identifying which of these steps current LLM agents handle well (generation, selection) and which they handle poorly (structured memory, explicit failure handling, learning from episodes).
+
+### MemGPT
+
+[Packer et al. (2023)](https://arxiv.org/abs/2310.08560), "MemGPT: Towards LLMs as Operating Systems," arXiv:2310.08560, draws the analogy to operating system memory management explicitly. The LLM's context window is *fast memory* (RAM); external storage is *slow memory* (disk). MemGPT uses the LLM itself to manage paging — deciding what to move into and out of context — mirroring how OS virtual memory managers swap pages. This is ACT-R's base-level activation equation operationalized as an engineering system.
+
+The MemGPT system also introduces **self-directed interrupts**: the model can pause its own execution to reorganize memory before continuing. This is a direct implementation of SOAR's impasse mechanism — when the agent recognizes that its available context is insufficient, it triggers a memory-reorganization subgoal before proceeding.
+
+### HuggingGPT / JARVIS
+
+[Shen et al. (2023)](https://arxiv.org/abs/2303.17580), "HuggingGPT: Solving AI Tasks with ChatGPT and its Friends in Hugging Face," arXiv:2303.17580, uses an LLM as a central **controller** that decomposes user requests into subtasks, selects specialized models from Hugging Face to execute each subtask, and synthesizes the results. This is a SOAR-like problem-space decomposition: the LLM acts as the central planner that assigns operators (specialized models) to sub-problems, then integrates their outputs.
+
+### Ghost in the Minecraft (GITM)
+
+[Zhu et al. (2023)](https://arxiv.org/abs/2305.17144), "Ghost in the Minecraft: Generally Capable Agents for Open-World Environments via Large Language Models with Text-based Knowledge and Memory," arXiv:2305.17144, shows an LLM-based agent that can complete the entire Minecraft technology tree — a long-horizon, hierarchical planning task requiring sequential goal decomposition across hundreds of steps. GITM uses structured goal decomposition that echoes SOAR's problem-space hierarchy, with explicit subgoal tracking, text-based memory of past actions, and failure recovery. Crucially, it achieves 99.2% item coverage without any GPU-based training — demonstrating that architectural design (subgoal structure + memory) can substitute for much of what is usually attributed to learned model capacity.
+
+### What these systems have in common
+
+Looking across CoALA, MemGPT, HuggingGPT, and GITM, a pattern emerges: each system adds *structure* to an otherwise unstructured LLM inference loop. That structure is always a partial reinvention of what cognitive architectures formalized decades ago. The field of LLM agents is, in a real sense, running a compressed replay of the history of cognitive science — but without the benefit of the accumulated theory. CoALA's contribution is to make this connection explicit, so that future systems can build on the cognitive architecture literature rather than rediscover it.
+
+---
+
+## What Cognitive Architectures Teach LLM Agent Designers
+
+### 1. Working memory limits are not bugs — they're features
+
+ACT-R and SOAR both have limited working memories; human cognition does too. The context window limitation of LLMs is not merely an engineering inconvenience — it is structurally analogous to working memory. The lesson: **manage it actively**. ACT-R's activation-based retrieval tells us that recency and frequency are the right signals for what to keep in context.
+
+### 2. Long-term memory needs dynamics, not just storage
+
+A vector store is not a memory system; it is a lookup table. ACT-R's declarative memory spreads activation through associative links, decays with time, and strengthens with rehearsal. Naive RAG ignores all of this. Future systems will need memory representations that implement something closer to spreading activation.
+
+### 3. Separate tool-use from knowledge retrieval
+
+ACT-R distinguishes procedural memory (how to act) from declarative memory (what to know). LLM agents that conflate tool-calling with in-context reasoning tend to be brittle. Explicit separation — a procedural layer for tool dispatch, a declarative layer for knowledge retrieval — may improve reliability.
+
+### 4. Detect and handle impasses explicitly
+
+SOAR's chunking mechanism exists because failure is expected. Any intelligent agent will reach states where it cannot proceed. LLM agents that lack explicit impasse detection loop, hallucinate, or silently fail. The architecture should make failure a *first-class event* that triggers a subgoal-creation response.
+
+### 5. The homunculus problem
+
+In naive LLM agent design, "the model" watches its own context window and decides what to do. But *who is watching the model*? Cognitive architectures resolve this through mechanisms like the global workspace (no homunculus needed — competition resolves the question). LLM agents that rely on a single model to be both the reasoner and the meta-reasoner face an unresolved version of this problem.
+
+### 6. Metacognition is not free
+
+Thinking about one's own thinking requires explicit architectural support — SOAR's chunking from impasses, ACT-R's goal buffer, LIDA's global workspace competition. A language model generating tokens does not automatically model its own uncertainty, knowledge boundaries, or reasoning quality. Architectures that add explicit metacognitive layers (e.g., uncertainty estimation, confidence thresholds, reflective reasoning) are trying to solve this problem from the outside.
+
+### 7. Cognitive load theory applies to prompts
+
+Cognitive load theory (Sweller, 1988) distinguishes *intrinsic* load (the inherent complexity of the task), *extraneous* load (complexity from poor presentation), and *germane* load (processing that builds schemas). Good prompt engineering minimizes extraneous load: clear instructions, well-structured context, elimination of irrelevant information. LLM agents that receive cluttered, overlong prompts suffer from the same performance degradation as humans given poorly designed instructional materials.
+
+---
+
+## Open Problems
+
+1. **No empirical validation standard.** SOAR and ACT-R were validated against human behavioral data (reaction times, learning curves, error distributions). No LLM cognitive architecture has achieved this level of empirical grounding. The field needs benchmarks analogous to the human experiments that validate classical cognitive architectures.
+
+2. **Memory management remains ad hoc.** MemGPT is a promising direction, but it addresses context-window paging, not the full richness of human memory dynamics (activation decay, interference, reconsolidation).
+
+3. **The binding problem.** How do multiple simultaneous representations get integrated into a coherent percept or thought? Classical cognitive architectures address this through buffers and production rule matching. LLM agents have no principled solution.
+
+4. **Time and state.** Classical cognitive architectures have explicit temporal dynamics — a cognitive cycle clock, decay rates, timing of motor commands. Most LLM agents are effectively stateless between turns, losing the continuous-time structure that makes cognitive architectures predictive.
+
+5. **Embodiment.** ACT-R has a visual module, a manual module, a perceptual/motor loop. SOAR interfaces with perception and action. LLM agents are typically disembodied — they operate on text and return text. Grounding in a real sensorimotor loop remains an open architectural challenge, especially for robotics and long-horizon physical tasks.
+
+6. **Learning from experience.** SOAR learns via chunking; ACT-R learns via production compilation and base-level activation updates. Both learn *from doing*, updating their architectures as a side effect of task performance. LLM agents typically do not learn from task episodes — their weights are frozen at inference time. Systems like Voyager (arXiv:2305.16291) add a skills library that accumulates across episodes, but this is shallow compared to the tight integration of learning and performance in classical architectures.
+
+7. **Multi-agent cognition.** Classical cognitive architectures were designed for single agents. Real intelligence — human and organizational — is massively multi-agent. Extending cognitive architectures to multi-agent settings (shared workspaces, distributed belief, coordination under uncertainty) is an active research area that LLM-based multi-agent systems are beginning to address empirically, often without the theoretical grounding that classical architectures provide.
+
+8. **Architectural stability.** Classical cognitive architectures have remained largely stable for decades — SOAR's core mechanisms from 1987 are recognizable in SOAR 9.x today. LLM agent frameworks are redesigned with each new paper. This instability makes cumulative scientific progress difficult. The field needs architectures robust enough that empirical results from one system generalize to another.
+
+---
+
+## References
+
+### Classic Papers & Books
+
+- Newell, A. & Simon, H.A. (1976). [Computer Science as Empirical Inquiry: Symbols and Search](https://dl.acm.org/doi/10.1145/360018.360022). *Communications of the ACM*, 19(3), 113–126. DOI: 10.1145/360018.360022
+
+- Newell, A. (1990). [*Unified Theories of Cognition*](https://archive.org/details/unifiedtheorieso0000newe). Harvard University Press.
+
+- Laird, J.E., Newell, A., & Rosenbloom, P.S. (1987). [SOAR: An Architecture for General Intelligence](https://doi.org/10.1016/0004-3702(87)90050-6). *Artificial Intelligence*, 33(1), 1–64.
+
+- Rumelhart, D.E. & McClelland, J.L. (1986). [*Parallel Distributed Processing: Explorations in the Microstructure of Cognition*](https://direct.mit.edu/books/monograph/4424/Parallel-Distributed-Processing-Volume). MIT Press.
+
+- Fodor, J.A. & Pylyshyn, Z.W. (1988). [Connectionism and Cognitive Architecture: A Critical Analysis](https://doi.org/10.1016/0010-0277(88)90031-5). *Cognition*, 28(1–2), 3–71.
+
+- Bratman, M.E. (1987). [*Intention, Plans, and Practical Reason*](https://books.google.com/books?id=IntentionPlansBratman). Harvard University Press.
+
+- Baars, B.J. (1988). [*A Cognitive Theory of Consciousness*](https://books.google.com/books/about/A_Cognitive_Theory_of_Consciousness.html). Cambridge University Press.
+
+- Anderson, J.R., Bothell, D., Byrne, M.D., Douglass, S., Lebiere, C., & Qin, Y. (2004). [An Integrated Theory of the Mind](https://doi.org/10.1037/0033-295X.111.4.1036). *Psychological Review*, 111(4), 1036–1060.
+
+- Rao, A.S. & Georgeff, M.P. (1995). [BDI Agents: From Theory to Practice](https://www.aaai.org/Library/ICMAS/1995/icmas95-038.php). *Proceedings of ICMAS-1995*, 312–319.
+
+### Modern Papers
+
+- Dehaene, S. & Changeux, J.-P. (2011). [Experimental and Theoretical Approaches to Conscious Processing](https://doi.org/10.1016/j.neuron.2011.03.018). *Neuron*, 70(2), 200–227.
+
+- Goyal, A. & Bengio, Y. (2020/2022). [Inductive Biases for Deep Learning of Higher-Level Cognition](https://arxiv.org/abs/2011.15091). arXiv:2011.15091.
+
+- Shen, Y. et al. (2023). [HuggingGPT: Solving AI Tasks with ChatGPT and its Friends in Hugging Face](https://arxiv.org/abs/2303.17580). arXiv:2303.17580.
+
+- Zhu, X. et al. (2023). [Ghost in the Minecraft: Generally Capable Agents for Open-World Environments via Large Language Models](https://arxiv.org/abs/2305.17144). arXiv:2305.17144.
+
+- Sumers, T.R., Yao, S., Narasimhan, K., & Griffiths, T.L. (2023). [Cognitive Architectures for Language Agents (CoALA)](https://arxiv.org/abs/2309.02427). arXiv:2309.02427. *TMLR*, 2024.
+
+- Packer, C. et al. (2023). [MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560). arXiv:2310.08560.
+
+- Yuan, F. et al. (2025). [Natural Language to Generative Symbolic Rules for SOAR Cognitive Architecture via Large Language Models](https://arxiv.org/abs/2510.09355). arXiv:2510.09355.
+
+### Resources
+
+- [SOAR Cognitive Architecture](http://soar.eecs.umich.edu/) — University of Michigan, Laird Lab
+- [ACT-R Research Group](https://act-r.psy.cmu.edu/) — Carnegie Mellon University
+- [Jason AgentSpeak Interpreter](http://jason.sourceforge.net/) — BDI implementation in Java
+- [CoALA Repo: Awesome Language Agents](https://github.com/ysymyth/awesome-language-agents) — curated list of LLM agent papers organized by CoALA framework
+- Wang, G. et al. (2023). [Voyager: An Open-Ended Embodied Agent with Large Language Models](https://arxiv.org/abs/2305.16291). arXiv:2305.16291 — lifelong skill library accumulation in Minecraft
+- [Wikipedia: Cognitive Architecture](https://en.wikipedia.org/wiki/Cognitive_architecture) — useful overview of the landscape of architectures including EPIC, CLARION, and others not covered here
+
+---
+
+*Back to [Topics →](topics.qmd) · See also: [Agents and Philosophy →](philosophy-agents.qmd) · [Reasoning & Planning →](reasoning.qmd) · [Memory, Tools & Actions →](memory-tools.qmd)*
