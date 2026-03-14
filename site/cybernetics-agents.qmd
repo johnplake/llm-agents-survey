@@ -136,7 +136,11 @@ Maturana and Varela drew a sharp distinction between an autopoietic system's *or
 
 The autopoietic question applied to LLM agents: *is an agent that modifies its own memory, tools, and code autopoietic?* In a formal sense, current LLM agents are not — they do not produce their own substrates. But self-modifying agents like Voyager (§7) that write and store their own skill libraries, or Darwin Gödel Machines that rewrite their own code, approach the autopoietic boundary.
 
-Niklas Luhmann extended autopoiesis into social theory: social systems, in his framework, are autopoietic systems whose elements are *communications* — meaning that communication reproduces communication, not individual acts or persons. Applied to multi-agent systems: the communication structure of an agent society can be understood as an autopoietic system in its own right, with emergent properties not reducible to individual agents. See Luhmann's *Social Systems* (Stanford University Press, 1995; orig. *Soziale Systeme*, Suhrkamp, 1984).
+Niklas Luhmann extended autopoiesis into social theory in *[Social Systems](https://www.sup.org/books/sociology/social-systems)* (Stanford University Press, 1995; trans. John Bednarz, Jr. with Dirk Baecker; orig. *Soziale Systeme*, Suhrkamp, 1984). For Luhmann, social systems are autopoietic systems whose *elements* are communications — not people, not intentions, not acts, but communications that reproduce communications. A social system maintains its boundary and identity by continually processing communications according to its own operational codes, excluding everything else as "environment."
+
+Two Luhmannian concepts have direct purchase for multi-agent LLM systems. The first is **double contingency**: when two systems interact, each must assume the other is a contingent decision-maker whose behavior is not determined by any single factor — including the first system's own actions. Each can respond to the other's responses, creating an irreducibly recursive loop. Luhmann argues that social order emerges not *despite* this uncertainty but *through* it: double contingency forces systems to develop stable communicative expectations, which crystallize into norms, roles, and institutions. In multi-agent LLM systems, double contingency is not an edge case but the structural default — each agent must model the other as a system capable of producing unexpected outputs, and the coordination patterns that emerge (turn-taking, delegation, trust) are exactly the structural regularities that Luhmann's framework predicts. Multi-agent coordination is thus fundamentally different from single-agent optimization: it is not merely more complex, but constitutively social.
+
+The second concept is **meaning** (*Sinn*): for Luhmann, every communication operates against a horizon of unrealized possibilities. A message is not just what it says — it is what it *selects* from a field of what it could have said, and those unrealized possibilities remain present as context. This maps structurally onto LLM output generation: each token is a selection from a probability distribution over alternatives, and the meaning of any output is constituted partly by what was *not* generated. Luhmann's framework suggests that the "meaning" of an LLM's response cannot be understood without attending to the context — the horizon of possibilities — from which it was selected. Applied to multi-agent systems: the communication structure of an agent society can be understood as an autopoietic system in its own right, with emergent properties not reducible to individual agents.
 
 ---
 
@@ -270,6 +274,46 @@ One underappreciated concept from Beer is the *management amplifier*: a mechanis
 
 ---
 
+## 9. Critical and Continental Perspectives
+
+The cybernetic tradition extends well beyond Anglophone systems theory. Critical scholarship, continental philosophy of technology, and the Soviet intellectual tradition each produced thinkers who engaged directly with cybernetics — and whose frameworks sharpen our analysis of LLM agents in ways that the mainstream traditions often miss.
+
+### N. Katherine Hayles: Embodied Information and the Posthuman
+
+Where Shannon treated information as substrate-independent — a measure of uncertainty separable from any particular physical medium — N. Katherine Hayles argues that this move was a conceptual error with far-reaching consequences. In *[How We Became Posthuman: Virtual Bodies in Cybernetics, Literature, and Informatics](https://press.uchicago.edu/ucp/books/book/chicago/H/bo3769963.html)* (University of Chicago Press, 1999), Hayles traces how the postwar cybernetic tradition, beginning with the Macy Conferences, came to treat information as disembodied — able to "travel" from one physical substrate to another while remaining invariant. Her argument: this disembodiment was not a discovery but a *construction*, achieved by abstracting away precisely the material features that make information meaningful.
+
+Hayles is not rejecting cybernetics but critiquing it from within. She distinguishes between **pattern and randomness** (Shannon's poles) and **presence and absence** (the phenomenological register that Shannon's framework excludes). Information always has a body — it is always *enacted* in a specific material substrate — and eliding that embodiment has costs: it licenses the fantasy that consciousness is substrate-independent, that brains are interchangeable with silicon, that persons are information patterns that could be "downloaded."
+
+The **relevance to LLM agents** is pointed. Arguments that LLMs "know" or "believe" things in a substrate-independent way — that knowledge is simply a pattern in the weights, portable across hardware — reproduce exactly the disembodiment move that Hayles critiques. The same weights on different hardware may be computationally identical, but Hayles would press: what counts as "the same"? Information is always instantiated; an LLM's "knowledge" is not separable from the architecture, training regime, and hardware that realize it. This matters for questions of capability transfer, deployment, and model evaluation.
+
+Hayles' later work deepens this analysis. *[Unthought: The Power of the Cognitive Nonconscious](https://press.uchicago.edu/ucp/books/book/chicago/U/bo25861765.html)* (University of Chicago Press, 2017) argues that cognition — pattern recognition and response to environmental change — is far more widespread than consciousness, and that technical cognizers (neural networks, robots, information systems) already participate in cognitive assemblages with humans. This framework directly addresses LLMs: they are cognitive systems in Hayles' sense even without any claim to consciousness, and their entanglement with human cognizers produces hybrid cognitive dynamics that neither a purely behaviorist nor a purely internalist account can capture. Her earlier *[Writing Machines](https://direct.mit.edu/books/book/2567/Writing-Machines)* (MIT Press, 2002) explored how material instantiation shapes the meaning of digital text — a theme that resonates with debates about whether LLM outputs mean anything independently of the human interpretive context in which they are received.
+
+### Gilbert Simondon: Individuation, Transduction, and the Process Ontology of Technical Objects
+
+Gilbert Simondon (1924–1989) is the French philosopher of technology who, writing in direct dialogue with the cybernetic tradition, developed perhaps the most sophisticated philosophical account of what it means for a technical object to *become* — to individuate, develop, and persist in relation to its environment.
+
+In *[On the Mode of Existence of Technical Objects](https://www.upress.umn.edu/9781517904876/on-the-mode-of-existence-of-technical-objects/)* (1958; English trans. Cecile Malaspina & John Rogove, Univocal Publishing, 2017, ISBN 9781517904876), Simondon argues against treating machines as mere instruments — tools whose value is entirely in their use by humans. Instead, he develops an ontology of **technical objects** as entities with their own mode of existence: they individuate, develop internal coherence (*concretization*), and evolve in relation to their environment. The mature technical object is not a collection of parts fulfilling a function but a *convergent* structure in which each element serves multiple functions simultaneously — a whole that is more than the sum of its parts.
+
+Simondon's deeper metaphysical contribution is his theory of **individuation**, developed in *[Individuation in Light of Notions of Form and Information](https://www.upress.umn.edu/9780816680023/individuation-in-light-of-notions-of-form-and-information/)* (1958/2005; English trans. Taylor Adkins, University of Minnesota Press, 2020). Against Aristotelian hylomorphism — the idea that form is simply imposed on passive matter — Simondon argues that individuals are not pre-formed entities but *processes*: individuation is the ongoing operation by which an individual emerges from and remains in relation to a **pre-individual field** of potentials. Nothing is simply "given" as an individual; individuation is always in progress.
+
+The key operation is **transduction**: the propagation of an activity from one domain to another, where each domain's resolution provides the conditions for the next domain's constitution. Simondon illustrates with a crystal growing in a supersaturated solution — the crystalline structure propagates outward as each newly formed layer provides the template for the next. This is not mere information transfer; it is the constitution of structure as it propagates.
+
+**Applied to LLM agents**, Simondon's framework yields several productive reframings. First, an LLM is not a fixed object (a weight tensor in storage) but a process that individuates anew with each inference — the same weights produce a different individual depending on context, conversation history, tool environment, and hardware. This resonates with the "instance agent" framing in contemporary agent philosophy: the relevant unit of analysis is not the model but the running instance. Second, Simondon's transduction maps onto the layer-by-layer propagation of attention in transformer architectures: each layer's representation provides the structured field from which the next layer's activity emerges. Third, his critique of hylomorphism challenges input–output views of LLMs (treating the prompt as passive "matter" that the model "forms") by pointing to the emergent, relational character of the output — neither pre-given in the input nor pre-formed in the weights, but constituted in the operation between them.
+
+Simondon was a direct intellectual contemporary of the cybernetics movement — he engaged with Wiener, Shannon, and the broader cybernetic circle in France — and his work is best read as a philosophical elaboration of cybernetic themes, not merely a critique from outside.
+
+### Viktor Glushkov and the Soviet Cybernetic Tradition
+
+The history of cybernetics is not a purely American or British story. In the Soviet Union, an independent and formidable cybernetic tradition developed under **Viktor Glushkov** (1923–1982), mathematician and director of the Institute of Cybernetics in Kyiv — sometimes called the "founding father of Soviet cybernetics" (see [Cybernetics in the Soviet Union — Wikipedia](https://en.wikipedia.org/wiki/Cybernetics_in_the_Soviet_Union)).
+
+Glushkov's technical contributions spanned abstract automata theory, the mathematical foundations of digital computing, and the theory of information transformations. His most ambitious project was **OGAS** (Общегосударственная автоматизированная система — "All-State Automated System"), proposed in 1962: a nationwide real-time computer network, using the existing telephone infrastructure, for managing the Soviet economy. OGAS would have linked a central computing facility in Moscow with up to 200 regional centers and 20,000 local terminals, allowing any node to communicate with any other in real time. Glushkov further envisioned moving the Soviet Union toward a moneyless electronic economy managed through the network — a distributed information system at national scale.
+
+OGAS was never built. As Benjamin Peters recounts in *[How Not to Network a Nation: The Uneasy History of the Soviet Internet](https://mitpress.mit.edu/9780262534666/how-not-to-network-a-nation/)* (MIT Press, 2016), the project was defeated not by technical failure but by bureaucratic competition — each ministry, unwilling to share its data with the others, quietly obstructed the proposal. Peters' central irony is pointed: it was the *capitalist* actors (American corporations and universities building ARPANET) who cooperated on network infrastructure, while the *socialist* actors (Soviet ministries) refused to share resources. The proposal predated ARPANET's initial funding in 1966 and represents a distinct, parallel path in the history of computer networking.
+
+**Glushkov's relevance to LLM agent systems** is primarily historical and political-structural. OGAS was conceived as a distributed, multi-node system for coordinating complex resource allocation across a large, heterogeneous network — precisely the structure of modern large-scale multi-agent deployments (see [Multi-Agent Systems →](multiagent.qmd)). His project also illustrates an enduring question that the American cybernetic tradition tended to elide: distributed information systems are not politically neutral. Who controls the network, who shares data with whom, and who can refuse — these are not merely technical questions but questions of governance and power. As multi-agent systems scale to organizational and infrastructure levels, Glushkov's history is a reminder that the governance structures surrounding information networks shape them as profoundly as the technical protocols.
+
+---
+
 ## The Synthesis: Why Cybernetics Matters for Agent Research
 
 Cybernetics provides something that the current agent literature often lacks: a **unified theoretical vocabulary** for control, communication, and adaptation that spans biology, organizations, and machines. The recurring themes:
@@ -313,8 +357,14 @@ As LLM agents grow more complex — multi-agent, self-modifying, recursively sel
 - Holland, J.H. (1975). *Adaptation in Natural and Artificial Systems*. University of Michigan Press; repr. MIT Press, 1992. [MIT Press](https://direct.mit.edu/books/monograph/2574/Adaptation-in-Natural-and-Artificial-SystemsAn)
 - Prigogine, I. & Stengers, I. (1984). *Order Out of Chaos: Man's New Dialogue with Nature*. Bantam Books. [archive.org](https://archive.org/details/orderoutofchaosm00prig)
 - Kauffman, S.A. (1993). *The Origins of Order: Self-Organization and Selection in Evolution*. Oxford University Press.
-- Luhmann, N. (1984/1995). *Social Systems*. Stanford University Press. [Stanford UP](https://www.sup.org/books/title/?id=2256)
+- Luhmann, N. (1984/1995). *Social Systems*. Stanford University Press. Trans. John Bednarz, Jr. with Dirk Baecker. [Stanford UP](https://www.sup.org/books/sociology/social-systems)
 - Boyd, J.R. (1986). *Patterns of Conflict* (unpublished briefing). [PDF via coljohnboyd.com](https://www.coljohnboyd.com/static/documents/1986-12__Boyd_John_R__Patterns_of_Conflict__PPT-PDF.pdf)
+- Hayles, N.K. (1999). *How We Became Posthuman: Virtual Bodies in Cybernetics, Literature, and Informatics*. University of Chicago Press. [UChicago Press](https://press.uchicago.edu/ucp/books/book/chicago/H/bo3769963.html)
+- Hayles, N.K. (2002). *Writing Machines*. MIT Press. [MIT Press](https://direct.mit.edu/books/book/2567/Writing-Machines)
+- Hayles, N.K. (2017). *Unthought: The Power of the Cognitive Nonconscious*. University of Chicago Press. [UChicago Press](https://press.uchicago.edu/ucp/books/book/chicago/U/bo25861765.html)
+- Simondon, G. (1958/2017). *On the Mode of Existence of Technical Objects*. Trans. Cecile Malaspina & John Rogove. Univocal Publishing. ISBN 9781517904876. [UMN Press](https://www.upress.umn.edu/9781517904876/on-the-mode-of-existence-of-technical-objects/)
+- Simondon, G. (1958/2020). *Individuation in Light of Notions of Form and Information*. Trans. Taylor Adkins. University of Minnesota Press. [UMN Press](https://www.upress.umn.edu/9780816680023/individuation-in-light-of-notions-of-form-and-information/)
+- Peters, B. (2016). *How Not to Network a Nation: The Uneasy History of the Soviet Internet*. MIT Press. [MIT Press](https://mitpress.mit.edu/9780262534666/how-not-to-network-a-nation/)
 
 ### Modern Papers
 
@@ -340,6 +390,12 @@ As LLM agents grow more complex — multi-agent, self-modifying, recursively sel
 - [Echo State Networks — Scholarpedia](http://www.scholarpedia.org/article/Echo_state_network)
 - [Stafford Beer bibliography — Systems Talk](https://www.systalk.org/stafford-beer/)
 - [Heinz von Foerster — Monoskop](https://monoskop.org/Heinz_von_Foerster)
+- [N. Katherine Hayles — Wikipedia](https://en.wikipedia.org/wiki/N._Katherine_Hayles)
+- [Gilbert Simondon — Wikipedia](https://en.wikipedia.org/wiki/Gilbert_Simondon)
+- [Victor Glushkov — Wikipedia](https://en.wikipedia.org/wiki/Victor_Glushkov)
+- [OGAS — Wikipedia](https://en.wikipedia.org/wiki/OGAS)
+- [Cybernetics in the Soviet Union — Wikipedia](https://en.wikipedia.org/wiki/Cybernetics_in_the_Soviet_Union)
+- [How the Soviets invented the internet and why it didn't work — Aeon](https://aeon.co/essays/how-the-soviets-invented-the-internet-and-why-it-didnt-work)
 
 ---
 

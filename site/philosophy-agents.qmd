@@ -653,6 +653,8 @@ remains contested. An LLM can produce extensive coherent claims about "Napoleon"
 its internal representations may be anchored entirely to textual co-occurrence patterns
 rather than to the actual historical person.
 
+[Fierro et al. (2024)](https://arxiv.org/abs/2410.02499), "Defining Knowledge: Bridging Epistemology and Large Language Models" (arXiv:2410.02499; *EMNLP 2024*), provides the most systematic bridge between classical epistemology and contemporary NLP. The authors review standard knowledge definitions — JTB, reliabilist, virtue-epistemological, and knowledge-first accounts — and formalize interpretations applicable to LLMs. They survey 100 professional philosophers and computer scientists, revealing significant disagreement: philosophers emphasize justification and reliability conditions that LLMs systematically lack, while CS researchers focus on functional accuracy. Fierro et al. identify inconsistencies in how current NLP research conceptualizes knowledge and propose evaluation protocols sensitive to which definition is adopted. Their survey finding is striking: most professionals — regardless of field — are skeptical that GPT-4 "truly knows" the Earth is round in any philosophically robust sense, but disagree substantially about *why*.
+
 ### B. Language Models as Knowledge Bases
 
 How much factual knowledge do LLMs actually store, and where? A major empirical literature
@@ -750,6 +752,9 @@ which patterns are activated. This inconsistency reveals that the underlying
 representations are not structured as unified propositional beliefs but as overlapping
 pattern-activation profiles that are form-sensitive in ways genuine beliefs would not be.
 
+
+**Calibrating both explicit and implicit confidence signals** is addressed by [Stengel-Eskin et al. (2024)](https://arxiv.org/abs/2405.21028), "Listener-Aware Finetuning for Confidence Calibration in Large Language Models" (arXiv:2405.21028; LACIE). The paper distinguishes *explicit* confidence markers (numeric probability estimates) from *implicit* ones (authoritative tone, inclusion of supporting detail) and trains a listener model to judge whether an LLM's expressed confidence will lead human evaluators to accept the answer. LACIE finetuning reduces incorrect answers accepted by humans by 47% without reducing acceptance of correct answers, and produces emergent abstention ("I don't know") for likely-wrong answers. This operationalizes the epistemic insight that genuine knowledge-ascription requires not just accuracy but *proper confidence expression* — the behavioral manifestation of knowing the limits of one's own knowledge.
+
 ### D. Reading Beliefs from Internal Representations
 
 If LLMs have something like beliefs, those beliefs should be visible in their internal
@@ -806,6 +811,10 @@ discrete, separable, algebraically composable "beliefs" in a shared geometric sp
 providing an empirical basis for the functionalist claim that LLMs have genuine,
 if unusual, doxastic states.
 
+**Theory of Mind and multi-agent belief representations**: [Zhu et al. (2024)](https://arxiv.org/abs/2402.18496), "Language Models Represent Beliefs of Self and Others" (arXiv:2402.18496), provides evidence that LLMs encode *both* first-person and third-person belief states as linearly decodable directions in activation space. It is possible to linearly decode belief status from the perspectives of various agents through neural activations — indicating internal representations of both self-beliefs and others' beliefs. Crucially, *manipulating* these representations via activation steering causes dramatic changes in Theory of Mind (ToM) task performance, providing causal evidence that the internal belief representations actually drive ToM reasoning. This extends the interpretability findings from factual beliefs to social-epistemic states — belief attribution to others — opening questions about whether LLMs instantiate a functional form of mentalizing distinct from mere pattern-completion.
+
+**The geometry of truthfulness**: [Ying, Hase et al. (2026)](https://arxiv.org/abs/2602.20273), "The Truthfulness Spectrum Hypothesis" (arXiv:2602.20273), reconciles conflicting reports about whether LLMs linearly encode truthfulness by proposing that representational space contains a *spectrum* of truth directions ranging from broadly domain-general to narrowly domain-specific. Linear probes trained on one truth domain (definitional, empirical, logical, fictional, ethical) generalize across most domains but fail on sycophantic and expectation-inverted lying — suggesting sycophancy occupies a distinct region of truth-representation space. Strikingly, post-RLHF training *reshapes* truth geometry, pushing sycophantic lying further from other truth types — providing a representational basis for why chat-tuned models exhibit worse truth-maintenance under social pressure. The Mahalanobis cosine similarity between domain probe directions near-perfectly predicts cross-domain generalization (*R²* = 0.98), giving the "truthfulness spectrum" hypothesis precise geometric content.
+
 ### E. Knowledge Editing: What Does It Mean to Change a Belief?
 
 The ability to surgically alter specific LLM "beliefs" without disrupting general
@@ -844,6 +853,10 @@ inconsistent "beliefs" from different training sources, with no unified, self-co
 belief system. Which "belief" is expressed in response to a given query is a function of
 which pattern-associations the prompt activates — a picture of epistemic fragmentation
 that is hard to reconcile with genuine knowledge.
+
+**The localization-editing gap**: [Hase et al. (2023)](https://arxiv.org/abs/2301.04213), "Does Localization Inform Editing? Surprising Differences in Causality-Based Localization vs. Knowledge Editing in Language Models" (arXiv:2301.04213; *NeurIPS 2023 Spotlight*), challenges a core assumption behind ROME and related methods: that causal tracing tells us *where* to intervene for successful editing. Hase et al. find that the MLP layers most causally implicated by representation-denoising in storing a fact are *not* reliably the best layers to edit in order to change that fact. Localization and editability dissociate — mechanistic understanding of where a belief is stored does not straightforwardly translate into the ability to change it. This complicates the database analogy: LLM "beliefs" are not like database rows that can be overwritten at their storage address. The relationship between causal structure, storage location, and editability is subtler, and the belief-revision problem is correspondingly harder than early editing research assumed.
+
+**Rationalizing belief revision as a formal problem**: [Hase et al. (2024)](https://arxiv.org/abs/2406.19354), "Fundamental Problems With Model Editing: How Should Rational Belief Revision Work in LLMs?" (arXiv:2406.19354; *TMLR 2024*), provides the most philosophically systematic treatment of the model-editing problem. The paper catalogs 12 open problems organized around three clusters: (1) *defining* what it means for an LLM to hold an "editable belief" at all; (2) *benchmarking* editing success given the problems of logical entailment and far-reaching consequences; and (3) *assuming* that LLMs have editable beliefs in the first place — an assumption the paper questions empirically. Connecting to the AGM belief-revision tradition in philosophy (Alchourrón, Gärdenfors, Makinson), Hase et al. introduce a semi-synthetic dataset where an idealized Bayesian agent serves as gold standard, enabling direct evaluation of how LLM belief revision falls short of rational norms. The paper frames model editing as philosophically continuous with decades of formal belief-revision theory — and argues that the engineering problem and the philosophical problem must be solved together.
 
 ### F. Hallucination as Belief Failure
 
@@ -1063,7 +1076,21 @@ are epistemically reliable. Together, this body of work represents the most tech
 precise and philosophically systematic defense of the view that LLMs genuinely have
 propositional attitudes, grounded in mainstream philosophy of mind rather than hype.
 
-### H. Synthesis: Functional Beliefs vs. Genuine Beliefs
+**The belief-detection methodology**: [Hase et al. (2021)](https://arxiv.org/abs/2111.13654), "Do Language Models Have Beliefs? Methods for Detecting, Updating, and Visualizing Model Beliefs" (arXiv:2111.13654), directly asks the title question and offers empirical methodology for answering it. Drawing explicitly on Dennett's argument that even thermostats have beliefs if belief is just an informational state decoupled from motivation, they develop three contributions: (1) consistency-focused metrics for evaluating whether a model holds a belief robustly across phrasings; (2) the **SLAG** (Sequential, Local, Generalizing) training objective for learned optimizers that improve belief-update consistency; and (3) the *belief graph* — a visualization interface showing interdependencies between model beliefs and how they propagate through inferential chains. Their empirical finding is measured: models possess belief-like qualities to only a limited extent, but targeted update methods can both fix incorrect beliefs and substantially improve their consistency. The belief graph offers a novel interface for exploring the *holism* (or lack thereof) of LLM belief systems — a direct probe of the coherentist question raised by MEMIT and ROME.
+
+**Coherence norms and the rationality of belief**: [Hofweber (2024)](https://arxiv.org/abs/2406.03442), "Are Language Models Rational? The Case of Coherence Norms and Belief Revision" (arXiv:2406.03442), asks whether norms of rationality — specifically coherence norms — apply to LLMs. Hofweber distinguishes logical coherence norms (no contradictory beliefs) from probabilistic coherence norms governing the *strength* of belief. He introduces the **Minimal Assent Connection** (MAC): a proposal that assigns strength of belief to a language model on the basis of its internal next-token probabilities, giving LLM credence a precise operationalization in terms of model internals rather than elicited verbal responses. On this account, coherence norms *do* apply to some LLMs — those whose token probabilities are properly calibrated — but not to others. Hofweber connects this to AI safety: whether a system's beliefs are coherent is directly relevant to the reliability of its inferences and thus to predicting and explaining its behavior.
+
+**Empirical and conceptual barriers to belief measurement**: [Levinstein & Herrmann (2023)](https://arxiv.org/abs/2307.00175), "Still No Lie Detector for Language Models: Probing Empirical and Conceptual Roadblocks" (arXiv:2307.00175; *Philosophical Studies*, 2024), evaluates two influential approaches to measuring LLM beliefs — Azaria & Mitchell's (2023) internal-state probing method and Burns et al.'s (2022) CCS method — and shows empirically that both fail to generalize across domains and models in basic ways. Beyond empirical failures, the paper argues for a *conceptual* roadblock: even if LLMs have beliefs, current probing methods are unlikely to detect them reliably, because of the multiple realizability of belief and the underdetermination of belief content by behavioral evidence. Crucially, having critiqued dismissive deflationism ("LLMs obviously can't have beliefs"), the paper provides a constructive reframing: the question of LLM belief is *empirical*, not settled by a priori argument, and concrete paths forward include richer consistency checks and causal methods. This paper is notably the precursor to Herrmann & Levinstein's (2025) positive standards framework reviewed above.
+
+### H. Introspection and Self-Knowledge
+
+A distinctive dimension of the belief-knowledge problem concerns whether LLMs have genuine *self-knowledge* — privileged access to their own internal states — or merely model themselves by the same inference mechanisms they apply to external entities.
+
+[Binder et al. (2024)](https://arxiv.org/abs/2410.13787), "Looking Inward: Language Models Can Learn About Themselves by Introspection" (arXiv:2410.13787), provides the most direct experimental treatment. They define introspection operationally as *acquiring knowledge that originates from internal states rather than training data* — knowledge a model has about itself that is not derivable from its training corpus. Their method: fine-tune model M1 to predict its own behavior in hypothetical scenarios, and compare to a different model M2 trained on M1's ground-truth behavior. If M1 genuinely introspects, it should outperform M2 in predicting M1's behavior, because M1 has *privileged access* to its own behavioral tendencies. In experiments with GPT-4, GPT-4o, and Llama-3, they find that M1 does outperform M2 — and continues to do so even after M1's ground-truth behavior is intentionally modified, suggesting the self-model updates appropriately. However, introspection fails on complex tasks and out-of-distribution inputs, suggesting limited, bounded self-knowledge rather than robust privileged access.
+
+The Binder et al. findings connect to Lederman & Mahowald (2025)'s work on dissociating direct access from inference in introspection (§G above): both groups converge on the view that LLM self-knowledge is partial, domain-dependent, and probabilistic — structurally closer to the fallible justified-belief model than to the infallible Cartesian self-transparency often assumed in philosophical accounts of privileged access. This makes LLM self-knowledge a tractable empirical question rather than an all-or-nothing metaphysical one.
+
+### I. Synthesis: Functional Beliefs vs. Genuine Beliefs
 
 The evidence converges on a stable, if unsatisfying, picture: LLMs have something that
 *functions* like beliefs — internal states that encode propositional content, are
@@ -1104,9 +1131,17 @@ The practical stakes for **agent design** are clear regardless of philosophical 
 - **Retrieval augmentation** addresses the parametric-contextual conflict (Xu et al.)
   by grounding assertions in verified, current sources rather than in potentially stale
   or inconsistent weight-stored patterns.
-- **Honesty-direction steering** (Zou et al.) and truth-probing (Marks & Tegmark)
+- **Honesty-direction steering** (Zou et al.) and truth-probing (Marks & Tegmark, Ying et al.)
   connect the model's internal epistemic signal to its assertion behavior — engineering
   implementations of the knowledge norm of assertion.
+- **Belief-graph visualization and SLAG updating** (Hase et al., 2021) provide tools for
+  detecting and improving the coherence and consistency of LLM belief structures —
+  directly addressing the uniformity criterion in Herrmann & Levinstein's standards.
+- **Calibrated confidence expression** (Stengel-Eskin et al. LACIE) ensures that
+  epistemic signals are communicated faithfully to users, not merely encoded internally.
+- **Bounded introspective access** (Binder et al.) establishes that LLMs have partial,
+  domain-limited self-knowledge — a prerequisite for genuine epistemic self-monitoring
+  that current systems approach but do not fully achieve.
 
 The emerging consensus across philosophy and CS — captured by Shevlin's "minimal
 cognitive agents" framework, operationalized by Herrmann & Levinstein's standards, and
@@ -1162,6 +1197,7 @@ design and governance of LLM-based agents:
 - Belinkov, Y. (2022). [Probing Classifiers: Promises, Shortcomings, and Advances](https://arxiv.org/abs/2102.12452). *Computational Linguistics*, 48(1):207–219. arXiv:2102.12452.
 - Bender, E. M., & Koller, A. (2020). [Climbing towards NLU: On Meaning, Form, and Understanding in the Age of Data](https://aclanthology.org/2020.acl-main.463/). *ACL 2020*. ACL Anthology.
 - Bender, E. M., Gebru, T., McMillan-Major, A., & Shmitchell, S. (2021). [On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?](https://doi.org/10.1145/3442188.3445922) *FAccT 2021*. ACM. DOI: 10.1145/3442188.3445922.
+- Binder, F., Chua, J., Korbak, T., Sleight, H., Hughes, J., Long, R., Perez, E., Turpin, M., & Evans, O. (2024). [Looking Inward: Language Models Can Learn About Themselves by Introspection](https://arxiv.org/abs/2410.13787). arXiv:2410.13787.
 - Bratman, M. (1987). *[Intention, Plans, and Practical Reason](https://www.hup.harvard.edu/books/9780674458185)*. Harvard University Press.
 - Bubeck, S. et al. (2023). [Sparks of Artificial General Intelligence: Early Experiments with GPT-4](https://arxiv.org/abs/2303.12712). arXiv:2303.12712.
 - Butlin, P., Long, R., Schwitzgebel, E., Bengio, Y., et al. (2023). [Consciousness in Artificial Intelligence: Insights from the Science of Consciousness](https://arxiv.org/abs/2308.08708). arXiv:2308.08708.
@@ -1176,6 +1212,8 @@ design and governance of LLM-based agents:
 - Dreyfus, H. L. (1992). *[What Computers Still Can't Do](https://mitpress.mit.edu/9780262540674/what-computers-still-cant-do/)*. MIT Press.
 - Elhage, N. et al. (2022). [Toy Models of Superposition](https://transformer-circuits.pub/2022/toy_model/index.html). *Transformer Circuits Thread*, Anthropic.
 - Elazar, Y., Kassner, N., Ravfogel, S., Ravichander, A., Hovy, E., Schütze, H., & Goldberg, Y. (2021). [Measuring and Improving Consistency in Pretrained Language Models](https://arxiv.org/abs/2102.01017). *TACL*, 9:1964–1981. arXiv:2102.01017.
+
+- Fierro, C., Søgaard, A., & Goldsmith, J. (2024). [Defining Knowledge: Bridging Epistemology and Large Language Models](https://arxiv.org/abs/2410.02499). *EMNLP 2024*. arXiv:2410.02499.
 - Fodor, J. A. (1975). *[The Language of Thought](https://www.hup.harvard.edu/books/9780674510302)*. Harvard University Press.
 - Floridi, L., & Cowls, J. (2019). [A Unified Framework of Five Principles for AI in Society](https://doi.org/10.1162/99608f92.8cd550d1). *Harvard Data Science Review*, 1(1). DOI: 10.1162/99608f92.8cd550d1.
 - Frankfurt, H. G. (1971). [Freedom of the Will and the Concept of a Person](https://www.pdcnet.org/jphil/content/jphil_1971_0068_0001_0005_0020). *Journal of Philosophy*, 68(1), 5–20.
@@ -1186,13 +1224,18 @@ design and governance of LLM-based agents:
 - Grzankowski, A., Keeling, G., Shevlin, H., & Street, W. (2025). [Deflating Deflationism: A Critical Perspective on Debunking Arguments Against LLM Mentality](https://arxiv.org/abs/2506.13403). arXiv:2506.13403.
 - Lederman, H., & Mahowald, K. (2024). [Are Language Models More Like Libraries or Like Librarians? Bibliotechnism, the Novel Reference Problem, and the Attitudes of LLMs](https://arxiv.org/abs/2401.04854). *Transactions of the Association for Computational Linguistics*. arXiv:2401.04854.
 - Lederman, H., & Mahowald, K. (2025). [Dissociating Direct Access and Inference in AI Introspection](https://arxiv.org/abs/2603.05414). arXiv:2603.05414.
+- Hase, P., Diab, M., Celikyilmaz, A., Li, X., Kozareva, Z., Stoyanov, V., Bansal, M., & Iyer, S. (2021). [Do Language Models Have Beliefs? Methods for Detecting, Updating, and Visualizing Model Beliefs](https://arxiv.org/abs/2111.13654). arXiv:2111.13654.
+- Hase, P., Bansal, M., Kim, B., & Ghandeharioun, A. (2023). [Does Localization Inform Editing? Surprising Differences in Causality-Based Localization vs. Knowledge Editing in Language Models](https://arxiv.org/abs/2301.04213). *NeurIPS 2023 Spotlight*. arXiv:2301.04213.
+- Hase, P., Hofweber, T., Zhou, X., Stengel-Eskin, E., & Bansal, M. (2024). [Fundamental Problems With Model Editing: How Should Rational Belief Revision Work in LLMs?](https://arxiv.org/abs/2406.19354) *TMLR 2024*. arXiv:2406.19354.
 - Herrmann, D. A., & Levinstein, B. A. (2025). [Standards for Belief Representations in LLMs](https://arxiv.org/abs/2405.21030). *Minds and Machines*, 2025. arXiv:2405.21030.
+- Hofweber, T. (2024). [Are Language Models Rational? The Case of Coherence Norms and Belief Revision](https://arxiv.org/abs/2406.03442). arXiv:2406.03442.
 - Huang, L., Yu, W., Ma, W., Zhong, W., Feng, Z., Wang, H., Chen, Q., Peng, W., Feng, X., Qin, B., & Liu, T. (2023). [A Survey on Hallucination in Large Language Models: Principles, Taxonomy, Challenges, and Open Questions](https://arxiv.org/abs/2311.05232). arXiv:2311.05232.
 - Ji, Z., Lee, N., Frieske, R., Yu, T., Su, D., Xu, Y., Ishii, E., Bang, Y., Madotto, A., & Fung, P. (2023). [Survey of Hallucination in Natural Language Generation](https://arxiv.org/abs/2202.03629). *ACM Computing Surveys*, 55(12):1–38. arXiv:2202.03629.
 - Juarrero, A. (1999). *[Dynamics in Action: Intentional Behavior as a Complex System](https://mitpress.mit.edu/9780262600477/dynamics-in-action/)*. MIT Press.
 - Kadavath, S. et al. (2022). [Language Models (Mostly) Know What They Know](https://arxiv.org/abs/2207.05221). arXiv:2207.05221. Anthropic.
 - Keeling, G., & Street, W. (2024). [On the Attribution of Confidence to Large Language Models](https://arxiv.org/abs/2407.08388). *Inquiry*, 2025. arXiv:2407.08388.
 - LeCun, Y. (2022). [A Path Towards Autonomous Machine Intelligence](https://openreview.net/pdf?id=BZ5a1r-kVsf). OpenReview (v0.9.2).
+- Levinstein, B. A., & Herrmann, D. A. (2023). [Still No Lie Detector for Language Models: Probing Empirical and Conceptual Roadblocks](https://arxiv.org/abs/2307.00175). *Philosophical Studies*, 2024. arXiv:2307.00175.
 - Lin, S., Hilton, J., & Evans, O. (2022). [TruthfulQA: Measuring How Models Mimic Human Falsehoods](https://arxiv.org/abs/2109.07958). *ACL 2022*. arXiv:2109.07958.
 - Marks, S., & Tegmark, M. (2023). [The Geometry of Truth: Emergent Linear Structure in Large Language Model Representations of True/False Datasets](https://arxiv.org/abs/2310.06824). arXiv:2310.06824.
 - Meng, K., Bau, D., Andonian, A., & Belinkov, Y. (2022). [Locating and Editing Factual Associations in GPT](https://arxiv.org/abs/2202.05262). *NeurIPS 2022*. arXiv:2202.05262. (ROME)
@@ -1216,6 +1259,7 @@ design and governance of LLM-based agents:
 - Shanahan, M. (2022). [Talking About Large Language Models](https://arxiv.org/abs/2212.03551). arXiv:2212.03551. (*Communications of the ACM*, 67(2):68–79, 2024.)
 - Shanahan, M. (2024). [Still "Talking About Large Language Models": Some Clarifications](https://arxiv.org/abs/2412.10291). arXiv:2412.10291.
 - Sharma, M., Tong, M., Korbak, T., Duvenaud, D., Askell, A., Bowman, S. R., et al. (2023). [Towards Understanding Sycophancy in Language Models](https://arxiv.org/abs/2310.13548). arXiv:2310.13548.
+- Stengel-Eskin, E., Brantley, K., & Daumé III, H. (2024). [Listener-Aware Finetuning for Confidence Calibration in Large Language Models](https://arxiv.org/abs/2405.21028). arXiv:2405.21028. (LACIE)
 - Shevlin, H. (2026). [Three Frameworks for AI Mentality](https://doi.org/10.3389/fpsyg.2026.1715835). *Frontiers in Psychology*, 17. DOI: 10.3389/fpsyg.2026.1715835.
 - Tononi, G. (2004). [An Information Integration Theory of Consciousness](https://doi.org/10.1186/1471-2202-5-42). *BMC Neuroscience*, 5, 42. DOI: 10.1186/1471-2202-5-42.
 - Turing, A. M. (1950). [Computing Machinery and Intelligence](https://doi.org/10.1093/mind/LIX.236.433). *Mind*, 59(236), 433–460. DOI: 10.1093/mind/LIX.236.433.
@@ -1223,6 +1267,8 @@ design and governance of LLM-based agents:
 - von Wright, G. H. (1963). *[Norm and Action: A Logical Enquiry](https://archive.org/details/normactionlogica0000wrig)*. Routledge & Kegan Paul.
 - Williamson, T. (2000). *[Knowledge and Its Limits](https://global.oup.com/academic/product/knowledge-and-its-limits-9780198250432)*. Oxford University Press.
 - Xu, Y., Pang, W., Shi, J., Wang, X., Zhao, X., Wu, W., Chen, X., & Xu, Z. (2024). [Knowledge Conflicts for LLMs: A Survey](https://arxiv.org/abs/2403.08319). *EMNLP 2024*. arXiv:2403.08319.
+- Ying, Z., Gekhman, Z., Geva, M., Lobacheva, E., Hase, P., & Brauner, L. (2026). [The Truthfulness Spectrum Hypothesis](https://arxiv.org/abs/2602.20273). arXiv:2602.20273.
+- Zhu, W., Xu, Z., Liu, P., & Qiu, X. (2024). [Language Models Represent Beliefs of Self and Others](https://arxiv.org/abs/2402.18496). arXiv:2402.18496.
 - Zou, A., Phan, L., Chen, S., Campbell, J., Guo, P., Ren, R., Pan, A., Yin, R., Mazeika, M., Dombrowski, A., Goel, S., Li, N., Byun, M. J., Wang, Z., Mallen, A., Basart, S., Koyejo, S., Song, D., Fredrikson, M., Kolter, J. Z., & Hendrycks, D. (2023). [Representation Engineering: A Top-Down Approach to AI Transparency](https://arxiv.org/abs/2310.01405). arXiv:2310.01405.
 
 ### Reference Works (Stanford Encyclopedia of Philosophy)
