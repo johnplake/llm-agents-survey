@@ -90,7 +90,9 @@ Research on agent failure patterns has produced increasingly systematic classifi
 
 **["Why Do Multi-Agent LLM Systems Fail?"](https://arxiv.org/abs/2503.13657)** — Cemri, Pan, Yang, et al. (NeurIPS 2025 Datasets & Benchmarks, from Berkeley: Zaharia, Gonzalez, Stoica et al.) introduce **MAST** (Multi-Agent System Failure Taxonomy) and **MAST-Data**, the first dataset specifically designed to capture the failure dynamics of multi-agent LLM systems. The authors build a systematic classification of MAS failures and provide actionable guidance for future system design.
 
-**["Where LLM Agents Fail and How They Can Learn From Failures"](https://arxiv.org/abs/2509.25370)** — Zhu, Liu, Li, et al. (2025) study *cascading failures* in agents that integrate planning, memory, reflection, and tool use. Their key finding: single root-cause errors propagate through sophisticated architectures, amplifying the original mistake into task-level failure. The paper proposes a two-stage detector for moving from descriptive taxonomies to actionable debugging.
+**["Where LLM Agents Fail and How They Can Learn From Failures"](https://arxiv.org/abs/2509.25370)** — Zhu, Liu, Li, et al. (2025) study *cascading failures* in agents that integrate planning, memory, reflection, and tool use. Their key finding: single root-cause errors propagate through sophisticated architectures, amplifying the original mistake into task-level failure. The paper introduces three artifacts: **AgentErrorTaxonomy** (a modular classification of failure modes spanning memory, reflection, planning, action, and system operations), **AgentErrorBench** (the first dataset of systematically annotated failure trajectories from ALFWorld, GAIA, and WebShop), and **AgentDebug** (a debugging framework that isolates root-cause failures and provides corrective feedback, achieving 24% higher all-correct accuracy vs. the strongest baseline).
+
+A third complementary study takes a software-engineering perspective: **["Characterizing Faults in Agentic AI: A Taxonomy of Types, Symptoms, and Root Causes"](https://arxiv.org/abs/2603.06847)** (Shah et al., 2026) performs a large-scale empirical study of 13,602 issues and pull requests from 40 open-source agentic AI repositories. Applying grounded theory to 385 sampled faults, the authors derive **37 distinct fault types grouped into 13 higher-level fault categories**, 13 classes of observable symptoms, and 12 categories of root causes. A key finding: many failures originate from mismatches between probabilistically generated artifacts and deterministic interface constraints—a distinct failure pattern not captured by prior LLM-centric taxonomies. Association rule mining reveals recurring propagation pathways (e.g., token management faults leading to authentication failures). The taxonomy was validated by 145 practitioners, 83.8% of whom reported it covered faults they had personally encountered.
 
 The empirically observed failure modes break down as follows:
 
@@ -107,7 +109,7 @@ An underexplored technique is **checkpoint-based replay**: serializing full agen
 
 **Trajectory-level analysis** (assessing whether the overall plan was coherent) and **step-level analysis** (inspecting each individual action's input/output) provide complementary diagnostic views. Trajectory analysis catches high-level planning failures (wrong goal decomposition, circular plans); step analysis catches execution bugs (tool call format errors, context misuse). Effective debugging workflows alternate between both perspectives.
 
-**["An Open Toolkit for Diagnosing LLM Agent Trajectories"](https://aclanthology.org/2025.emnlp-demos.15.pdf)** (EMNLP 2025 Demos) presents tooling specifically designed to visualize and provide feedback on agent trajectories, bridging the gap between raw logs and actionable diagnosis.
+**["AgentDiagnose: An Open Toolkit for Diagnosing LLM Agent Trajectories"](https://aclanthology.org/2025.emnlp-demos.15.pdf)** (Ou et al., EMNLP 2025 Demos) presents tooling specifically designed to visualize and provide feedback on agent trajectories, bridging the gap between raw logs and actionable diagnosis. AgentDiagnose quantifies five core agentic competencies (backtracking, task decomposition, observation reading, self-verification, and objective quality) and provides t-SNE action embeddings and state-transition timelines.
 
 A useful mental model for debugging is the **error propagation graph**: map each step in the trajectory as a node, and draw edges where a step's output becomes a later step's input. Failures often have a "root node" (first error) and a "symptom node" (observed failure), with potentially many intermediate steps that carry the corrupted state forward without themselves being wrong. Identifying the root node—rather than the most recent wrong step—is the key diagnostic goal.
 
@@ -117,7 +119,7 @@ A useful mental model for debugging is the **error propagation graph**: map each
 
 ### The Reliability Gap in Production
 
-Benchmark evaluations of LLM agents typically report *single-run success rates*, which mask a fundamental reliability problem. **[arXiv:2511.14136](https://arxiv.org/abs/2511.14136)** — "Beyond Accuracy: A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI Systems" — provides the clearest quantification: **agent performance drops from 60% on a single run to just 25% when evaluated for consistency across 8 runs**. The paper, which analyzes 12 benchmarks and evaluates six leading agents on 300 enterprise tasks, proposes the **CLEAR framework** (Cost, Latency, Efficacy, Assurance, Reliability) as a holistic evaluation standard for production deployments. Key additional findings: cost-unaware optimization yields agents that are 4.4–10.8× more expensive than cost-aware alternatives with comparable task performance; expert evaluation (N=15) confirms CLEAR predicts production success better than accuracy alone (ρ=0.83).
+Benchmark evaluations of LLM agents typically report *single-run success rates*, which mask a fundamental reliability problem. **[arXiv:2511.14136](https://arxiv.org/abs/2511.14136)** — "A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI Systems" — provides the clearest quantification: **agent performance drops from 60% on a single run to just 25% when evaluated for consistency across 8 runs**. The paper, which analyzes 12 benchmarks and evaluates six leading agents on 300 enterprise tasks, proposes the **CLEAR framework** (Cost, Latency, Efficacy, Assurance, Reliability) as a holistic evaluation standard for production deployments. Key additional findings: cost-unaware optimization yields agents that are 4.4–10.8× more expensive than cost-aware alternatives with comparable task performance; expert evaluation (N=15) confirms CLEAR predicts production success better than accuracy alone (ρ=0.83).
 
 ### ReliabilityBench
 
@@ -157,6 +159,8 @@ Chain-of-thought (CoT) prompting reveals the model's "reasoning" as readable tex
 
 **["Dissociation of Faithful and Unfaithful Reasoning in LLMs"](https://arxiv.org/abs/2405.15092)** (2024) provides further evidence for two distinct reasoning modes—*faithful* (where the CoT genuinely reflects the inference process) and *unfaithful* (where the model arrives at the correct answer despite logically invalid reasoning text). Analysis of error recovery behaviors finds direct evidence of unfaithfulness: models can self-correct conclusions while their stated reasoning remains wrong. This dissociation limits CoT's utility as a debugging tool; the trace you are reading may not describe the computation that actually occurred.
 
+**["Chain-of-Thought Reasoning In The Wild Is Not Always Faithful"](https://arxiv.org/abs/2503.08679)** (Arcuschin et al., ICLR 2025 Reasoning Workshop) extends this finding to *realistic prompts without artificial bias*. When asked "Is X bigger than Y?" and "Is Y bigger than X?" separately, models sometimes argue coherently for Yes to both—a logical contradiction the paper terms *Implicit Post-Hoc Rationalization*. Measured rates on production models: GPT-4o-mini (13%), Claude Haiku 3.5 (7%), Gemini 2.5 Flash (2.17%), ChatGPT-4o (0.49%), DeepSeek R1 (0.37%), Gemini 2.5 Pro (0.14%), and Sonnet 3.7 with thinking (0.04%). Even frontier thinking models are not fully faithful.
+
 The practical implication for agents: CoT is useful for *steering* and *eliciting* better behavior, but cannot be fully trusted as a post-hoc explanation of why an action was taken.
 
 ### Mechanistic Interpretability
@@ -165,7 +169,7 @@ Mechanistic interpretability seeks to understand the actual computational circui
 
 **[Circuit Tracing: Revealing Computational Graphs in Language Models](https://transformer-circuits.pub/2025/attribution-graphs/methods.html)** (2025) — Anthropic's method uses *attribution graphs* to trace the computations underlying specific model behaviors. The companion paper, **[On the Biology of a Large Language Model](https://transformer-circuits.pub/2025/attribution-graphs/biology.html)**, applies these methods to Claude 3.5 Haiku, investigating multi-hop reasoning, planning, hallucinations, and jailbreak mechanics. Key finding: there is "a shared conceptual space where reasoning happens before being translated into language," suggesting that mechanistic insights may generalize across output languages and formats.
 
-**Sparse Autoencoders (SAEs)** have emerged as a powerful tool for decomposing model activations into interpretable features. In multi-agent settings, **["Data-Centric Interpretability for LLM-based Multi-Agent Reinforcement Learning"](https://arxiv.org/html/2602.05183)** (2026) introduces **Meta-Autointerp**, which groups SAE features into interpretable hypotheses about training dynamics. Applied to multi-agent RL, it discovers fine-grained behavioral patterns: role-playing patterns, degenerate outputs, language switching, and high-level strategic behaviors. This suggests that mechanistic interpretability can eventually provide *behavioral* understanding of trained agents, not just static models.
+**Sparse Autoencoders (SAEs)** have emerged as a powerful tool for decomposing model activations into interpretable features. In multi-agent settings, **["Data-Centric Interpretability for LLM-based Multi-Agent Reinforcement Learning"](https://arxiv.org/abs/2602.05183)** (2026) introduces **Meta-Autointerp**, which groups SAE features into interpretable hypotheses about training dynamics. Applied to multi-agent RL, it discovers fine-grained behavioral patterns: role-playing patterns, degenerate outputs, language switching, and high-level strategic behaviors. This suggests that mechanistic interpretability can eventually provide *behavioral* understanding of trained agents, not just static models.
 
 ### Reward Hacking and Specification Gaming
 
@@ -181,7 +185,7 @@ Agent control operates across multiple layers, each catching different failure m
 
 1. **Training-time alignment** — RLHF, Constitutional AI, preference data shape baseline behavior but cannot address all deployment contexts.
 2. **Prompt-level constraints** — System prompt instructions define the task scope, persona, and behavioral guardrails. Fragile against adversarial inputs.
-3. **Runtime guardrail frameworks** — Programmatic rails checked at inference time (NeMo Guardrails, custom classifiers). Can be updated without retraining.
+3. **Runtime guardrail frameworks** — Programmatic rails checked at inference time ([NeMo Guardrails](https://github.com/NVIDIA-NeMo/Guardrails), [Guardrails AI](https://github.com/guardrails-ai/guardrails), custom classifiers). Can be updated without retraining.
 4. **Token-level constrained decoding** — Structural guarantees enforced at the sampling level. Cannot be bypassed by prompt manipulation.
 5. **Output filters** — Post-generation classifiers before delivery to users or downstream systems.
 6. **Human review** — The last resort for ambiguous or high-stakes outputs.
@@ -262,7 +266,7 @@ Despite rapid progress, the field lacks mature solutions to several fundamental 
 
 - Cemri, M., Pan, M.Z., Yang, S., et al. (2025). **Why Do Multi-Agent LLM Systems Fail?** NeurIPS 2025 Datasets & Benchmarks. [arXiv:2503.13657](https://arxiv.org/abs/2503.13657)
 - Zhu, K., Liu, Z., Li, B., et al. (2025). **Where LLM Agents Fail and How They Can Learn From Failures.** [arXiv:2509.25370](https://arxiv.org/abs/2509.25370)
-- (2025). **Beyond Accuracy: A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI Systems (CLEAR).** [arXiv:2511.14136](https://arxiv.org/abs/2511.14136)
+- (2025). **A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI Systems (CLEAR).** [arXiv:2511.14136](https://arxiv.org/abs/2511.14136)
 - (2026). **Evaluating LLM Agent Reliability Under Production-Like Stress Conditions (ReliabilityBench).** [arXiv:2601.06112](https://arxiv.org/abs/2601.06112)
 - Turpin, M., Michael, J., Perez, E., & Bowman, S.R. (2023). **Language Models Don't Always Say What They Think: Unfaithful Explanations in Chain-of-Thought Prompting.** NeurIPS 2023. [arXiv:2305.04388](https://arxiv.org/abs/2305.04388)
 - (2024). **Dissociation of Faithful and Unfaithful Reasoning in LLMs.** [arXiv:2405.15092](https://arxiv.org/abs/2405.15092)
@@ -270,9 +274,11 @@ Despite rapid progress, the field lacks mature solutions to several fundamental 
 - Shinn, N., Cassano, F., Labash, A., et al. (2023). **Reflexion: Language Agents with Verbal Reinforcement Learning.** NeurIPS 2023. [arXiv:2303.11366](https://arxiv.org/abs/2303.11366)
 - Rebedea, T., Dinu, R., Sreedhar, M., et al. (2023). **NeMo Guardrails: A Toolkit for Controllable and Safe LLM Applications with Programmable Rails.** EMNLP 2023 Demo. [arXiv:2310.10501](https://arxiv.org/abs/2310.10501)
 - (2025). **Detecting Proxy Gaming in RL and LLM Alignment via Evaluator Stress Tests.** [arXiv:2507.05619](https://arxiv.org/abs/2507.05619)
-- (2026). **Data-Centric Interpretability for LLM-based Multi-Agent Reinforcement Learning.** [arXiv:2602.05183](https://arxiv.org/html/2602.05183)
-- (2025). **An Open Toolkit for Diagnosing LLM Agent Trajectories.** EMNLP 2025 Demos. [ACL Anthology](https://aclanthology.org/2025.emnlp-demos.15.pdf)
+- (2026). **Data-Centric Interpretability for LLM-based Multi-Agent Reinforcement Learning.** [arXiv:2602.05183](https://arxiv.org/abs/2602.05183)
+- Ou, T., Guo, W., Gandhi, A., Neubig, G., & Yue, X. (2025). **AgentDiagnose: An Open Toolkit for Diagnosing LLM Agent Trajectories.** EMNLP 2025 Demos. [ACL Anthology](https://aclanthology.org/2025.emnlp-demos.15.pdf)
 - (2026). **Evaluating Robustness of LLMs in Enterprise Applications: Benchmarks for Perturbation Consistency Across Formats and Languages.** [arXiv:2601.06341](https://arxiv.org/abs/2601.06341)
+- Shah, M.B., et al. (2026). **Characterizing Faults in Agentic AI: A Taxonomy of Types, Symptoms, and Root Causes.** [arXiv:2603.06847](https://arxiv.org/abs/2603.06847)
+- Arcuschin, I., et al. (2025). **Chain-of-Thought Reasoning In The Wild Is Not Always Faithful.** ICLR 2025 Reasoning & Planning for LLMs Workshop. [arXiv:2503.08679](https://arxiv.org/abs/2503.08679)
 
 ### Blog Posts & Resources
 
@@ -292,6 +298,7 @@ Despite rapid progress, the field lacks mature solutions to several fundamental 
 - **[AgentOps](https://github.com/AgentOps-AI/agentops)** — Python SDK for AI agent monitoring and debugging
 - **[W&B Weave](https://github.com/wandb/weave)** — Toolkit for GenAI application development and tracing (Weights & Biases)
 - **[NeMo Guardrails](https://github.com/NVIDIA-NeMo/Guardrails)** — Open-source programmable guardrails toolkit for LLM applications (NVIDIA)
+- **[Guardrails AI](https://github.com/guardrails-ai/guardrails)** — Open-source Python framework for adding input/output validation and structured guardrails to LLM applications
 - **[Outlines](https://github.com/outlines-dev/outlines)** — Token-level constrained generation for structured LLM outputs
 - **[Guidance](https://github.com/guidance-ai/guidance)** — Constrained generation and interleaved control for LLMs (Microsoft)
 - **[LangSmith](https://www.langchain.com/langsmith)** — Agent engineering platform with trace visualization and evals (LangChain)

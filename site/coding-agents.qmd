@@ -63,7 +63,7 @@ The shift from *completion* to *chat* was incremental. Tools like Copilot Chat, 
 
 ### SWE-bench Family
 
-**[SWE-bench](https://arxiv.org/abs/2310.06770)** (Jimenez et al., ICLR 2024) is the canonical benchmark for autonomous coding agents. It draws 2,294 real GitHub issues from 12 popular Python repositories (including Django, Flask, NumPy, and pandas), pairing each issue with the corresponding pull request as a reference solution. An agent receives the repository codebase and issue description and must produce a passing patch. When introduced, the best model (Claude 2) resolved only 1.96% of issues, establishing a clear frontier for future work. The benchmark website at [swebench.com](https://www.swebench.com) hosts official leaderboards.
+**[SWE-bench](https://arxiv.org/abs/2310.06770)** (Jimenez et al., ICLR 2024) is the canonical benchmark for autonomous coding agents. It draws 2,294 real GitHub issues from 12 popular Python repositories (including Django, Scikit-learn, Sympy, and Flask), pairing each issue with the corresponding pull request as a reference solution. An agent receives the repository codebase and issue description and must produce a passing patch. When introduced, the best model (Claude 2) resolved only 1.96% of issues, establishing a clear frontier for future work. The benchmark website at [swebench.com](https://www.swebench.com) hosts official leaderboards.
 
 **SWE-bench Lite** reduces the full set to 300 carefully selected problems, offering a cheaper evaluation proxy widely used in 2024. Agentless achieved 32% here; many systems now exceed 50%.
 
@@ -83,7 +83,7 @@ The shift from *completion* to *chat* was incremental. Tools like Copilot Chat, 
 
 **[Aider Polyglot Benchmark](https://aider.chat/2024/12/21/polyglot.html)** tests code-editing (not just generation) across six languages — C++, Go, Java, JavaScript, Python, and Rust — using 225 of Exercism's most challenging problems. Models get two attempts; on the second attempt, they receive unit test feedback from the first. This design specifically tests edit-correct cycles rather than generation from scratch, making it more relevant to real coding agent workflows.
 
-**[Terminal-Bench](https://arxiv.org/abs/2601.11868)** ([tbench.ai](https://www.tbench.ai)) evaluates agents on realistic tasks in command-line interfaces: configuring servers, managing processes, debugging shell scripts, and navigating Linux environments. Introduced in May 2025 by the Laude Institute, Terminal-Bench tests the practical "last mile" of autonomous agents that must operate in real terminal environments.
+**[Terminal-Bench](https://arxiv.org/abs/2601.11868)** ([tbench.ai](https://www.tbench.ai)) evaluates agents on realistic tasks in command-line interfaces: configuring servers, managing processes, debugging shell scripts, and navigating Linux environments. Introduced in April 2025 by the Laude Institute (in collaboration with Stanford), Terminal-Bench tests the practical "last mile" of autonomous agents that must operate in real terminal environments. The cited arXiv paper ([arXiv:2601.11868](https://arxiv.org/abs/2601.11868)) describes Terminal-Bench 2.0 (January 2026), a substantially expanded version with 89 curated tasks.
 
 ### Real-World Metrics
 
@@ -150,7 +150,7 @@ As individual agent capabilities mature, systems increasingly use *multi-agent o
 
 ### Training for Agentic Coding
 
-Beyond prompting general-purpose models, a growing trend is fine-tuning models specifically on software engineering agent trajectories. [Devstral](https://mistral.ai/news/devstral) was trained by Mistral AI in collaboration with All Hands AI on agentic coding traces collected through the OpenHands framework. Similarly, [SWE-smith](https://swesmith.com) (from the SWE-bench team) provides a large-scale synthetic training dataset of agent-environment interactions for SWE-bench-style tasks. Training on agentic trajectories — full multi-step sequences of tool calls, observations, and edits — rather than individual code completions produces models that are substantially better at maintaining coherent state across long coding sessions.
+Beyond prompting general-purpose models, a growing trend is fine-tuning models specifically on software engineering agent trajectories. [Devstral](https://mistral.ai/news/devstral) was trained by Mistral AI in collaboration with All Hands AI on agentic coding traces collected through the OpenHands framework. Similarly, [SWE-smith](https://swesmith.com) (Yang et al., [arXiv:2504.21798](https://arxiv.org/abs/2504.21798), NeurIPS 2025 D&B Spotlight) provides a large-scale synthetic training dataset of agent-environment interactions for SWE-bench-style tasks. Training on agentic trajectories — full multi-step sequences of tool calls, observations, and edits — rather than individual code completions produces models that are substantially better at maintaining coherent state across long coding sessions.
 
 ### Sandboxed Execution Environments
 
@@ -201,7 +201,7 @@ Agents frequently invoke functions, classes, or module attributes that do not ex
 
 ### Context Window Limits for Large Repos
 
-Industrial codebases can contain millions of lines across thousands of files — orders of magnitude beyond even the longest context windows. Current agents rely on retrieval and compression (repo maps, semantic search) to select relevant context. These retrieval heuristics can fail when the relevant code is structurally distant from the issue description. [SWE-bench Pro](https://arxiv.org/abs/2509.16941) (ICLR 2025 workshop) specifically benchmarks "long-horizon" tasks requiring hours of human work, finding current agents fall far short.
+Industrial codebases can contain millions of lines across thousands of files — orders of magnitude beyond even the longest context windows. Current agents rely on retrieval and compression (repo maps, semantic search) to select relevant context. These retrieval heuristics can fail when the relevant code is structurally distant from the issue description. [SWE-bench Pro](https://arxiv.org/abs/2509.16941) (Deng et al., September 2025) specifically benchmarks "long-horizon" tasks requiring hours of human work, finding current agents fall far short.
 
 ### Evaluating Code Quality Beyond Test Pass Rates
 
@@ -254,14 +254,15 @@ The availability of capable coding agents has given rise to "vibe coding" — a 
 - Yang, J., Jimenez, C. E., Wettig, A., Lieret, K., Yao, S., Narasimhan, K., & Press, O. (2024). **SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering.** NeurIPS 2024. [arXiv:2405.15793](https://arxiv.org/abs/2405.15793)
 - Xia, C. S., Deng, Y., Dunn, S., & Zhang, L. (2024). **Agentless: Demystifying LLM-based Software Engineering Agents.** [arXiv:2407.01489](https://arxiv.org/abs/2407.01489)
 - Zhang, Y., Ruan, H., Fan, Z., & Roychoudhury, A. (2024). **AutoCodeRover: Autonomous Program Improvement.** ISSTA 2024. [arXiv:2404.05427](https://arxiv.org/abs/2404.05427)
-- Wang, X., Li, B., Song, Y., et al. (2024). **OpenHands: An Open Platform for AI Software Developers as Generalist Agents.** [arXiv:2407.16741](https://arxiv.org/abs/2407.16741)
+- Wang, X., Li, B., Song, Y., et al. (2024). **OpenHands: An Open Platform for AI Software Developers as Generalist Agents.** ICLR 2025. [arXiv:2407.16741](https://arxiv.org/abs/2407.16741)
 - Yang, J., Jimenez, C. E., Zhang, A. L., et al. (2024). **SWE-bench Multimodal: Do AI Systems Generalize to Visual Software Domains?** [arXiv:2410.03859](https://arxiv.org/abs/2410.03859)
 - Chen, M., Tworek, J., Jun, H., et al. (2021). **Evaluating Large Language Models Trained on Code.** [arXiv:2107.03374](https://arxiv.org/abs/2107.03374)
 - Austin, J., Odena, A., Nye, M., et al. (2021). **Program Synthesis with Large Language Models.** [arXiv:2108.07732](https://arxiv.org/abs/2108.07732)
 - Jain, N., Han, K., Gu, A., et al. (2024). **LiveCodeBench: Holistic and Contamination Free Evaluation of Large Language Models for Code.** [arXiv:2403.07974](https://arxiv.org/abs/2403.07974)
-- Merrill, M. A., Shaw, A. G., Carlini, N., et al. (2025). **Terminal-Bench: Benchmarking Agents on Hard, Realistic Tasks in Command Line Interfaces.** [arXiv:2601.11868](https://arxiv.org/abs/2601.11868)
+- Merrill, M. A., Shaw, A. G., Carlini, N., et al. (2026). **Terminal-Bench: Benchmarking Agents on Hard, Realistic Tasks in Command Line Interfaces** (Terminal-Bench 2.0). [arXiv:2601.11868](https://arxiv.org/abs/2601.11868)
 - Deng, X., Da, J., Pan, E., et al. (2025). **Can AI Agents Solve Long-Horizon Software Engineering Tasks?** (SWE-bench Pro) [arXiv:2509.16941](https://arxiv.org/abs/2509.16941)
-- (2025). **Are "Solved Issues" in SWE-bench Really Solved Correctly? An Empirical Study.** [arXiv:2503.15223](https://arxiv.org/abs/2503.15223)
+- Yang, J., Lieret, K., Jimenez, C. E., et al. (2025). **SWE-smith: Scaling Data for Software Engineering Agents.** NeurIPS 2025 (D&B Spotlight). [arXiv:2504.21798](https://arxiv.org/abs/2504.21798)
+- Wang, Y., Pradel, M., & Liu, Z. (2025). **Are "Solved Issues" in SWE-bench Really Solved Correctly? An Empirical Study.** ISSTA 2026. [arXiv:2503.15223](https://arxiv.org/abs/2503.15223)
 
 ### Blog Posts & Resources
 
@@ -285,7 +286,8 @@ The availability of capable coding agents has given rise to "vibe coding" — a 
 - [Aider](https://github.com/Aider-AI/aider) — open-source terminal coding agent
 - [LiveCodeBench](https://github.com/LiveCodeBench/LiveCodeBench) — contamination-resistant benchmark
 - [SWE-bench](https://github.com/swe-bench/SWE-bench) — official benchmark repository
-- [Terminal-Bench](https://github.com/laude-institute/terminal-bench) — CLI agent benchmark
+- [Terminal-Bench](https://github.com/laude-institute/terminal-bench) — CLI agent benchmark (v1 April 2025; v2 Jan 2026)
+- [SWE-smith](https://swesmith.com) — synthetic SWE-bench training data (NeurIPS 2025 Spotlight)
 - [SWE-bench Multilingual](https://www.swebench.com/multilingual-leaderboard.html) — cross-language evaluation
 - [Cursor](https://cursor.com) — AI-first IDE by Anysphere
 - [Windsurf](https://windsurf.com) — agentic IDE by Codeium
