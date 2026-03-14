@@ -18,6 +18,9 @@ project:
     - infrastructure.qmd
     - human-agent.qmd
     - economics.qmd
+    - coding-agents.qmd
+    - observability.qmd
+    - long-horizon.qmd
     - community.qmd
     - resources.qmd
 
@@ -62,6 +65,12 @@ website:
             text: Human-Agent Interaction
           - href: economics.qmd
             text: Agent Economics
+          - href: coding-agents.qmd
+            text: Coding Agents
+          - href: observability.qmd
+            text: Observability & Robustness
+          - href: long-horizon.qmd
+            text: Long-Horizon Autonomy
       - href: community.qmd
         text: Community
       - href: resources.qmd

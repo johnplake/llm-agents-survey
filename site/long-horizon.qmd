@@ -1,0 +1,321 @@
+---
+title: "Long-Horizon Autonomy"
+subtitle: "Agents that work for hours, days, or indefinitely — the frontier of sustained autonomous operation"
+---
+
+> *"The length of tasks that frontier AI agents can complete autonomously with 50% reliability has been doubling approximately every 7 months for the last 6 years."*
+> — [METR, March 2025](https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/)
+
+---
+
+## 1. What Makes Long-Horizon Different?
+
+Most LLM benchmarks measure performance on tasks that take seconds or minutes: answer a question, write a function, translate a sentence. But the most consequential uses of AI — conducting research, building software systems, running experiments — unfold over hours, days, or weeks. This gap between benchmark performance and real-world utility defines what researchers call the **long-horizon problem**.
+
+A rough taxonomy of task durations:
+
+| Horizon | Duration | Examples |
+|---------|----------|---------|
+| **Short** | Seconds–minutes | Q&A, code completion, summarization |
+| **Medium** | Minutes–hours | Debugging a codebase, drafting a report |
+| **Long** | Hours–days | Software projects, scientific experiments |
+| **Extended** | Days–weeks | Research campaigns, full product builds |
+
+Long-horizon tasks are not merely longer versions of short tasks — they are qualitatively different in several ways:
+
+- **Error accumulation**: Each step introduces some probability of failure; over many steps, even high per-step reliability collapses to near-zero overall reliability.
+- **Context drift**: The agent's understanding of its goal and progress can diverge from reality as the task evolves.
+- **Changing world state**: External conditions (files, APIs, web pages, human preferences) shift during execution, invalidating earlier observations.
+- **Goal persistence**: The agent must maintain coherent intent across interruptions, memory resets, and context window rollovers.
+
+### METR's Time-Horizon Framework
+
+[METR](https://metr.org/) (Model Evaluation & Threat Research) has developed the most rigorous framework for quantifying long-horizon capability. Their [March 2025 paper, "Measuring AI Ability to Complete Long Software Tasks"](https://arxiv.org/abs/2503.14499) (Kwa et al., 2025) introduces the **task-completion time horizon**: the task duration (measured by human expert completion time) at which an AI agent succeeds with a given level of reliability.
+
+Their methodology:
+1. Gather 100+ diverse software tasks (from [RE-Bench](https://metr.org/blog/2024-11-22-evaluating-r-d-capabilities-of-llms/), [HCAST](https://arxiv.org/html/2503.17354v1), and novel tasks spanning software engineering, ML, and cybersecurity).
+2. Have human experts attempt each task and measure completion times.
+3. Fit a logistic curve to agent success rates as a function of human task duration.
+4. Report the duration at which the curve hits 50% (or 80%) success probability.
+
+Key findings from METR:
+
+- The **50%-time horizon has doubled every ~7 months** for the past 6 years.
+- In mid-2020, frontier models could complete tasks a human expert finishes in ~9 seconds.
+- By early 2023, that threshold reached ~4 minutes.
+- By late 2024, it reached approximately **40 minutes** ([MIT Technology Review, February 2026](https://www.technologyreview.com/2026/02/05/1132254/this-is-the-most-misunderstood-graph-in-ai/)).
+- METR has observed this trend may be **accelerating to a doubling every ~4 months** in 2024–2025 ([METR domain analysis, July 2025](https://metr.org/blog/2025-07-14-how-does-time-horizon-vary-across-domains/)).
+
+Extrapolating this trend, METR predicts that within a decade, AI agents could autonomously complete tasks that currently take humans **days or weeks**. The [live time-horizon tracker](https://metr.org/time-horizons/) is updated as new frontier models are evaluated.
+
+Despite rapid progress, as of early 2026 **no agent reliably completes tasks requiring more than a few hours of human expert effort** end-to-end, without human oversight or intervention.
+
+---
+
+## 2. The Error Accumulation Problem
+
+The most fundamental challenge of long-horizon autonomy is **error accumulation**: mistakes made early in a task cascade forward, compounding through subsequent steps.
+
+### The Mathematics of Compounding Failure
+
+If each step in a task has independent success probability $p$, then across $N$ steps the probability of completing the entire task error-free is:
+
+$$P(\text{success}) = p^N$$
+
+For $p = 0.95$ (95% per-step reliability):
+
+| Steps | Overall Success |
+|-------|----------------|
+| 10    | 60%            |
+| 20    | 36%            |
+| 50    | 7.7%           |
+| 100   | 0.6%           |
+
+This is a worst-case (independent errors) analysis, but it illustrates the challenge starkly. A task requiring 50 sequential actions — well within the scope of a "medium" software project — has only a 7.7% chance of completing error-free at 95% per-step reliability.
+
+### Nuances: Not All Errors Are Equal
+
+[Shinn et al. (2025)](https://arxiv.org/abs/2505.24187), "Beyond Exponential Decay: Rethinking Error Accumulation in Large Language Models," challenge the simple exponential decay model. Their analysis finds that LLM errors are **not uniformly distributed** across tokens or steps: roughly **5–10% of tokens represent "key decision junctions"** where errors cluster. This means targeted strategies at critical branching points may outperform brute-force reliability improvements across all steps.
+
+Similarly, work on [error propagation in multi-agent systems](https://arxiv.org/html/2510.04886v2) (Bonner et al., 2025, "Where Did It All Go Wrong?") shows that **a single root-cause failure can cascade** through subsequent agents and steps, derailing the entire pipeline. Identifying which agent and which step originated the error is itself a hard research problem.
+
+### Recovery Strategies
+
+Several approaches mitigate error accumulation:
+
+- **Checkpointing and rollback**: Saving verified intermediate states and reverting to the last known-good checkpoint when errors are detected.
+- **Human intervention triggers**: The agent flags uncertain or high-stakes decisions for human review rather than proceeding autonomously. Anthropic [reports](https://www.anthropic.com/research/measuring-agent-autonomy) that on complex Claude Code tasks, the model stops to ask for clarification **more than twice as often** as humans interrupt it — a form of autonomous safety behavior.
+- **Verification steps**: Interleaving execution with explicit checks (tests, assertions, self-critique) to catch errors before they propagate.
+- **Multi-path exploration**: Maintaining multiple parallel execution paths and selecting the most promising, as proposed in [Shinn et al. (2025)](https://arxiv.org/abs/2505.24187).
+- **Episodic reflection**: [Reflexion](https://arxiv.org/abs/2303.11366) (Shinn et al., 2023) stores verbal reflections in an episodic memory buffer, allowing agents to learn from failures without weight updates.
+
+---
+
+## 3. Memory & Context for Long Tasks
+
+Even with perfect per-step accuracy, long-horizon agents face a fundamental resource constraint: **context windows are finite**.
+
+### The Context Window Ceiling
+
+Modern frontier models have context windows of 128K–200K tokens — impressive, but insufficient for a multi-day task. A single day of agentic work (tool calls, observations, intermediate states, reasoning chains) can easily generate millions of tokens of trace. The agent cannot hold all of this in a single context window.
+
+The challenge is not just storage but **relevance**: an agent working on a large codebase for days needs to recall which architectural decisions were made on day one, what the current system state is, and what happened in the most recent actions — all simultaneously.
+
+### Memory Architectures for Long-Horizon Agents
+
+A comprehensive survey, ["Memory in the Age of AI Agents"](https://arxiv.org/abs/2512.13564) (Liu et al., 2025), identifies several major architectural approaches:
+
+**1. Sliding Window / Summarization**  
+The simplest approach: keep only the most recent $K$ tokens, discarding older context. A common refinement is **recursive summarization**: compress older exchanges into progressively shorter summaries. The risk is information loss — summaries may omit details that turn out to be critical.
+
+**2. Retrieval-Augmented Memory (RAG over past actions)**  
+Store all past observations, actions, and outcomes in a vector database. When the agent needs context, retrieve the most semantically relevant past experiences. The ["Survey on the Memory Mechanism of LLM-based Agents"](https://arxiv.org/abs/2404.13501) (Zhang et al., 2024) surveys this and related approaches. The challenge: retrieval may miss relevant information if it's semantically distant from the current query.
+
+**3. Episodic Memory**  
+Explicitly record completed episodes (what was attempted, what worked, what failed) in a structured store. [Reflexion](https://arxiv.org/abs/2303.11366) (Shinn et al., 2023) uses verbal reflections as episodic memories. [Voyager](https://arxiv.org/abs/2305.16291) (Wang et al., 2023), an open-ended Minecraft agent, builds a **skill library** of verified, reusable code solutions — a form of procedural episodic memory that enables lifelong learning.
+
+**4. Hierarchical / Tiered Memory**  
+Inspired by human cognition, these systems separate **working memory** (immediate context), **episodic memory** (specific past events), and **semantic/long-term memory** (generalized knowledge). [RAISE](https://arxiv.org/abs/2401.02777) (Ye et al., 2024) extends the ReAct framework with a dual-component memory system mirroring human short-term and long-term memory, maintaining conversational context and continuity across sessions.
+
+**5. MemGPT / Letta — Virtual Context Management**  
+[MemGPT](https://arxiv.org/abs/2310.08560) (Packer et al., 2023) takes an OS-inspired approach: the LLM acts like an operating system managing a memory hierarchy. A small **main context** (analogous to RAM) holds immediately relevant information; the LLM can issue function calls to **page information in and out** from external storage (analogous to disk). The MemGPT research has since evolved into [Letta](https://www.letta.com/), a production framework for building stateful agents with persistent, manageable memory.
+
+**6. Agentic Memory Learning**  
+Recent work like [AgeMem](https://arxiv.org/abs/2601.01885) (2026) goes further: rather than hard-coding memory management logic, it trains the LLM to autonomously decide **what and when to store, retrieve, update, summarize, or discard** information using tool-based memory actions.
+
+---
+
+## 4. Planning & Decomposition
+
+Long-horizon tasks require not just memory but **planning**: breaking a complex, underspecified goal into achievable subtasks, sequencing them coherently, and revising the plan when the world changes.
+
+### Plan-Then-Execute vs. Interleaved Planning
+
+Two broad strategies exist:
+
+- **Plan-then-execute**: Generate a complete plan upfront, then execute step by step. Simple to reason about but brittle — the plan is formulated with incomplete information and may become invalid as the task unfolds.
+- **Interleaved planning**: Generate a high-level plan, execute a few steps, observe results, revise the plan, and repeat. More adaptive but harder to evaluate and debug.
+
+[Plan-and-Solve Prompting](https://arxiv.org/abs/2305.04091) (Wang et al., 2023) proposes a simple zero-shot strategy — instruct the LLM to devise a plan before solving — and shows this improves multi-step reasoning accuracy over standard chain-of-thought.
+
+### Hierarchical Decomposition
+
+For truly long-horizon tasks, flat plans become unwieldy. **Hierarchical task decomposition** organizes goals into layers: a high-level goal decomposes into sub-goals, each of which decomposes into concrete actions.
+
+- [HuggingGPT](https://arxiv.org/abs/2303.17580) (Shen et al., 2023) uses ChatGPT as a controller to decompose complex tasks into sub-tasks executed by specialized HuggingFace models — an early multi-model orchestration system.
+- [DEPS (Describe, Explain, Plan and Select)](https://arxiv.org/abs/2302.01560) (Wang et al., 2023) targets open-world multi-task agents in Minecraft, using LLMs to generate and iteratively refine plans while a trainable selector ranks candidate sub-goals.
+- [ADaPT (As-Needed Decomposition and Planning with Language Models)](https://arxiv.org/abs/2311.05772) (Prasad et al., 2023) dynamically adjusts decomposition depth to match task complexity and executor capability — simple tasks are executed directly, while complex tasks are recursively decomposed.
+- [Plan-and-Act](https://arxiv.org/html/2503.09572v3) (2025) proposes training data generation for hierarchical planning on web tasks, arguing that prompting alone cannot instill robust planning.
+
+### Re-Planning and Recovery
+
+A plan that was correct at step $t$ may become invalid at step $t+k$ because the world has changed. Robust long-horizon agents must detect when their plan is no longer valid and **re-plan** — potentially from scratch. This requires:
+
+1. Monitoring plan validity (comparing expected vs. observed world state)
+2. Detecting failure conditions without entering infinite loops
+3. Generating a new plan that accounts for the current (possibly degraded) state
+
+[Reflexion](https://arxiv.org/abs/2303.11366) builds re-planning into the agent loop via verbal self-critique after each failed episode. [Voyager](https://arxiv.org/abs/2305.16291) uses automatic curricula that propose progressively harder sub-goals, naturally incorporating re-planning when sub-goals fail.
+
+---
+
+## 5. Real-World Long-Horizon Systems
+
+### Software Engineering Agents
+
+**[Devin](https://cognition.ai/blog/introducing-devin)** (Cognition AI, March 2024) was the first widely-publicized "fully autonomous AI software engineer," marketed for multi-hour coding tasks. Devin resolves real-world GitHub issues end-to-end, operating within a persistent development environment (shell, browser, editor). At launch, it achieved 13.86% on the [SWE-bench](https://www.swebench.com/) benchmark — far ahead of GPT-4 (1.7%) and Claude 2 (4.8%) at the time.
+
+**[Claude Code](https://www.anthropic.com/claude-code)** (Anthropic) is Anthropic's agentic coding product. Anthropic's [real-world autonomy study](https://www.anthropic.com/research/measuring-agent-autonomy) shows that among the longest-running Claude Code sessions, **the time working autonomously before stopping has nearly doubled in three months, from under 25 minutes to over 45 minutes**. Experienced users increasingly grant full auto-approval (over 40% of sessions), intervening only when needed.
+
+**[SWE-bench](https://www.swebench.com/)** (Jimenez et al., 2023) serves as a key proxy benchmark: each task involves resolving a real GitHub issue, which often requires hours of human developer time. Top agents (as of early 2026) exceed 50% on the standard benchmark — a dramatic rise from 1.96% at launch — though performance on harder variants like [SWE-bench Pro](https://labs.scale.com/leaderboard/swe_bench_pro_public) remains below 25%.
+
+### Computer-Use Agents
+
+**[OSWorld](https://os-world.github.io/)** (Xie et al., NeurIPS 2024; [arXiv:2404.07972](https://arxiv.org/abs/2404.07972)) benchmarks multimodal agents on open-ended tasks in real computer environments (Linux, Windows, macOS). Tasks involve multi-step sequences across applications (web browser, file manager, spreadsheet). Initial evaluations showed significant deficiencies in all tested agents; the benchmark has since become a standard testbed for computer-use agents.
+
+**[WebArena](https://arxiv.org/abs/2307.13854)** (Zhou et al., 2024) provides realistic, self-hosted web environments for evaluating autonomous agents on multi-step web tasks (e-commerce, forums, code repositories). Initial GPT-4 performance was 14.41% vs. 78.24% human performance; by 2025, top agents reached ~60% ([Medium, September 2025](https://medium.com/@adnanmasood/webarena-benchmark-and-the-state-of-agentic-ai-c22697e8e192)).
+
+**[VisualWebArena](https://github.com/web-arena-x/visualwebarena)** (Koh et al., 2024; [arXiv:2401.13649](https://arxiv.org/abs/2401.13649)) extends WebArena with multimodal (vision-based) tasks.
+
+### Scientific Research Agents
+
+**[FutureHouse](https://www.futurehouse.org/)** is a philanthropically-funded organization building semi-autonomous AI scientists for multi-day research cycles. Their platform ([launched 2025](https://www.futurehouse.org/research-announcements/launching-futurehouse-platform-ai-agents)) provides specialized agents for literature review, hypothesis generation, and experiment planning. Their [PaperQA](https://news.mit.edu/2025/futurehouse-accelerates-scientific-discovery-with-ai-0630) agent (released September 2024) is designed to be state-of-the-art for retrieving and summarizing scientific literature — a foundation for longer research pipelines.
+
+### General-Purpose Autonomous Agents
+
+**[Manus](https://manus.im/)** (Monica.im, March 2025) is a general-purpose autonomous agent developed in China, designed to execute complex multi-step tasks (research, web browsing, coding, document generation) without continuous human input. It attracted significant attention as an early example of general-purpose agentic AI capable of extended autonomous operation across diverse domains ([Forbes, March 2025](https://www.forbes.com/sites/craigsmith/2025/03/08/chinas-autonomous-agent-manus-changes-everything/)). A technical analysis appears in [arXiv:2505.02024](https://arxiv.org/abs/2505.02024).
+
+**[Letta](https://www.letta.com/)** (formerly MemGPT) is an open-source framework for building stateful, long-running agents with persistent memory — designed explicitly for extended autonomous operation. The [GitHub repository](https://github.com/letta-ai/letta) provides tools for memory management, multi-session continuity, and background agent operation.
+
+---
+
+## 6. Evaluation Frameworks for Long-Horizon Tasks
+
+### Why Standard Benchmarks Fail
+
+Most AI benchmarks assume single-turn or bounded interaction: one prompt, one response, one score. They are designed for reproducibility and ease of evaluation — properties that conflict with the open-ended, stateful nature of long-horizon tasks. Key failure modes:
+
+- **Short time budgets**: Most benchmarks can be run in minutes per example, limiting the task complexity they can represent.
+- **No intermediate state**: Benchmarks rarely test whether an agent can recover from mid-task errors.
+- **Single correct answer**: Long-horizon tasks often have multiple valid paths and partial-credit solutions.
+- **No environment statefulness**: Real tasks involve persistent environments that change as actions are taken.
+
+### Major Evaluation Frameworks
+
+| Benchmark | Focus | URL |
+|-----------|-------|-----|
+| **METR Time Horizons** | Software tasks graded by human completion time | [metr.org/time-horizons](https://metr.org/time-horizons/) |
+| **GAIA** | Real-world multi-step assistant tasks | [arXiv:2311.12983](https://arxiv.org/abs/2311.12983) |
+| **OSWorld** | Computer use across real OS environments | [os-world.github.io](https://os-world.github.io/) |
+| **WebArena** | Multi-step web navigation | [arXiv:2307.13854](https://arxiv.org/abs/2307.13854) |
+| **VisualWebArena** | Multimodal web tasks | [arXiv:2401.13649](https://arxiv.org/abs/2401.13649) |
+| **SWE-bench** | Real GitHub issue resolution | [swebench.com](https://www.swebench.com/) |
+| **RE-Bench** | R&D capability vs. human experts | [METR blog](https://metr.org/blog/2024-11-22-evaluating-r-d-capabilities-of-llms/) |
+
+**[GAIA](https://arxiv.org/abs/2311.12983)** (Mialon et al., 2023) — "a benchmark for General AI Assistants" — proposes real-world questions requiring multi-modal reasoning, web browsing, and tool use. Its 450 questions are tiered by difficulty, with Level 3 requiring sophisticated multi-step strategies that most agents still fail consistently. Humans score ~92%; early GPT-4 with plugins scored ~15%.
+
+**[RE-Bench](https://metr.org/blog/2024-11-22-evaluating-r-d-capabilities-of-llms/)** (METR, 2024) evaluates AI R&D capabilities against human expert ML researchers on open-ended research tasks — tasks that take humans 8 hours. It serves as one of the task sets for METR's time-horizon measurements.
+
+---
+
+## 7. The Autonomy Spectrum
+
+Not all long-horizon tasks warrant the same degree of autonomy. Deploying agents safely requires thinking about **when and how much to trust an agent** — a spectrum analogous to the SAE self-driving levels.
+
+### Levels of Agentic Autonomy
+
+| Level | Description | Example |
+|-------|-------------|---------|
+| **0 — Suggest** | Agent proposes actions; human approves each | Copilot autocomplete |
+| **1 — Checkpoint** | Agent executes bursts; human reviews at milestones | Step-by-step approval mode |
+| **2 — Report** | Agent executes autonomously; human reviews afterward | "Run and show me the diff" |
+| **3 — Delegated** | Agent executes with exception-only interruptions | Claude Code auto-approve |
+| **4 — Background** | Agent runs silently; reports only significant events | Always-on research agent |
+
+### Trust, Risk, and Task Length
+
+A key insight from Anthropic's [framework for safe and trustworthy agents](https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents) is that the appropriate autonomy level depends on **both** task risk and established trust. Routine, low-consequence tasks can be delegated earlier; novel, high-stakes, or irreversible tasks warrant more oversight.
+
+Anthropic's [real-world autonomy study](https://www.anthropic.com/research/measuring-agent-autonomy) reveals an interesting dynamic in practice: **experienced Claude Code users grant more autonomy but interrupt more often** — they move to full auto-approve as trust builds, but also develop finer-grained intuitions about when to intervene. New users approve ~20% of sessions in full auto-approve mode; experienced users reach over 40%.
+
+The relationship between task length and trust is non-linear: a 5-minute autonomous task and a 5-hour autonomous task require very different levels of established trust, even if the per-step actions are similar, because **the cost of discovering a mistake** grows with task duration.
+
+### Corrigibility Under Long Autonomy
+
+As autonomous sessions lengthen, alignment challenges intensify. An agent operating for 8 hours has more opportunity to:
+- Misinterpret its original goal
+- Acquire resources or capabilities beyond what the task requires
+- Take actions whose downstream effects were not anticipated
+
+Anthropic's [model report](https://www.anthropic.com/transparency/model-report) explicitly evaluates "autonomy risks" — whether models exhibit behaviors indicative of unsafe goal-directed autonomy under extended operation.
+
+---
+
+## 8. Open Problems
+
+Long-horizon autonomy remains a frontier with fundamental unsolved problems:
+
+**Error accumulation is the fundamental blocker.** Despite nuanced findings about sparse error distribution ([arXiv:2505.24187](https://arxiv.org/abs/2505.24187)), no agent reliably completes tasks requiring consistent multi-hour autonomous operation across diverse real-world environments. The gap between benchmark performance and reliable deployment remains large.
+
+**Context management at scale is unsolved.** Even with MemGPT-style paging, agents working over days must decide what to remember, what to discard, and how to compress history without losing critical details. No architecture has conclusively solved this.
+
+**Evaluation is fundamentally hard.** A task that takes a human expert 8 hours cannot be evaluated in a research lab at scale. METR's approach (contracting humans to attempt tasks) is expensive and slow. Automated evaluation of long-horizon task success remains an open research problem — especially for tasks where partial credit matters.
+
+**Re-planning under real-world change is brittle.** Current agents are designed for relatively stable environments. Tasks involving external systems (live APIs, evolving codebases, other humans) introduce non-stationarity that most planning frameworks handle poorly.
+
+**Cost scales superlinearly.** A long-horizon task does not just use more tokens — it uses an uncertain number of tokens, often orders of magnitude more than a short task, with cascading costs from tool calls, retrieved documents, and multi-turn context. This makes cost estimation and control a practical challenge for deployment.
+
+**The alignment problem compounds with duration.** A brief misalignment lasts seconds; a sustained misalignment during a multi-day task can cascade into significant real-world harm before anyone notices. As the autonomy frontier advances, the urgency of **interpretability** — understanding what the agent is trying to do and why — grows proportionally.
+
+---
+
+## References
+
+### Papers
+
+- Kwa, T., West, B., Becker, J., et al. (2025). [Measuring AI Ability to Complete Long Software Tasks](https://arxiv.org/abs/2503.14499). *METR Technical Report*.
+- Packer, C., et al. (2023). [MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560). *arXiv:2310.08560*.
+- Shinn, N., Cassano, F., Labash, B., et al. (2023). [Reflexion: Language Agents with Verbal Reinforcement Learning](https://arxiv.org/abs/2303.11366). *arXiv:2303.11366*.
+- Wang, G., Xie, Y., Jiang, Y., et al. (2023). [Voyager: An Open-Ended Embodied Agent with Large Language Models](https://arxiv.org/abs/2305.16291). *arXiv:2305.16291*.
+- Shen, Y., Song, K., Tan, X., et al. (2023). [HuggingGPT: Solving AI Tasks with ChatGPT and its Friends in Hugging Face](https://arxiv.org/abs/2303.17580). *NeurIPS 2023*.
+- Wang, L., Xu, W., Lan, Y., et al. (2023). [Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models](https://arxiv.org/abs/2305.04091). *ACL 2023*.
+- Wang, Z., Cai, S., Liu, A., et al. (2023). [Describe, Explain, Plan and Select (DEPS): Interactive Planning with LLMs Enables Open-World Multi-Task Agents](https://arxiv.org/abs/2302.01560). *NeurIPS 2023*.
+- Prasad, A., et al. (2023). [ADaPT: As-Needed Decomposition and Planning with Language Models](https://arxiv.org/abs/2311.05772). *NAACL 2024 Findings*.
+- Mialon, G., Fourrier, C., Swift, C., et al. (2023). [GAIA: A Benchmark for General AI Assistants](https://arxiv.org/abs/2311.12983). *arXiv:2311.12983*.
+- Zhou, S., Xu, F. F., Zhu, H., et al. (2024). [WebArena: A Realistic Web Environment for Building Autonomous Agents](https://arxiv.org/abs/2307.13854). *ICLR 2024*.
+- Koh, J. Y., Lo, R., Jang, L., et al. (2024). [VisualWebArena: Evaluating Multimodal Agents on Realistic Visual Web Tasks](https://arxiv.org/abs/2401.13649). *arXiv:2401.13649*.
+- Xie, T., Zhang, D., Chen, J., et al. (2024). [OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments](https://arxiv.org/abs/2404.07972). *NeurIPS 2024*.
+- Ye, R., et al. (2024). [RAISE: From LLM to Conversational Agent: A Memory Enhanced Architecture](https://arxiv.org/abs/2401.02777). *arXiv:2401.02777*.
+- Zhang, Z., et al. (2024). [A Survey on the Memory Mechanism of Large Language Model based Agents](https://arxiv.org/abs/2404.13501). *arXiv:2404.13501*.
+- Liu, S., et al. (2025). [Memory in the Age of AI Agents: A Survey](https://arxiv.org/abs/2512.13564). *arXiv:2512.13564*.
+- Shinn, N., et al. (2025). [Beyond Exponential Decay: Rethinking Error Accumulation in Large Language Models](https://arxiv.org/abs/2505.24187). *arXiv:2505.24187*.
+- Bonner, et al. (2025). [Where Did It All Go Wrong? A Hierarchical Look into Multi-Agent Error Attribution](https://arxiv.org/html/2510.04886v2). *arXiv:2510.04886*.
+
+### Blog Posts & Resources
+
+- METR. (2025, March). [Measuring AI Ability to Complete Long Tasks](https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/).
+- METR. (2025, July). [How Does Time Horizon Vary Across Domains?](https://metr.org/blog/2025-07-14-how-does-time-horizon-vary-across-domains/)
+- METR. [Task-Completion Time Horizons of Frontier AI Models (live tracker)](https://metr.org/time-horizons/).
+- Epoch AI. [METR Time Horizons benchmark page](https://epoch.ai/benchmarks/metr-time-horizons).
+- MIT Technology Review. (2026, February). [This is the most misunderstood graph in AI](https://www.technologyreview.com/2026/02/05/1132254/this-is-the-most-misunderstood-graph-in-ai/).
+- Anthropic. (2025). [Measuring AI agent autonomy in practice](https://www.anthropic.com/research/measuring-agent-autonomy).
+- Anthropic. [Our framework for developing safe and trustworthy agents](https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents).
+- Cognition AI. (2024). [Introducing Devin, the first AI software engineer](https://cognition.ai/blog/introducing-devin).
+- FutureHouse. (2025). [Launching the FutureHouse Platform: AI Agents for Scientific Discovery](https://www.futurehouse.org/research-announcements/launching-futurehouse-platform-ai-agents).
+- METR. (2024). [RE-Bench: Evaluating frontier AI R&D capabilities of language model agents against human experts](https://metr.org/blog/2024-11-22-evaluating-r-d-capabilities-of-llms/).
+- Forbes. (2025, March). [China's Autonomous Agent, Manus, Changes Everything](https://www.forbes.com/sites/craigsmith/2025/03/08/chinas-autonomous-agent-manus-changes-everything/).
+- MIT News. (2025, June). [FutureHouse accelerates scientific discovery with AI](https://news.mit.edu/2025/futurehouse-accelerates-scientific-discovery-with-ai-0630).
+
+### Code & Projects
+
+- [METR eval-analysis-public](https://github.com/METR/eval-analysis-public) — Analysis code for time-horizon evaluations.
+- [Letta (MemGPT)](https://github.com/letta-ai/letta) — Open-source framework for stateful long-running agents with persistent memory.
+- [Voyager](https://voyager.minedojo.org/) / [GitHub](https://github.com/MineDojo/Voyager) — Open-ended Minecraft agent with skill library and lifelong learning.
+- [OSWorld](https://github.com/xlang-ai/OSWorld) — Benchmark for multimodal agents in real OS environments.
+- [WebArena](https://github.com/web-arena-x/webarena) — Realistic multi-step web task environment.
+- [SWE-bench](https://www.swebench.com/) — Software engineering benchmark on real GitHub issues.
+- [GAIA benchmark](https://huggingface.co/datasets/gaia-benchmark/GAIA) — General AI assistant evaluation dataset.
+
+---
+
+*Back to [Topics →](topics.qmd) · See also: [Evaluation →](evaluation.qmd) · [Human-Agent Interaction →](human-agent.qmd) · [Economics →](economics.qmd)*

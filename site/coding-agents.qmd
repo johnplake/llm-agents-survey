@@ -1,0 +1,300 @@
+---
+title: "Coding Agents"
+subtitle: "From code completion to autonomous software engineers: how LLM agents are transforming software development"
+---
+
+## Overview & History
+
+Software engineering represents perhaps the most natural domain for LLM agents. Code is formal, executable, and self-evaluating — when an agent writes a function, unit tests immediately reveal whether it is correct. This tight feedback loop, combined with the possibility of formal verification and the enormous corpus of open-source code available for training, makes coding the *killer application* for agentic AI.
+
+The journey began with **code completion**. [GitHub Copilot](https://github.com/features/copilot) (launched 2021), powered by OpenAI Codex, demonstrated that LLMs could suggest syntactically plausible completions in-context. But completion is not programming. Real software engineering involves understanding repositories, reasoning about dependencies, writing tests, debugging regressions, and navigating sprawling legacy codebases — tasks requiring multi-step reasoning and persistent interaction with the environment.
+
+The shift from *completion* to *chat* was incremental. Tools like Copilot Chat, ChatGPT Code Interpreter, and early Cursor brought conversational code assistance. The decisive leap came in 2024–2025, when **autonomous coding agents** emerged: systems that accept a natural-language issue description and independently navigate a repository, write patches, run tests, and submit pull requests — with little or no human intervention. The release of [SWE-bench](https://arxiv.org/abs/2310.06770) as an evaluation framework in October 2023 crystallized this ambition into measurable progress.
+
+## Why Coding Is the Killer App for Agents
+
+- **Fast feedback loops.** Running a test suite takes seconds; an agent can iterate tens of times before a human reviewer sees the result.
+- **Well-defined success criteria.** Test suites and type checkers provide ground truth. The agent knows when it is done.
+- **Formal verification is possible.** Unlike most creative tasks, code correctness is checkable by execution.
+- **Rich environment interaction.** Bash, file systems, package managers, debuggers — all accessible through a terminal interface.
+- **Economic stakes are clear.** Every resolved bug or implemented feature has quantifiable value, enabling straightforward ROI calculations.
+
+---
+
+## Major Coding Agent Systems
+
+### Research Systems
+
+**[SWE-agent](https://swe-agent.com)** (Princeton & Stanford, May 2024) is the foundational academic system. The [NeurIPS 2024 paper](https://arxiv.org/abs/2405.15793) (Yang et al.) introduced the concept of the *agent-computer interface* (ACI): a purpose-built shell interface that gives language models structured access to files, search, and test execution — analogous to how IDEs help human developers. SWE-agent achieved 12.5% pass@1 on the original SWE-bench benchmark and 87.7% on HumanEvalFix, far exceeding prior non-interactive approaches. The [GitHub repo](https://github.com/SWE-agent/SWE-agent) has since evolved into a full framework supporting cybersecurity and competitive programming tasks. A streamlined descendant, [mini-SWE-agent](https://mini-swe-agent.com), achieves >74% on SWE-bench Verified in just ~100 lines of Python, demonstrating that as models improve, scaffolding complexity can decrease dramatically.
+
+**[Agentless](https://arxiv.org/abs/2407.01489)** (UIUC, July 2024) challenged the assumption that autonomous agents are necessary. Rather than allowing an LLM to freely plan and act, Agentless uses a fixed three-phase *workflow* — localization, repair, and patch validation — without dynamic tool selection. On SWE-bench Lite, it achieved 32% resolution at a cost of only $0.70 per task, outperforming all open-source agents at the time. The [GitHub repo](https://github.com/OpenAutoCoder/Agentless) and accompanying paper from Xia et al. reframed the field's debate: structured pipelines can match or exceed complex agent loops, especially when the underlying model is strong.
+
+**[AutoCodeRover](https://arxiv.org/abs/2404.05427)** (NUS, April 2024) takes a software-engineering-oriented perspective, combining LLMs with AST (abstract syntax tree) analysis and code-structure-aware search. Rather than treating a project as a flat collection of files, AutoCodeRover exploits class and method hierarchies to localize bugs and generate targeted patches. Its GitHub repository is at [github.com/nus-apr/auto-code-rover](https://github.com/nus-apr/auto-code-rover).
+
+**[OpenHands](https://openhands.dev)** (formerly OpenDevin) is an open-source platform for building AI software agents, described in [arXiv:2407.16741](https://arxiv.org/abs/2407.16741) (Wang et al.). OpenHands provides a sandboxed runtime where agents can write code, run commands, browse the web, and interact with APIs — mirroring the full toolkit of a human developer. The [GitHub repo](https://github.com/OpenHands/OpenHands) has become one of the most-starred open-source coding agent projects. Devstral (Mistral AI × All Hands AI) was trained specifically for the OpenHands platform.
+
+**[Moatless Tools](https://github.com/aorwall/moatless-tools)** is an open-source toolkit emphasizing cost-efficient SWE-bench performance. It uses structured code-search actions and careful edit strategies. A related project, [SWE-Search](https://github.com/aorwall/moatless-tree-search), incorporates Monte Carlo Tree Search and iterative refinement over candidate patches.
+
+### Commercial Systems
+
+**[Devin](https://cognition.ai/blog/introducing-devin)** (Cognition Labs, announced March 12, 2024) was the first system marketed as a fully autonomous "AI software engineer." Devin operates inside a persistent development environment — its own shell, browser, and code editor — and accepts multi-step engineering tasks. At launch, it claimed state-of-the-art performance on SWE-bench and demonstrated completing freelance jobs on Upwork. Devin sparked intense public debate about AI's capability to replace software engineers, though independent evaluations highlighted significant limitations on complex real-world tasks.
+
+**[Claude Code](https://claude.com/product/claude-code)** (Anthropic, research preview February 2025, GA May 2025) is a terminal-based agentic coding tool that runs as a CLI application inside the developer's own environment. It uses "agentic search" to understand project structure and dependencies, integrates with GitHub and GitLab, and can handle entire workflows from reading issues to submitting pull requests. Unlike cloud sandboxes, Claude Code operates directly on the developer's filesystem, enabling zero-configuration local development. The [GitHub repo](https://github.com/anthropics/claude-code) includes plugin APIs for extending its capabilities.
+
+**[Cursor](https://cursor.com)** (Anysphere, founded 2022) is an AI-first IDE built as a fork of Visual Studio Code. It offers context-aware autocomplete, inline chat, and a Composer/Agent mode that can make coordinated multi-file changes. With over a million users by 2025, Cursor became the dominant AI IDE for professional developers and a cultural symbol of the "vibe coding" era.
+
+**[Windsurf](https://windsurf.com)** (Codeium, launched November 2024) positions itself as "the first agentic IDE," featuring a collaborative agent called *Cascade* with deep codebase understanding. Launched by the team behind [Codeium](https://codeium.com) — an AI code completion tool — Windsurf integrates the Cascade agent front-and-center, blending copilot and agent paradigms in a single UI.
+
+**[GitHub Copilot Coding Agent](https://github.com/features/copilot)** (GitHub/Microsoft, announced at Microsoft Build 2025, GA September 2025) evolved from GitHub Copilot Workspace into a fully asynchronous autonomous agent embedded directly in GitHub. Developers assign issues to the coding agent, which opens a sandboxed branch, implements changes, runs CI, and opens a pull request for review. It supports third-party models including Claude and OpenAI Codex via GitHub's model picker.
+
+**[OpenAI Codex](https://openai.com/codex/)** (OpenAI, May 2025) — distinct from the older Codex language model — is a cloud-based software engineering agent powered by the `codex-1` model. Integrated into ChatGPT Pro and the Codex app, it runs tasks asynchronously in isolated cloud environments, supporting parallel workstreams. The agent can read, edit, and run code entirely in its own sandbox before presenting results.
+
+**[Amazon Q Developer](https://aws.amazon.com/q/developer/)** (Amazon, rebranded from CodeWhisperer April 2024) adds agentic capabilities on top of cloud-integrated code assistance. Q Developer can autonomously implement features, write documentation, generate tests, and refactor code across AWS-integrated codebases, while also providing console error diagnostics and security scanning.
+
+**[Augment Code](https://www.augmentcode.com)** offers AI coding agents with a self-described "superior context engine" capable of indexing codebases up to 100M lines. It targets enterprise developers working with large legacy systems, providing IDE plugins for VS Code and JetBrains alongside CLI and code-review integrations.
+
+**[Aider](https://aider.chat)** ([GitHub](https://github.com/Aider-AI/aider)) is the leading open-source terminal coding agent. Unlike cloud-hosted agents, Aider runs locally, editing files in the developer's git repository and committing changes. It supports dozens of LLM providers (GPT-4o, Claude 3.x/4.x, DeepSeek, etc.), uses a custom diff format for reliable edits, and publishes an [LLM leaderboard](https://aider.chat/docs/leaderboards/) based on its own benchmark suite. Aider introduced the influential *repo map* concept: a compact, ctags-based summary of a repository's symbol graph that fits within context windows and helps models navigate large codebases without loading all files.
+
+**[Devstral](https://mistral.ai/news/devstral)** (Mistral AI × All Hands AI, 2025) is an open-weight model (Apache 2.0) fine-tuned specifically for agentic software engineering within the OpenHands framework. Devstral 2, a 123B-parameter model, reached 72.2% on SWE-bench Verified, establishing it as among the best open-weight coding agents available.
+
+---
+
+## Benchmarks & Evaluation
+
+### SWE-bench Family
+
+**[SWE-bench](https://arxiv.org/abs/2310.06770)** (Jimenez et al., ICLR 2024) is the canonical benchmark for autonomous coding agents. It draws 2,294 real GitHub issues from 12 popular Python repositories (including Django, Flask, NumPy, and pandas), pairing each issue with the corresponding pull request as a reference solution. An agent receives the repository codebase and issue description and must produce a passing patch. When introduced, the best model (Claude 2) resolved only 1.96% of issues, establishing a clear frontier for future work. The benchmark website at [swebench.com](https://www.swebench.com) hosts official leaderboards.
+
+**SWE-bench Lite** reduces the full set to 300 carefully selected problems, offering a cheaper evaluation proxy widely used in 2024. Agentless achieved 32% here; many systems now exceed 50%.
+
+**SWE-bench Verified** (introduced by [OpenAI in August 2024](https://openai.com/index/introducing-swe-bench-verified/)) is a human-vetted subset of 500 problems where annotators confirmed that each issue is unambiguous and that the reference tests are appropriate. It has become the primary comparison target. As of early 2026, top systems include Bytedance's agent at ~75.2%, Verdent at ~76.1%, and Gemini 3 Pro + Live-SWE-agent at ~77.4%, with the benchmark now approaching the upper end of what automated test suites can distinguish.
+
+**[SWE-bench Multimodal](https://arxiv.org/abs/2410.03859)** (Yang et al., October 2024) extends the benchmark to JavaScript front-end repositories where issues involve visual elements (screenshots, UI bugs). It tests whether agents generalize across languages and modalities; top SWE-bench systems resolve only ~12% of SWE-bench M tasks, revealing significant gaps.
+
+### Function-Level Benchmarks
+
+**[HumanEval](https://arxiv.org/abs/2107.03374)** (Chen et al., OpenAI, 2021) is the original code-generation benchmark: 164 hand-crafted Python programming problems, each with a docstring and unit tests. Models are evaluated by `pass@k` — the probability that at least one of k generated solutions passes all tests. Modern frontier models exceed 90% pass@1. HumanEval is largely saturated but remains a historical reference point.
+
+**[MBPP](https://arxiv.org/abs/2108.07732)** (Austin et al., Google, 2021) — "Mostly Basic Python Problems" — consists of ~974 entry-level programming problems (427 in the sanitized split) sourced from crowdsourcing. It complements HumanEval by testing breadth across varied problem types. Like HumanEval, MBPP is now largely solved by top models.
+
+### Holistic & Harder Benchmarks
+
+**[LiveCodeBench](https://arxiv.org/abs/2403.07974)** ([website](https://livecodebench.github.io)) addresses data contamination by continuously collecting new problems from LeetCode, AtCoder, and Codeforces timed contests. Because problems are gathered after model training cutoffs, contamination is structurally prevented. The benchmark evaluates not just solution generation but self-repair, code execution simulation, and test output prediction — a broader view of coding competence.
+
+**[Aider Polyglot Benchmark](https://aider.chat/2024/12/21/polyglot.html)** tests code-editing (not just generation) across six languages — C++, Go, Java, JavaScript, Python, and Rust — using 225 of Exercism's most challenging problems. Models get two attempts; on the second attempt, they receive unit test feedback from the first. This design specifically tests edit-correct cycles rather than generation from scratch, making it more relevant to real coding agent workflows.
+
+**[Terminal-Bench](https://arxiv.org/abs/2601.11868)** ([tbench.ai](https://www.tbench.ai)) evaluates agents on realistic tasks in command-line interfaces: configuring servers, managing processes, debugging shell scripts, and navigating Linux environments. Introduced in May 2025 by the Laude Institute, Terminal-Bench tests the practical "last mile" of autonomous agents that must operate in real terminal environments.
+
+### Real-World Metrics
+
+Beyond benchmark pass rates, practitioners track:
+- **Cost per resolved issue.** Agentless demonstrated $0.70/task on SWE-bench Lite; production systems often target <$5 for medium-complexity issues.
+- **Time to resolution.** How long before a patch is ready for human review — minutes for focused bug fixes, potentially hours for feature additions.
+- **False positive rate.** Patches that pass tests but introduce subtle regressions or security vulnerabilities.
+- **Human override rate.** How often a developer discards or substantially rewrites an agent's solution.
+
+---
+
+## Architectures & Techniques
+
+### Edit-Test-Debug Loops
+
+The core of most coding agents is an **edit-test-debug loop**: propose a change → run the test suite → observe failures → revise. This mirrors human TDD practice and provides grounded feedback at each step. The number of iterations, the cost of each test run, and the agent's ability to interpret test output are critical performance drivers.
+
+### Agent-Computer Interfaces (ACI)
+
+[SWE-agent's key contribution](https://arxiv.org/abs/2405.15793) was demonstrating that *how* an agent interfaces with the computer matters as much as the underlying model. A well-designed ACI provides:
+- **Structured file viewing** with windowed context (avoiding context overflow on large files)
+- **Search operations** (grep, regex, semantic search) that return localized results
+- **Edit commands** that apply targeted changes rather than rewriting whole files
+- **Test execution** with formatted, interpretable output
+
+Poor ACI design leads agents to make redundant file reads, lose track of changes, or produce diffs that fail to apply cleanly.
+
+### Repository Understanding
+
+Coding agents must understand code *at scale*. Techniques include:
+- **Repo maps** ([Aider's approach](https://aider.chat)): compact summaries of a repository's structure — file names, class/function signatures, and call relationships — that fit within context windows.
+- **Hierarchical search**: AutoCodeRover uses AST analysis so agents can navigate by class and method rather than raw text.
+- **Semantic code retrieval**: Agentless embeds issue descriptions and code chunks, retrieving the most similar files via cosine similarity before attempting repair.
+- **BM25 / keyword search**: lightweight retrieval when semantic embeddings are too expensive.
+
+### Multi-File Editing Strategies
+
+Real bugs often span multiple files. Agents use several strategies:
+- **Sequential edits** with test-driven validation between each change
+- **Speculative editing**: generating all changes simultaneously, then validating as a batch
+- **Diff-based formats** (unified diff, search-replace blocks) that are more robust than full-file rewrites
+
+### Test Generation as Verification
+
+When no test directly exercises the reported bug, some agents *generate new tests* before attempting the fix. This "test-first" approach from [Agentless](https://arxiv.org/abs/2407.01489) and others provides a verification signal even when existing coverage is sparse. Generated tests can also be included in the patch, improving long-term code quality.
+
+### Speculative Editing and Patch Sampling
+
+Rather than committing to a single edit trajectory, some systems generate multiple candidate patches in parallel and select among them using a discriminator. [Agentless](https://arxiv.org/abs/2407.01489) generates multiple candidate repairs via sampling and uses a *patch validation* phase — running the existing test suite on each candidate — to rank and filter solutions before returning any result. This sampling-and-ranking approach trades inference cost for reliability, and is especially effective when the model has high recall but imprecise precision.
+
+### Retrieval-Augmented Code Editing
+
+Agents operating on large repositories cannot load entire codebases into context. Retrieval-augmented approaches combine:
+- **BM25 keyword search** for fast lexical matching against identifiers and strings
+- **Embedding-based semantic search** for matching natural-language issue descriptions against code semantics
+- **Dependency graph traversal** to find all callers/callees of a changed function
+- **Repo maps** (popularized by [Aider](https://aider.chat)) — a compact, tag-based summary of all symbols across the codebase
+
+The choice of retrieval strategy substantially affects which bugs an agent can localize, and remains an active area of study.
+
+### Multi-Agent and Orchestrated Workflows
+
+As individual agent capabilities mature, systems increasingly use *multi-agent orchestration*: separate specialist agents for planning, code writing, test generation, and review. [OpenHands](https://github.com/OpenHands/OpenHands) provides a platform for composing such agents; [GitHub Copilot Coding Agent](https://github.com/features/copilot) dispatches parallel agents when multiple issues are assigned simultaneously. Anthropic's Claude Code now supports [multi-agent code review](https://thenewstack.io/anthropic-launches-a-multi-agent-code-review-tool-for-claude-code/), spinning up parallel reviewer agents to evaluate pull requests. Multi-agent approaches raise new coordination challenges: resolving conflicting edits, managing shared context, and preventing agent "echo chambers" where reviewer and author agents reinforce each other's errors.
+
+### Training for Agentic Coding
+
+Beyond prompting general-purpose models, a growing trend is fine-tuning models specifically on software engineering agent trajectories. [Devstral](https://mistral.ai/news/devstral) was trained by Mistral AI in collaboration with All Hands AI on agentic coding traces collected through the OpenHands framework. Similarly, [SWE-smith](https://swesmith.com) (from the SWE-bench team) provides a large-scale synthetic training dataset of agent-environment interactions for SWE-bench-style tasks. Training on agentic trajectories — full multi-step sequences of tool calls, observations, and edits — rather than individual code completions produces models that are substantially better at maintaining coherent state across long coding sessions.
+
+### Sandboxed Execution Environments
+
+Autonomous agents must run arbitrary code safely. Production systems use:
+- **Container isolation** (Docker, microVMs): each task runs in a fresh, ephemeral environment
+- **Network restrictions**: preventing agents from exfiltrating data or making unintended API calls
+- **Filesystem snapshots**: enabling rollback to a clean state after failed attempts
+- **Resource limits**: timeouts and CPU/memory caps preventing runaway processes
+
+GitHub Copilot Coding Agent and OpenAI Codex both run in cloud-managed sandboxes; Claude Code and Aider operate directly on the developer's local machine, shifting the sandboxing responsibility to the developer.
+
+---
+
+## The Agent vs. Tool Spectrum
+
+Coding AI exists on a spectrum of autonomy. It is important to match the right level of automation to the task: higher autonomy does not always mean better outcomes, especially when requirements are ambiguous or when mistakes are costly to reverse.
+
+| Level | Example | Human Involvement |
+|-------|---------|------------------|
+| Autocomplete | Copilot inline suggestions | Accepts/rejects each suggestion |
+| Chat | ChatGPT, Copilot Chat | Reviews and applies each code block |
+| Agentic edit | Cursor Composer, Claude Code | Reviews final diff |
+| Autonomous agent | Devin, Copilot Coding Agent | Reviews pull request |
+| Fully autonomous | *Research frontier* | Post-hoc audit |
+
+The **inner loop** (writing a specific function, fixing a specific bug) is largely solved for well-specified tasks. The **outer loop** — understanding vague requirements, decomposing features into subtasks, managing cross-cutting concerns — remains challenging.
+
+**When to use each level:**
+- **Autocomplete**: Fastest, lowest risk, best for boilerplate and well-understood APIs
+- **Chat**: For exploration, understanding unfamiliar code, or one-off scripts
+- **Agentic edit**: For multi-file refactors or feature additions in familiar codebases
+- **Autonomous agent**: For well-defined, testable tasks (bug fixes, dependency upgrades, test generation) where the cost of human review is acceptable
+
+### Human-in-the-Loop Patterns
+
+- **Iterative clarification**: Agent asks targeted questions before proceeding (reduces misunderstandings)
+- **Checkpoint approval**: Human approves intermediate plans before execution (prevents costly mistakes)
+- **Pull-request review**: Standard software engineering workflow applied to agent output
+- **Parallel agents + voting**: Multiple agents attempt the same task independently; a reviewer picks the best patch
+
+---
+
+## Open Problems
+
+### Hallucinated APIs and Imports
+
+Agents frequently invoke functions, classes, or module attributes that do not exist — producing code that looks plausible but fails at runtime. This is especially common for less-popular libraries underrepresented in training data, recent APIs introduced after training cutoffs, and internal/proprietary codebases with no public documentation. Grounding agents in the actual installed package versions (via `pip show`, `--help` output, or indexed docs) partially mitigates this.
+
+### Context Window Limits for Large Repos
+
+Industrial codebases can contain millions of lines across thousands of files — orders of magnitude beyond even the longest context windows. Current agents rely on retrieval and compression (repo maps, semantic search) to select relevant context. These retrieval heuristics can fail when the relevant code is structurally distant from the issue description. [SWE-bench Pro](https://arxiv.org/abs/2509.16941) (ICLR 2025 workshop) specifically benchmarks "long-horizon" tasks requiring hours of human work, finding current agents fall far short.
+
+### Evaluating Code Quality Beyond Test Pass Rates
+
+Test suites measure functional correctness for *anticipated* inputs but miss:
+- **Security vulnerabilities** introduced by agent patches
+- **Performance regressions** in code paths not tested
+- **Maintainability degradation** (increased complexity, poor naming, dead code)
+- **Correctness of edge cases** not covered by existing tests
+
+The field is actively developing richer evaluation protocols. [SWE-bench Pro](https://arxiv.org/abs/2509.16941) includes human expert assessment; [Are "Solved Issues" Really Solved Correctly?](https://arxiv.org/abs/2503.15223) (2025) showed that some benchmark "resolutions" contain subtle errors missed by automated tests.
+
+### Security Implications of Autonomous Code Generation
+
+Autonomous agents with write access to codebases and the ability to run arbitrary shell commands represent significant attack surface:
+- **Prompt injection via repository content**: malicious comments or docstrings directing agent behavior
+- **Supply chain attacks**: agents installing or invoking unexpected packages
+- **Credential exfiltration**: agents inadvertently reading `.env` files or API keys
+- **Unintended web requests**: agents calling external services during task execution
+
+Sandboxing, network egress filtering, and human-in-the-loop checkpoints are standard mitigations, but formal threat models for coding agents remain an active research area. OpenHands and similar platforms expose security configuration APIs; best practices remain a moving target as agent capabilities expand.
+
+### Long-Horizon Planning for Complex Features
+
+Current agents excel at scoped, well-defined tasks (fix this bug, add this unit test) but struggle with open-ended feature development requiring sustained multi-session context, architectural decision-making, and coordination across teams. The [SWE-bench Pro](https://arxiv.org/abs/2509.16941) benchmark (tasks estimated to take 1–8+ hours for a human engineer) reveals that even state-of-the-art agents dramatically underperform on tasks requiring deep contextual understanding and cross-file architectural changes.
+
+### Benchmark Saturation and What Comes Next
+
+SWE-bench Verified is approaching saturation: top systems in early 2026 resolve over 75% of its 500 tasks, and the marginal gap between human expert performance and agent performance on these specific instances is narrowing. This has accelerated development of harder benchmarks:
+- [SWE-bench Pro](https://arxiv.org/abs/2509.16941) targets enterprise-level, multi-day tasks
+- [SWE-bench Multilingual](https://www.swebench.com/multilingual-leaderboard.html) extends evaluation to non-Python repositories
+- [Terminal-Bench](https://arxiv.org/abs/2601.11868) focuses on system administration and shell tasks beyond pure code editing
+
+The community also grapples with reproducibility: many high-scoring leaderboard submissions use proprietary scaffolds, undisclosed sampling parameters, or non-standard evaluation scripts, making direct comparison unreliable. OpenAI's [SWE-bench Verified announcement](https://openai.com/index/introducing-swe-bench-verified/) introduced human annotation to ensure problem quality, but did not standardize evaluation protocols. The [official leaderboard](https://www.swebench.com) now encourages submitters to disclose scaffold details.
+
+The community faces a methodological tension: benchmarks rigorous enough to reflect real-world complexity are expensive to construct and may be resolved too quickly; easier benchmarks provide rapid iteration but lose signal as models improve.
+
+A deeper concern, highlighted in [*Are "Solved Issues" in SWE-bench Really Solved Correctly?*](https://arxiv.org/abs/2503.15223) (2025), is that benchmark test suites may inadequately distinguish correct from superficially correct patches — an agent that deletes a failing test technically "passes" but has not fixed anything. Robust evaluation requires human expert review alongside automated testing.
+
+### The "Vibe Coding" Shift and Its Discontents
+
+The availability of capable coding agents has given rise to "vibe coding" — a practice where developers describe desired behavior in natural language and iterate on agent output without reading the generated code in detail. While this dramatically accelerates prototyping, it raises questions about code ownership, accountability, and the deskilling of software engineering. [Claude Code](https://claude.com/product/claude-code), [Cursor](https://cursor.com), and [Windsurf](https://windsurf.com) all facilitate this workflow; critics argue it can produce "slop code" that accumulates technical debt invisibly, while proponents view it as a natural evolution of abstraction — comparable to the shift from assembly to high-level languages.
+
+---
+
+## References
+
+### Papers
+
+- Jimenez, C. E., Yang, J., Wettig, A., Yao, S., Pei, K., Press, O., & Narasimhan, K. (2024). **SWE-bench: Can Language Models Resolve Real-World GitHub Issues?** ICLR 2024. [arXiv:2310.06770](https://arxiv.org/abs/2310.06770)
+- Yang, J., Jimenez, C. E., Wettig, A., Lieret, K., Yao, S., Narasimhan, K., & Press, O. (2024). **SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering.** NeurIPS 2024. [arXiv:2405.15793](https://arxiv.org/abs/2405.15793)
+- Xia, C. S., Deng, Y., Dunn, S., & Zhang, L. (2024). **Agentless: Demystifying LLM-based Software Engineering Agents.** [arXiv:2407.01489](https://arxiv.org/abs/2407.01489)
+- Zhang, Y., Ruan, H., Fan, Z., & Roychoudhury, A. (2024). **AutoCodeRover: Autonomous Program Improvement.** ISSTA 2024. [arXiv:2404.05427](https://arxiv.org/abs/2404.05427)
+- Wang, X., Li, B., Song, Y., et al. (2024). **OpenHands: An Open Platform for AI Software Developers as Generalist Agents.** [arXiv:2407.16741](https://arxiv.org/abs/2407.16741)
+- Yang, J., Jimenez, C. E., Zhang, A. L., et al. (2024). **SWE-bench Multimodal: Do AI Systems Generalize to Visual Software Domains?** [arXiv:2410.03859](https://arxiv.org/abs/2410.03859)
+- Chen, M., Tworek, J., Jun, H., et al. (2021). **Evaluating Large Language Models Trained on Code.** [arXiv:2107.03374](https://arxiv.org/abs/2107.03374)
+- Austin, J., Odena, A., Nye, M., et al. (2021). **Program Synthesis with Large Language Models.** [arXiv:2108.07732](https://arxiv.org/abs/2108.07732)
+- Jain, N., Han, K., Gu, A., et al. (2024). **LiveCodeBench: Holistic and Contamination Free Evaluation of Large Language Models for Code.** [arXiv:2403.07974](https://arxiv.org/abs/2403.07974)
+- Merrill, M. A., Shaw, A. G., Carlini, N., et al. (2025). **Terminal-Bench: Benchmarking Agents on Hard, Realistic Tasks in Command Line Interfaces.** [arXiv:2601.11868](https://arxiv.org/abs/2601.11868)
+- Deng, X., Da, J., Pan, E., et al. (2025). **Can AI Agents Solve Long-Horizon Software Engineering Tasks?** (SWE-bench Pro) [arXiv:2509.16941](https://arxiv.org/abs/2509.16941)
+- (2025). **Are "Solved Issues" in SWE-bench Really Solved Correctly? An Empirical Study.** [arXiv:2503.15223](https://arxiv.org/abs/2503.15223)
+
+### Blog Posts & Resources
+
+- Cognition Labs. (March 12, 2024). [Introducing Devin, the first AI software engineer.](https://cognition.ai/blog/introducing-devin)
+- OpenAI. (August 2024). [Introducing SWE-bench Verified.](https://openai.com/index/introducing-swe-bench-verified/)
+- OpenAI. (May 2025). [Introducing Codex.](https://openai.com/index/introducing-codex/)
+- GitHub. (May 2025). [GitHub Introduces Coding Agent For GitHub Copilot.](https://github.com/newsroom/press-releases/coding-agent-for-github-copilot)
+- Mistral AI. (2025). [Introducing Devstral.](https://mistral.ai/news/devstral) · [Devstral 2.](https://mistral.ai/news/devstral-2-vibe-cli)
+- Codeium. (November 2024). [Introducing Windsurf, the first agentic IDE.](https://windsurf.com)
+- Aider. (December 2024). [o1 tops aider's new polyglot leaderboard.](https://aider.chat/2024/12/21/polyglot.html)
+- Aider. [LLM Leaderboards.](https://aider.chat/docs/leaderboards/)
+
+### Code & Projects
+
+- [SWE-agent](https://github.com/SWE-agent/SWE-agent) — Princeton/Stanford, NeurIPS 2024
+- [mini-SWE-agent](https://github.com/SWE-agent/mini-swe-agent) — 100-line agent, >74% on SWE-bench Verified
+- [Agentless](https://github.com/OpenAutoCoder/Agentless) — UIUC, structured pipeline approach
+- [OpenHands](https://github.com/OpenHands/OpenHands) — open-source platform (formerly OpenDevin)
+- [AutoCodeRover](https://github.com/nus-apr/auto-code-rover) — NUS, AST-based code search
+- [Moatless Tools](https://github.com/aorwall/moatless-tools) — cost-efficient SWE-bench toolkit
+- [Aider](https://github.com/Aider-AI/aider) — open-source terminal coding agent
+- [LiveCodeBench](https://github.com/LiveCodeBench/LiveCodeBench) — contamination-resistant benchmark
+- [SWE-bench](https://github.com/swe-bench/SWE-bench) — official benchmark repository
+- [Terminal-Bench](https://github.com/laude-institute/terminal-bench) — CLI agent benchmark
+- [SWE-bench Multilingual](https://www.swebench.com/multilingual-leaderboard.html) — cross-language evaluation
+- [Cursor](https://cursor.com) — AI-first IDE by Anysphere
+- [Windsurf](https://windsurf.com) — agentic IDE by Codeium
+- [Augment Code](https://www.augmentcode.com) — enterprise coding agents
+- [Amazon Q Developer](https://aws.amazon.com/q/developer/) — AWS-integrated coding agent
+- [Devstral (Mistral AI)](https://mistral.ai/news/devstral) — open-weight coding model
+- [Devstral 2](https://mistral.ai/news/devstral-2-vibe-cli) — 123B, 72.2% SWE-bench Verified
+- [Claude Code](https://github.com/anthropics/claude-code) — Anthropic's terminal coding agent
+
+---
+
+*Back to [Topics →](topics.qmd) · See also: [Infrastructure →](infrastructure.qmd) · [Evaluation →](evaluation.qmd) · [Economics →](economics.qmd)*

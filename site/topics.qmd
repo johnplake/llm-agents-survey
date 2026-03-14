@@ -66,6 +66,30 @@ How humans work with autonomous agents — trust calibration, delegation pattern
 Cost per task, token efficiency, budget-constrained execution, model routing & cascading (FrugalGPT, RouteLLM), prompt compression, and enterprise ROI — the economics of making agents affordable at scale.
 :::
 
+::: {.survey-card}
+::: {.card-icon}
+💻
+:::
+### [Coding Agents](coding-agents.qmd)
+From autocomplete to autonomous software engineering — SWE-agent, Devin, Claude Code, Cursor, OpenHands, benchmarks (SWE-bench, HumanEval, LiveCodeBench), agent-computer interfaces, and the architecture of edit-test-debug loops.
+:::
+
+::: {.survey-card}
+::: {.card-icon}
+🔍
+:::
+### [Observability & Robustness](observability.qmd)
+Making agent behavior interpretable, debuggable, and reliable — tracing infrastructure (OpenTelemetry, Langfuse, LangSmith), failure analysis, chain-of-thought faithfulness, guardrails, and production monitoring.
+:::
+
+::: {.survey-card}
+::: {.card-icon}
+🏔️
+:::
+### [Long-Horizon Autonomy](long-horizon.qmd)
+Agents that work for hours, days, or indefinitely — error accumulation, memory architectures for sustained operation, hierarchical planning, METR time-horizon evaluations, and the autonomy spectrum.
+:::
+
 :::
 
 ---
